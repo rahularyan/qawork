@@ -106,7 +106,7 @@ if (!defined('QA_VERSION')) {
 		if((!empty($insider)))
 			$css.= $elem . '{' . $insider . '}';
 	}
-	$result = file_put_contents(CS_THEME_DIR.'/css/dynamic.css', $css);
+	$result = file_put_contents(Q_THEME_DIR.'/css/dynamic.css', $css);
 	if ($result){
 		qa_opt('cs_custom_style_created', true);
 	}else{

@@ -15,10 +15,6 @@
 	if (!defined('CS_CONTROL_DIR'))
 		qa_fatal_error('CS Control plugin is not installed !  please make sure you have installed CS Control plugin. Contact us from http://rahularyan.com/support');
 	
-	define('Q_THEME_DIR', dirname( __FILE__ ));
-	define('Q_THEME_URL', get_base_url().'/qa-theme/'.qa_get_site_theme());
-
-	
 	include_once Q_THEME_DIR.'/inc/blocks.php';
 	
 	

@@ -18,6 +18,8 @@ if (!defined('QA_VERSION')) { // don't allow this page to be requested directly 
 	exit;
 }
 
+//return; // use this if theme is disabled
+
 define('CS_CONTROL_DIR', dirname( __FILE__ ));
 define('CS_CONTROL_ADDON_DIR', CS_CONTROL_DIR.'/addons');
 define('CS_VERSION', 2);
@@ -25,11 +27,14 @@ define('CS_VERSION', 2);
 require_once CS_CONTROL_DIR. '/functions.php';
 
 
-define('CS_CONTROL_URL', get_base_url().'/qa-plugin/cs-control');
-define('CS_THEME_URL', get_base_url().'/qa-theme/qawork');
-define('CS_THEME_DIR', QA_THEME_DIR . '/qawork');
 
-include_once CS_THEME_DIR.'/functions.php';
+define('CS_CONTROL_URL', get_base_url().'/qa-plugin/cs-control');
+define('Q_THEME_URL', get_base_url().'/qa-theme/qawork');
+define('Q_THEME_DIR', QA_THEME_DIR . '/qawork');
+
+
+
+include_once Q_THEME_DIR.'/functions.php';
 
 // register plugin language
 qa_register_plugin_phrases('language/cs-lang-*.php', 'cleanstrap');

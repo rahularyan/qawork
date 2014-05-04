@@ -2167,12 +2167,12 @@ class qa_html_theme extends qa_html_theme_base
     {
 
 		if (qa_get_logged_in_level() > QA_USER_LEVEL_ADMIN){
-			$css_file = CS_THEME_DIR.'/css/css_cache.css';
+			$css_file = Q_THEME_DIR.'/css/css_cache.css';
 			$handle = fopen($css_file, 'w') or die('Cannot open file:  '.$css_file);
 			$data = cs_combine_assets($this->content['css_src']);
 			fwrite($handle, $data);
 			
-			$script_file = CS_THEME_DIR.'/js/script_cache.js';
+			$script_file = Q_THEME_DIR.'/js/script_cache.js';
 			$handle = fopen($script_file, 'w') or die('Cannot open file:  '.$script_file);
 			$data = cs_combine_assets($this->content['script_src'], false);
 			fwrite($handle, $data);

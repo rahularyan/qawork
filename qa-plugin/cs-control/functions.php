@@ -79,14 +79,14 @@ function cs_get_file_data( $file) {
 	$fp = fopen( $file, 'r' );
 
 	// Pull only the first 8kiB of the file in.
-	$file_data = fread( $fp, 8192 );
+	$file_data = fread( $fp, 1000 );
 
 	// PHP will close file handle, but we are good citizens.
 	fclose( $fp );
 
 	$metadata=cs_addon_metadata($file_data, array(
-		'name' => 'Name',
-		'type' => 'Type',
+		'theme_name' => 'Theme Name',
+		'theme_version' => 'Theme Version',
 		'class' => 'Class',
 		'description' => 'Description',
 		'version' => 'Version',

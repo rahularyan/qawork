@@ -80,7 +80,7 @@ class cs_theme_options {
 			qa_opt('cs_highlight_color', qa_post_text('cs_highlight_color'));
 			qa_opt('cs_highlight_bg_color', qa_post_text('cs_highlight_bg_color'));
 			qa_opt('cs_ask_btn_bg', qa_post_text('cs_ask_btn_bg'));
-			require_once(CS_THEME_DIR . '/inc/styles.php'); // Generate customized CSS styling				
+			require_once(Q_THEME_DIR . '/inc/styles.php'); // Generate customized CSS styling				
 			
 			// Typography
 			$typo_options = $_POST['typo_option'];
@@ -554,7 +554,7 @@ class cs_theme_options {
 	}
 
 	function opt_styling(){
-			$p_path       = CS_THEME_DIR . '/images/patterns';
+			$p_path       = Q_THEME_DIR . '/images/patterns';
             $bg_images    = array();
             $list_options = '';
             $files        = scandir($p_path, 1);
