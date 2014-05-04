@@ -26,8 +26,8 @@ require_once CS_CONTROL_DIR. '/functions.php';
 
 
 define('CS_CONTROL_URL', get_base_url().'/qa-plugin/cs-control');
-define('CS_THEME_URL', get_base_url().'/qa-theme/cleanstrap');
-define('CS_THEME_DIR', QA_THEME_DIR . '/cleanstrap');
+define('CS_THEME_URL', get_base_url().'/qa-theme/qawork');
+define('CS_THEME_DIR', QA_THEME_DIR . '/qawork');
 
 include_once CS_THEME_DIR.'/functions.php';
 
