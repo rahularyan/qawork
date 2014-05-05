@@ -86,7 +86,7 @@
 				}
 	
 				$output .= '<li class="top-user clearfix">';
-				$output .= cs_get_post_avatar( $u, $u['userid'] ,$size, true);
+				$output .= cs_get_post_avatar( $u, $size, true);
 				$output .= '<div class="top-user-data">';
 				
 				$output .= '<span class="points">'.$u['points'].' '.qa_lang('cleanstrap/points').'</span>';

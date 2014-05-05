@@ -12,12 +12,6 @@ if (!defined('QA_VERSION')) {
 		exit;
 }
 
-	cs_event_hook('enqueue_css', NULL, 'cs_enqueue_css_x');
-	function cs_enqueue_css_x($css_src){
-		
-		$css_src['cs_bootstrap'] = Q_THEME_URL . '/css/bootstrap.css';	
-		return $css_src;
-	}
 
 class CS_Media_Addon{
 	function __construct(){
@@ -28,12 +22,13 @@ class CS_Media_Addon{
 		cs_event_hook('head_css', NULL, array($this, 'head_css'));
 		
 		// hook buttons in theme layer
-		cs_event_hook('ra_post_buttons', NULL, array($this, 'ra_post_buttons'));
+		cs_event_hook('ra_post_buttons_hook', NULL, array($this, 'ra_post_buttons'));
 		
 		
 	}
 	
 	public function ra_post_buttons($args){
+
 		$themeclass = $args[0];
 		$q_view = $args[1];
 		

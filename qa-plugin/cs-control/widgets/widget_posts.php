@@ -96,7 +96,7 @@ class cs_widget_posts
 			$when = @$timeCode['prefix'] . @$timeCode['data'] . @$timeCode['suffix'];
 
             $output .= '<li>';
-            $output .= cs_get_post_avatar($p, $p['userid'], 30, true);
+            $output .= cs_get_post_avatar($p, 30, true);
             $output .= '<div class="post-content">';
             
             if ($type == 'Q') {
