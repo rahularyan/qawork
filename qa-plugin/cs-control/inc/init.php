@@ -2,13 +2,16 @@
 	class cs_init {
 		
 		function init_queries($tableslc) {
-			$tablename=qa_db_add_table_prefix('ra_userevent');
+			$queries = array();
+			$queries = cs_event_hook('init_queries', $tableslc);
 			
+			$tablename=qa_db_add_table_prefix('ra_userevent');			
 			if (!in_array($tablename, $tableslc)) {
 				require_once QA_INCLUDE_DIR.'qa-app-users.php';
 				require_once QA_INCLUDE_DIR.'qa-db-maxima.php';
-
-				return 'CREATE TABLE ^ra_userevent ('.
+				
+				
+				$queries[]= 'CREATE TABLE ^ra_userevent ('.
 					'id bigint(20) NOT NULL AUTO_INCREMENT,'.
 					'datetime DATETIME NOT NULL,'.
 					'userid '.qa_get_mysql_user_column_type().','.
@@ -23,6 +26,7 @@
 					'KEY event (event)'.
 				') ENGINE=MyISAM DEFAULT CHARSET=utf8';
 			}
+			return $queries;
 
 		}
 

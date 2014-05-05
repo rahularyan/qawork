@@ -1303,10 +1303,9 @@ class qa_html_theme extends qa_html_theme_base
 				
 				$this->output('<button ' . @$btn['tags'] . ' class="btn ' . @$btn['class'] . '" title="' . @$btn['popup'] . '" type="submit">' . @$btn['label'] . '</button>');
 			}
-						
-			
+
 			//register a hook
-			cs_event_hook('ra_post_buttons', array($this, $q_view));
+			cs_event_hook('ra_post_buttons_hook', array($this,$q_view));
 			
 			$this->output('</div>');
 		}

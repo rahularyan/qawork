@@ -110,7 +110,7 @@ class qa_html_theme_layer extends qa_html_theme_base {
 					<p>'.$q_item['title'].'</p>
 					<a class="cat-in icon-folder-close" href="#">Replace This</a>
 					<div class="bottom-line">
-						' . cs_get_post_avatar($q_item, $q_item['userid'], 40, true).'
+						' . cs_get_post_avatar($q_item, 40, true).'
 					</div>
 				</div>
 			</div>

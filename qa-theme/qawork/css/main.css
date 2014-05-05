@@ -5205,6 +5205,7 @@ th .description {
 .q-item-status {
     color: #9A9A9A;
     font-size: 12px;
+    margin-top: 5px;
 }
 .q-item-status > span {
     border-right: 1px solid #EEEEEE;

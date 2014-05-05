@@ -17,6 +17,7 @@
 		
 		function cs_enqueue_css($css_src){
 		
+			$css_src['bootstrap'] = Q_THEME_URL . '/css/bootstrap.css';		
 			$css_src['icon'] = Q_THEME_URL . '/css/fonts.css';		
 			$css_src['cs_responsive'] = Q_THEME_URL . '/css/responsive.css';
 			$css_src['cs_main'] = Q_THEME_URL . '/css/main.css';

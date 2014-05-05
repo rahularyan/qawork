@@ -58,6 +58,7 @@ function cs_get_total_messages($uid){
 
 class Cs_Notification_Addon{
 	function __construct(){
+		cs_event_hook('init_queries', NULL, array($this, 'init_queries'));
 		cs_event_hook('enqueue_css', NULL, array($this, 'css'));
 		cs_event_hook('enqueue_scripts', NULL, array($this, 'scripts'));
 		cs_event_hook('cs_ajax_activitylist', NULL, array($this, 'activitylist'));
@@ -66,6 +67,45 @@ class Cs_Notification_Addon{
 		cs_event_hook('cs_ajax_mark_all_messages', NULL, array($this, 'mark_all_messages'));
 		cs_event_hook('cs_ajax_activity_count', NULL, array($this, 'activity_count'));
 		cs_event_hook('cs_ajax_messages_count', NULL, array($this, 'messages_count'));
+		cs_event_hook('language', NULL, array($this, 'language'));
+	}
+	
+	public function init_queries($tableslc){
+		$queries = array();
+		$tablename=qa_db_add_table_prefix('ra_email_queue');			
+		if (!in_array($tablename, $tableslc)) {
+
+			$queries[] ='
+				CREATE TABLE IF NOT EXISTS ^ra_email_queue (
+				  id int(6) NOT NULL AUTO_INCREMENT,
+				  event varchar(250) NOT NULL,
+				  body text NOT NULL,
+				  created_by varchar(250) NOT NULL,
+				  created_ts timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+				  status tinyint(1) DEFAULT "0",
+				  sent_on timestamp NULL DEFAULT NULL,
+				  PRIMARY KEY (id)
+				) ENGINE=MyISAM DEFAULT CHARSET=utf8 ;
+			';			
+		}
+		
+		$tablename=qa_db_add_table_prefix('ra_email_queue_receiver');	
+
+		if (!in_array($tablename, $tableslc)) {
+
+			$queries[] ='
+				CREATE TABLE IF NOT EXISTS ^ra_email_queue_receiver (
+				  id int(6) NOT NULL AUTO_INCREMENT,
+				  userid int(10) NOT NULL,
+				  email varchar(250) NOT NULL,
+				  name varchar(250) NOT NULL,
+				  queue_id int(6) NOT NULL,
+				  PRIMARY KEY (id)
+				) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+			';			
+		}
+		
+		return $queries;
 	}
 	
 	public function css($css_src){
@@ -687,6 +727,17 @@ class Cs_Notification_Addon{
 		echo cs_get_total_messages(qa_get_logged_in_userid());
 		
 		die();
+	}
+	public function language($lang_arr){
+		$site_lang = qa_opt('site_language');
+		$lang_file = CS_CONTROL_DIR. '/addons/notification/language-'.qa_opt('site_language').'.php';
+		
+		if(!empty($site_lang) && file_exists($lang_file))
+			$lang_arr = require_once ($lang_file);
+		else
+			$lang_arr = require_once (CS_CONTROL_DIR. '/addons/notification/language.php');
+
+		return $lang_arr;
 	}
 }
 

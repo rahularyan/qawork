@@ -130,7 +130,7 @@
 							$what = qa_lang('cleanstrap/commented');
 						}
 						$handle = qa_post_userid_to_handle($post['userid']);
-						$avatar = cs_get_post_avatar($post , $post['userid'], 35);
+						$avatar = cs_get_post_avatar($post, 35);
 						$output .= '<li id="q-list-'.$post['postid'].'" class="question-item">';
 						$output .= '<div class="pull-left avatar" data-handle="'.$handle.'" data-id="'. $post['userid'] .'">' . $avatar . '</div>';
 						$output .= '<div class="list-right">';
