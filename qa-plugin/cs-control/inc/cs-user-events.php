@@ -4,6 +4,7 @@
 
 		function process_event($event, $userid, $handle, $cookieid, $params)
 		{
+ 			// call_this_method();  //here we can call the scheuler 
 
 			$loggeduserid = qa_get_logged_in_userid();
 			$dolog=true;
@@ -154,7 +155,7 @@
 					break;					
 				case 'q_favorite':
 					$this->UpdateVote('q_favorite', $postid,$userid, $params, 'favorite', 1);
-					cs_event_hook($event, array($postid,$userid, $effecteduserid, $params, $event));
+					// cs_event_hook($event, array($postid,$userid, $effecteduserid, $params, $event));
 					$dolog=false;					
 					break;
 				/* case 'q_unfavorite':
