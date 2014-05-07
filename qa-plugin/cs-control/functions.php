@@ -862,20 +862,22 @@ function cs_update_tags_meta($tag, $title, $content) {
  */
 
 function cs_scheduler($function_name, $time_out = NULL, $params = NULL) {
+	 require_once QA_INCLUDE_DIR . 'qa-app-options.php';
+      require_once QA_INCLUDE_DIR . 'qa-db.php';
       //first check $time_out == 0 , then check timeout and set the current rundate 
       if (!$function_name) {
             return;
       }
 
-      $time_out_opt_name = 'cs_' . $function_name . '_time_out';
-      $last_run_date_opt_name = 'cs_' . $function_name . '_last_run_date';
+	  $time_out_opt_name      = 'cs_' . $function_name . '_time_out';
+	  $last_run_date_opt_name = 'cs_' . $function_name . '_last_run_date';
 
       if ($time_out === NULL || !$time_out) {
             //the call is for invoke the timeout function 
-            $time_out_val = cs_cached_opt($time_out_opt_name);
+            $time_out_val = qa_opt($time_out_opt_name);
             if (!!$time_out_val && is_numeric($time_out_val) && $time_out_val > 0) { //check if the $time_out_value for this function is set in the options or not 
                   $date_format = "d/m/Y H:i:s";
-                  $last_run_date = cs_cached_opt($last_run_date_opt_name);
+                  $last_run_date = qa_opt($last_run_date_opt_name);
                   if (!$last_run_date) {
                         // if the lastrun_date is not set then set with an default value 
                         $last_run_date = "01/01/2014 01:00:00";
@@ -892,14 +894,14 @@ function cs_scheduler($function_name, $time_out = NULL, $params = NULL) {
                         // call the callback function now 
                         $value = call_user_func($function_name, $params);
                         // update the last rundate 
-                        cs_cached_opt($last_run_date_opt_name, $current_time->format($date_format));
+                        qa_opt($last_run_date_opt_name, $current_time->format($date_format));
                         return $value;
                   }
             } else {
                   //this executes if the timeout is not set but it is invoked for the first time 
                   // then set with default timeout 
                   $time_out = 15 * 60; //15 mins 
-                  cs_cached_opt($time_out_opt_name, $time_out);
+                  qa_opt($time_out_opt_name, $time_out);
             }
       } else {
             //it is to set the timeout 
@@ -907,7 +909,7 @@ function cs_scheduler($function_name, $time_out = NULL, $params = NULL) {
                   // if the $time_out is not a numeric value or not grater than 0 , then return 
                   return;
             }
-            cs_cached_opt($time_out_opt_name, $time_out);
+            qa_opt($time_out_opt_name, $time_out);
       }
 
       //first check the timeout for the function name 
@@ -927,31 +929,6 @@ function cs_scheduler_set($function_name, $time_out = NULL) {
       }
 }
 
-function cs_cached_opt($name, $value = NULL) {
-      require_once QA_INCLUDE_DIR . 'qa-app-options.php';
-      require_once QA_INCLUDE_DIR . 'qa-db.php';
-
-      define('CS_USE_PHP_APC', false);
-
-      if ($value === NULL) {
-            // this is to get the value 
-            if (!CS_USE_PHP_APC) {
-                  //this allows us to use the qa database . select this option of there is no way to use/configure PHP APC 
-                  return qa_opt($name);
-            } else {
-                  // use PHP APC to return the value 
-            }
-            return false;
-      } else {
-            // this is to set the values
-            if (!CS_USE_PHP_APC) {
-                  qa_opt($name, $value);
-            } else {
-                  // use PHP APC to save the data 
-            }
-            return true;
-      }
-}
 // functions for testing 
 function call_me() {
       $current_time = new DateTime("now");
@@ -963,4 +940,26 @@ function call_this_method() {
       // cs_scheduler_set('call_me', 20);
 	  // execute the scheduler 
       cs_check_scheduler('call_me');
+}
+
+function cs_log($string) {
+     // if (qa_opt('event_logger_to_files')) {
+            //   Open, lock, write, unlock, close (to prevent interference between multiple writes)
+            $directory = CS_CONTROL_DIR.'/logs/';
+
+            if (substr($directory, -1) != '/') $directory.='/';
+
+            $log_file_name = $directory . 'cs-log-' . date('Y\-m\-d') . '.txt';
+
+            $log_file_exists = file_exists($log_file_name);
+
+            $log_file = @fopen($log_file_name, 'a');
+            if (is_resource($log_file) && (!!$log_file_exists)) {
+                  if (flock($log_file, LOCK_EX)) {
+                        fwrite($log_file, $string . PHP_EOL);
+                        flock($log_file, LOCK_UN);
+                  }
+            }
+            @fclose($log_file);
+      //}
 }

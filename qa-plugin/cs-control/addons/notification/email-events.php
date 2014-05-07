@@ -33,14 +33,14 @@ cs_event_hook('related', NULL, 'cs_notification_event');
 
 function cs_notification_event($data) {
       $params = $data[3];
-      writeToFile("This method is invoked for " . $data[4]);
-      writeToFile(print_r($params, true));
+      // cs_log("This method is invoked for " . $data[4]);
+      // cs_log(print_r($params, true));
       cs_check_time_out_for_email();
-      $postid = isset($params['postid']) ? $params['postid'] : "";
-      $event = $data[4];
-      $loggeduserid = isset($data[1]) ? $data[1] : qa_get_logged_in_userid();
+      $postid         = isset($params['postid']) ? $params['postid'] : "";
+      $event          = $data[4];
+      $loggeduserid   = isset($data[1]) ? $data[1] : qa_get_logged_in_userid();
       $effecteduserid = isset($data[2]) ? $data[2] : "";
-      writeToFile("Effected user id " . $effecteduserid);
+      // cs_log("Effected user id " . $effecteduserid);
       if (!!$effecteduserid) {
             cs_notify_users_by_email($event, $postid, $loggeduserid, $effecteduserid, $params);
       }
@@ -52,11 +52,10 @@ function cs_check_time_out_for_email() {
         //get the interval
         $email_event_interval = qa_opt('cs_notification_event_interval'); */
       //hardcode the values for testing 
-      $date_format = "d/m/Y H:i:s";
-      $last_run_date = "01/05/2014 07:23:28";
+      $date_format          = "d/m/Y H:i:s";
+      $last_run_date        = "01/05/2014 07:23:28";
       $email_event_interval = 10; //always should be in seconds 
-
-      $last_run_date = new DateTime($last_run_date);
+      $last_run_date        = new DateTime($last_run_date);
       $email_event_interval = "PT" . $email_event_interval . "S";
 
       //get the event occurance date --> last_rundate + interval 
@@ -78,24 +77,24 @@ function cs_process_emails_from_db() {
       require_once QA_INCLUDE_DIR . 'qa-db-selects.php';
       require_once QA_INCLUDE_DIR . 'qa-util-string.php';
       //here extract all the email contents from database and perform the email sending operation 
-      $email_queue_data = cs_get_email_queue();
-      // writeToFile("The email list is " . print_r($email_queue_data, true));
-      $email_list = cs_get_email_list($email_queue_data);
-      // writeToFile("The email list is " . print_r($email_list, true));
-      $subs = array();
+      $email_queue_data    = cs_get_email_queue();
+      // cs_log("The email list is " . print_r($email_queue_data, true));
+      $email_list          = cs_get_email_list($email_queue_data);
+      // cs_log("The email list is " . print_r($email_list, true));
+      $subs                = array();
       $subs['^site_title'] = qa_opt('site_title');
-      $greeting = qa_lang("cleanstrap/greeting");
-      $thank_you_message = qa_lang("cleanstrap/thank_you_message");
-      $subject = strtr(qa_lang("cleanstrap/notification_email_subject"), $subs);
+      $greeting            = qa_lang("cleanstrap/greeting");
+      $thank_you_message   = qa_lang("cleanstrap/thank_you_message");
+      $subject             = strtr(qa_lang("cleanstrap/notification_email_subject"), $subs);
 
       foreach ($email_list as $email_data) {
-            $email = $email_data['email'];
-            $name = $email_data['name'];
+            $email              = $email_data['email'];
+            $name               = $email_data['name'];
             $subs['^user_name'] = $name;
-            $email_body = cs_prepare_email_body($email_queue_data, $email);
-            $email_body = $greeting . $email_body . $thank_you_message;
-            $email_body = strtr($email_body, $subs);
-            $notification_sent = cs_send_email_notification(null, $email, $name, $subject, $email_body, $subs);
+            $email_body         = cs_prepare_email_body($email_queue_data, $email);
+            $email_body         = $greeting . $email_body . $thank_you_message;
+            $email_body         = strtr($email_body, $subs);
+            $notification_sent  = cs_send_email_notification(null, $email, $name, $subject, $email_body, $subs);
             if (!!$notification_sent) {
                   //update the queue status 
                   //get the queue ids 
@@ -198,10 +197,10 @@ function cs_update_email_queue_status($queue_ids) {
 function cs_notify_users_by_email($event, $postid, $userid, $effecteduserid, $params) {
       if (!!$effecteduserid) {
             //get the working user data  
-            $logged_in_handle = qa_get_logged_in_handle();
+            $logged_in_handle    = qa_get_logged_in_handle();
             $logged_in_user_name = cs_get_name_from_userid($userid);
             $logged_in_user_name = (!!$logged_in_user_name) ? $logged_in_user_name : $logged_in_handle;
-            // writeToFile("The name is " . print_r($name, true));
+            // cs_log("The name is " . print_r($name, true));
 
             $name = cs_get_name_from_userid($effecteduserid);
 
@@ -211,7 +210,7 @@ function cs_notify_users_by_email($event, $postid, $userid, $effecteduserid, $pa
                   case 'related':
                         $parent = isset($params['parent']) ? $params['parent'] : "";
                         if (!!$parent) {
-                              $name = (!!$name) ? $name : $parent['handle'];
+                              $name  = (!!$name) ? $name : $parent['handle'];
                               $email = $parent['email'];
                         } else {
                               //seems proper values are not available 
@@ -234,26 +233,26 @@ function cs_notify_users_by_email($event, $postid, $userid, $effecteduserid, $pa
                   case 'u_level':
                         //this is because we wont have the $parent['email'] for each effected userids when a these selected events occurs 
                         $user_details = cs_get_user_details_from_userid($effecteduserid);
-                        $name = (!!$name) ? $name : $user_details['handle'];
-                        $email = $user_details['email'];
+                        $name         = (!!$name) ? $name : $user_details['handle'];
+                        $email        = $user_details['email'];
                         break;
                   case 'q_approve':
                   case 'q_reject':
                         $oldquestion = $params['oldquestion'];
-                        $name = (!!$name) ? $name : $oldquestion['handle'];
-                        $email = $oldquestion['email'];
+                        $name        = (!!$name) ? $name : $oldquestion['handle'];
+                        $email       = $oldquestion['email'];
                         break;
                   case 'a_approve':
                   case 'a_reject':
                         $oldanswer = $params['oldanswer'];
-                        $name = (!!$name) ? $name : $oldanswer['handle'];
-                        $email = $oldanswer['email'];
+                        $name      = (!!$name) ? $name : $oldanswer['handle'];
+                        $email     = $oldanswer['email'];
                         break;
                   case 'c_approve':
                   case 'c_reject':
                         $oldcomment = $params['oldcomment'];
-                        $name = (!!$name) ? $name : $oldcomment['handle'];
-                        $email = $oldcomment['email'];
+                        $name       = (!!$name) ? $name : $oldcomment['handle'];
+                        $email      = $oldcomment['email'];
                         break;
                   default:
                         # code...
@@ -261,25 +260,25 @@ function cs_notify_users_by_email($event, $postid, $userid, $effecteduserid, $pa
             }
 
             $notifying_user['userid'] = $effecteduserid;
-            $notifying_user['name'] = $name;
-            $notifying_user['email'] = $email;
+            $notifying_user['name']   = $name;
+            $notifying_user['email']  = $email;
             //consider only first 50 characters for saving notification 
             if ($event === 'u_message') {
-                  $content = (isset($params['message']) && !empty($params['message'])) ? $params['message'] : "";
-                  $title = "";
+                  $content  = (isset($params['message']) && !empty($params['message'])) ? $params['message'] : "";
+                  $title    = "";
                   $canreply = !(qa_get_logged_in_flags() & QA_USER_FLAGS_NO_MESSAGES);
-                  $url = qa_path_absolute($canreply ? ('message/' . $logged_in_handle) : ('user/' . $logged_in_handle));
+                  $url      = qa_path_absolute($canreply ? ('message/' . $logged_in_handle) : ('user/' . $logged_in_handle));
             } else if ($event === 'u_wall_post') {
                   $content = (isset($params['text']) && !empty($params['text'])) ? $params['text'] : "";
                   if (!!$content) {
                         $blockwordspreg = qa_get_block_words_preg();
-                        $content = qa_block_words_replace($content, $blockwordspreg);
+                        $content        = qa_block_words_replace($content, $blockwordspreg);
                   }
                   $title = "";
-                  $url = qa_path_absolute('user/' . $params['handle'] . '/wall', null, null);
+                  $url   = qa_path_absolute('user/' . $params['handle'] . '/wall', null, null);
             } else if ($event === 'u_level') {
-                  $title = "";
-                  $url = qa_path_absolute('user/' . $params['handle']);
+                  $title     = "";
+                  $url       = qa_path_absolute('user/' . $params['handle']);
                   $old_level = $params['oldlevel'];
                   $new_level = $params['level'];
                   if (($new_level >= QA_USER_LEVEL_APPROVED) && ($old_level < QA_USER_LEVEL_APPROVED)) {
@@ -296,9 +295,9 @@ function cs_notify_users_by_email($event, $postid, $userid, $effecteduserid, $pa
                   }
 
                   $content = strtr(qa_lang($approved_only ? 'cleanstrap/u_level_approved_body_email' : 'cleanstrap/u_level_improved_body_email'), array(
-                      '^f_handle' => $fromhandle,
-                      '^done_by' => isset($logged_in_user_name) ? $logged_in_user_name : isset($logged_in_handle) ? $logged_in_handle : qa_lang('main/anonymous'),
-                      '^url' => $url,
+                      '^f_handle'        => $fromhandle,
+                      '^done_by'         => isset($logged_in_user_name) ? $logged_in_user_name : isset($logged_in_handle) ? $logged_in_handle : qa_lang('main/anonymous'),
+                      '^url'             => $url,
                       '^new_designation' => $new_designation,
                   ));
             } else {
@@ -310,11 +309,11 @@ function cs_notify_users_by_email($event, $postid, $userid, $effecteduserid, $pa
             if (!!$content && (strlen($content) > 50)) $content = cs_shrink_email_body($params['text'], 50);
 
             cs_save_email_notification(null, $notifying_user, $logged_in_handle, $event, array(
-                '^q_handle' => isset($logged_in_user_name) ? $logged_in_user_name : isset($logged_in_handle) ? $logged_in_handle : qa_lang('main/anonymous'),
-                '^q_title' => $title,
+                '^q_handle'  => isset($logged_in_user_name) ? $logged_in_user_name : isset($logged_in_handle) ? $logged_in_handle : qa_lang('main/anonymous'),
+                '^q_title'   => $title,
                 '^q_content' => $content,
-                '^url' => (!!$url) ? $url : "",
-                '^done_by' => isset($logged_in_user_name) ? $logged_in_user_name : isset($logged_in_handle) ? $logged_in_handle : qa_lang('main/anonymous'),
+                '^url'       => (!!$url) ? $url : "",
+                '^done_by'   => isset($logged_in_user_name) ? $logged_in_user_name : isset($logged_in_handle) ? $logged_in_handle : qa_lang('main/anonymous'),
                     )
             );
       }
@@ -532,14 +531,14 @@ function cs_save_email_notification($bcclist, $notifying_user, $handle, $event, 
       require_once QA_INCLUDE_DIR . 'qa-util-string.php';
 
       $subs['^site_title'] = qa_opt('site_title');
-      $subs['^handle'] = $handle;
-      $subs['^open'] = "\n";
-      $subs['^close'] = "\n";
-      $body = cs_get_email_body($event);
+      $subs['^handle']     = $handle;
+      $subs['^open']       = "\n";
+      $subs['^close']      = "\n";
+      $body                = cs_get_email_body($event);
       $id = cs_dump_email_content_to_db(array(
           'event' => $event,
-          'body' => strtr($body, $subs),
-          'by' => $handle,
+          'body'  => strtr($body, $subs),
+          'by'    => $handle,
       ));
       cs_dump_email_to_db($notifying_user, $id);
 }
@@ -572,9 +571,9 @@ function cs_send_email_notification($bcclist, $email, $handle, $subject, $body, 
       require_once QA_INCLUDE_DIR . 'qa-util-string.php';
 
       $subs['^site_title'] = qa_opt('site_title');
-      $subs['^handle'] = $handle;
-      $subs['^open'] = "\n";
-      $subs['^close'] = "\n";
+      $subs['^handle']     = $handle;
+      $subs['^open']       = "\n";
+      $subs['^close']      = "\n";
 
       $email_param = array(
           'fromemail' => qa_opt('from_email'),
@@ -595,10 +594,10 @@ function cs_send_email_notification($bcclist, $email, $handle, $subject, $body, 
 
 function cs_send_email($params) {
       require_once QA_INCLUDE_DIR . 'qa-class.phpmailer.php';
-      $mailer = new PHPMailer();
-      $mailer->CharSet = 'utf-8';
-      $mailer->From = $params['fromemail'];
-      $mailer->Sender = $params['fromemail'];
+      $mailer           = new PHPMailer();
+      $mailer->CharSet  = 'utf-8';
+      $mailer->From     = $params['fromemail'];
+      $mailer->Sender   = $params['fromemail'];
       $mailer->FromName = $params['fromname'];
       if (isset($params['mail_list'])) {
             if (is_array($params['mail_list'])) {
@@ -610,7 +609,7 @@ function cs_send_email($params) {
             }
       }
       $mailer->Subject = $params['subject'];
-      $mailer->Body = $params['body'];
+      $mailer->Body    = $params['body'];
       if (isset($params['bcclist'])) {
             foreach ($params['bcclist'] as $email) {
                   $mailer->AddBCC($email);
@@ -638,30 +637,9 @@ function cs_send_email($params) {
 }
 
 function cs_send_email_fake($email_param) {
-      writeToFile("Fake Email Sending to log the entire email message ");
-      writeToFile(print_r($email_param, true));
+      cs_log("Fake Email Sending to log the entire email message ");
+      cs_log(print_r($email_param, true));
       //fake email should never fail 
       return true;
 }
 
-function writeToFile($string) {
-     // if (qa_opt('event_logger_to_files')) {
-            //   Open, lock, write, unlock, close (to prevent interference between multiple writes)
-            $directory = dirname(__FILE__);
-
-            if (substr($directory, -1) != '/') $directory.='/';
-
-            $log_file_name = $directory . 'q2a-log-' . date('Y\-m\-d') . '.txt';
-
-            $log_file_exists = file_exists($log_file_name);
-
-            $log_file = @fopen($log_file_name, 'a');
-            if (is_resource($log_file) && (!!$log_file_exists)) {
-                  if (flock($log_file, LOCK_EX)) {
-                        fwrite($log_file, $string . PHP_EOL);
-                        flock($log_file, LOCK_UN);
-                  }
-            }
-            @fclose($log_file);
-      //}
-}
