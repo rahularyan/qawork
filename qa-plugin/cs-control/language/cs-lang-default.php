@@ -146,6 +146,10 @@
 		'posted_under' => 'Posted under',
 		'tagged_under' => 'Tagged under',
 		'question_is_featured' => 'this is a featured question',
+		'featured_question' => 'Featured question',
+		'activities' => 'Activities',
+		'newest' => 'Newest',
+		'recent' => 'Recent',
 	);
 	$lang_hook = cs_event_hook('language', array());
 	return array_merge($lang_hook , $lang);
