@@ -602,58 +602,6 @@ function cs_get_cache_popular_tags($to_show){
 	$cache['changed'] = true;	
 	return $populartags;
 }
-function cs_get_cache_question_activity($qcount){
-	global $cache;
-	$age = 60; // one minute
-
-	if (isset($cache['qactivity'])){
-		if ( ((int)$cache['qactivity']['age'] + $age) > time()) {
-			$content = $cache['qactivity'];
-			unset($content['age']);
-			return $content;
-		}
-	}
-	
-	require_once QA_INCLUDE_DIR.'qa-db-selects.php';
-	require_once QA_INCLUDE_DIR.'qa-app-format.php';
-	require_once QA_INCLUDE_DIR.'qa-app-q-list.php';
-	
-	$categoryslugs='';
-	$userid=qa_get_logged_in_userid();
-
-
-//	Get lists of recent activity in all its forms, plus category information
-	
-	list($questions1, $questions2, $questions3, $questions4)=qa_db_select_with_pending(
-		qa_db_qs_selectspec($userid, 'created', 0, $categoryslugs, null, false, false, $qcount),
-		qa_db_recent_a_qs_selectspec($userid, 0, $categoryslugs),
-		qa_db_recent_c_qs_selectspec($userid, 0, $categoryslugs),
-		qa_db_recent_edit_qs_selectspec($userid, 0, $categoryslugs)
-	);
-	
-//	Prepare and return content for theme
-	$content =  qa_q_list_page_content(
-		qa_any_sort_and_dedupe(array_merge($questions1, $questions2, $questions3, $questions4)), // questions
-		$qcount, // questions per page
-		0, // start offset
-		null, // total count (null to hide page links)
-		null, // title if some questions
-		null, // title if no questions
-		null, // categories for navigation
-		null, // selected category id
-		true, // show question counts in category navigation
-		'activity/', // prefix for links in category navigation
-		null, // prefix for RSS feed paths (null to hide)
-		null, // suggest what to do next
-		null, // page link params
-		null // category nav params
-	);
-	$result = $content['q_list']['qs'];
-	$cache['qactivity'] =  $result;
-	$cache['qactivity']['age'] = time();
-	$cache['changed'] = true;	
-	return $result;
-}
 function cs_get_cache_select_selectspec($selectspec){
 	global $cache;
 	$age = 10;
