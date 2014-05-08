@@ -69,7 +69,8 @@
 				$events_type = array('q_post', 'a_post', 'c_post', 'a_select', 'badge_awarded');
 			
 			// query last 3 events
-			$posts = cs_get_cache('SELECT datetime,ipaddress,handle,event,params FROM ^eventlog WHERE event IN ("q_post", "a_post", "c_post") ORDER BY datetime DESC LIMIT #',120, $limit);
+			$posts = cs_get_cache('SELECT datetime,ipaddress,handle,event,params FROM ^eventlog WHERE event IN ("q_post", "a_post", "c_post", "a_select", "u_register", "q_edit", "c_edit", "a_edit") ORDER BY datetime DESC LIMIT #',120, $limit);
+			
 			if(empty($posts))return;
 			$postids = '';
 			$i = 1;
@@ -79,7 +80,7 @@
 				$postids.= ($i != 1 ? ', ': '' ).$data['postid'];
 				$i++;
 			}
-
+			
 			$posts = cs_get_cache('SELECT ^posts.* , ^users.handle FROM ^posts, ^users WHERE (^posts.userid=^users.userid AND ^posts.postid IN ('.$postids.')) AND ^posts.type IN ("Q", "A", "C") ORDER BY ^posts.created DESC',120);
 			$o = '<ul class="ra-activity">';
 			foreach($posts as $p){
@@ -109,7 +110,7 @@
 				
 				$o .= '<div class="event-icon pull-left '.$event_icon.'"></div>';
 					
-				$o .= '<div class="event-content">';			
+				$o .= '<div class="activity-content">';			
 				$o .= '<p class="title"><strong class="avatar" data-handle="'.$p['handle'].'" data-id="'. $p['userid'].'">'.@$usernameLink.'</strong> <span class="what">'.$event_name.'</span></p>';
 				
 				if ($p['type'] == 'Q') {
