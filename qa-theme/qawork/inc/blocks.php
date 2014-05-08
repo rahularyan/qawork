@@ -537,7 +537,7 @@ class qa_html_theme extends qa_html_theme_base
 	function main_top($content){
 		if (cs_hook_exist(__FUNCTION__)) {$args=func_get_args(); return cs_event_hook(__FUNCTION__, $args); }
 		if ($this->cs_position_active('Header') || $this->cs_position_active('Header Right')) {
-			$this->output('<div class="header-position-c clearfix"><div class="container">');	
+			$this->output('<div class="container"><div class="header-position-c clearfix">');	
 				if ($this->cs_position_active('Header')){
 					$this->output('<div class="col-md-6">');
 					$this->cs_position('Header');
@@ -632,43 +632,54 @@ class qa_html_theme extends qa_html_theme_base
 			$this->output('</div></div>');
 		}
 			
-        $this->output('<div class="home-left-inner container">');
-        
-        $this->output('<div class="row home-pos-one">');
-        $this->output('<div class="col-md-8 home-left">');
-        
-		$this->output('<div class="row">');
-		
-			$this->output('<div class="col-sm-6">');
-			$this->cs_position('Home 1 Left');
+        $this->output('<div class="home-left-inner container">');        
+			$this->output('<div class="row home-pos-one">');
+				$this->output('<div class="col-md-8 home-left">');
+				
+					$this->output('<div class="row">');
+					
+						$this->output('<div class="col-sm-6">');
+						$this->cs_position('Home 1 Left');
+						$this->output('</div>');
+						
+						$this->output('<div class="col-sm-6">');
+						$this->cs_position('Home 1 Center');
+						$this->output('</div>');
+						
+					$this->output('</div>');
+					
+					$this->output('<div class="row">');
+						$this->output('<ul class="nav nav-tabs home-sub-tabs">
+							<li class="active"><a href="#home-tab-recent" data-toggle="tab">'.qa_lang_html('cleanstrap/recent').'</a></li>
+							<li><a href="#home-tab-activities" data-toggle="tab">'.qa_lang_html('cleanstrap/activities').'</a></li>
+							<li><a href="#home-tab-content" data-toggle="tab">'.qa_lang_html('cleanstrap/newest').'</a></li>						  
+						</ul>
+						<div class="tab-content">');
+						
+						//home recent tab
+						$this->output('<div class="tab-pane active" id="home-tab-recent">');
+						$this->cs_position('Home Recent Tab');
+						$this->output('</div>');
+						
+						//home activities tab
+						$this->output('<div class="tab-pane" id="home-tab-activities">');
+						$this->cs_position('Home Activities Tab');
+						$this->output('</div>');
+						
+						//home main active tabs
+						$this->output('<div class="tab-pane" id="home-tab-content">');
+						$this->main_parts($content);
+						$this->output('</div>');
+						
+					$this->output('</div></div>');
+
+				$this->output('</div>');
+				
+				$this->output('<div class="col-md-4 home-right">');
+				$this->cs_position('Home Right');
+				$this->output('</div>');
+				
 			$this->output('</div>');
-			
-			$this->output('<div class="col-sm-6">');
-			$this->cs_position('Home 1 Center');
-			$this->output('</div>');
-			
-        $this->output('</div>');
-		
-        $this->output('<div class="row">');
-        if (!(bool) qa_opt('cs_enable_default_home'))
-            $this->cs_position('Home 2');
-        else
-            $this->main_parts($content);
-        
-        $this->output('</div>');
-        $this->output('<div class="row">');
-        $this->output('<div class="col-sm-6">');
-        $this->cs_position('Home 3 Left');
-        $this->output('</div>');
-        $this->output('<div class="col-sm-6">');
-        $this->cs_position('Home 3 Center');
-        $this->output('</div>');
-        $this->output('</div>');
-        $this->output('</div>');
-        $this->output('<div class="col-md-4 home-right">');
-        $this->cs_position('Home Right');
-        $this->output('</div>');
-        $this->output('</div>');
         $this->output('</div>');
     }
     
@@ -912,17 +923,16 @@ class qa_html_theme extends qa_html_theme_base
     function footer()
     {
 		if (cs_hook_exist(__FUNCTION__)) {$args=func_get_args(); return cs_event_hook(__FUNCTION__, $args); }
-        $this->output('<footer id="site-footer" class="clearfix">');
-		$this->nav('main');
-		$this->nav('footer');
-        $this->get_social_links();
+        $this->output('<footer id="site-footer">');
+        $this->output('<div class="container">');
+			$this->nav('footer');
         
-        $this->output('<div class="qa-attribution-right">');
-			if ((bool) qa_opt('cs_footer_copyright'))
-				$this->output(qa_opt('cs_footer_copyright'));
-			$this->output('<p class="developer">Crafted by <a href="http://rahularyan.com">Rahul Aryan</a> & Team</p>');
-		$this->output('</div>');
-        
+			$this->output('<div class="qa-attribution-right">');
+				if ((bool) qa_opt('cs_footer_copyright'))
+					$this->output(qa_opt('cs_footer_copyright'));
+				$this->output('<span class="developer">Crafted by <a href="http://rahularyan.com">Rahul Aryan</a> & Team</span>');
+			$this->output('</div>');
+		$this->output('</div>');        
         $this->output('</footer>');
     }
     
@@ -1448,7 +1458,7 @@ class qa_html_theme extends qa_html_theme_base
         $this->output('<div class="a-item-wrap"><div class="a-item-inner-line">');
         $this->output('
 			<div class="user-info no-overflow">
-				<p class="asker">'.$user.' '.qa_lang_html('cleanstrap/asked').' '.$when.'</p>
+				<p class="asker">'.$user.' '.qa_lang_html('cleanstrap/answered').' '.$when.'</p>
 				<p class="asker-point">' . implode(' ', $a_item['who']['points']) . ' <span class="title">' . $a_item['who']['level'] . '</span></p>
 			</div>');
         $this->error(@$a_item['error']);
@@ -1964,6 +1974,7 @@ class qa_html_theme extends qa_html_theme_base
 			$this->output('</div>');
         }
     }
+
     
 	function cs_is_widget_active($name){
 		if (cs_hook_exist(__FUNCTION__)) {$args=func_get_args(); return cs_event_hook(__FUNCTION__, $args); }

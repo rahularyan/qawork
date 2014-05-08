@@ -649,9 +649,7 @@ $(document).ready(function(){
 	$('#left-position .widget-title').click(function(){
 		$(this).next().slideToggle(200);
 	});
-	$('#featured-slider').carousel({
-		interval: 10000
-	});
+
 	$('.voting a, .fav-btn, #focus_doanswer ').tooltip({placement:'top'});
 	
 	$(window).resize(function(){

@@ -1,5 +1,8 @@
 body{
-	color:#777777;
+    background: none repeat scroll 0 0 #FBFCFC;
+    color: #777777;
+    font-size: 14px;
+    line-height: 1.6;
 }
 a:hover {
     text-decoration: none;
@@ -99,6 +102,8 @@ textarea{
 }
 
 #site-header #header-top {
+    background: linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.15)) repeat scroll 0 0 #4679BD;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.2);
     box-shadow: none;
     padding: 10px 0;
 }
@@ -322,14 +327,14 @@ textarea{
 }
 .left-content {
     display: table-cell;
-    padding: 0;
+    padding: 0 0 25px;
     vertical-align: top;
 }
 .side-c {
     display: table-cell;
     padding: 15px;
-    width: 300px;
-	vertical-align: top;
+    vertical-align: top;
+    width: 350px;
 }
 
 /*styling for the home button - fixed height*/
@@ -586,11 +591,17 @@ textarea{
     margin: 0 0 0 15px;
 }
 .qa-q-list {
-    border: 1px solid #EEEEEE;
-    margin-top: 20px;
+    background: none repeat scroll 0 0 #FFFFFF;
+    border-color: #FFFFFF #F1F1F1 #F1F1F1;
+    border-image: none;
+    border-radius: 0 0 5px 5px;
+    border-right: 1px solid #F1F1F1;
+    border-style: solid;
+    border-width: 1px;
+    margin-top: 0;
 }
 .qa-q-list .qa-q-list-item {
-    border-bottom: 1px solid #EEEEEE;
+    border-bottom: 1px solid #F8F8F8;
     display: table;
     padding: 12px 15px;
     width: 100%;
@@ -764,7 +775,6 @@ textarea{
 }
 
 .qa-main {
-    background: none repeat scroll 0 0 #FFFFFF;
     padding: 0;
 }
 
@@ -807,11 +817,11 @@ textarea{
 
 .page-title {
     color: #333333;
-    font-size: 25px;
+    font-size: 20px;
     font-weight: 300;
     line-height: 30px;
     margin: 0;
-    padding: 20px 0;
+    padding: 10px 0;
 }
 
 .ajax-item {
@@ -912,15 +922,16 @@ ul.qa-nav-cat-list-4 > li.qa-nav-cat-item:first-child {
 
 /* main */
 .qa-main .qa-nav-sub {
-    margin-bottom: 10px;
     padding: 0;
 }
 
 .qa-main .qa-nav-sub ul {
-    border-bottom: 1px solid #DDDDDD;
+    background: linear-gradient(#FFFFFF, #FBFBFB) repeat scroll 0 0 #FBFBFB;
+    border: 1px solid #DDDDDD;
+    border-radius: 5px 5px 0 0;
     list-style: none outside none;
     margin: 0;
-    padding: 0;
+    padding: 10px 10px 0;
 }
 
 .qa-main .qa-nav-sub ul li {
@@ -931,13 +942,16 @@ ul.qa-nav-cat-list-4 > li.qa-nav-cat-item:first-child {
     color: #666666;
     display: block;
     padding: 8px 15px;
+	border-radius: 3px 3px 0 0;
+}
+.qa-nav-sub-link:hover {
+    background: none repeat scroll 0 0 #EEEEEE;
 }
 
 .qa-main .qa-nav-sub ul li a.qa-nav-sub-selected {
     background: none repeat scroll 0 0 #FFFFFF;
     border-color: #DDDDDD #DDDDDD #FFFFFF;
-    border-image: none;
-    border-radius: 5px 5px 0 0;
+    border-image: none;    
     border-style: solid;
     border-width: 1px;
     margin-bottom: -1px;
@@ -2266,18 +2280,23 @@ input.qa-form-wide-number {
     background: #333;
 }
 
-#site-footer {
-    border-top: 1px solid #F8F8F8;
-    margin: 0;
-    padding: 20px;
-    text-align: center;
+#site-footer{
+    background: none repeat scroll 0 0 #FDFDFD;
+    border-top: 1px solid #F1F1F1;
+    margin-top: 30px;
 }
-
+.qa-attribution-right {
+    float: right;
+    font-size: 12px;
+    padding: 15px 0;
+}
 #site-footer .qa-nav-footer {
+    float: left;
     margin-right: 0;
 }
 
 .qa-nav-footer .qa-nav-footer-list {
+    margin: 0;
     padding: 0;
 }
 
@@ -2286,7 +2305,9 @@ input.qa-form-wide-number {
 }
 
 .qa-nav-footer .qa-nav-footer-list li a {
-    padding: 0 10px;
+    display: block;
+    font-size: 12px;
+    padding: 15px 10px;
 }
 
 #site-footer .qa-nav-main .qa-nav-main-link:before {
@@ -2710,8 +2731,10 @@ th .description {
 
 .header-position-c {
     background: url("../images/community.jpg") repeat-x scroll center bottom #FFFFFF;
-    border-bottom: 1px solid #EEEEEE;
-    padding: 50px 0 25px;
+    border: 1px solid #EEEEEE;
+    border-radius: 5px;
+    margin-bottom: 20px;
+    margin-top: 15px;
 }
 
 /* RA Ajax ask box */
@@ -4396,7 +4419,7 @@ th .description {
 }
 
 .pagination > li > a, .pagination > li > span {
-    background: none repeat scroll 0 0 #FAFAFA;
+    background: none repeat scroll 0 0 #FFFFFF;
     border: medium none;
     color: #777777;
     font-size: 13px;
@@ -5037,14 +5060,7 @@ th .description {
     margin-bottom: 30px;
 }
 
-.ra-featured-widget .title{
-    color: #444444;
-    display: block;
-    font-size: 16px;
-    font-weight: bold;
-    height: 54px;
-    margin-top: 8px;
-}
+
 .category-nav .all-cat {
     background: none repeat scroll 0 0 #333333;
     border-bottom: 1px solid #EEEEEE;
@@ -5205,7 +5221,7 @@ th .description {
 .q-item-status {
     color: #9A9A9A;
     font-size: 12px;
-    margin-top: 5px;
+    margin-top: 8px;
 }
 .q-item-status > span {
     border-right: 1px solid #EEEEEE;
@@ -5496,4 +5512,124 @@ th .description {
 }
 .qa-q-item-main-line {
 
+}
+.featured-questions {
+    margin: 0 -10px;
+}
+.featured-questions .item {
+    float: left;
+    margin-bottom: 15px;
+    width: 33.3333%;
+}
+.featured-questions .item-inner {
+    border-radius: 5px;
+    position: relative;
+}
+.featured-questions .item-inner-line{
+    box-shadow: 0 0 3px rgba(0, 0, 0, 0.2);
+    margin: 10px;
+}
+.featured-questions .head {
+    margin-bottom: 12px;
+    padding: 10px;
+}
+.featured-questions .title {
+    color: #4E5C67;
+    display: block;
+    font-weight: bold;
+    padding-left: 20px;
+}
+.featured-questions .post-meta {
+    color: #AAAAAA;
+    font-size: 12px;
+    margin: 0;
+    padding: 0 10px;
+}
+.featured-questions .post-meta span {
+    margin-right: 10px;
+}
+.featured-questions .post-meta span:before {
+    margin-right: 3px;
+}
+.featured-questions .avatar {
+    float: left;
+    margin-right: 10px;
+    margin-top: 2px;
+}
+.item-inner > p {
+    padding: 0 0 0 15px;
+}
+.featured-questions .meta {
+    background: none repeat scroll 0 0 #FEFEFE;
+    border-radius: 0 0 5px 5px;
+    border-top: 1px solid rgba(0, 0, 0, 0.05);
+    color: #AAAAAA;
+    margin: 0 -10px -10px;
+    padding: 10px;
+}
+.featured-questions .meta > span {
+    margin-right: 15px;
+}
+.featured-questions .meta > span:before{
+	margin-right:5px;
+}
+.featured-questions .inner-content {
+    padding: 10px;
+}
+.featured-questions .inner-content > p {
+
+}
+.featured-questions .answer-list {
+    border-top: 1px solid #EEEEEE;
+    font-size: 12px;    
+}
+.featured-questions .answer-list-item{
+    background: none repeat scroll 0 0 #FDFDFD;
+    border-bottom: 1px solid #EEEEEE;
+    padding: 10px;
+}
+.featured-questions .answer-list-item:nth-child(2n){
+	background:#fff;
+}
+.featured-questions .answer-list-title {
+    background: none repeat scroll 0 0 #FCFCFC;
+    border-bottom: 1px solid #EEEEEE;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.03) inset;
+    font-weight: bold;
+    padding: 10px;
+}
+
+.featured-questions .answer-list-title span:before {
+    margin-right: 4px;
+}
+.featured-questions .answer-list-title span{
+    border-radius: 2px;
+    color: #FFFFFF;
+    padding: 3px 5px;
+}
+.home-sub-tabs{
+    background: linear-gradient(#FFFFFF, #FBFBFB) repeat scroll 0 0 #FBFBFB;
+    border: 1px solid #DDDDDD;
+    border-radius: 5px 5px 0 0;
+    list-style: none outside none;
+    margin: 0;
+    padding: 10px 10px 0;
+}
+.home-sub-tabs > li > a {
+    border: 1px solid rgba(0, 0, 0, 0);
+    border-radius: 4px 4px 0 0;
+    margin-right: 2px;
+    padding: 8px 15px;
+	color: #666666;
+}
+.home-left-inner .tab-content{
+	background:#fff;
+	background: none repeat scroll 0 0 #FFFFFF;
+    border-color: #FFFFFF #F1F1F1 #F1F1F1;
+    border-image: none;
+    border-style: solid;
+    border-width: 1px;
+}
+.home-left-inner  .qa-q-list{
+	border:none;
 }
