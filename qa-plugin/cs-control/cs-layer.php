@@ -7,8 +7,8 @@
 			//content hook
 			cs_event_hook('content', $this->content);
 		
-			$this->content['css_src']['cs_style'] = Q_THEME_URL.'/'.$this->css_name();
-			$this->content['css_admin']['cs_style'] = Q_THEME_URL . '/css/admin.css';
+			
+			$this->content['css_src']['cs_style'] = Q_THEME_URL . '/css/admin.css';
 		
 			//enqueue script and style in content
 			$hooked_script	= cs_event_hook('enqueue_scripts', array());
@@ -157,9 +157,6 @@
 					  <script src="' . Q_THEME_URL . '/js/respond.min.js"></script>
 					<![endif]-->
 				');
-				  
-			   $this->output('<link href="http://fonts.googleapis.com/css?family=Varela+Round|Open+Sans" rel="stylesheet" type="text/css">');
-				
 			
 			
 			if (qa_opt('cs_custom_style_created')){
@@ -168,16 +165,7 @@
 				$css = qa_opt('cs_custom_css');
 				$this->output('<style>' . $css . '</style>');
 			}
-			
-			/* 
-			$googlefonts = json_decode(qa_opt('typo_googlefonts'), true);
-			if (isset($googlefonts) && !empty($googlefonts))
-				foreach ($googlefonts as $font_name) {
-					$font_name = str_replace(" ", "+", $font_name);
-					$link      = 'http://fonts.googleapis.com/css?family=' . $font_name;
-					$this->output('<link href="' . $link . '" rel="stylesheet" type="text/css">');
-				} */
-				
+		
 			//register a hook
 			cs_event_hook('head_css', $this);
 
