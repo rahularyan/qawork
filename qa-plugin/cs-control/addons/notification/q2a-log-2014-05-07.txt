@@ -1,0 +1,151 @@
+Array
+(
+    [parentid] => 21
+    [parent] => Array
+        (
+            [postid] => 21
+            [categoryid] => 15
+            [type] => Q
+            [basetype] => Q
+            [hidden] => 0
+            [acount] => 3
+            [selchildid] => 
+            [closedbyid] => 
+            [upvotes] => 7
+            [downvotes] => 2
+            [netvotes] => 5
+            [views] => 1
+            [hotness] => 25663400000
+            [flagcount] => 0
+            [title] => Etiam non laoreet odio. Sed lobortis metus eu metus
+            [tags] => turpis,adipiscing,porttitor,pellentesque,ipsum
+            [created] => 1382607755
+            [name] => 
+            [categoryname] => WordPress
+            [categorybackpath] => wordpress/themes
+            [categoryids] => 1,15,15
+            [uservote] => -1
+            [userflag] => 0
+            [userfavoriteq] => 1
+            [content] => Proin molestie lorem ut libero dictum lacinia. Etiam non laoreet odio. Sed lobortis metus eu metus molestie, nec commodo augue ornare. Etiam lobortis est pharetra ultricies mattis. Pellentesque eget elit varius, lobortis augue sit amet, feugiat lectus.
+Suspendisse blandit, erat eu mollis iaculis, quam lorem aliquam tellus, vitae tempus dolor nulla vitae nisl. Suspendisse laoreet, ipsum eu scelerisque mattis, nisi lacus posuere tellus, ut tincidunt justo dolor et purus.
+Donec tincidunt fringilla nisi eget varius. Nunc eget purus nulla. Ut erat dui, aliquam in tortor sed, volutpat volutpat dui. Curabitur feugiat, turpis a adipiscing porttitor, diam libero pellentesque ipsum, sed viverra justo ante quis dui.
+            [notify] => @
+            [updated] => 1385638301
+            [updatetype] => A
+            [format] => 
+            [lastuserid] => 1
+            [lastip] => 127.0.0.1
+            [parentid] => 
+            [lastviewip] => 127.0.0.1
+            [userid] => 10
+            [cookieid] => 
+            [createip] => 127.0.0.1
+            [points] => 260
+            [flags] => 4
+            [level] => 0
+            [email] => muboy@tovolt.com
+            [handle] => muboy
+            [avatarblobid] => 14335595209487717967
+            [avatarwidth] => 200
+            [avatarheight] => 200
+            [lasthandle] => admin
+            [isbyuser] => 
+            [queued] => 
+            [closed] => 
+            [authorlast] => 
+            [viewable] => 1
+            [answerbutton] => 1
+            [commentbutton] => 1
+            [commentable] => 1
+            [editbutton] => 1
+            [editable] => 1
+            [retagcatbutton] => 
+            [retagcatable] => 1
+            [aselectable] => 1
+            [flagbutton] => 1
+            [flagtohide] => 
+            [unflaggable] => 
+            [clearflaggable] => 
+            [closeable] => 1
+            [reopenable] => 
+            [moderatable] => 
+            [hideable] => 1
+            [reshowimmed] => 
+            [reshowable] => 
+            [deleteable] => 
+            [claimable] => 
+            [followable] => 
+        )
+
+    [postid] => 31
+    [answer] => Array
+        (
+            [postid] => 31
+            [categoryid] => 15
+            [type] => A
+            [basetype] => A
+            [hidden] => 0
+            [acount] => 0
+            [selchildid] => 
+            [closedbyid] => 
+            [upvotes] => 1
+            [downvotes] => 0
+            [netvotes] => 1
+            [views] => 0
+            [hotness] => 
+            [flagcount] => 0
+            [title] => 
+            [tags] => 
+            [created] => 1382664341
+            [name] => 
+            [categoryname] => WordPress
+            [categorybackpath] => wordpress/themes
+            [categoryids] => 1,15,15
+            [uservote] => 1
+            [userflag] => 0
+            [userfavoriteq] => 0
+            [content] => Suspendisse blandit, erat eu mollis iaculis, quam lorem aliquam tellus, vitae tempus dolor nulla vitae nisl. Suspendisse laoreet, ipsum eu scelerisque mattis, nisi lacus posuere tellus, ut tincidunt justo dolor et purus.
+
+Donec tincidunt fringilla nisi eget varius. Nunc eget purus nulla. Ut erat dui, aliquam in tortor sed, volutpat volutpat dui. Curabitur feugiat, turpis a adipiscing porttitor, diam libero pellentesque ipsum, sed viverra justo ante quis dui.
+            [notify] => @
+            [updated] => 
+            [updatetype] => 
+            [format] => 
+            [lastuserid] => 
+            [lastip] => 
+            [parentid] => 21
+            [lastviewip] => 
+            [userid] => 15
+            [cookieid] => 
+            [createip] => 127.0.0.1
+            [points] => 680
+            [flags] => 6
+            [level] => 0
+            [email] => mr_incredible@tovolt.com
+            [handle] => mr_incredible
+            [avatarblobid] => 1565640033579949442
+            [avatarwidth] => 200
+            [avatarheight] => 200
+            [lasthandle] => 
+        )
+
+    [qtitle] => Etiam non laoreet odio. Sed lobortis metus eu metus
+    [qid] => 21
+)
+
+Fake Email Sending to log the entire email message 
+Array
+(
+    [fromemail] => no-reply@example.com
+    [fromname] => CleanStrap
+    [mail_list] => selena@tovolt.com
+    [toname] => selena
+    [bcclist] => 
+    [subject] => [cleanstrap/notification_email_subject]
+    [body] => [cleanstrap/greeting][cleanstrap/a_post_email_header][cleanstrap/a_post_body_email]
+[cleanstrap/thank_you_message]
+    [html] => 
+)
+
+Effected user id 15
