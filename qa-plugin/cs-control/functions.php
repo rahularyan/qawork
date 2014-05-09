@@ -874,3 +874,25 @@ function cs_update_tags_meta($tag, $title, $content){
 	return $content;
 	
 }
+function cs_what_icon($what){
+	$icon = '';
+	switch($what){
+		case 'closed' :
+			$icon = 'icon-times';
+			break;
+		case 'asked' :
+			$icon = 'icon-question';
+			break;
+		case 'selected' :
+			$icon = 'icon-tick';
+			break;
+		case 'edited' :
+			$icon = 'icon-edit';
+			break;
+			
+	}
+	if(cs_hook_exist('cs_what_icon'))
+		return cs_event_hook('cs_what_icon', $what);
+	else
+		return $icon;
+}
