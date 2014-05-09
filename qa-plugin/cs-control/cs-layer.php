@@ -77,10 +77,16 @@
 		
 		
 			$this->output('<script> theme_url = "' . Q_THEME_URL . '";</script>');
-			
-
+		
 			if (qa_opt('cs_enable_gzip')) //Gzip
 				$this->output('<script type="text/javascript" src="'.Q_THEME_URL.'/js/script_cache.js"></script>');
+				
+				if (isset($this->content['script_src']))
+					foreach ($this->content['script_src'] as $script_src){
+						// load if external url
+						if(parse_url($script_src, PHP_URL_HOST))
+							$this->output('<script type="text/javascript" src="'.$script_src.'"></script>');
+					}
 			else{
 				if (isset($this->content['script_src']))
 					foreach ($this->content['script_src'] as $script_src)
@@ -138,9 +144,20 @@
 		
 			//qa_html_theme_base::head_css();
 	
-			if (qa_opt('cs_enable_gzip')) //Gzip
+			if (qa_opt('cs_enable_gzip')){ //Gzip
 				$this->output('<link href="'. Q_THEME_URL . '/css/css_cache.css" rel="stylesheet" type="text/css">');
-			else
+				if(parse_url($script_src, PHP_URL_HOST))
+				
+				$this->output('<link rel="stylesheet" type="text/css" href="'.$this->rooturl.$this->css_name().'"/>');
+				
+				if (isset($this->content['css_src']))
+					foreach ($this->content['css_src'] as $css_src){
+						if(parse_url($css_src, PHP_URL_HOST))
+							$this->output('<link rel="stylesheet" type="text/css" href="'.$css_src.'"/>');
+					}
+						
+				
+			}else
 				qa_html_theme_base::head_css();
 				
 			$this->output('<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
