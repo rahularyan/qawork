@@ -5,14 +5,13 @@ a:hover{
 	color:#7AAA40;
 }
 
-.btn{
-    background: #FF6838;
-    color: #FFFFFF;
-	border:none;
+.btn, .qa-form-light-button, .qa-form-tall-button, .qa-form-wide-button, .qa-a-select-button, .qa-a-unselect-button{
+	background: linear-gradient(#FFFFFF, #FCFCFC) repeat scroll 0 0 #FDFDFF;
 }
-.btn:hover{
-    color: #FFFFFF;
+.btn:hover, .qa-form-light-button:hover, .qa-form-tall-button:hover, .qa-form-wide-button:hover, .qa-a-select-button:hover, .qa-a-unselect-button:hover, .post-button .btn:hover{
+	background: linear-gradient(#FFFFFF, #EAEAEA) repeat scroll 0 0 #FDFDFF;
 }
+
 .question-list .question-item .big-ans-count.icon-chat{
 	background:#7AAA40;
 	color:#fff;
@@ -23,7 +22,20 @@ a:hover{
 .card-metas ,#site-header #nav-ask-btn, .on-off-checkbox-container label, #ra-widgets .widget-canvas .widget-save.active, .ra-tags-widget .widget-tag:hover, .t-bg, .face.back, .qa-form-tall-button-login, .qa-form-tall-button-send, .qa-form-tall-button-register, input[type="radio"]:checked + label, .question-list .question-item .big-ans-count, .pagination > li > .qa-page-selected, .pagination > li:hover > a, .form-button-holder, .qa-template-tags .qa-part-ranking .list-group-item span, .fav-parent .fav-btn, .qa-a-selection .qa-a-select-button, .question-title .fav-parent .fav-btn.active, .post-button #q_doanswer , .navbar-default .category-nav .category-toggle, #nav-ask-btn, .featured-questions .answer-list-title span, .bg1{
 	background:#4679BD;
 }
+.answer-selected .a-item-wrap {
+    border-color:#94E096;
+}
 
+.answer-selected .a-item-wrap:before {
+    border-color: rgba(0, 0, 0, 0) #76C778 rgba(0, 0, 0, 0) rgba(0, 0, 0, 0);
+}
+.answer-selected .a-item-inner-line {
+    border-color: #76C778;
+}
+.btn-unselect{
+	background:#76C778;
+	color:#fff;
+}
 #site-header .site-logo {
     
 }
@@ -79,9 +91,17 @@ a:hover{
 	background:#e6a629;
 	color:#fff;
 }
-.qa-a-selection .qa-a-unselect-button, .qa-a-selection .qa-a-selected{
-	background:#59c15c;
+
+
+.qa-q-view-closed > .question-status-icon, .what-2.icon-times:before{
+	background:#ff6363;
+	color:#fff;
 }
-#a_list .q-cont-right{
-	border-color:#70bc55;
+.what-2.icon-tick:before{
+	background:#76C778;
+	color:#fff;
+}
+.what-2.icon-edit:before{
+	background:#8fccff;
+	color:#fff;
 }
