@@ -610,10 +610,9 @@ textarea{
 }
 .qa-q-list {
     background: none repeat scroll 0 0 #FFFFFF;
-    border-color: #FFFFFF #F1F1F1 #F1F1F1;
+    border-color: #FFFFFF #DDDDDD #DDDDDD;
     border-image: none;
     border-radius: 0 0 5px 5px;
-    border-right: 1px solid #F1F1F1;
     border-style: solid;
     border-width: 1px;
     margin-top: 0;
@@ -5533,6 +5532,29 @@ th .description {
 .answer-f-wrap {
     background: none repeat scroll 0 0 #FFFFFF;
     border-radius: 5px;
+}
+.answer-f-wrap:before{
+    border-color: rgba(0, 0, 0, 0) #FBFBFB rgba(0, 0, 0, 0) rgba(0, 0, 0, 0);
+    border-image: none;
+    border-style: solid;
+    border-width: 10px;
+    content: "";
+    display: block;
+    margin-left: -35px;
+    margin-top: -9px;
+    position: absolute;
+}
+
+.q-cont-right:before {
+    border-color: rgba(0, 0, 0, 0) #FBFBFB rgba(0, 0, 0, 0) rgba(0, 0, 0, 0);
+    border-image: none;
+    border-style: solid;
+    border-width: 10px;
+    content: "";
+    display: block;
+    margin-left: -19px;
+    margin-top: 7px;
+    position: absolute;
 }
 .cke_inner {
     background: none;
