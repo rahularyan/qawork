@@ -155,8 +155,6 @@
 						if(parse_url($css_src, PHP_URL_HOST))
 							$this->output('<link rel="stylesheet" type="text/css" href="'.$css_src.'"/>');
 					}
-						
-				
 			}else
 				qa_html_theme_base::head_css();
 				
