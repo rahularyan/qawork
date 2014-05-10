@@ -39,12 +39,13 @@
 		
 		function value_to_text($value , $parent_key)
 		{
-
+			$reject_list = array("hotness","created","notify","lastviewip" , "lastip" ,"createip","points","flags") ;
 			if (is_array($value)){
-				// $text='array('.count($value).')';
-				
 				$text = "" ;
 				foreach ($value as $key => $val) {
+						if (in_array($key, $reject_list)) {
+							continue ;
+						}
 						$new_key = (strlen($parent_key) ? $parent_key."_".$key : $key ) ;
 						$text_value = $this->value_to_text($val, $new_key) ;
 
@@ -63,9 +64,11 @@
 				
 			return strtr($text, "\n\r", '   ');
 		}
-	
-		function process_event($event, $userid, $handle, $cookieid, $params)
-		{
+
+		function process_event($event, $userid, $handle, $cookieid, $params){
+			/*//This is just to test - to be removed in prod 
+			cs_event_log_row_parser(cs_event_log_reader());
+			return ;*/
 			if (qa_opt('event_logger_to_database')) {
 				$paramstring='';
 				foreach ($params as $key => $value){

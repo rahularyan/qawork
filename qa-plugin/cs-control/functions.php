@@ -1009,7 +1009,7 @@ function cs_log($string) {
 function cs_event_log_row_parser( $row ){
             $result = preg_split('/\t/', $row) ;
             $param = array();
-            cs_log(print_r($result , true ));
+            // cs_log("Data from the database ".print_r($result , true )); //this will pring the data from db 
             $embeded_arrays = array();
 
             foreach ( $result as $value ) {
@@ -1033,6 +1033,11 @@ function cs_event_log_row_parser( $row ){
             foreach ($unset_keys as $key) {
                   unset($param[$key]);
             }
-            cs_log(print_r($param , true ));
+            // cs_log("Converted array".print_r($param , true ));
             return $param ; 
+}
+//just a helper methos for Testing
+function cs_event_log_reader()
+{     
+      return qa_db_read_one_value(qa_db_query_sub("SELECT ^eventlog.params from  ^eventlog WHERE ^eventlog.datetime = $ ", '2014-05-10 22:55:08'), true);
 }

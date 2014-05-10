@@ -13,6 +13,9 @@
     margin: 0;
     padding: 0;
 }
-.breadcrumb>.active > a {
+.breadcrumb > .active > a {
 	color: #999;
+}
+.breadcrumb > li:last-child > a{
+	color:#999;
 }
