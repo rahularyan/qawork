@@ -22,6 +22,7 @@
 			$css_src['cs_responsive'] = Q_THEME_URL . '/css/responsive.css';
 			$css_src['cs_main'] = Q_THEME_URL . '/css/main.css';
 			$css_src['cs_color'] = Q_THEME_URL . '/css/theme-green.css';
+			$css_src['anonymous_pro'] = 'http://fonts.googleapis.com/css?family=Anonymous+Pro';
 			
 			if (qa_opt('cs_styling_rtl'))
 				$css_src['cs_rtl'] = Q_THEME_URL . '/css/rtl.css';
@@ -47,6 +48,7 @@
 				'Top' => 'Before navbar', 
 				'Header' => 'After navbar', 
 				'Header Right' => 'Right side of header', 
+				'Breadcrumbs' => 'For show bread navigation', 
 				'Left' => 'Right side below menu', 
 				'Content Top' => 'Before questions list', 
 				'Content Bottom' => 'After questions lists', 
@@ -55,7 +57,8 @@
 				'Home Slide' => 'Home Top',
 				'Home 1 Left' => 'Home position 1',
 				'Home 1 Center' => 'Home position 1',
-				'Home 2' => 'Home position 2',
+				'Home Recent Tab' => 'For showing activities',
+				'Home Activities Tab' => 'For showing activities',
 				'Home 3 Left' => 'Home position 3',
 				'Home 3 Center' => 'Home position 3',
 				'Home Right' => 'Home right side',						

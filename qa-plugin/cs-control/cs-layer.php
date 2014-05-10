@@ -7,8 +7,8 @@
 			//content hook
 			cs_event_hook('content', $this->content);
 		
-			$this->content['css_src']['cs_style'] = Q_THEME_URL.'/'.$this->css_name();
-			$this->content['css_admin']['cs_style'] = Q_THEME_URL . '/css/admin.css';
+			
+			$this->content['css_src']['cs_style'] = Q_THEME_URL . '/css/admin.css';
 		
 			//enqueue script and style in content
 			$hooked_script	= cs_event_hook('enqueue_scripts', array());
@@ -77,10 +77,16 @@
 		
 		
 			$this->output('<script> theme_url = "' . Q_THEME_URL . '";</script>');
-			
-
+		
 			if (qa_opt('cs_enable_gzip')) //Gzip
 				$this->output('<script type="text/javascript" src="'.Q_THEME_URL.'/js/script_cache.js"></script>');
+				
+				if (isset($this->content['script_src']))
+					foreach ($this->content['script_src'] as $script_src){
+						// load if external url
+						if(parse_url($script_src, PHP_URL_HOST))
+							$this->output('<script type="text/javascript" src="'.$script_src.'"></script>');
+					}
 			else{
 				if (isset($this->content['script_src']))
 					foreach ($this->content['script_src'] as $script_src)
@@ -138,9 +144,18 @@
 		
 			//qa_html_theme_base::head_css();
 	
-			if (qa_opt('cs_enable_gzip')) //Gzip
+			if (qa_opt('cs_enable_gzip')){ //Gzip
 				$this->output('<link href="'. Q_THEME_URL . '/css/css_cache.css" rel="stylesheet" type="text/css">');
-			else
+				if(parse_url($script_src, PHP_URL_HOST))
+				
+				$this->output('<link rel="stylesheet" type="text/css" href="'.$this->rooturl.$this->css_name().'"/>');
+				
+				if (isset($this->content['css_src']))
+					foreach ($this->content['css_src'] as $css_src){
+						if(parse_url($css_src, PHP_URL_HOST))
+							$this->output('<link rel="stylesheet" type="text/css" href="'.$css_src.'"/>');
+					}
+			}else
 				qa_html_theme_base::head_css();
 				
 			$this->output('<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
@@ -157,9 +172,6 @@
 					  <script src="' . Q_THEME_URL . '/js/respond.min.js"></script>
 					<![endif]-->
 				');
-				  
-			   $this->output('<link href="http://fonts.googleapis.com/css?family=Varela+Round|Open+Sans" rel="stylesheet" type="text/css">');
-				
 			
 			
 			if (qa_opt('cs_custom_style_created')){
@@ -168,16 +180,7 @@
 				$css = qa_opt('cs_custom_css');
 				$this->output('<style>' . $css . '</style>');
 			}
-			
-			/* 
-			$googlefonts = json_decode(qa_opt('typo_googlefonts'), true);
-			if (isset($googlefonts) && !empty($googlefonts))
-				foreach ($googlefonts as $font_name) {
-					$font_name = str_replace(" ", "+", $font_name);
-					$link      = 'http://fonts.googleapis.com/css?family=' . $font_name;
-					$this->output('<link href="' . $link . '" rel="stylesheet" type="text/css">');
-				} */
-				
+		
 			//register a hook
 			cs_event_hook('head_css', $this);
 

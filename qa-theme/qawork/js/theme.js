@@ -545,6 +545,53 @@ function cs_user_popover(){
 	});
 }
 
+function cs_select_answer(answerid, questionid, target, code, name){
+
+	var params={};
+	
+	params.answerid=answerid;
+	params.questionid=questionid;
+	params.code=code;
+	params[name]=' ';
+	
+	
+	qa_ajax_post('click_a', params,
+		function (lines) {
+			if (lines[0]=='1') {
+				qa_set_inner_html(document.getElementById('a_list_title'), 'a_list_title', lines[1]);
+
+				var l=document.getElementById('a'+answerid);
+				var h=lines.slice(2).join("\n");
+				
+				if (h.length)
+					qa_set_outer_html(l, 'answer', h);
+				else
+					qa_conceal(l, 'answer');
+			
+			} else {
+				/* target.form.elements.qa_click.value=target.name;
+				target.form.submit(); */
+			}
+		}
+	);
+	
+	qa_show_waiting_after(target, false);
+	
+	return false;
+								
+}
+function cs_toggle_comment(){
+	$('.toggle-comment').click(function(){	
+		var c = $(this).parent().find('.qa-c-wrap');
+		if($(this).is('.open')){
+			$(this).removeClass('open');
+			c.animate({'height': '30px'}, 200);
+		}else{
+			$(this).addClass('open');
+			c.animate({'height': c.find('.qa-c-wrap-inner-height').height()}, 200);
+		}
+	});
+}
 function cs_check_site_status_size(){
 	if($('.site-status-inner .bar-float').width() < 160)
 		$('.site-status-inner > *').css({'float': 'none', 'width':'100%'});
@@ -574,6 +621,7 @@ $(document).ready(function(){
 	cs_user_popover();
 	cs_check_site_status_size();
 	cs_create_cache();
+	cs_toggle_comment();
 	
 	if ($('.ra-ask-widget').length>0)
 		cs_ask_box_autocomplete();
@@ -649,9 +697,7 @@ $(document).ready(function(){
 	$('#left-position .widget-title').click(function(){
 		$(this).next().slideToggle(200);
 	});
-	$('#featured-slider').carousel({
-		interval: 10000
-	});
+
 	$('.voting a, .fav-btn, #focus_doanswer ').tooltip({placement:'top'});
 	
 	$(window).resize(function(){

@@ -159,7 +159,7 @@ class Cs_Notification_Addon{
 		$userid = qa_get_logged_in_userid();
 		$eventslist = qa_db_read_all_assoc(
 			qa_db_query_sub( 
-				'SELECT id, UNIX_TIMESTAMP(datetime) AS datetime, userid, postid, effecteduserid, event, params, `read` FROM ^ra_userevent WHERE effecteduserid=# AND event NOT IN ("u_wall_post", "u_message") ORDER BY datetime DESC LIMIT 15 OFFSET #',
+				'SELECT id, UNIX_TIMESTAMP(datetime) AS datetime, userid, postid, effecteduserid, event, params, `read` FROM ^ra_userevent WHERE effecteduserid=# AND `read`=0 AND event NOT IN ("u_wall_post", "u_message") ORDER BY datetime DESC LIMIT 15 OFFSET #',
 				$userid, $offset 
 			)
 		);
@@ -621,7 +621,7 @@ class Cs_Notification_Addon{
 		$userid = qa_get_logged_in_userid();
 		$eventslist = qa_db_read_all_assoc(
 			qa_db_query_sub(
-				'SELECT id, UNIX_TIMESTAMP(datetime) AS datetime, userid, postid, effecteduserid, event, params, `read` FROM ^ra_userevent WHERE effecteduserid=# AND event IN (' . $events .') ORDER BY id DESC LIMIT 15 OFFSET #',
+				'SELECT id, UNIX_TIMESTAMP(datetime) AS datetime, userid, postid, effecteduserid, event, params, `read` FROM ^ra_userevent WHERE effecteduserid=# AND `read` = 0 AND event IN (' . $events .') ORDER BY id DESC LIMIT 15 OFFSET #',
 				$userid, $offset
 			)
 		);

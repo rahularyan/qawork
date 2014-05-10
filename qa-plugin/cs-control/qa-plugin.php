@@ -43,6 +43,7 @@ qa_register_plugin_phrases('language/cs-lang-*.php', 'cleanstrap');
 qa_register_plugin_overrides('overrides.php');
 
 qa_register_plugin_module('event', 'inc/init.php', 'cs_init', 'CS Init');
+qa_register_plugin_module('event', 'inc/cs-event-logger.php', 'cs_event_logger', 'CS Event Logger');
 qa_register_plugin_module('event', 'inc/cs-user-events.php', 'cs_user_event_logger', 'CS User Event Logger');
 
 qa_register_plugin_module('widget', 'widgets/widget_ticker.php', 'cs_ticker_widget', 'CS Ticker');

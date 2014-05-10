@@ -18,7 +18,7 @@ qa_register_plugin_module('widget', 'addons/breadcrumbs/widget.php', 'cs_breadcr
 class Cs_Breadcrumb_Addon{
 	function __construct(){
 		cs_event_hook('language', NULL, array($this, 'language'));
-		// cs_event_hook('doctype', NULL, array($this, 'doctype'));
+		cs_event_hook('enqueue_css', NULL, array($this, 'css'));
 	}
 		
 	public function language($lang_arr){
@@ -32,9 +32,12 @@ class Cs_Breadcrumb_Addon{
 
 		return $lang_arr;
 	}
-	
-	public function doctype($themeclass){
-		return $themeclass->content;
+
+	public function css($css_src){
+		
+		$css_src['cs_breadcrumbs'] = CS_CONTROL_URL . '/addons/breadcrumbs/styles.css';
+		return  $css_src;
 	}
 }
 
+$cs_breadcrumbs_addon = new Cs_Breadcrumb_Addon;

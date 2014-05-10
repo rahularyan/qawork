@@ -67,16 +67,12 @@ class cs_breadcrumbs_widget {
       function output_widget($region, $place, $themeobject, $template, $request, $qa_content) {
             $widget_opt = @$themeobject->current_widget['param']['options'];
 
-            if (@$themeobject->current_widget['param']['locations']['show_title'] && isset($cat['title'])) $themeobject->output('<h3 class="widget-title">' . $cat['title'] . '</h3>');
-
-            $themeobject->output('<div class="ra-breadcrumbs-widget">');
             // breadcrumb start
-            $themeobject->output('<ol class="breadcrumb">');
+            $themeobject->output('<ul class="breadcrumb clearfix">');
             $themeobject->output($this->breadcrumb_part(array('type' => 'home')));
             $themeobject->output($this->create_breadcrumbs($this->navigation(), $qa_content));
-            $themeobject->output('</ol>');
+            $themeobject->output('</ul>');
             // breadcrumb end 
-            $themeobject->output('</div>');
       }
 
       function create_breadcrumbs($navs, $qa_content) {
@@ -119,13 +115,16 @@ class cs_breadcrumbs_widget {
                         if (!$type) {
                         	return ; //if there is not a single part -- go back from here 
                         }
-                        
                         foreach ($navs as $nav) {
-								$link .= (!!$link) ? "/" . $nav : $nav;
-								$br   .= $this->breadcrumb_part(array(
-									'type' => $type,
-									'url'  => qa_path($link),
-									'text' => $nav,
+                              
+					$link .= (!!$link) ? "/" . $nav : $nav;
+                              // added this to fix users page bug and tag page bug 
+                              $link = ($link === "user") ? "users" : $link ;
+                              $link = ($link === "tag")  ? "tags"  : $link ;
+					$br   .= $this->breadcrumb_part(array(
+						'type' => $type,
+						'url'  => qa_path($link),
+						'text' => $nav,
                               ));
                         }
 
@@ -187,7 +186,6 @@ class cs_breadcrumbs_widget {
                                           ));
                                     }
                                     break;
-
                               default:
                                     break;
                         }
@@ -204,7 +202,7 @@ class cs_breadcrumbs_widget {
             $li_template = "<li ^class><a href='^url'>^icon^text</a></li>";
             $type = isset($data['type']) ? $data['type'] : "";
             $text = isset($data['text']) ? $data['text'] : "";
-            $url = isset($data['url']) ? $data['url'] : "#";
+            $url =  isset($data['url']) ? $data['url'] : "#";
             $icon = '';
             $class = "";
             // $text = qa_lang("breadcrumbs/$text");

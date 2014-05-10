@@ -12,12 +12,6 @@
 						'type' => 'number',
 						'tags' => 'name="cs_fq_count"',
 						'value' => '10',
-					),
-					'cs_fq_boxes' => array(
-						'label' => 'Number of box per row',
-						'type' => 'number',
-						'tags' => 'name="cs_fq_boxes"',
-						'value' => '4'						
 					)
 	
 				),
@@ -74,20 +68,46 @@
 
 		// output the list of selected post type
 		function carousel_item($type, $limit, $col_item = 1){
-			require_once QA_INCLUDE_DIR.'qa-app-posts.php';
+			
 			if (defined('QA_FINAL_WORDPRESS_INTEGRATE_PATH')){
-				$post = qa_db_query_sub('SELECT * FROM ^postmetas, ^posts WHERE ^posts.type=$ and ( ^postmetas.postid = ^posts.postid and ^postmetas.title = "featured_question" ) ORDER BY ^posts.created DESC LIMIT #', $type, $limit);
+				$posts = qa_db_read_all_assoc(qa_db_query_sub('SELECT * FROM ^postmetas, ^posts WHERE ^posts.type=$ and ( ^postmetas.postid = ^posts.postid and ^postmetas.title = "featured_question" ) ORDER BY ^posts.created DESC LIMIT #', $type, $limit));
 				global $wpdb;
 			}else
-				$post = qa_db_query_sub('SELECT * FROM ^postmetas, ^posts INNER JOIN ^users ON ^posts.userid=^users.userid WHERE ^posts.type=$ and ( ^postmetas.postid = ^posts.postid and ^postmetas.title = "featured_question" ) ORDER BY ^posts.created DESC LIMIT #', $type, $limit);
-			$output ='<div class="item"><div class="row">';
-			$i = 1;
-			while($p = mysql_fetch_array($post)){
-				if($type=='Q'){
+				$posts = qa_db_read_all_assoc(qa_db_query_sub('SELECT * FROM ^postmetas, ^posts INNER JOIN ^users ON ^posts.userid=^users.userid WHERE ^posts.type=$ and ( ^postmetas.postid = ^posts.postid and ^postmetas.title = "featured_question" ) ORDER BY ^posts.created DESC LIMIT #', $type, $limit));
+			
+			
+			$output ='';
+			foreach($posts as $p){
+				
+				$when = qa_when_to_html(strtotime($p['created']), 7);
+				$avatar = cs_get_post_avatar($p, 35, true);
+				
+				if($p['type']=='Q'){
+					$link_header = qa_q_path_html($p['postid'], $p['title']) .'" title="'. $p['title'];
+				}elseif($p['type']=='A'){
+					$link_header = cs_post_link($p['parentid']).'#a'.$p['postid'];
+				}else{
+					$link_header = cs_post_link($p['parentid']).'#c'.$p['postid'];
+				}
+				
+				$output .='<div class="item">';
+				$output .='<div class="item-inner-line"><div class="item-inner">';
+				
+				$output .= '<div class="head">';
+				if($avatar)	$output .= $avatar;	
+				
+				$output .= '</div>';
+				$output .= '<div class="post-meta clearfix">';
+				$output .= '<span class="icon-time">'.implode(' ', $when).'</span>';
+				$output .= '<span class="vote-count icon-answer">'.qa_lang_sub('cleanstrap/x_answers', $p['acount']).'</span>';	
+				$output .= '<span class="vote-count icon-thumb-up">'.qa_lang_sub('cleanstrap/x_votes', $p['netvotes']).'</span>';
+				$output .= '</div>';
+				$output .='<div class="inner-content">';
+				if($p['type']=='Q'){
 					$what = qa_lang('cleanstrap/asked');
-				}elseif($type=='A'){
+				}elseif($p['type']=='A'){
 					$what = qa_lang('cleanstrap/answered');
-				}elseif('C'){
+				}elseif($p['type'] == 'C'){
 					$what = qa_lang('cleanstrap/commented');
 				}
 				if (defined('QA_FINAL_WORDPRESS_INTEGRATE_PATH'))
@@ -98,45 +118,26 @@
 				else
 					$handle = $p['handle'];
 				
-				if($type=='Q'){
-					$link_header = qa_q_path_html($p['postid'], $p['title']) .'" title="'. $p['title'];
-				}elseif($type=='A'){
-					$link_header = cs_post_link($p['parentid']).'#a'.$p['postid'];
-				}else{
-					$link_header = cs_post_link($p['parentid']).'#c'.$p['postid'];
-				}
 				
-				$output .= '<div class="slider-item col-sm-'.(12/$col_item).'">';
-				$output .= '<div class="slider-item-inner">';
-				$featured_img = get_featured_thumb($p['postid']);
+		
+				/* $featured_img = get_featured_thumb($p['postid']);
 				if ($featured_img)
 					$output .= '<a class="featured-image" href="'.$link_header.'"><div class="featured-image">'.$featured_img.'</div></a>';
 				if ($type=='Q'){
 					$output .= '<div class="big-ans-count pull-left">'.$p['acount'].'<span> ans</span></div>';
 				}elseif($type=='A'){
 					$output .= '<div class="big-ans-count pull-left vote">'.$p['netvotes'].'<span>'.qa_lang('cleanstrap/vote').'</span></div>';
-				}
-
+				} */
+				//$output .= '<p>' . cs_truncate($p['content'], 200).'</p>';
 				$output .= '<a class="title" href="'.$link_header.'">' . cs_truncate(qa_html($p['title']), 100).'</a>';
-
-
-				$output .= '<div class="meta">';
-				$when = qa_when_to_html(strtotime($p['created']), 7);
-				$avatar = cs_get_avatar($handle, 15, false);
-				if($avatar)
-					$output .= '<img src="'.$avatar.'" />';	
-				$output .= '<span class="icon-time">'.implode(' ', $when).'</span>';	
-				$output .= '<span class="vote-count">'.$p['netvotes'].' '.qa_lang('cleanstrap/votes').'</span></div>';	
+				$output .='</div>';
+				$output .='</div>';	
+		
+				$output .='</div>';
 				
-				$output .= '</div>';
-				$output .= '</div>';
-				if($col_item == $i){
-					$output .= '</div></div><div class="item active"><div class="row">';
-				}
-				
-				$i++;
+				$output .='</div>';
 			}
-			$output .= '</div></div>';
+			
 
 			return $output;
 		}
@@ -156,12 +157,8 @@
 				
 			$themeobject->output('
 
-            <div id="featured-slider" class="carousel slide">
-                <!-- Carousel items -->
-                <div class="carousel-inner">
-                    '.$this->carousel_item('Q', $count, $col).'                    
-                </div>
-                <a class="left carousel-control icon-angle-left" href="#featured-slider" data-slide="prev"></a><a class="right carousel-control icon-angle-right" href="#featured-slider" data-slide="next"></a>
+            <div class="featured-questions clearfix">
+                '.$this->carousel_item('Q', $count, $col).'                
             </div>
 
 			');
