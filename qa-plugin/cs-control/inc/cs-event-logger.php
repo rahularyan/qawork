@@ -1,29 +1,5 @@
 <?php
 
-/*
-	Question2Answer (c) Gideon Greenspan
-
-	http://www.question2answer.org/
-
-	
-	File: qa-plugin/event-logger/qa-event-logger.php
-	Version: See define()s at top of qa-include/qa-base.php
-	Description: Event module class for event logger plugin
-
-
-	This program is free software; you can redistribute it and/or
-	modify it under the terms of the GNU General Public License
-	as published by the Free Software Foundation; either version 2
-	of the License, or (at your option) any later version.
-	
-	This program is distributed in the hope that it will be useful,
-	but WITHOUT ANY WARRANTY; without even the implied warranty of
-	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-	GNU General Public License for more details.
-
-	More about this license: http://www.question2answer.org/license.php
-*/
-
 	class cs_event_logger {
 		
 		function init_queries($tableslc)
@@ -61,27 +37,45 @@
 		}
 
 		
-		function value_to_text($value)
+		function value_to_text($value , $parent_key)
 		{
-			if (is_array($value))
-				$text='array('.count($value).')';
-			elseif (strlen($value)>40)
-				$text=substr($value, 0, 38).'...';
+
+			if (is_array($value)){
+				// $text='array('.count($value).')';
+				
+				$text = "" ;
+				foreach ($value as $key => $val) {
+						$new_key = (strlen($parent_key) ? $parent_key."_".$key : $key ) ;
+						$text_value = $this->value_to_text($val, $new_key) ;
+
+						$text_value = is_array($val) ? 'array('.count($val).')' ."\t" . $text_value : $text_value ;
+
+						if (!!$text_value) {
+							$text.=(strlen($text) ? "\t" : '').$new_key.'='.$text_value;
+						} 
+				}
+			}
+				
+			elseif (strlen($value)>100)
+				$text=substr($value, 0, 97).'...';
 			else
 				$text=$value;
 				
-			return strtr($text, "\t\n\r", '   ');
+			return strtr($text, "\n\r", '   ');
 		}
-	
 	
 		function process_event($event, $userid, $handle, $cookieid, $params)
 		{
 			if (qa_opt('event_logger_to_database')) {
 				$paramstring='';
-				
-				foreach ($params as $key => $value)
-					$paramstring.=(strlen($paramstring) ? "\t" : '').$key.'='.$this->value_to_text($value);
-				
+				foreach ($params as $key => $value){
+					$value_to_text = $this->value_to_text($value , $key) ;
+					$value = is_array($value) ? 'array('.count($value).')' ."\t" . $value_to_text : $value_to_text ;
+					$paramstring.=(strlen($paramstring) ? "\t" : '').$key.'='.$value;
+				}
+
+				$paramstring = strtr($paramstring, "\n\r", '   ');
+
 				qa_db_query_sub(
 					'INSERT INTO ^eventlog (datetime, ipaddress, userid, handle, cookieid, event, params) '.
 					'VALUES (NOW(), $, $, $, #, $, $)',

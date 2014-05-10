@@ -896,3 +896,143 @@ function cs_what_icon($what){
 	else
 		return $icon;
 }
+
+
+/*
+  This function sets and invokes the timeout
+  $time_out => always a positive value in seconds
+ */
+
+function cs_scheduler($function_name, $time_out = NULL, $params = NULL) {
+	 require_once QA_INCLUDE_DIR . 'qa-app-options.php';
+      require_once QA_INCLUDE_DIR . 'qa-db.php';
+      //first check $time_out == 0 , then check timeout and set the current rundate 
+      if (!$function_name) {
+            return;
+      }
+
+	  $time_out_opt_name      = 'cs_' . $function_name . '_time_out';
+	  $last_run_date_opt_name = 'cs_' . $function_name . '_last_run_date';
+
+      if ($time_out === NULL || !$time_out) {
+            //the call is for invoke the timeout function 
+            $time_out_val = qa_opt($time_out_opt_name);
+            if (!!$time_out_val && is_numeric($time_out_val) && $time_out_val > 0) { //check if the $time_out_value for this function is set in the options or not 
+                  $date_format = "d/m/Y H:i:s";
+                  $last_run_date = qa_opt($last_run_date_opt_name);
+                  if (!$last_run_date) {
+                        // if the lastrun_date is not set then set with an default value 
+                        $last_run_date = "01/01/2014 01:00:00";
+                  }
+                  $event_interval = "PT" . $time_out_val . "S";
+                  $last_run_date = new DateTime($last_run_date);
+                  $last_run_date->add(new DateInterval($event_interval));
+                  $probable_run_date = $last_run_date;
+                  //get the current time 
+                  $current_time = new DateTime("now");
+
+                  //if current time is grater than last_rundate + interval then 
+                  if ($current_time > $probable_run_date) {
+                        // call the callback function now 
+                        $value = call_user_func($function_name, $params);
+                        // update the last rundate 
+                        qa_opt($last_run_date_opt_name, $current_time->format($date_format));
+                        return $value;
+                  }
+            } else {
+                  //this executes if the timeout is not set but it is invoked for the first time 
+                  // then set with default timeout 
+                  $time_out = 15 * 60; //15 mins 
+                  qa_opt($time_out_opt_name, $time_out);
+            }
+      } else {
+            //it is to set the timeout 
+            if (!(is_numeric($time_out) && $time_out > 0 )) {
+                  // if the $time_out is not a numeric value or not grater than 0 , then return 
+                  return;
+            }
+            qa_opt($time_out_opt_name, $time_out);
+      }
+
+      //first check the timeout for the function name 
+}
+
+function cs_check_scheduler($function_name, $params = null) {
+      if (!!$params) {
+            cs_scheduler($function_name, NULL, $params);
+      } else {
+            cs_scheduler($function_name);
+      }
+}
+
+function cs_scheduler_set($function_name, $time_out = NULL) {
+      if ($time_out !== NULL && is_numeric($time_out) && $time_out > 0) {
+            cs_scheduler($function_name, $time_out);
+      }
+}
+
+// functions for testing of the cs_scheduler_set
+function call_me() {
+      $current_time = new DateTime("now");
+      $date_format = "d/m/Y H:i:s";
+}
+
+function call_this_method() {
+      // this way we can set the scheduler 
+      // cs_scheduler_set('call_me', 20);
+	  // execute the scheduler 
+      cs_check_scheduler('call_me');
+}
+
+function cs_log($string) {
+     // if (qa_opt('event_logger_to_files')) {
+            //   Open, lock, write, unlock, close (to prevent interference between multiple writes)
+            $directory = CS_CONTROL_DIR.'/logs/';
+
+            if (substr($directory, -1) != '/') $directory.='/';
+
+            $log_file_name = $directory . 'cs-log-' . date('Y\-m\-d') . '.txt';
+
+            $log_file_exists = file_exists($log_file_name);
+
+            $log_file = @fopen($log_file_name, 'a');
+            if (is_resource($log_file) && (!!$log_file_exists)) {
+                  if (flock($log_file, LOCK_EX)) {
+                        fwrite($log_file, $string . PHP_EOL);
+                        flock($log_file, LOCK_UN);
+                  }
+            }
+            @fclose($log_file);
+      //}
+}
+
+function cs_event_log_row_parser( $row ){
+            $result = preg_split('/\t/', $row) ;
+            $param = array();
+            cs_log(print_r($result , true ));
+            $embeded_arrays = array();
+
+            foreach ( $result as $value ) {
+                  $arr_elem = split("=", $value ) ;
+                  $param[$arr_elem[0]] = $arr_elem[1] ;
+                  if (preg_match("/array(.)/", $arr_elem[1])) {
+                       $embeded_arrays[] = $arr_elem[0]; 
+                  }
+            }
+            $unset_keys = array();
+            foreach ($embeded_arrays as $embeded_array) {
+                  $param[$embeded_array] = array() ; 
+                  foreach ($param as $key => $value) {
+                        if (preg_match("/".$embeded_array."_./", $key)) {
+                              $new_key = preg_split("/".$embeded_array."_/", $key )[1] ;
+                              $param[$embeded_array][$new_key] = $value ;
+                              $unset_keys[] = $key ;
+                        }
+                  }
+            }
+            foreach ($unset_keys as $key) {
+                  unset($param[$key]);
+            }
+            cs_log(print_r($param , true ));
+            return $param ; 
+}
