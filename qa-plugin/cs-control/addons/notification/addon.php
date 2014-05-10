@@ -137,23 +137,23 @@ class Cs_Notification_Addon{
 			$upvote = '_up';
 			$downvote = '_down';
 		}
-		$event_point['in_q_vote_up'] = (int)$options['points_per_q_voted'.$upvote]*$multi;
-		$event_point['in_q_vote_down'] = (int)$options['points_per_q_voted'.$downvote]*$multi*(-1);
-		$event_point['in_q_unvote_up'] = (int)$options['points_per_q_voted'.$upvote]*$multi*(-1);
+		$event_point['in_q_vote_up']     = (int)$options['points_per_q_voted'.$upvote]*$multi;
+		$event_point['in_q_vote_down']   = (int)$options['points_per_q_voted'.$downvote]*$multi*(-1);
+		$event_point['in_q_unvote_up']   = (int)$options['points_per_q_voted'.$upvote]*$multi*(-1);
 		$event_point['in_q_unvote_down'] = (int)$options['points_per_q_voted'.$downvote]*$multi;
-		$event_point['a_vote_up'] = (int)$options['points_per_a_voted'.$upvote]*$multi;
-		$event_point['in_a_vote_down'] = (int)$options['points_per_a_voted'.$downvote]*$multi*(-1);
-		$event_point['in_a_unvote_up'] = (int)$options['points_per_a_voted'.$upvote]*$multi*(-1);
+		$event_point['a_vote_up']        = (int)$options['points_per_a_voted'.$upvote]*$multi;
+		$event_point['in_a_vote_down']   = (int)$options['points_per_a_voted'.$downvote]*$multi*(-1);
+		$event_point['in_a_unvote_up']   = (int)$options['points_per_a_voted'.$upvote]*$multi*(-1);
 		$event_point['in_a_unvote_down'] = (int)$options['points_per_a_voted'.$downvote]*$multi;
-		$event_point['in_a_select'] = (int)$options['points_a_selected']*$multi;
-		$event_point['in_a_unselect'] = (int)$options['points_a_selected']*$multi*(-1);
-		$event_point['q_post'] = (int)$options['points_post_q']*$multi;
-		$event_point['a_post'] = (int)$options['points_post_a']*$multi;
-		$event_point['a_select'] = (int)$options['points_select_a']*$multi;
-		$event_point['q_vote_up'] = (int)$options['points_vote_up_q']*$multi;
-		$event_point['q_vote_down'] = (int)$options['points_vote_down_q']*$multi;
-		$event_point['a_vote_up'] = (int)$options['points_vote_up_a']*$multi;
-		$event_point['a_vote_down'] = (int)$options['points_vote_down_a']*$multi;
+		$event_point['in_a_select']      = (int)$options['points_a_selected']*$multi;
+		$event_point['in_a_unselect']    = (int)$options['points_a_selected']*$multi*(-1);
+		$event_point['q_post']           = (int)$options['points_post_q']*$multi;
+		$event_point['a_post']           = (int)$options['points_post_a']*$multi;
+		$event_point['a_select']         = (int)$options['points_select_a']*$multi;
+		$event_point['q_vote_up']        = (int)$options['points_vote_up_q']*$multi;
+		$event_point['q_vote_down']      = (int)$options['points_vote_down_q']*$multi;
+		$event_point['a_vote_up']        = (int)$options['points_vote_up_a']*$multi;
+		$event_point['a_vote_down']      = (int)$options['points_vote_down_a']*$multi;
 		
 		// Get Events
 		$userid = qa_get_logged_in_userid();
@@ -171,8 +171,8 @@ class Cs_Notification_Addon{
 			//
 			$userids = array();
 			foreach ($eventslist as $event){
-				$userids[$event['userid']]=$event['userid'];
-				$userids[$event['effecteduserid']]=$event['effecteduserid'];
+				$userids[$event['userid']]         =$event['userid'];
+				$userids[$event['effecteduserid']] =$event['effecteduserid'];
 			}
 			if (QA_FINAL_EXTERNAL_USERS)
 				$handles=qa_get_public_from_userids($userids);
@@ -183,16 +183,16 @@ class Cs_Notification_Addon{
 			// get post id of questions
 			
 			foreach ($eventslist as $event){
-				$title='';
-				$link='';
+				$title       ='';
+				$link        ='';
 				$vote_status = '';
-				$handle = $handles[$event['userid']];
+				$handle      = $handles[$event['userid']];
 				
-				$datetime = $event['datetime'];
-				$event['date'] = qa_html(qa_time_to_string(qa_opt('db_time')-$datetime));
+				$datetime        = $event['datetime'];
+				$event['date']   = qa_html(qa_time_to_string(qa_opt('db_time')-$datetime));
 				$event['params'] = json_decode($event['params'],true);
-				$id = ' data-id="'.$event['id'].'"';
-				$read = $event['read'] ? ' read' : ' unread';
+				$id              = ' data-id="'.$event['id'].'"';
+				$read            = $event['read'] ? ' read' : ' unread';
 				
 				$url_param = array('ra_notification' => $event['id']);
 				$user_link = qa_path_html('user/'.$handle, $url_param, qa_opt('site_url'));
@@ -221,9 +221,9 @@ class Cs_Notification_Addon{
 						break;
 					case 'a_post': // user's question had been answered
 						$anchor = qa_anchor('A', $event['postid']);
-						$url = qa_path_html(qa_q_request($event['params']['qid'], $event['params']['qtitle']), $url_param, qa_opt('site_url'),null,$anchor);
+						$url    = qa_path_html(qa_q_request($event['params']['qid'], $event['params']['qtitle']), $url_param, qa_opt('site_url'),null,$anchor);
 						
-						$title = cs_truncate($event['params']['qtitle'], 60);
+						$title  = cs_truncate($event['params']['qtitle'], 60);
 						
 						echo '<div class="event-content clearfix'.$read.'"'.$id.'>
 								<div class="avatar"><a href="'.$user_link.'">'.cs_get_avatar($handle, 32, true).'</a></div>

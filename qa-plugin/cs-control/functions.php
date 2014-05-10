@@ -516,7 +516,7 @@ function reset_theme_options(){
 	qa_opt('cs_ads_after_question_content','');
 
 	// footer							
-	qa_opt('cs_footer_copyright', 'Copyright © 2014');
+	qa_opt('cs_footer_copyright', 'Copyright Â© 2014');
 }
 
 function is_featured($postid){

@@ -4,6 +4,7 @@
 
 		function process_event($event, $userid, $handle, $cookieid, $params)
 		{
+ 			// call_this_method();  //here we can call the scheuler 
 
 			$loggeduserid = qa_get_logged_in_userid();
 			$dolog=true;
@@ -13,20 +14,20 @@
 				case 'a_post': // user's question had been answered
 					
 					if ($loggeduserid != $params['parent']['userid']){
-						$effecteduserid = $params['parent']['userid'];
-						$question = $this->GetQuestion($params);
+						$effecteduserid   = $params['parent']['userid'];
+						$question         = $this->GetQuestion($params);
 						$params['qtitle'] = $question['title'];
-						$params['qid'] = $question['postid'];
+						$params['qid']    = $question['postid'];
 						$this->AddEvent($postid,$userid, $effecteduserid, $params, $event);
 						cs_event_hook('a_post', array($postid,$userid, $effecteduserid, $params, $event));
 					}
 					break;
 				case 'c_post': // user's answer had been commented
 					
-					$question = $this->GetQuestion($params);
+					$question         = $this->GetQuestion($params);
 					$params['qtitle'] = $question['title'];
-					$params['qid'] = $question['postid'];
-					$thread = $params['thread'];
+					$params['qid']    = $question['postid'];
+					$thread           = $params['thread'];
 					unset($params['thread']);
 					if ($loggeduserid != $params['parent']['userid']){
 						$effecteduserid = $params['parent']['userid'];
@@ -52,10 +53,10 @@
 					require_once QA_INCLUDE_DIR.'qa-app-posts.php';
 					$post = qa_post_get_full($postid);
 					if ($loggeduserid != $post['userid']){
-						$effecteduserid = $post['userid'];
-						$question = $this->GetQuestion($params);
+						$effecteduserid   = $post['userid'];
+						$question         = $this->GetQuestion($params);
 						$params['qtitle'] = $question['title'];
-						$params['qid'] = $question['postid'];
+						$params['qid']    = $question['postid'];
 						$this->AddEvent($postid,$userid, $effecteduserid, $params, $event);
 						cs_event_hook('q_reshow', array($postid,$userid, $effecteduserid, $params, $event));
 					}
@@ -64,10 +65,10 @@
 					require_once QA_INCLUDE_DIR.'qa-app-posts.php';
 					$post = qa_post_get_full($postid);
 					if ($loggeduserid != $post['userid']){
-						$effecteduserid = $post['userid'];
-						$question = $this->GetQuestion($params);
+						$effecteduserid   = $post['userid'];
+						$question         = $this->GetQuestion($params);
 						$params['qtitle'] = $question['title'];
-						$params['qid'] = $question['postid'];
+						$params['qid']    = $question['postid'];
 						unset($params['oldanswer']);
 						unset($params['content']);
 						unset($params['text']);
@@ -80,10 +81,10 @@
 					$post = qa_post_get_full($postid);
 					if ($loggeduserid != $post['userid']){
 						unset($params['oldcomment']);
-						$effecteduserid = $post['userid'];
-						$question = $this->GetQuestion($params);
+						$effecteduserid   = $post['userid'];
+						$question         = $this->GetQuestion($params);
 						$params['qtitle'] = $question['title'];
-						$params['qid'] = $question['postid'];
+						$params['qid']    = $question['postid'];
 						$this->AddEvent($postid,$userid, $effecteduserid, $params, $event);
 						cs_event_hook('c_reshow', array($postid,$userid, $effecteduserid, $params, $event));
 					}
@@ -103,10 +104,10 @@
 					require_once QA_INCLUDE_DIR.'qa-app-posts.php';
 					$post = qa_post_get_full($postid);
 					if ($loggeduserid != $post['userid']){
-						$effecteduserid = $post['userid'];
-						$question = $this->GetQuestion($params);
+						$effecteduserid   = $post['userid'];
+						$question         = $this->GetQuestion($params);
 						$params['qtitle'] = $question['title'];
-						$params['qid'] = $question['postid'];
+						$params['qid']    = $question['postid'];
 						$this->AddEvent($postid,$userid, $effecteduserid, $params, $event);
 						cs_event_hook('a_select', array($postid,$userid, $effecteduserid, $params, $event));
 					}
@@ -144,17 +145,17 @@
 					require_once QA_INCLUDE_DIR.'qa-app-posts.php';
 					$post = qa_post_get_full($postid);
 					if ($loggeduserid != $post['userid']){
-						$effecteduserid = $post['userid'];
-						$question = $this->GetQuestion($params);
+						$effecteduserid   = $post['userid'];
+						$question         = $this->GetQuestion($params);
 						$params['qtitle'] = $question['title'];
-						$params['qid'] = $question['postid'];
+						$params['qid']    = $question['postid'];
 						$this->AddEvent($postid,$userid, $effecteduserid, $params, $event);
 						cs_event_hook($event, array($postid,$userid, $effecteduserid, $params, $event));
 					}
 					break;					
 				case 'q_favorite':
 					$this->UpdateVote('q_favorite', $postid,$userid, $params, 'favorite', 1);
-					cs_event_hook($event, array($postid,$userid, $effecteduserid, $params, $event));
+					// cs_event_hook($event, array($postid,$userid, $effecteduserid, $params, $event));
 					$dolog=false;					
 					break;
 				/* case 'q_unfavorite':
@@ -187,8 +188,8 @@
 					cs_event_hook($event, array($postid,$userid, $effecteduserid, $params, $event));
 					break;
 				case 'u_wall_post':
-					$effecteduserid = $params['userid'];
-					$params['message']=$params['content'];
+					$effecteduserid    = $params['userid'];
+					$params['message'] =$params['content'];
 					$this->AddEvent($postid,$userid, $effecteduserid, $params, $event);
 					cs_event_hook($event, array($postid,$userid, $effecteduserid, $params, $event));
 					break;
@@ -255,12 +256,12 @@
 			if (count($posts) == 0 ){ // Add New Event
 				
 				if(($eventname!='q_vote_nil') && ($eventname!='a_vote_nil') && ($eventname!='unfavorite')){
-					$question = $this->GetQuestion($params);
-					$params['qtitle'] = $question['title'];
-					$params['qid'] = $question['postid'];
-					$params['newvotes']=$value;
+					$question           = $this->GetQuestion($params);
+					$params['qtitle']   = $question['title'];
+					$params['qid']      = $question['postid'];
+					$params['newvotes'] = $value;
 					
-					$params[$eventname]=1;
+					$params[$eventname] =1;
 					
 					$this->AddEvent($postid,$userid, $effecteduserid, $params, $newevent);
 					cs_event_hook($event, array($postid,$userid, $effecteduserid, $params, $event));
