@@ -12,6 +12,12 @@
 						'type' => 'number',
 						'tags' => 'name="count"',
 						'value' => '10',
+					),
+					'show_avatar' => array(
+						'label' => 'Show avatar',
+						'type' => 'checkbox',
+						'tags' => 'name="show_avatar"',
+						'value' => '1',
 					)
 				),
 
@@ -84,15 +90,10 @@
 					$timeCode = qa_when_to_html(  $p['created']  ,7);
 					$when = @$timeCode['prefix'] . @$timeCode['data'] . @$timeCode['suffix'];
 					
-					$p['raw']['userid'] = $p['userid'];
-					$p['raw']['flags'] = $p['flags'];
-					$p['raw']['email'] = $p['email'];
-					$p['raw']['handle'] = $p['handle'];
-					$p['raw']['avatarblobid'] = $p['avatarblobid'];
-					$p['raw']['avatarwidth'] = $p['avatarwidth'];
-					$p['raw']['avatarheight'] = $p['avatarheight'];
+					$themeobject->output('<li>');
 					
-					$themeobject->output('<li>'.cs_get_post_avatar($p, 30, true));
+					if($widget_opt['show_avatar'])
+						$themeobject->output(cs_get_post_avatar($p, 30, true));
 					
 					$themeobject->output('<div class="post-content">');
 					$themeobject->output('<a class="title" href="'.qa_q_path_html($p['postid'], $p['title']).'">'.qa_html($p['title']).'</a>');
