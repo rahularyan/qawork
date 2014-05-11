@@ -683,8 +683,8 @@ $(document).ready(function(){
 
 	
 	//uncomment this code if you want to use default editor
-/* 	if ((typeof qa_wysiwyg_editor_config == 'object') && $('body').hasClass('qa-template-question'))
-		qa_ckeditor_a_content=CKEDITOR.replace('a_content', window.qa_wysiwyg_editor_config); */
+	//if ((typeof qa_wysiwyg_editor_config == 'object') && $('body').hasClass('qa-template-question'))
+		//qa_ckeditor_a_content=CKEDITOR.replace('a_content', window.qa_wysiwyg_editor_config);
 	//$('.float-nav').css('min-height', $(window).height());
 	//$('#left-sidebar').css('min-height', $(window).height());
 	

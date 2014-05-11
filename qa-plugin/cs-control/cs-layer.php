@@ -76,7 +76,7 @@
 			
 			$this->output('<script> ajax_url = "' . CS_CONTROL_URL . '/ajax.php";</script>');
 		
-		
+			qa_html_theme_base::head_script();
 			$this->output('<script> theme_url = "' . Q_THEME_URL . '";</script>');
 		
 			if (qa_opt('cs_enable_gzip')){ //Gzip
