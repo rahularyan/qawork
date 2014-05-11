@@ -355,7 +355,6 @@ function cs_save_widget($elm){
 		
 		widget[order]['locations'] = locations;
 		widget[order]['options'] = options;
-		console.log(options);
 		
 	});
 
