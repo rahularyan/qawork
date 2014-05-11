@@ -766,7 +766,16 @@ class qa_html_theme extends qa_html_theme_base
 			$this->output('<h2 class="question-title">');
 			$this->output( htmlspecialchars ($q_view['raw']['title']));				
 			$this->output('</h2>');
-			$this->output('<div class="big-status">'.cs_post_status($q_view, true).'</div>');
+			$this->output('<div class="question-metas">
+				'.(is_featured($q_view['raw']['postid']) ? '<span class="featured-sticker icon-star ra-tip" title="'.qa_lang_html('cleanstrap/question_is_featured').'">' . qa_lang_html('cleanstrap/featured') . '</span>' : '').'
+				'.cs_post_status($q_view).'				
+				<span class="meta-icon icon-answer"></span>
+				<span class="q-view-a-count">'.qa_lang_sub('cleanstrap/x_answers', $q_view['raw']['acount']).' </span>
+				<span class="icon-eye meta-icon"></span>
+				<span class="q-view-a-count">' . qa_lang_sub('cleanstrap/x_answers', $q_view['raw']['views']) . ' </span>
+				<span class="icon-folder meta-icon"></span>
+				'.qa_lang_html('cleanstrap/posted_under').' <a class="cat-in" href="' . cs_cat_path($q_view['raw']['categorybackpath']) . '">' . $q_view['raw']['categoryname'] . '</a>
+				</div>');
 			
 		$this->output('</header>');
 		
@@ -789,16 +798,6 @@ class qa_html_theme extends qa_html_theme_base
 		$this->output('</div>');
 		
 		$this->output('<div class="question-side">');
-	
-			$this->output('<ul class="question-meta">');				
-				
-				if(is_featured($q_view['raw']['postid']))
-					$this->output('<li><span class="featured-sticker icon-star">' . qa_lang_html('cleanstrap/featured') . '</span>' . qa_lang_html('cleanstrap/question_is_featured') . '</li>');
-					
-				$this->output('<li><span class="meta-icon icon-answer"></span><span class="q-view-a-count">'.$q_view['raw']['acount'].' </span>'.qa_lang_html('cleanstrap/answers_received').'</li>');
-				$this->output('<li><span class="icon-eye meta-icon"></span><span class="q-view-a-count">' . $q_view['raw']['views'] . ' </span>' . qa_lang_html('cleanstrap/times_viewed') . '</li>');
-				$this->output('<li><span class="icon-folder meta-icon"></span>'.qa_lang_html('cleanstrap/posted_under').' <a class="cat-in" href="' . cs_cat_path($q_view['raw']['categorybackpath']) . '">' . $q_view['raw']['categoryname'] . '</a></li>');					
-			$this->output('</ul>');
 			
 			$this->output('<div class="qa-post-meta">');
 				if (!empty($q_view['q_tags'])) {
