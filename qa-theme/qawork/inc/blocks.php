@@ -96,6 +96,13 @@ class qa_html_theme extends qa_html_theme_base
 		if($this->request=='cs-install')
 			$this->install_page();
 		else{
+		
+			if($this->cs_position_active('Home Slide') && cs_is_home()){
+				$this->output('<div class="container"><div class="home-slider-outer">');
+				$this->cs_position('Home Slide');
+				$this->output('</div></div>');
+			}
+			
 			$this->output('<div class="container"><div class="lr-table"><div class="left-content">');
 			$this->cs_page_title();
 
@@ -517,7 +524,10 @@ class qa_html_theme extends qa_html_theme_base
 		
 		switch($this->template){
 			case 'qa':
-				$this->home($content);				
+				if(cs_is_home())
+					$this->home($content);	
+				else
+					$this->default_template($content);
 				break;
 			
 			case 'user':
@@ -630,60 +640,34 @@ class qa_html_theme extends qa_html_theme_base
     function home($content)
     {
 		if (cs_hook_exist(__FUNCTION__)) {$args=func_get_args(); return cs_event_hook(__FUNCTION__, $args); }
-		if($this->cs_position_active('Home Slide')){
-			$this->output('<div class="container"><div class="home-slider-outer">');
-			$this->cs_position('Home Slide');
-			$this->output('</div></div>');
-		}
+		
 			
-        $this->output('<div class="home-left-inner container">');        
-			$this->output('<div class="row home-pos-one">');
-				$this->output('<div class="col-md-8 home-left">');
-				
-					$this->output('<div class="row">');
-					
-						$this->output('<div class="col-sm-6">');
-						$this->cs_position('Home 1 Left');
-						$this->output('</div>');
-						
-						$this->output('<div class="col-sm-6">');
-						$this->cs_position('Home 1 Center');
-						$this->output('</div>');
-						
-					$this->output('</div>');
-					
-					$this->output('<div class="row">');
-						$this->output('<ul class="nav nav-tabs home-sub-tabs">
-							<li class="active"><a href="#home-tab-recent" data-toggle="tab">'.qa_lang_html('cleanstrap/recent').'</a></li>
-							<li><a href="#home-tab-activities" data-toggle="tab">'.qa_lang_html('cleanstrap/activities').'</a></li>
-							<li><a href="#home-tab-content" data-toggle="tab">'.qa_lang_html('cleanstrap/newest').'</a></li>						  
-						</ul>
-						<div class="tab-content">');
-						
-						//home recent tab
-						$this->output('<div class="tab-pane active" id="home-tab-recent">');
-						$this->cs_position('Home Recent Tab');
-						$this->output('</div>');
-						
-						//home activities tab
-						$this->output('<div class="tab-pane" id="home-tab-activities">');
-						$this->cs_position('Home Activities Tab');
-						$this->output('</div>');
-						
-						//home main active tabs
-						$this->output('<div class="tab-pane" id="home-tab-content">');
-						$this->main_parts($content);
-						$this->output('</div>');
-						
-					$this->output('</div></div>');
-
-				$this->output('</div>');
-				
-				$this->output('<div class="col-md-4 home-right">');
-				$this->cs_position('Home Right');
-				$this->output('</div>');
-				
+        $this->output('<div class="home-left-inner">'); 
+			
+			$this->output('<ul class="nav nav-tabs home-sub-tabs">
+				<li class="active"><a href="#home-tab-recent" data-toggle="tab">'.qa_lang_html('cleanstrap/recent').'</a></li>
+				<li><a href="#home-tab-activities" data-toggle="tab">'.qa_lang_html('cleanstrap/activities').'</a></li>
+				<li><a href="#home-tab-content" data-toggle="tab">'.qa_lang_html('cleanstrap/newest').'</a></li>						  
+			</ul>
+			<div class="tab-content">');
+			
+			//home recent tab
+			$this->output('<div class="tab-pane active" id="home-tab-recent">');
+			$this->cs_position('Home Recent Tab');
 			$this->output('</div>');
+			
+			//home activities tab
+			$this->output('<div class="tab-pane" id="home-tab-activities">');
+			$this->cs_position('Home Activities Tab');
+			$this->output('</div>');
+			
+			//home main active tabs
+			$this->output('<div class="tab-pane" id="home-tab-content">');
+			$this->main_parts($content);
+			$this->output('</div>');
+			
+		$this->output('</div>');
+
         $this->output('</div>');
     }
     
@@ -700,16 +684,12 @@ class qa_html_theme extends qa_html_theme_base
 			$about  = cs_name($handle);
 		}
 		
-
 		$this->content['user'] = cs_user_data($handle);
 		
-		$this->output('<div class="lr-table"><div class="left-content">');
-			$this->profile_page_head($handle);
-			$this->cs_user_nav($handle);
-			$this->profile_page($handle);	
-			$this->output('</div>');		
-			$this->sidepanel();	
-		$this->output('</div>');
+		$this->profile_page_head($handle);
+		$this->cs_user_nav($handle);
+		$this->profile_page($handle);	
+			
 	}
 	function profile_page_head($handle){
 		if (cs_hook_exist(__FUNCTION__)) {$args=func_get_args(); return cs_event_hook(__FUNCTION__, $args); }
@@ -775,12 +755,7 @@ class qa_html_theme extends qa_html_theme_base
     {
 		if (cs_hook_exist(__FUNCTION__)) {$args=func_get_args(); return cs_event_hook(__FUNCTION__, $args); }
 		$q_view = $content['q_view'];
-		
-		if (isset($this->content['error']))
-				$this->error(@$this->content['error']);
-		$this->cs_position('Content Top');	
-		
-		$this->output('<div class="container">');
+
 		
 		$this->output('<header class="question-head">');
 			
@@ -837,9 +812,7 @@ class qa_html_theme extends qa_html_theme_base
 		
 		$this->output('</div>');
 		$this->output('</div>');
-		$this->output('</div>');
-        $this->output('</div>');
-		$this->output('</div>');
+
     }
     
     function q_list_item($q_item)
