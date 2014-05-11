@@ -2308,9 +2308,11 @@ class qa_html_theme extends qa_html_theme_base
 			<div class="error-404">
 				<span class="icon-broken"></span>
 				<div class="message">
-					<h1>Oops, page not found</h1>
-					<p class="desc">You have mistyped the URL, check spelling.</p>
-				</div>
+					<h1>'.qa_lang_html('cleanstrap/oopps_page_not_found').'</h1>
+					<p class="desc">'.qa_lang_html('cleanstrap/mistyped_url').'</p>
+					<div class="suggestion">');
+					$this->nav('main');
+				$this->output('</div></div>
 			</div>
 		');
 	}
