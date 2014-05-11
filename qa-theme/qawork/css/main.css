@@ -1040,15 +1040,7 @@ a.feed-link {
 }
 
 .post-status {
-    -moz-border-radius: 2px;
-    -webkit-border-radius: 2px;
-    border-radius: 2px;
-    color: #FFF;
-    font-family: arial;
-    font-size: 14px;
-    margin-right: 10px;
-    padding: 1px 8px;
-    vertical-align: middle;
+    vertical-align: text-top;
 }
 
 .post-status.closed {
@@ -1309,7 +1301,7 @@ a.feed-link {
     margin-right: 0;
     padding: 0;
 }
-.big-status {
+.question-metas {
     margin-bottom: 25px;
     margin-top: 5px;
 }
@@ -1359,25 +1351,22 @@ a.feed-link {
 }
 
 .featured-sticker {
-    -moz-border-radius: 2px;
-    -webkit-border-radius: 2px;
     border-radius: 2px;
-    color: #FFF;
+    color: #FFFFFF;
     font-size: 11px;
     line-height: 18px;
-    margin-right: 10px;
-    padding: 1px 7px;
+    margin-right: 5px;
+    padding: 3px 7px;
+    vertical-align: text-top;
 }
 
 .post-status {
-    -moz-border-radius: 2px;
-    -webkit-border-radius: 2px;
     border-radius: 2px;
-    color: #FFF;
+    color: #FFFFFF;
     font-size: 11px;
     line-height: 18px;
     margin-right: 10px;
-    padding: 1px 7px;
+    padding: 3px 7px;
 }
 
 .question-tags {
@@ -1438,13 +1427,11 @@ a.feed-link {
 }
 
 .meta-icon {
-    background: none repeat scroll 0 0 #F9F9F9;
     border-radius: 4px;
-    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1) inset;
     display: inline-block;
-    font-size: 16px;
-    margin-right: 15px;
-    padding: 0 6px;
+    font-size: 14px;
+    margin-left: 10px;
+    padding: 0 1px;
 }
 .meta-icon:before{
 	margin-right:2px;

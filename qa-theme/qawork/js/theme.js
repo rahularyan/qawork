@@ -1,5 +1,8 @@
-function cs_animate_button(elm){
-	$(elm).addClass('.btn-loading.active');
+function cs_animate_button(elm, hide = false){
+	if(hide)
+		$(elm).removeClass('.btn-loading.active');
+	else
+		$(elm).addClass('.btn-loading.active');
 }
 function cs_remove_animate_button(elm){
 	$(elm).removeClass('.btn-loading.active');
@@ -8,7 +11,7 @@ function cs_remove_animate_button(elm){
 function cs_question_meta(){
 	$('#set_featured').click(function(e){
 		e.preventDefault();
-		qa_show_waiting_after(this, false);
+		cs_animate_button(this);
 		$.ajax({
 			data: {
 				cs_ajax: true,
@@ -18,7 +21,7 @@ function cs_question_meta(){
 			dataType: 'html',
 			context:this,
 			success: function (response) {				
-				qa_hide_waiting(this);
+				cs_animate_button(this, true);
 				location.reload();
 			},
 		});		
@@ -689,7 +692,7 @@ $(document).ready(function(){
 		$(this).next().slideToggle(200);
 	});
 
-	$('.voting a, .fav-btn, #focus_doanswer ').tooltip({placement:'top'});
+	$('.voting a, .fav-btn, #focus_doanswer, .ra-tip ').tooltip({placement:'top'});
 	
 	$(window).resize(function(){
 		$('.left-sidebar').removeAttr('style');
