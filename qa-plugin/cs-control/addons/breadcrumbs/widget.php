@@ -93,7 +93,7 @@ class cs_breadcrumbs_widget {
                                     if (is_array($category_details) && !empty($category_details)) {
 											$backpath = $category_details['backpath'];
 											$text     = $category_details['title'];
-											$url      = qa_path(implode('/', array_reverse(explode('/', $backpath))));
+											$url      = cs_cat_path($backpath);
                                           $data = array(
 												'type' => 'cat',
 												'text' => $text,
