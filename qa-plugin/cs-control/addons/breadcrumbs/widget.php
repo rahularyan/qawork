@@ -10,17 +10,17 @@ class cs_breadcrumbs_widget {
 						'label' => 'Show the home link ',
 						'type'  => 'select',
 						'tags'  => 'name="cs_breadcrumb_show_home"',
-						'value' => 'Yes',
+						'value' => '1',
 						'options' => array(
-							'yes'  => 'Yes',
-							'no'  => 'No . I dont need it',
+							'1'  => qa_lang_html('cleanstrap/yes'),
+							'0'  => qa_lang_html('cleanstrap/no'),
 						)
                     ),
                     'cs_breadcrumb_trunc_len' => array(
-                                    'label' => 'Truncate title in breadcrumb if No category exists',
-                                    'type'  => 'text',
-                                    'tags'  => 'name="cs_breadcrumb_trunc_len"',
-                                    'value' => '0',
+						'label' => 'Truncate title in breadcrumb if No category exists',
+						'type'  => 'text',
+						'tags'  => 'name="cs_breadcrumb_trunc_len"',
+						'value' => '0',
                     ),
                 ),
             );
@@ -71,20 +71,12 @@ class cs_breadcrumbs_widget {
             $widget_opt = @$themeobject->current_widget['param']['options'];
             // breadcrumb start
             $themeobject->output('<ul class="breadcrumb clearfix">');
-            if ($widget_opt['cs_breadcrumb_show_home'] === "yes") {
+            if ($widget_opt['cs_breadcrumb_show_home']) {
                   $themeobject->output($this->breadcrumb_part(array('type' => 'home')));
             }
             $themeobject->output($this->create_breadcrumbs($this->navigation(), $qa_content , $widget_opt) );
             $themeobject->output('</ul>');
-            // breadcrumb end 
-            $themeobject->output('
-                  <script>
-                  (function($) {
-                        $("ul.breadcrumb > li:last-child").addClass("active") ;
-                  })(jQuery);
-                  </script>
-                  ') ;
-      }
+       }
 
       function create_breadcrumbs($navs, $qa_content , $widget_opt ) {
             $br = "";
