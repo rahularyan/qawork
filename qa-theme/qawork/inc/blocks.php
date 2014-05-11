@@ -778,13 +778,33 @@ class qa_html_theme extends qa_html_theme_base
 		$this->cs_position('Content Top');	
 		
 		$this->output('<div class="container">');
-		$this->output('<h2 class="question-title">');
-		$this->output( htmlspecialchars ($q_view['raw']['title']));				
-		$this->output('</h2>');
-		$this->output('<div class="big-status">'.cs_post_status($q_view, true).'</div>');
+		
+		$this->output('<header class="question-head">');
+			
+			$this->output('<div class="head-butns"><a id="focus_doanswer" class="btn btn-small btn-success icon-answer'. (!isset($this->content['a_form']) ? ' disabled' : '') .'" title="'.(!isset($this->content['a_form']) ? qa_lang_html('cleanstrap/you_cannot_answer') : qa_lang_html('cleanstrap/answer_this_question')).'" href="#" >'.qa_lang_html('cleanstrap/answer').'</a>');
+				$this->favorite();
+			$this->output('</div>');
+			
+			$this->output('<h2 class="question-title">');
+			$this->output( htmlspecialchars ($q_view['raw']['title']));				
+			$this->output('</h2>');
+			$this->output('<div class="big-status">'.cs_post_status($q_view, true).'</div>');
+			
+		$this->output('</header>');
 		
 		$this->output('<div class="lr-table"><div class="left-content question-main">');
-			$this->main_parts($content); 
+			$this->output('<ul class="nav nav-tabs question-tabs">
+			  <li class="active"><a href="#discussion" data-toggle="tab" class="icon-flow-children">'.qa_lang_html('cleanstrap/discussion').'</a></li>
+			  <li><a href="#share" data-toggle="tab" class="icon-world load-social-share">'.qa_lang_html('cleanstrap/share').'</a></li>
+			</ul>');
+			$this->output('<div class="tab-content question-tab-content">');
+				$this->output('<div class="tab-pane active" id="discussion">');
+					$this->main_parts($content); 
+				$this->output('</div>');
+				$this->output('<div class="tab-pane" id="share">');
+					$this->q_social_share($q_view);					
+				$this->output('</div>');
+			$this->output('</div>');
 			
 			$this->cs_position('Content Bottom');
 						
@@ -793,9 +813,6 @@ class qa_html_theme extends qa_html_theme_base
 		$this->output('<div class="question-side">');
 	
 			$this->output('<ul class="question-meta">');				
-				$this->output('<li class="big-btns clearfix"><a id="focus_doanswer" class="big-answer-btn icon-answer'. (!isset($this->content['a_form']) ? ' disabled' : '') .'" title="'.(!isset($this->content['a_form']) ? qa_lang_html('cleanstrap/you_cannot_answer') : qa_lang_html('cleanstrap/answer_this_question')).'" href="#" >'.qa_lang_html('cleanstrap/answer').'</a>');
-				$this->favorite();
-				$this->output('</li>');
 				
 				if(is_featured($q_view['raw']['postid']))
 					$this->output('<li><span class="featured-sticker icon-star">' . qa_lang_html('cleanstrap/featured') . '</span>' . qa_lang_html('cleanstrap/question_is_featured') . '</li>');
@@ -1649,7 +1666,7 @@ class qa_html_theme extends qa_html_theme_base
 		
 		$icon_add	= 'icon-heart';
 		$icon_remove	= 'icon-heart';
-		$title = isset($favorite['favorite_add_tags']) ? qa_lang('cleanstrap/favourite') : qa_lang('cleanstrap/unfavourite');
+		$title = '';
 		if($type == 'U' || $this->template == 'user'){
 			$icon_add	= 'icon-user-add';
 			$icon_remove	= 'icon-user-delete';
@@ -1672,7 +1689,7 @@ class qa_html_theme extends qa_html_theme_base
             $data      = str_replace('name', 'data-id', @$tags);
             $data      = str_replace('onclick="return qa_favorite_click(this);"', '', @$data);
             
-            $this->output('<a href="#" ' . @$favorite['favorite_tags'] . ' ' . $data . ' data-code="' . $code_icon[1] . '" class="fav-btn ' . $code_icon[0] . '"><span>' . @$code_icon[2] . '</span>'.$title.'</a>');
+            $this->output('<a href="#" ' . @$favorite['favorite_tags'] . ' ' . $data . ' data-code="' . $code_icon[1] . '" class="btn fav-btn ' . $code_icon[0] . '">'.$title.'</a>');
         }
     }
     
@@ -1981,10 +1998,10 @@ class qa_html_theme extends qa_html_theme_base
         $this->output('<div class="qa-a-selection">');
         $code = qa_get_form_security_code('buttons-'.$post['raw']['postid']);
         if (isset($post['select_tags']))
-			$this->output('<a class="icon-input-checked btn" href="#" onclick="return cs_select_answer('.$post['raw']['postid'].', '.$post['raw']['parentid'].', this, \''.$code.'\', \'a'.$post['raw']['postid'].'_doselect\');" title="Click to select as best answer">Select answer</a>');
+			$this->output('<a class="icon-tick btn" href="#" onclick="return cs_select_answer('.$post['raw']['postid'].', '.$post['raw']['parentid'].', this, \''.$code.'\', \'a'.$post['raw']['postid'].'_doselect\');" title="Click to select as best answer">Select answer</a>');
            //$this->cs_hover_button($post, 'select_tags', qa_lang('cleanstrap/select_answer'), 'icon-input-checked qa-a-select');
         elseif (isset($post['unselect_tags']))
-			$this->output('<a class="icon-input-checked btn btn-unselect" href="#" onclick="return cs_select_answer('.$post['raw']['postid'].', '.$post['raw']['parentid'].', this, \''.$code.'\', \'a'.$post['raw']['postid'].'_dounselect\');" title="Click to unselect this answer">Unselect</a>');
+			$this->output('<a class="icon-tick btn btn-success" href="#" onclick="return cs_select_answer('.$post['raw']['postid'].', '.$post['raw']['parentid'].', this, \''.$code.'\', \'a'.$post['raw']['postid'].'_dounselect\');" title="Click to unselect this answer">Unselect</a>');
             //$this->cs_hover_button($post, 'unselect_tags', @$post['select_text'], 'icon-tick qa-a-unselect');
         elseif ($post['selected'])
             $this->output('<div class="qa-a-selected icon-tick">' . @$post['select_text'] . '</div>');
@@ -2265,6 +2282,21 @@ class qa_html_theme extends qa_html_theme_base
 			$this->output('</div>');
 			$this->output('</div> <!-- END qa-c-list -->', '');
 		}
+	}
+	function q_social_share($post){
+		$this->output('
+			<h3 class="share-title">'. qa_lang_html('cleanstrap/share_this_question') .'</h3>
+			<!-- AddThis Button BEGIN -->
+			<div class="addthis_toolbox addthis_default_style">
+			<a class="addthis_button_facebook_like" fb:like:layout="button_count"></a>
+			<a class="addthis_button_facebook_like" fb:like:layout="button_count" fb:like:action="recommend"></a> 
+			<a class="addthis_button_tweet"></a>
+			<a class="addthis_button_pinterest_pinit" pi:pinit:layout="horizontal"  pi:pinit:media="http://www.addthis.com/cms-content/images/features/pinterest-lg.png"></a>
+			<a class="addthis_button_google_plusone" g:plusone:size="medium"></a>
+			<a class="addthis_counter addthis_pill_style"></a>
+			</div>
+			<!-- AddThis Button END -->
+		');
 	}
     
 }
