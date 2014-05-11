@@ -10,8 +10,6 @@
 			$tablename=qa_db_add_table_prefix('eventlog');
 			$quries = array();	
 			if (!in_array($tablename, $tableslc)) {
-				require_once QA_INCLUDE_DIR.'qa-app-users.php';
-				require_once QA_INCLUDE_DIR.'qa-db-maxima.php';
 
 				$quries[] = 'CREATE TABLE ^eventlog ('.
 					'datetime DATETIME NOT NULL,'.

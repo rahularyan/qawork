@@ -1042,3 +1042,11 @@ function cs_event_log_reader()
 {     
       return qa_db_read_one_value(qa_db_query_sub("SELECT ^eventlog.params from  ^eventlog WHERE ^eventlog.datetime = $ ", '2014-05-10 22:55:08'), true);
 }
+
+function cs_is_internal_link($link){
+	$link_host = parse_url($link, PHP_URL_HOST);
+	if( $link_host == $_SERVER['HTTP_HOST'])
+		return true;
+		
+	return false;
+}
