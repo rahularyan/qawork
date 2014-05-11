@@ -109,21 +109,20 @@ class cs_breadcrumbs_widget {
                                   'url' => qa_opt('site_url')."questions",
                                   'text' => "questions",
                               ));
-
-                              $q_title = $qa_content['q_view']['raw']['title'] ;
-                              $q_id = $qa_content['q_view']['raw']['postid'] ; 
-                              $trunc_len = $widget_opt['cs_breadcrumb_trunc_len'];
-                              if ($trunc_len <= 0 ) {
-                                   //defaults to the length of the 
-                                   $trunc_len = strlen($q_title) ;
-                              }
-                              $br .=$this->breadcrumb_part(array(
-                                  'type' => 'questions',
-                                  'url' => qa_q_path($q_id, $q_title, true) ,
-                                  'text' => cs_truncate($q_title, $trunc_len ),
-                              ));
-                               
                   }
+
+                  $q_title = $qa_content['q_view']['raw']['title'] ;
+                  $q_id = $qa_content['q_view']['raw']['postid'] ; 
+                  $trunc_len = $widget_opt['cs_breadcrumb_trunc_len'];
+                  if ($trunc_len <= 0 ) {
+                       //defaults to the length of the title 
+                       $trunc_len = strlen($q_title) ;
+                  }
+                  $br .=$this->breadcrumb_part(array(
+                      'type' => 'questions',
+                      'url' => qa_q_path($q_id, $q_title, true) ,
+                      'text' => cs_truncate($q_title, $trunc_len ),
+                  ));
             } else {  //means non questions page 
                   if (count($navs) > 0) {
                         $link = "";
