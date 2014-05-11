@@ -345,7 +345,12 @@ function cs_save_widget($elm){
 			locations[$(this).attr('name')] = $(this).is(':checked') ? true : false;
 		});
 		$(this).find('.widget-option input, .widget-option select, .widget-option textarea').each(function(){
-			options[$(this).attr('name')] = encodeURIComponent($(this).val());
+			if($(this).is(':checkbox')) 
+				var value = $(this).is(':checked') ? 1 : 0;
+			else
+				var value = $(this).val();
+				
+			options[$(this).attr('name')] = encodeURIComponent(value);
 		});
 		
 		widget[order]['locations'] = locations;
