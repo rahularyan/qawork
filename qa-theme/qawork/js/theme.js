@@ -581,7 +581,7 @@ function cs_select_answer(answerid, questionid, target, code, name){
 								
 }
 function cs_toggle_comment(){
-	$('.toggle-comment').click(function(){	
+	$('body').delegate('.toggle-comment', 'click', function(){	
 		var c = $(this).parent().find('.qa-c-wrap');
 		if($(this).is('.open')){
 			$(this).removeClass('open');
@@ -599,6 +599,7 @@ function cs_check_site_status_size(){
 jQuery.fn.redraw = function() {
     return this.hide(0, function(){jQuery(this).show()});
 }; 
+
 $(document).ready(function(){
 
 	var win_height = $(window).height();
@@ -670,23 +671,8 @@ $(document).ready(function(){
 		$('.search-query').focus();
 	});
 	
-/* 	cs_ajax_sub_menu('.qa-nav-sub-recent a');
-	cs_ajax_sub_menu('.qa-nav-sub-hot a');
-	cs_ajax_sub_menu('.qa-nav-sub-votes a');
-	cs_ajax_sub_menu('.qa-nav-sub-answers a');
-	cs_ajax_sub_menu('.qa-nav-sub-views a');
-	cs_ajax_sub_menu('.qa-nav-sub-by-answers a');
-	cs_ajax_sub_menu('.qa-nav-sub-by-selected a');
-	cs_ajax_sub_menu('.qa-nav-sub-by-upvotes a'); */
-	
 	cs_sparkline('.sparkline');
-	
-	//cs_load_items();
-	
-	/* $(window).resize(function(){
-		cs_ajax_item_resize();
-		cs_float_left()
-	}); */
+
 	
 	//uncomment this code if you want to use default editor
 /* 	if ((typeof qa_wysiwyg_editor_config == 'object') && $('body').hasClass('qa-template-question'))
@@ -740,6 +726,19 @@ $(document).ready(function(){
 	// ADD SLIDEUP ANIMATION TO DROPDOWN //
 	$('.dropdown').on('hide.bs.dropdown', function(e){
 		$(this).find('.dropdown-menu').first().stop(true, true).slideUp();
+	});
+	
+	$('.load-social-share').click(function(){
+		if(!$(this).is('loaded')){
+			if (typeof (IN) != 'undefined') {
+				var addthis_config = {"data_track_addressbar":true};
+			} else {
+				$.getScript("//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-503f74fb52ed2b3c");
+				var addthis_config = {"data_track_addressbar":true};
+			}
+			
+			$(this).addClass('loaded');
+		}
 	});
 	
 });

@@ -153,6 +153,10 @@
 		'write' => 'Write',
 		'help' => 'Help',
 		'this_question_is_closed' => 'This question is closed for new answers and comments.',
+		'discussion' => 'Discussion',
+		'share' => 'Share',
+		'participants' => 'Participants',
+		'share_this_question' => 'Share this question',
 	);
 	$lang_hook = cs_event_hook('language', array());
 	return array_merge($lang_hook , $lang);

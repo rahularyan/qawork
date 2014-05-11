@@ -2,7 +2,7 @@ body{
     background: none repeat scroll 0 0 #fff;
     color: #777777;
     font-size: 14px;
-    line-height: 1.8;
+    line-height: 1.7;
 }
 a:hover {
     text-decoration: none;
@@ -73,23 +73,52 @@ textarea{
     clear: both;
 }
 
+/* Buttons */
 .btn, .qa-form-light-button, .qa-form-tall-button, .qa-form-wide-button, .qa-a-select-button, .qa-a-unselect-button {    
-    border: 1px solid rgba(0, 0, 0, 0.1);
-    border-radius: 2px;
-    color: #666666;
-    padding: 3px 12px;
+    background-color: #EEEEEE;
+    background-image: linear-gradient(#FCFCFC, #EEEEEE);
+    background-repeat: repeat-x;
+    border: 1px solid #D5D5D5;
+    border-radius: 3px;
+    color: #333333;
+    cursor: pointer;
+    display: inline-block;
+    font-size: 13px;
+    font-weight: bold;
+    padding: 4px 12px;
+    position: relative;
+    text-shadow: 0 1px 0 rgba(255, 255, 255, 0.9);
+    text-transform: capitalize;
+    vertical-align: middle;
+    white-space: nowrap;
 }
+.btn:hover, .qa-form-light-button:hover, .qa-form-tall-button:hover, .qa-form-wide-button:hover, .qa-a-select-button:hover, .qa-a-unselect-button:hover, .post-button .btn:hover{
+	background: linear-gradient(#FFFFFF, #EAEAEA) repeat scroll 0 0 #FDFDFF;
+}
+.btn.icon-answer:before{
+	margin-right:5px;
+}
+
 .btn:hover, .qa-form-light-button:hover, .qa-form-tall-button:hover, .qa-form-wide-button:hover, .qa-a-select-button:hover, .qa-a-unselect-button:hover{
 	color: #666666;
+}
+.btn-success, .qa-form-tall-button-answer{
+    background-color: #60B044;
+    background-image: linear-gradient(#8ADD6D, #60B044);
+    background-repeat: repeat-x;
+    border-color: #5CA941;
+	color:#fff;
+	text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
+}
+.btn-success:hover, .qa-form-tall-button-answer:hover{
+    background-image: linear-gradient(#92E575, #69B94D);
+	color:#fff;
 }
 .qa-c-item-buttons .qa-form-light-button {
     font-size: 11px;
     padding: 1px 7px;
 }
 
-.btn{
-	border-radius: 2px;
-}
 .no-overflow {
     overflow: hidden;
 }
@@ -250,14 +279,8 @@ textarea{
 }
 
 #nav-ask-btn {
-    border: medium none;
-    border-radius: 2px;
     color: #FFFFFF;
     float: right;
-    font-size: 13px;
-    font-weight: 600;
-    margin: 0;
-    padding: 3px 10px;
 }
 
 #nav-ask-btn i {
@@ -985,10 +1008,10 @@ ul.qa-nav-cat-list-4 > li.qa-nav-cat-item:first-child {
 
 .widget-title {
     border-top: medium none;
-    color: #333;
-    font-size: 20px;
-    font-weight: 300;
-    margin: 0 0 10px;
+    color: #333333;
+    font-size: 13px;
+    font-weight: bold;
+    margin: 0 0 5px;
     padding: 5px 0;
 }
 
@@ -1204,21 +1227,13 @@ a.feed-link {
 }
 
 .fav-parent .fav-btn {
-	background: #ff794f;    
-    -moz-border-radius: 2px;
-    -webkit-border-radius: 2px;
-    border-radius: 2px;
-    color: #fff;
-    display: block;
-    font-size: 13px;
-    font-weight: 400;
-    margin-left: 10px;
-    padding: 0 8px;
+
 }
 
 .fav-parent .fav-btn.active {
-    background: #aaa;
-    color: #fff;
+    background: none repeat scroll 0 0 #AAAAAA;
+    border-color: #777777;
+    color: #FFFFFF;
 }
 
 .fav-parent span {
@@ -1284,10 +1299,6 @@ a.feed-link {
     margin: 0;
 }
 
-.question-head {
-    border-top: 3px solid #E45840;
-    padding: 20px;
-}
 
 .question-title {
     color: #333333;
@@ -1528,7 +1539,7 @@ a.feed-link {
 }
 
 .qa-c-list-item {
-    margin-bottom: 0;
+    margin-bottom: 5px;
     padding-left: 30px;
     position: relative;
 }
@@ -1560,7 +1571,7 @@ a.feed-link {
 }
 
 .qa-c-list-item .asker-avatar {
-    margin-top: 5px;
+
 }
 
 .qa-c-wrap {
@@ -1570,7 +1581,6 @@ a.feed-link {
 
 .qa-c-wrap .qa-c-item-content {
     font-family: 'Anonymous Pro',arial;
-    margin-top: 7px;
     padding-right: 22px;
 }
 
@@ -2364,9 +2374,10 @@ input.qa-form-wide-number {
 }
 
 .answer-form {
+    border-top: 2px solid #EEEEEE;
     margin-bottom: 20px;
     margin-top: 15px;
-    padding: 15px 0;
+    padding: 0;
 }
 
 .qa-suggest-next {
@@ -5505,24 +5516,7 @@ th .description {
 .big-btns a:hover, .big-btns .fav-parent .fav-btn:hover{
 	color:#fff;
 }
-.big-btns a, .big-btns .fav-parent .fav-btn {
-    border: medium none;
-    border-radius: 3px;
-    color: #FFFFFF;
-    display: block;
-    float: left;
-    font-size: 16px;
-    font-weight: bold;
-    height: auto;
-    padding: 10px 25px;
-    text-align: center;
-    text-transform: capitalize;
-    width: 156px;
-}
-.big-answer-btn{
-    background: none repeat scroll 0 0 #5AC56E;
-    margin-right: 2px;
-}
+
 .big-answer-btn.disabled {
     background: none repeat scroll 0 0 #CCCCCC;
 }
@@ -5540,13 +5534,13 @@ th .description {
     border-width: 10px;
     content: "";
     display: block;
-    margin-left: -35px;
-    margin-top: -9px;
+    margin-left: -18px;
+    margin-top: 7px;
     position: absolute;
 }
 
 .q-cont-right:before {
-    border-color: rgba(0, 0, 0, 0) #FBFBFB rgba(0, 0, 0, 0) rgba(0, 0, 0, 0);
+    border-color: rgba(0, 0, 0, 0) #DDDDDD rgba(0, 0, 0, 0) rgba(0, 0, 0, 0);
     border-image: none;
     border-style: solid;
     border-width: 10px;
@@ -5559,10 +5553,12 @@ th .description {
 .cke_inner {
     background: none;
 }
+form[name="a_form"] {
+    padding: 15px;
+}
 .answer-f-wrap .qa-form-tall-data .cke_chrome {
     border: medium none;
-    box-shadow: none;
-    padding: 15px;
+    box-shadow: none;    
 }
 .answer-f-wrap .qa-form-tall-data .cke_inner{
 	background:none;
@@ -5816,4 +5812,38 @@ th .description {
     border-radius: 5px 5px 0 0;
     margin: -15px -15px 10px;
     padding: 10px;
+}
+.nav.nav-tabs.question-tabs{
+    background: none repeat scroll 0 0 rgba(0, 0, 0, 0);
+    border-color: rgba(0, 0, 0, 0) rgba(0, 0, 0, 0) #DDDDDD;
+    border-image: none;
+    border-style: none none solid;
+    border-width: medium medium 1px;
+    margin-bottom: 25px;
+    padding: 0;
+}
+.question-tabs li a:before{
+	margin-right:5px;
+}
+.question-tab-content{
+	border:none;
+}
+.share-title{
+    color: #333333;
+    font-size: 15px;
+    font-weight: bold;
+    line-height: 40px;
+    margin-bottom: 0;
+    margin-top: 0;
+    padding: 1px;
+}
+.head-butns {
+    float: right;
+    width: 200px;
+}
+.head-butns .fav-parent {
+    margin-right: 5px;
+}
+.head-butns > * {
+    float: right;
 }
