@@ -95,9 +95,25 @@ class qa_html_theme extends qa_html_theme_base
 		
 		if($this->request=='cs-install')
 			$this->install_page();
-		else
-			$this->main();
+		else{
+			$this->output('<div class="container"><div class="lr-table"><div class="left-content">');
+			$this->cs_page_title();
 
+			if ($this->template != 'question')
+				$this->cs_position('Content Top');
+
+			if (isset($this->content['error']) && $this->template != 'not-found')
+				$this->error(@$this->content['error']);
+			
+			$this->nav('sub');
+			$this->main();
+			if ($this->template != 'question')
+				$this->page_links();			
+			$this->output('</div>');
+			
+			$this->sidepanel();	
+			$this->output('</div></div>');
+		}
         $this->output('</div>');
         
 		$this->footer();
@@ -526,6 +542,10 @@ class qa_html_theme extends qa_html_theme_base
 				$this->admin_template($content);				
 				break;
 				
+			case 'not-found':
+				$this->notfound_template($content);				
+				break;
+				
 			default:
 				if(cs_hook_exist('main_'.$this->template))
 					cs_event_hook('main_'.$this->template, $this);
@@ -555,27 +575,10 @@ class qa_html_theme extends qa_html_theme_base
 	
 	function default_template($content){
 		if (cs_hook_exist(__FUNCTION__)) {$args=func_get_args(); return cs_event_hook(__FUNCTION__, $args); }
-		$this->output('<div class="container"><div class="lr-table"><div class="left-content">');
-			$this->cs_page_title();
-
-			if ($this->template != 'question')
-				$this->cs_position('Content Top');
-
-			if (isset($this->content['error']))
-				$this->error(@$this->content['error']);
-			
-			$this->nav('sub');
+		
 			$this->main_parts($content);
 			$this->cs_position('Content Bottom');
 			$this->suggest_next();	
-
-			if ($this->template != 'question')
-				$this->page_links();			
-		$this->output('</div>');
-		
-		$this->sidepanel();	
-		$this->output('</div></div>');		
-		
 	}	
 	
 	function admin_template($content){
@@ -2284,6 +2287,7 @@ class qa_html_theme extends qa_html_theme_base
 		}
 	}
 	function q_social_share($post){
+		if (cs_hook_exist(__FUNCTION__)) {$args=func_get_args(); return cs_event_hook(__FUNCTION__, $args); }
 		$this->output('
 			<h3 class="share-title">'. qa_lang_html('cleanstrap/share_this_question') .'</h3>
 			<!-- AddThis Button BEGIN -->
@@ -2296,6 +2300,18 @@ class qa_html_theme extends qa_html_theme_base
 			<a class="addthis_counter addthis_pill_style"></a>
 			</div>
 			<!-- AddThis Button END -->
+		');
+	}
+	function notfound_template($content){
+		if (cs_hook_exist(__FUNCTION__)) {$args=func_get_args(); return cs_event_hook(__FUNCTION__, $args); }
+		$this->output('
+			<div class="error-404">
+				<span class="icon-broken"></span>
+				<div class="message">
+					<h1>Oops, page not found</h1>
+					<p class="desc">You have mistyped the URL, check spelling.</p>
+				</div>
+			</div>
 		');
 	}
     
