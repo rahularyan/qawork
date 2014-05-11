@@ -25,6 +25,12 @@ function get_base_url()
 	return $protocol . $host . $directory;
 }	
 
+function cs_is_home(){
+	if(qa_request() == '')
+		return true;
+		
+	return false;
+}
 
 function cs_read_addons(){
 	$addons = array();
