@@ -5,19 +5,22 @@ class cs_breadcrumbs_widget {
       function cs_widget_form() {
 
             return array(
-                'style' => 'wide',
                 'fields' => array(
-                    'cs_nu_count' => array(
-						'label' => 'Numbers of user',
-						'type'  => 'number',
-						'tags'  => 'name="cs_nu_count" class="form-control"',
-						'value' => '10',
+                    'cs_breadcrumb_show_home' => array(
+						'label' => 'Show the home link ',
+						'type'  => 'select',
+						'tags'  => 'name="cs_breadcrumb_show_home"',
+						'value' => 'Yes',
+						'options' => array(
+							'yes'  => 'Yes',
+							'no'  => 'No . I dont need it',
+						)
                     ),
-                    'cs_nu_avatar' => array(
-						'label' => 'Avatar Size',
-						'type'  => 'number',
-						'tags'  => 'name="cs_nu_avatar" class="form-control"',
-						'value' => '30',
+                    'cs_breadcrumb_trunc_len' => array(
+                                    'label' => 'Truncate title in breadcrumb if No category exists',
+                                    'type'  => 'text',
+                                    'tags'  => 'name="cs_breadcrumb_trunc_len"',
+                                    'value' => '0',
                     ),
                 ),
             );
@@ -66,16 +69,24 @@ class cs_breadcrumbs_widget {
 
       function output_widget($region, $place, $themeobject, $template, $request, $qa_content) {
             $widget_opt = @$themeobject->current_widget['param']['options'];
-
             // breadcrumb start
             $themeobject->output('<ul class="breadcrumb clearfix">');
-            $themeobject->output($this->breadcrumb_part(array('type' => 'home')));
-            $themeobject->output($this->create_breadcrumbs($this->navigation(), $qa_content));
+            if ($widget_opt['cs_breadcrumb_show_home'] === "yes") {
+                  $themeobject->output($this->breadcrumb_part(array('type' => 'home')));
+            }
+            $themeobject->output($this->create_breadcrumbs($this->navigation(), $qa_content , $widget_opt) );
             $themeobject->output('</ul>');
             // breadcrumb end 
+            $themeobject->output('
+                  <script>
+                  (function($) {
+                        $("ul.breadcrumb > li:last-child").addClass("active") ;
+                  })(jQuery);
+                  </script>
+                  ') ;
       }
 
-      function create_breadcrumbs($navs, $qa_content) {
+      function create_breadcrumbs($navs, $qa_content , $widget_opt ) {
             $br = "";
             $question_page = @$qa_content['q_view'];
             if (!!$question_page) {     //if it is a question page 
@@ -100,13 +111,26 @@ class cs_breadcrumbs_widget {
                                     }
                               }
                         }
-                  } else if (!!$tags) { //if question is asked with out any categories list all the tags 
-                        foreach ($tags as $tag) {
+                  }else { //if question is asked with out any categories list all the tags
                               $br .=$this->breadcrumb_part(array(
-                                  'type' => 'q_tag',
-                                  'text' => $tag,
+                                  'type' => 'questions',
+                                  'url' => qa_opt('site_url')."questions",
+                                  'text' => "questions",
                               ));
-                        }
+
+                              $q_title = $qa_content['q_view']['raw']['title'] ;
+                              $q_id = $qa_content['q_view']['raw']['postid'] ; 
+                              $trunc_len = $widget_opt['cs_breadcrumb_trunc_len'];
+                              if ($trunc_len <= 0 ) {
+                                   //defaults to the length of the 
+                                   $trunc_len = strlen($q_title) ;
+                              }
+                              $br .=$this->breadcrumb_part(array(
+                                  'type' => 'questions',
+                                  'url' => qa_q_path($q_id, $q_title, true) ,
+                                  'text' => cs_truncate($q_title, $trunc_len ),
+                              ));
+                               
                   }
             } else {  //means non questions page 
                   if (count($navs) > 0) {
@@ -221,6 +245,7 @@ class cs_breadcrumbs_widget {
                         $li_template = "<li ^class>^text</li>";
                         $class = "class='cs-breadcrumbs-tag'";
                         break;
+                 
                   default:
                         $class = "class='cs-breadcrumbs-$type'";
                         break;

@@ -19,6 +19,7 @@ class Cs_Breadcrumb_Addon{
 	function __construct(){
 		cs_event_hook('language', NULL, array($this, 'language'));
 		cs_event_hook('enqueue_css', NULL, array($this, 'css'));
+		//cs_event_hook('enqueue_script', NULL, array($this, 'script'));
 	}
 		
 	public function language($lang_arr){
@@ -38,6 +39,12 @@ class Cs_Breadcrumb_Addon{
 		$css_src['cs_breadcrumbs'] = CS_CONTROL_URL . '/addons/breadcrumbs/styles.css';
 		return  $css_src;
 	}
+	
+	public function script($script_src){		
+		$script_src['cs_breadcrumbs'] = CS_CONTROL_URL . '/addons/breadcrumbs/scripts.js';
+		return  $script_src;
+	}
+	
 }
 
 $cs_breadcrumbs_addon = new Cs_Breadcrumb_Addon;
