@@ -1024,7 +1024,8 @@ function cs_event_log_row_parser( $row ){
                   $param[$embeded_array] = array() ; 
                   foreach ($param as $key => $value) {
                         if (preg_match("/".$embeded_array."_./", $key)) {
-                              $new_key = preg_split("/".$embeded_array."_/", $key )[1] ;
+                        	  $str = preg_split("/".$embeded_array."_/", $key ) ;
+                              $new_key = $str[1] ;
                               $param[$embeded_array][$new_key] = $value ;
                               $unset_keys[] = $key ;
                         }
