@@ -69,19 +69,27 @@ class cs_breadcrumbs_widget {
 
       function output_widget($region, $place, $themeobject, $template, $request, $qa_content) {
             $widget_opt = @$themeobject->current_widget['param']['options'];
+			
             // breadcrumb start
             $themeobject->output('<ul class="breadcrumb clearfix">');
             if ($widget_opt['cs_breadcrumb_show_home']) {
                   $themeobject->output($this->breadcrumb_part(array('type' => 'home')));
             }
-            $themeobject->output($this->create_breadcrumbs($this->navigation(), $qa_content , $widget_opt) );
+            $themeobject->output($this->create_breadcrumbs($this->navigation(), $qa_content , $widget_opt, $template) );
             $themeobject->output('</ul>');
        }
 
-      function create_breadcrumbs($navs, $qa_content , $widget_opt ) {
+      function create_breadcrumbs($navs, $qa_content , $widget_opt, $template ) {
+			
             $br = "";
             $question_page = @$qa_content['q_view'];
-            if (!!$question_page) {     //if it is a question page 
+			if($template == 'not-found')
+				$br .=$this->breadcrumb_part(array(
+						  'type' => 'not-found',
+						  'url' => '/',
+						  'text' => qa_lang_html('cleanstrap/not_found'),
+					  ));
+            elseif (!!$question_page) {     //if it is a question page 
                   // category is the first priority 
                   $cat = @$question_page['where'];
                   $tags = @$question_page['q_tags'];

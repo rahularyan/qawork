@@ -133,10 +133,10 @@
 		'x_followers' => '^ followers',
 		'asked_by' => 'Asked by',
 		'add_this_to_favorite' => 'Add this question to my favorites',
-		'marked_as_solved' => 'this question is marked as solved',
-		'marked_as_duplicate' => 'this question is marked as duplicate',
-		'marked_as_closed' => 'this question is marked as closed',
-		'marked_as_open' => 'this question is open for new answers',
+		'marked_as_solved' => 'question marked as solved',
+		'marked_as_duplicate' => 'question marked as duplicate',
+		'marked_as_closed' => 'question marked as closed',
+		'marked_as_open' => 'question is open for new answers',
 		'favourite' => 'Favourite',
 		'unfavourite' => 'Unfavourite',
 		'answer_this_question' => 'Answer this question',
@@ -157,6 +157,9 @@
 		'share' => 'Share',
 		'participants' => 'Participants',
 		'share_this_question' => 'Share this question',
+		'not_found' => 'Not found',
+		'oopps_page_not_found' => 'Oops, page not found',
+		'mistyped_url' => 'You have mistyped the URL, check spelling.',
 	);
 	$lang_hook = cs_event_hook('language', array());
 	return array_merge($lang_hook , $lang);

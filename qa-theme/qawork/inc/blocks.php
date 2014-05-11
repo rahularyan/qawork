@@ -95,9 +95,32 @@ class qa_html_theme extends qa_html_theme_base
 		
 		if($this->request=='cs-install')
 			$this->install_page();
-		else
-			$this->main();
+		else{
+		
+			if($this->cs_position_active('Home Slide') && cs_is_home()){
+				$this->output('<div class="container"><div class="home-slider-outer">');
+				$this->cs_position('Home Slide');
+				$this->output('</div></div>');
+			}
+			
+			$this->output('<div class="container"><div class="lr-table"><div class="left-content">');
+			$this->cs_page_title();
 
+			if ($this->template != 'question')
+				$this->cs_position('Content Top');
+
+			if (isset($this->content['error']) && $this->template != 'not-found')
+				$this->error(@$this->content['error']);
+			
+			$this->nav('sub');
+			$this->main();
+			if ($this->template != 'question')
+				$this->page_links();			
+			$this->output('</div>');
+			
+			$this->sidepanel();	
+			$this->output('</div></div>');
+		}
         $this->output('</div>');
         
 		$this->footer();
@@ -501,7 +524,10 @@ class qa_html_theme extends qa_html_theme_base
 		
 		switch($this->template){
 			case 'qa':
-				$this->home($content);				
+				if(cs_is_home())
+					$this->home($content);	
+				else
+					$this->default_template($content);
 				break;
 			
 			case 'user':
@@ -524,6 +550,10 @@ class qa_html_theme extends qa_html_theme_base
 			
 			case 'admin':
 				$this->admin_template($content);				
+				break;
+				
+			case 'not-found':
+				$this->notfound_template($content);				
 				break;
 				
 			default:
@@ -555,27 +585,10 @@ class qa_html_theme extends qa_html_theme_base
 	
 	function default_template($content){
 		if (cs_hook_exist(__FUNCTION__)) {$args=func_get_args(); return cs_event_hook(__FUNCTION__, $args); }
-		$this->output('<div class="container"><div class="lr-table"><div class="left-content">');
-			$this->cs_page_title();
-
-			if ($this->template != 'question')
-				$this->cs_position('Content Top');
-
-			if (isset($this->content['error']))
-				$this->error(@$this->content['error']);
-			
-			$this->nav('sub');
+		
 			$this->main_parts($content);
 			$this->cs_position('Content Bottom');
 			$this->suggest_next();	
-
-			if ($this->template != 'question')
-				$this->page_links();			
-		$this->output('</div>');
-		
-		$this->sidepanel();	
-		$this->output('</div></div>');		
-		
 	}	
 	
 	function admin_template($content){
@@ -627,60 +640,34 @@ class qa_html_theme extends qa_html_theme_base
     function home($content)
     {
 		if (cs_hook_exist(__FUNCTION__)) {$args=func_get_args(); return cs_event_hook(__FUNCTION__, $args); }
-		if($this->cs_position_active('Home Slide')){
-			$this->output('<div class="container"><div class="home-slider-outer">');
-			$this->cs_position('Home Slide');
-			$this->output('</div></div>');
-		}
+		
 			
-        $this->output('<div class="home-left-inner container">');        
-			$this->output('<div class="row home-pos-one">');
-				$this->output('<div class="col-md-8 home-left">');
-				
-					$this->output('<div class="row">');
-					
-						$this->output('<div class="col-sm-6">');
-						$this->cs_position('Home 1 Left');
-						$this->output('</div>');
-						
-						$this->output('<div class="col-sm-6">');
-						$this->cs_position('Home 1 Center');
-						$this->output('</div>');
-						
-					$this->output('</div>');
-					
-					$this->output('<div class="row">');
-						$this->output('<ul class="nav nav-tabs home-sub-tabs">
-							<li class="active"><a href="#home-tab-recent" data-toggle="tab">'.qa_lang_html('cleanstrap/recent').'</a></li>
-							<li><a href="#home-tab-activities" data-toggle="tab">'.qa_lang_html('cleanstrap/activities').'</a></li>
-							<li><a href="#home-tab-content" data-toggle="tab">'.qa_lang_html('cleanstrap/newest').'</a></li>						  
-						</ul>
-						<div class="tab-content">');
-						
-						//home recent tab
-						$this->output('<div class="tab-pane active" id="home-tab-recent">');
-						$this->cs_position('Home Recent Tab');
-						$this->output('</div>');
-						
-						//home activities tab
-						$this->output('<div class="tab-pane" id="home-tab-activities">');
-						$this->cs_position('Home Activities Tab');
-						$this->output('</div>');
-						
-						//home main active tabs
-						$this->output('<div class="tab-pane" id="home-tab-content">');
-						$this->main_parts($content);
-						$this->output('</div>');
-						
-					$this->output('</div></div>');
-
-				$this->output('</div>');
-				
-				$this->output('<div class="col-md-4 home-right">');
-				$this->cs_position('Home Right');
-				$this->output('</div>');
-				
+        $this->output('<div class="home-left-inner">'); 
+			
+			$this->output('<ul class="nav nav-tabs home-sub-tabs">
+				<li class="active"><a href="#home-tab-recent" data-toggle="tab">'.qa_lang_html('cleanstrap/recent').'</a></li>
+				<li><a href="#home-tab-activities" data-toggle="tab">'.qa_lang_html('cleanstrap/activities').'</a></li>
+				<li><a href="#home-tab-content" data-toggle="tab">'.qa_lang_html('cleanstrap/newest').'</a></li>						  
+			</ul>
+			<div class="tab-content">');
+			
+			//home recent tab
+			$this->output('<div class="tab-pane active" id="home-tab-recent">');
+			$this->cs_position('Home Recent Tab');
 			$this->output('</div>');
+			
+			//home activities tab
+			$this->output('<div class="tab-pane" id="home-tab-activities">');
+			$this->cs_position('Home Activities Tab');
+			$this->output('</div>');
+			
+			//home main active tabs
+			$this->output('<div class="tab-pane" id="home-tab-content">');
+			$this->main_parts($content);
+			$this->output('</div>');
+			
+		$this->output('</div>');
+
         $this->output('</div>');
     }
     
@@ -697,16 +684,12 @@ class qa_html_theme extends qa_html_theme_base
 			$about  = cs_name($handle);
 		}
 		
-
 		$this->content['user'] = cs_user_data($handle);
 		
-		$this->output('<div class="lr-table"><div class="left-content">');
-			$this->profile_page_head($handle);
-			$this->cs_user_nav($handle);
-			$this->profile_page($handle);	
-			$this->output('</div>');		
-			$this->sidepanel();	
-		$this->output('</div>');
+		$this->profile_page_head($handle);
+		$this->cs_user_nav($handle);
+		$this->profile_page($handle);	
+			
 	}
 	function profile_page_head($handle){
 		if (cs_hook_exist(__FUNCTION__)) {$args=func_get_args(); return cs_event_hook(__FUNCTION__, $args); }
@@ -772,12 +755,7 @@ class qa_html_theme extends qa_html_theme_base
     {
 		if (cs_hook_exist(__FUNCTION__)) {$args=func_get_args(); return cs_event_hook(__FUNCTION__, $args); }
 		$q_view = $content['q_view'];
-		
-		if (isset($this->content['error']))
-				$this->error(@$this->content['error']);
-		$this->cs_position('Content Top');	
-		
-		$this->output('<div class="container">');
+
 		
 		$this->output('<header class="question-head">');
 			
@@ -788,7 +766,16 @@ class qa_html_theme extends qa_html_theme_base
 			$this->output('<h2 class="question-title">');
 			$this->output( htmlspecialchars ($q_view['raw']['title']));				
 			$this->output('</h2>');
-			$this->output('<div class="big-status">'.cs_post_status($q_view, true).'</div>');
+			$this->output('<div class="question-metas">
+				'.(is_featured($q_view['raw']['postid']) ? '<span class="featured-sticker icon-star ra-tip" title="'.qa_lang_html('cleanstrap/question_is_featured').'">' . qa_lang_html('cleanstrap/featured') . '</span>' : '').'
+				'.cs_post_status($q_view).'				
+				<span class="meta-icon icon-answer"></span>
+				<span class="q-view-a-count">'.qa_lang_sub('cleanstrap/x_answers', $q_view['raw']['acount']).' </span>
+				<span class="icon-eye meta-icon"></span>
+				<span class="q-view-a-count">' . qa_lang_sub('cleanstrap/x_answers', $q_view['raw']['views']) . ' </span>
+				<span class="icon-folder meta-icon"></span>
+				'.qa_lang_html('cleanstrap/posted_under').' <a class="cat-in" href="' . cs_cat_path($q_view['raw']['categorybackpath']) . '">' . $q_view['raw']['categoryname'] . '</a>
+				</div>');
 			
 		$this->output('</header>');
 		
@@ -811,16 +798,6 @@ class qa_html_theme extends qa_html_theme_base
 		$this->output('</div>');
 		
 		$this->output('<div class="question-side">');
-	
-			$this->output('<ul class="question-meta">');				
-				
-				if(is_featured($q_view['raw']['postid']))
-					$this->output('<li><span class="featured-sticker icon-star">' . qa_lang_html('cleanstrap/featured') . '</span>' . qa_lang_html('cleanstrap/question_is_featured') . '</li>');
-					
-				$this->output('<li><span class="meta-icon icon-answer"></span><span class="q-view-a-count">'.$q_view['raw']['acount'].' </span>'.qa_lang_html('cleanstrap/answers_received').'</li>');
-				$this->output('<li><span class="icon-eye meta-icon"></span><span class="q-view-a-count">' . $q_view['raw']['views'] . ' </span>' . qa_lang_html('cleanstrap/times_viewed') . '</li>');
-				$this->output('<li><span class="icon-folder meta-icon"></span>'.qa_lang_html('cleanstrap/posted_under').' <a class="cat-in" href="' . cs_cat_path($q_view['raw']['categorybackpath']) . '">' . $q_view['raw']['categoryname'] . '</a></li>');					
-			$this->output('</ul>');
 			
 			$this->output('<div class="qa-post-meta">');
 				if (!empty($q_view['q_tags'])) {
@@ -834,9 +811,7 @@ class qa_html_theme extends qa_html_theme_base
 		
 		$this->output('</div>');
 		$this->output('</div>');
-		$this->output('</div>');
-        $this->output('</div>');
-		$this->output('</div>');
+
     }
     
     function q_list_item($q_item)
@@ -2284,6 +2259,7 @@ class qa_html_theme extends qa_html_theme_base
 		}
 	}
 	function q_social_share($post){
+		if (cs_hook_exist(__FUNCTION__)) {$args=func_get_args(); return cs_event_hook(__FUNCTION__, $args); }
 		$this->output('
 			<h3 class="share-title">'. qa_lang_html('cleanstrap/share_this_question') .'</h3>
 			<!-- AddThis Button BEGIN -->
@@ -2296,6 +2272,20 @@ class qa_html_theme extends qa_html_theme_base
 			<a class="addthis_counter addthis_pill_style"></a>
 			</div>
 			<!-- AddThis Button END -->
+		');
+	}
+	function notfound_template($content){
+		if (cs_hook_exist(__FUNCTION__)) {$args=func_get_args(); return cs_event_hook(__FUNCTION__, $args); }
+		$this->output('
+			<div class="error-404">
+				<span class="icon-broken"></span>
+				<div class="message">
+					<h1>'.qa_lang_html('cleanstrap/oopps_page_not_found').'</h1>
+					<p class="desc">'.qa_lang_html('cleanstrap/mistyped_url').'</p>
+					<div class="suggestion">');
+					$this->nav('main');
+				$this->output('</div></div>
+			</div>
 		');
 	}
     

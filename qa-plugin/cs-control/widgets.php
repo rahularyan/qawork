@@ -244,7 +244,7 @@ class cs_theme_widgets {
 		function widget_options_form_checkbox($k, $field){
 			return '<div class="checkbox">
 						<label for="'.$k.'">'.@$field['label'].'
-							<input type="checkbox" '.$field['tags'].' value="'.@$field['value'].'" >
+							<input type="checkbox" '.$field['tags'] .($field['value'] ? ' checked' : '').'  >
 						</label>
 					</div>
 				';
