@@ -157,6 +157,9 @@
 		'share' => 'Share',
 		'participants' => 'Participants',
 		'share_this_question' => 'Share this question',
+		'not_found' => 'Not found',
+		'oopps_page_not_found' => 'Oops, page not found',
+		'mistyped_url' => 'You have mistyped the URL, check spelling.',
 	);
 	$lang_hook = cs_event_hook('language', array());
 	return array_merge($lang_hook , $lang);

@@ -1,10 +1,10 @@
 @font-face {
 	font-family: 'ra';
-	src:url('../fonts/ra.eot?ts9kt9');
-	src:url('../fonts/ra.eot?#iefixts9kt9') format('embedded-opentype'),
-		url('../fonts/ra.woff?ts9kt9') format('woff'),
-		url('../fonts/ra.ttf?ts9kt9') format('truetype'),
-		url('../fonts/ra.svg?ts9kt9#ra') format('svg');
+	src:url('../fonts/ra.eot?-gko87o');
+	src:url('../fonts/ra.eot?#iefix-gko87o') format('embedded-opentype'),
+		url('../fonts/ra.woff?-gko87o') format('woff'),
+		url('../fonts/ra.ttf?-gko87o') format('truetype'),
+		url('../fonts/ra.svg?-gko87o#ra') format('svg');
 	font-weight: normal;
 	font-style: normal;
 }
@@ -23,6 +23,9 @@
 	-moz-osx-font-smoothing: grayscale;
 }
 
+.icon-broken:before {
+	content: "\e65a";
+}
 .icon-award:before {
 	content: "\e658";
 }

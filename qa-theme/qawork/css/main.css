@@ -5847,3 +5847,40 @@ form[name="a_form"] {
 .head-butns > * {
     float: right;
 }
+.error-404{
+
+}
+.error-404 > .message h1{
+    color: #333333;
+    font-size: 30px;
+    font-weight: bold;
+}
+.error-404 > .message .desc {
+    font-size: 18px;
+}
+.error-404 .icon-broken {
+    background: none repeat scroll 0 0 #F7F7F7;
+    border-radius: 5px;
+    display: block;
+    float: left;
+    font-size: 60px;
+    line-height: 100%;
+    margin-right: 15px;
+    margin-top: 20px;
+    padding: 4px 6px;
+}
+.error-404 .message {
+    overflow: hidden;
+}
+.error-404 .qa-nav-main-list li a {
+    color: #666666;
+    margin-right: 25px;
+    padding: 0;
+}
+.error-404 .qa-nav-main-list li a:hover{
+	background:none;
+	color: #333;
+}
+.error-404 .suggestion {
+    margin-top: 35px;
+}

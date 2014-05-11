@@ -96,6 +96,7 @@
 				'feedback' 		=> 'Feedback',
 				'updates' 		=> 'Updates',
 				'search' 		=> 'Search',
+				'not-found' 	=> 'Not Found',
 				'admin' 		=> 'Admin'
 			);
 		}
