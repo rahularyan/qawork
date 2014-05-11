@@ -8,7 +8,8 @@
 			cs_event_hook('content', $this->content);
 		
 			
-			$this->content['css_src']['cs_style'] = Q_THEME_URL . '/css/admin.css';
+			$this->content['css_src']['cs_admin'] = Q_THEME_URL . '/css/admin.css';
+			$this->content['css_src']['cs_style'] = Q_THEME_URL .'/'. $this->css_name();
 		
 			//enqueue script and style in content
 			$hooked_script	= cs_event_hook('enqueue_scripts', array());
@@ -72,22 +73,22 @@
 		function head_script()
 		{
 			$this->output('<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>');
-			qa_html_theme_base::head_script();
+			
 			$this->output('<script> ajax_url = "' . CS_CONTROL_URL . '/ajax.php";</script>');
 		
 		
 			$this->output('<script> theme_url = "' . Q_THEME_URL . '";</script>');
 		
-			if (qa_opt('cs_enable_gzip')) //Gzip
+			if (qa_opt('cs_enable_gzip')){ //Gzip
 				$this->output('<script type="text/javascript" src="'.Q_THEME_URL.'/js/script_cache.js"></script>');
 				
 				if (isset($this->content['script_src']))
 					foreach ($this->content['script_src'] as $script_src){
 						// load if external url
-						if(parse_url($script_src, PHP_URL_HOST))
+						if(!cs_is_internal_link($script_src))
 							$this->output('<script type="text/javascript" src="'.$script_src.'"></script>');
 					}
-			else{
+			}else{
 				if (isset($this->content['script_src']))
 					foreach ($this->content['script_src'] as $script_src)
 						$this->output('<script type="text/javascript" src="'.$script_src.'"></script>');
@@ -146,17 +147,24 @@
 	
 			if (qa_opt('cs_enable_gzip')){ //Gzip
 				$this->output('<link href="'. Q_THEME_URL . '/css/css_cache.css" rel="stylesheet" type="text/css">');
-				if(parse_url($script_src, PHP_URL_HOST))
-				
-				$this->output('<link rel="stylesheet" type="text/css" href="'.$this->rooturl.$this->css_name().'"/>');
-				
+											
 				if (isset($this->content['css_src']))
 					foreach ($this->content['css_src'] as $css_src){
-						if(parse_url($css_src, PHP_URL_HOST))
+						if(!cs_is_internal_link($css_src))
 							$this->output('<link rel="stylesheet" type="text/css" href="'.$css_src.'"/>');
 					}
-			}else
-				qa_html_theme_base::head_css();
+			}else{
+				if (isset($this->content['css_src']))
+				foreach ($this->content['css_src'] as $css_src)
+					$this->output('<link rel="stylesheet" type="text/css" href="'.$css_src.'"/>');
+					
+				if (!empty($this->content['notices']))
+					$this->output(
+						'<style><!--',
+						'.qa-body-js-on .qa-notice {display:none;}',
+						'//--></style>'
+					);
+			}
 				
 			$this->output('<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 				<meta http-equiv="X-UA-Compatible" content="IE=edge"> ');
