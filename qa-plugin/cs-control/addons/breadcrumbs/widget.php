@@ -69,6 +69,7 @@ class cs_breadcrumbs_widget {
 
       function output_widget($region, $place, $themeobject, $template, $request, $qa_content) {
             $widget_opt = @$themeobject->current_widget['param']['options'];
+			
             // breadcrumb start
             $themeobject->output('<ul class="breadcrumb clearfix">');
             if ($widget_opt['cs_breadcrumb_show_home']) {
@@ -79,6 +80,7 @@ class cs_breadcrumbs_widget {
        }
 
       function create_breadcrumbs($navs, $qa_content , $widget_opt ) {
+			
             $br = "";
             $question_page = @$qa_content['q_view'];
             if (!!$question_page) {     //if it is a question page 
