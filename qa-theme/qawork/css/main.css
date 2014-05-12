@@ -287,21 +287,16 @@ textarea{
     margin-right: 5px;
 }
 
-#site-header .ra-social-links a {
-    background: none;
-    -moz-border-radius: 2px;
-    -webkit-border-radius: 2px;
+.ra-social-links a {
+    background: none repeat scroll 0 0 rgba(0, 0, 0, 0.5);
     border-radius: 2px;
-    color: #C1C1C1;
-    font-size: 20px;
+    color: #FFFFFF;
+    font-size: 16px;
     height: auto;
-    padding: 4px 5px;
+    padding: 0 4px;
     width: auto;
 }
 
-#site-header .ra-social-links li {
-    border-right: solid 1px #eee;
-}
 
 #site-header .ra-social-links li:last-child {
     border: none;
@@ -3011,10 +3006,12 @@ th .description {
 /* Social links */
 .ra-social-links {
     display: block;
-    float: left;
+    left: 0;
     list-style: none outside none;
-    margin: 0;
+    margin: 0 0 0 5px;
     padding: 1px;
+    position: absolute;
+    top: 15px;
 }
 
 .ra-social-links li {
@@ -5110,11 +5107,6 @@ th .description {
     padding: 0;
 }
 
-#site-header .ra-social-links {
-    background: none repeat scroll 0 0 #F8F8F8;
-    float: right;
-    margin: 7px 0 0;
-}
 
 
 
@@ -5865,4 +5857,14 @@ form[name="a_form"] {
 }
 .error-404 .suggestion {
     margin-top: 35px;
+}
+.user-head {
+    margin-bottom: 20px;
+}
+.user-navigation {
+    margin-bottom: 15px;
+}
+
+.cs-user-template .qa-nav-sub ul {
+
 }

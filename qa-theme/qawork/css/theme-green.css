@@ -12,7 +12,7 @@ a:hover{
 #site-header #header-top {
     background: linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.15)) repeat scroll 0 0 #4679BD;
 }
-.card-metas ,#site-header #nav-ask-btn, .on-off-checkbox-container label, #ra-widgets .widget-canvas .widget-save.active, .ra-tags-widget .widget-tag:hover, .t-bg, .face.back, .qa-form-tall-button-login, .qa-form-tall-button-send, .qa-form-tall-button-register, input[type="radio"]:checked + label, .question-list .question-item .big-ans-count, .pagination > li > .qa-page-selected, .pagination > li:hover > a, .form-button-holder, .qa-template-tags .qa-part-ranking .list-group-item span,.qa-a-selection .qa-a-select-button, .question-title .fav-parent .fav-btn.active, .post-button #q_doanswer , .navbar-default .category-nav .category-toggle, #nav-ask-btn, .featured-questions .answer-list-title span, .bg1{
+.card-metas , .on-off-checkbox-container label, #ra-widgets .widget-canvas .widget-save.active, .ra-tags-widget .widget-tag:hover, .t-bg, .face.back, .qa-form-tall-button-login, .qa-form-tall-button-send, .qa-form-tall-button-register, input[type="radio"]:checked + label, .question-list .question-item .big-ans-count, .pagination > li > .qa-page-selected, .pagination > li:hover > a, .form-button-holder, .qa-template-tags .qa-part-ranking .list-group-item span,.qa-a-selection .qa-a-select-button, .question-title .fav-parent .fav-btn.active, .post-button #q_doanswer , .navbar-default .category-nav .category-toggle, .featured-questions .answer-list-title span, .bg1{
 	background:#4679BD;
 }
 .answer-selected .a-item-wrap {
