@@ -35,7 +35,7 @@
 		}
 
 		
-		function value_to_text($value , $parent_key)
+		function value_to_text($value , $parent_key="")
 		{
 			$reject_list = array("hotness","created","notify","lastviewip" , "lastip" ,"createip","points","flags") ;
 			if (is_array($value)){
@@ -116,7 +116,7 @@
 				$fields=$fixedfields;
 				
 				foreach ($params as $key => $value)
-					$fields['param_'.$key]=$key.'='.$this->value_to_text($value);
+					$fields['param_'.$key]=$key.'='.$this->value_to_text($value , $key);
 				
 				$string=implode("\t", $fields);
 			

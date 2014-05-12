@@ -25,4 +25,5 @@
 /qa-plugin/opensearch-support
 /qa-plugin/q2a-open-login-master
 /qa-theme/Classic
-/*.zip
+/nbproject
+/qa-plugin/cs-control/logs
