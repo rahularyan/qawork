@@ -63,7 +63,7 @@ class cs_breadcrumbs_widget {
       }
 
       function navigation() {
-            $request = qa_request_parts(); // this will out put 0=>admin, 1=>sdhfhjsdf :D
+            $request = qa_request_parts();
             if (isset($request) && !empty($request) && is_array($request)) return $request;
       }
 
