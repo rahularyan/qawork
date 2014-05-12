@@ -2,16 +2,18 @@
     float: left;
     margin-left: 10px;
 }
-.widget.cs_breadcrumbs{
-	margin-top: 10px ;
-	margin-bottom: 10px;
+.widget.cs_breadcrumbs {
+    margin-bottom: 0;
+    margin-left: 0;
+    margin-right: 0;
+    padding: 0;
 }
 .breadcrumb {
     background: none repeat scroll 0 0 rgba(0, 0, 0, 0);
     display: block;
     list-style: none outside none;
     margin: 0;
-    padding: 0;
+    padding: 4px 0 0;
 }
 .breadcrumb > .active > a {
 	color: #999;
