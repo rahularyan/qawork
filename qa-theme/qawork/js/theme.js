@@ -699,6 +699,13 @@ $(document).ready(function(){
 		$('.qa-main').removeAttr('style');
 		$('#nav-top .qa-nav-main').removeAttr('style');
 		cs_check_site_status_size();
+		
+		if($('#header-top').width() < 1300){
+			$('.ra-social-links').css({'bottom':5, 'top':'auto'});
+		}else{
+			$('.ra-social-links').removeAttr('style');
+		}
+		
 	});
 	if($('.qa-template-featured').length > 0)
 	$(".tips").tip_cards({
