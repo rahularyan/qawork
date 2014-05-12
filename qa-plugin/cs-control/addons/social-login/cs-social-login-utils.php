@@ -85,6 +85,25 @@ function cs_social_login_get_new_source($source, $identifier) {
       return substr($source, 0, 9) . '-' . substr(md5($identifier), 0, 6);
 }
 
+function cs_social_get_config_common($url , $provider) {
+            $key = strtolower($provider);
+            return array(
+                'base_url' => $url,
+                'providers' => array(
+                    $provider => array(
+                        'enabled' => true,
+                        'keys' => array(
+                            'id' => qa_opt("{$key}_app_id"),
+                            'key' => qa_opt("{$key}_app_id"),
+                            'secret' => qa_opt("{$key}_app_secret")
+                        ),
+                        'scope' => $provider == 'Facebook' ? 'email,user_about_me,user_location,user_website' : null,
+                    )
+                ),
+                'debug_mode' => false,
+                'debug_file' => ''
+            );
+      }
 /*
 	Omit PHP closing tag to help avoid accidental output
 */
