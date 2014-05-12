@@ -91,7 +91,7 @@ class qa_html_theme extends qa_html_theme_base
         $this->notices();
         $this->header();
 		$this->main_top($this->content);
-        $this->output('<div class="clearfix qa-main ' . (@$this->content['hidden'] ? ' qa-main-hidden' : '') . '">');
+        $this->output('<div class="clearfix qa-main ' .(cs_is_user() ? 'cs-user-template' : ''). (@$this->content['hidden'] ? ' qa-main-hidden' : '') . '">');
 		
 		if($this->request=='cs-install')
 			$this->install_page();
@@ -111,8 +111,8 @@ class qa_html_theme extends qa_html_theme_base
 
 			if (isset($this->content['error']) && $this->template != 'not-found')
 				$this->error(@$this->content['error']);
-			
-			$this->nav('sub');
+			if(!cs_is_user())
+				$this->nav('sub');
 			$this->main();
 			if ($this->template != 'question')
 				$this->page_links();			
@@ -134,22 +134,18 @@ class qa_html_theme extends qa_html_theme_base
 		if (cs_hook_exist(__FUNCTION__)) {$args=func_get_args(); return cs_event_hook(__FUNCTION__, $args); }
         $this->cs_position('Top');
         
-        $this->output('<header id="site-header" class="clearfix">');
-		
-		$this->output('<div id="header-top" class="clearfix">');
-		$this->output('<div class="container">');
-		$this->logo();
-	
-		$this->main_nav_menu();		
-		$this->user_drop_nav();
-					
-		$this->output('</div>');
-		$this->output('</div>');
-
+        $this->output('<header id="site-header" class="clearfix">');		
+			$this->output('<div id="header-top" class="clearfix">');
+			$this->output('<div class="container">');
+			$this->logo();		
+			$this->main_nav_menu();		
+			$this->user_drop_nav();					
+			$this->output('</div>');
+			$this->output('</div>');
 		$this->output('</header>');
-		
-		$this->output('<div id="header-below" class="clearfix"><div class="container">');
 		$this->get_social_links();
+		
+		$this->output('<div id="header-below" class="clearfix"><div class="container">');		
 		$this->cs_position('Breadcrumbs');
 		$this->nav_ask_btn();	
 		$this->output('</div></div>');
@@ -172,8 +168,8 @@ class qa_html_theme extends qa_html_theme_base
 		if (cs_hook_exist(__FUNCTION__)) {$args=func_get_args(); return cs_event_hook(__FUNCTION__, $args); }
 		
 		if (qa_opt('cs_enable_ask_button')){
-			$this->output('<a id="nav-ask-btn" href="' . qa_path_html('ask') . '" class="btn btn-sm">' . qa_lang_html('cleanstrap/ask_question') . '</a>');
-			$this->output('<a id="nav-ask-btn" href="' . qa_path_html('ask') . '" class="btn btn-sm header-ask-button icon-question"></a>');
+			$this->output('<a id="nav-ask-btn" href="' . qa_path_html('ask') . '" class="btn btn-sm btn-success">' . qa_lang_html('cleanstrap/ask_question') . '</a>');
+			$this->output('<a id="nav-ask-btn" href="' . qa_path_html('ask') . '" class="btn btn-sm header-ask-button icon-question btn-success"></a>');
 		}
 	}
 
@@ -522,47 +518,29 @@ class qa_html_theme extends qa_html_theme_base
 		if (cs_hook_exist(__FUNCTION__)) {$args=func_get_args(); return cs_event_hook(__FUNCTION__, $args); }
        $content = $this->content;
 		
-		switch($this->template){
-			case 'qa':
-				if(cs_is_home())
-					$this->home($content);	
-				else
-					$this->default_template($content);
-				break;
-			
-			case 'user':
-				$this->user_template($content);				
-				break;
-			
-			case 'question':
-				$this->question_view($content);
-				break;
-				
-			case 'user-wall':
-				$handle = qa_request_part(1);
-				$this->output('<section id="content" class="content-sidebar user-cols">');
-				$this->cs_user_nav($handle);
-				$this->output('<div class="messages">');
-				$this->message_list_and_form($this->content['message_list']);
-				$this->output('</div></section>');
-				
-				break;
-			
-			case 'admin':
-				$this->admin_template($content);				
-				break;
-				
-			case 'not-found':
+		if(cs_is_home()){
+			$this->home($content);
+		}elseif(cs_is_user()){
+			$this->user_template($content);				
+		}elseif($this->template == 'question'){
+			$this->question_view($content);
+		}elseif($this->template == 'user-wall'){
+			$handle = qa_request_part(1);
+			$this->output('<section id="content" class="content-sidebar user-cols">');
+			$this->cs_user_nav($handle);
+			$this->output('<div class="messages">');
+			$this->message_list_and_form($this->content['message_list']);
+			$this->output('</div></section>');
+		}elseif($this->template == 'admin'){
+			$this->admin_template($content);				
+		}elseif($this->template == 'not-found'){
 				$this->notfound_template($content);				
-				break;
-				
-			default:
-				if(cs_hook_exist('main_'.$this->template))
-					cs_event_hook('main_'.$this->template, $this);
-				else	
-					$this->default_template($content);
-				break;
-				
+		}else{
+			if(cs_hook_exist('main_'.$this->template))
+				cs_event_hook('main_'.$this->template, $this);
+			else	
+				$this->default_template($content);
+					
 		}
 	}
 	function main_top($content){
@@ -745,9 +723,9 @@ class qa_html_theme extends qa_html_theme_base
 		
 		$this->content['navigation']['sub'] = $sub;
 		
-        $this->output('	<div class="user-left">'); 
+        $this->output('	<div class="user-navigation">'); 
 		
-        //$this->nav('sub');		
+        $this->nav('sub');		
         $this->output('</div>');
     }
 	
@@ -980,6 +958,7 @@ class qa_html_theme extends qa_html_theme_base
     function get_social_links()
     {
 		if (cs_hook_exist(__FUNCTION__)) {$args=func_get_args(); return cs_event_hook(__FUNCTION__, $args); }
+		
         if ((bool) qa_opt('cs_social_enable')) {
             $links = json_decode(qa_opt('cs_social_list'));
             
@@ -987,7 +966,7 @@ class qa_html_theme extends qa_html_theme_base
             foreach ($links as $link) {
                 $icon  = ($link->social_icon != '1' ? ' ' . $link->social_icon . '' : '');
                 $image = ($link->social_icon == '1' ? '<img src="' . $link->social_icon_file . '" />' : '');
-                $this->output('<li><a class="t-bg-4' . @$icon . '" href="' . $link->social_link . '" title="Link to ' . $link->social_title . '" >' . @$image . '</a></li>');
+                $this->output('<li><a class="' . @$icon . '" href="' . $link->social_link . '" title="Link to ' . $link->social_title . '" >' . @$image . '</a></li>');
             }
             $this->output('</ul>');
         }
