@@ -683,8 +683,8 @@ $(document).ready(function(){
 
 	
 	//uncomment this code if you want to use default editor
-/* 	if ((typeof qa_wysiwyg_editor_config == 'object') && $('body').hasClass('qa-template-question'))
-		qa_ckeditor_a_content=CKEDITOR.replace('a_content', window.qa_wysiwyg_editor_config); */
+	//if ((typeof qa_wysiwyg_editor_config == 'object') && $('body').hasClass('qa-template-question'))
+		//qa_ckeditor_a_content=CKEDITOR.replace('a_content', window.qa_wysiwyg_editor_config);
 	//$('.float-nav').css('min-height', $(window).height());
 	//$('#left-sidebar').css('min-height', $(window).height());
 	
@@ -699,6 +699,13 @@ $(document).ready(function(){
 		$('.qa-main').removeAttr('style');
 		$('#nav-top .qa-nav-main').removeAttr('style');
 		cs_check_site_status_size();
+		
+		if($('#header-top').width() < 1300){
+			$('.ra-social-links').css({'bottom':5, 'top':'auto'});
+		}else{
+			$('.ra-social-links').removeAttr('style');
+		}
+		
 	});
 	if($('.qa-template-featured').length > 0)
 	$(".tips").tip_cards({

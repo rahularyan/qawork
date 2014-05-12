@@ -32,6 +32,14 @@ function cs_is_home(){
 	return false;
 }
 
+function cs_is_user(){
+	$request = qa_request_parts(0);
+	if( $request[0] == 'user')
+		return true;
+		
+	return false;
+}
+
 function cs_read_addons(){
 	$addons = array();
 	//load files from addons folder
@@ -425,13 +433,13 @@ function cs_get_template_array(){
 
 function cs_social_icons(){
 	return array(
-		'icon-facebook' 	=> 'Facebook',
-		'icon-twitter' 		=> 'Twitter',
-		'icon-googleplus' 	=> 'Google',
-		'icon-pinterest' 	=> 'Pinterest',
-		'icon-linkedin' 	=> 'Linkedin',
-		'icon-github' 		=> 'Github',
-		'icon-stumbleupon' 	=> 'Stumbleupon',
+		'icon-social-facebook' 		=> 'Facebook',
+		'icon-social-twitter' 		=> 'Twitter',
+		'icon-social-googleplus' 	=> 'Google',
+		'icon-social-pinterest' 	=> 'Pinterest',
+		'icon-social-linkedin' 		=> 'Linkedin',
+		'icon-social-github' 		=> 'Github',
+		'icon-social-stumbleupon' 	=> 'Stumbleupon',
 	);
 }
 
