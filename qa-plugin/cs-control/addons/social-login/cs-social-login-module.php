@@ -80,8 +80,7 @@ class cs_open_login {
                               qa_redirect_raw(qa_opt('site_url') . $topath);
                         }
                   } catch (Exception $e) {
-                        // not really interested in the error message - for now
-                        // however, in case we have errors 6 or 7, then we have to call logout to clean everything up
+                        //incase of any issues logout from the adaptor 
                         if ($e->getCode() == 6 || $e->getCode() == 7) {
                               $adapter->logout();
                         }

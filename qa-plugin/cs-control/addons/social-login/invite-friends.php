@@ -1,46 +1,52 @@
 <?php
-/* don't allow this page to be requested directly from browser */	
+
+/* don't allow this page to be requested directly from browser */
 if (!defined('QA_VERSION')) {
-		header('Location: /');
-		exit;
+      header('Location: /');
+      exit;
 }
 
-
 class cs_social_invite_friends_page {
-	var $directory;
-	var $urltoroot;
 
-	function load_module($directory, $urltoroot) {
-		$this->directory=$directory;
-		$this->urltoroot=$urltoroot;
-	}
+      var $directory;
+      var $urltoroot;
 
-	function match_request($request)
-	{
-		if ($request=='invite-friends')
-			return true;
+      function load_module($directory, $urltoroot) {
+            $this->directory = $directory;
+            $this->urltoroot = $urltoroot;
+      }
 
-		return false;
-	}
-	
-	function process_request($request)	{
-		if (QA_FINAL_EXTERNAL_USERS)
-			qa_fatal_error('User accounts are handled by external code');
-		
-		$userid=qa_get_logged_in_userid();
-		
-		if (!isset($userid))      //if not logged in then redirect to login page
-			qa_redirect('login');
+      function match_request($request) {
+            if ($request == 'invite-friends') return true;
 
-		require_once QA_INCLUDE_DIR.'qa-db-users.php';
-		require_once QA_INCLUDE_DIR.'qa-app-format.php';
-		require_once QA_INCLUDE_DIR.'qa-app-users.php';
-		require_once QA_INCLUDE_DIR.'qa-db-selects.php';
-		require_once CS_CONTROL_DIR.'/addons/social-login/cs-social-login-utils.php';
-		$start=qa_get_start();
-		$userid=qa_get_logged_in_userid();
-		$action = null;
+            return false;
+      }
+
+      function process_request($request) {
+            if (QA_FINAL_EXTERNAL_USERS) qa_fatal_error('User accounts are handled by external code');
+
+            $userid = qa_get_logged_in_userid();
+
+            if (!isset($userid))      //if not logged in then redirect to login page
+                  qa_redirect('login');
+
+            // get the provider information from the click event 
+            if (qa_clicked('facebook_sts_updt')) {
+                  $provider = "facebook";
+            }else if (qa_clicked('twitter_sts_updt')) {
+                  $provider = "twitter";
+            }
+
+            require_once QA_INCLUDE_DIR . 'qa-db-users.php';
+            require_once QA_INCLUDE_DIR . 'qa-app-format.php';
+            require_once QA_INCLUDE_DIR . 'qa-app-users.php';
+            require_once QA_INCLUDE_DIR . 'qa-db-selects.php';
+            require_once CS_CONTROL_DIR . '/addons/social-login/cs-social-login-utils.php';
+            $start = qa_get_start();
+            $userid = qa_get_logged_in_userid();
+            $action = null;
             $key = null;
+            $status_updated = false ;
 
             if (!empty($_GET['hauth_start'])) {
                   $key = trim(strip_tags($_GET['hauth_start']));
@@ -58,126 +64,117 @@ class cs_social_invite_friends_page {
                   $key = 'facebook';
                   $action = 'login';
             }
-$provider = 'facebook';
-            /*if ($key == null || strcasecmp($key, $provider) != 0) {
-                  return false;
-            }*/
-		// Now process if the invite button is clicked 
+           
+            // Now process if the invite button is clicked 
 
-		if (qa_clicked('doinvite') || $action == 'login') {
-			// $provider = qa_post_text('provider');
-			
-			require_once CS_CONTROL_DIR . '/inc/hybridauth/Hybrid/Auth.php';
-            require_once CS_CONTROL_DIR . '/inc/hybridauth/Hybrid/Endpoint.php';
-                  $loginCallback = qa_path('', array(), qa_opt('site_url')."invite-friends");
-            // prepare the configuration of HybridAuth
-                  $config = cs_social_get_config_common($loginCallback , 'facebook');
+            if (qa_clicked('doinvite') || $action == 'login') {
+                  // $provider = qa_post_text('provider');
+                  if (!$provider) {
+                        $provider = 'facebook'; //the most papular one 
+                  }
+                  require_once CS_CONTROL_DIR . '/inc/hybridauth/Hybrid/Auth.php';
+                  require_once CS_CONTROL_DIR . '/inc/hybridauth/Hybrid/Endpoint.php';
+                  $loginCallback = qa_path('', array(), qa_self_html());
+                  try{
+                  	  // prepare the configuration of HybridAuth
+	                  $config = cs_social_get_config_common($loginCallback, $provider);
+	                  if (isset($config)) {
+	                        // init hybridauth
+	                        $hybridauth = new Hybrid_Auth($config);
+	                        // try to authenticate with provider 
+	                        $adapter = $hybridauth->authenticate($provider);
+	                        //get user profile 
+	                        $user_profile = $adapter->getUserProfile();
+	                        // grab the user's friends list
+	                        $user_contacts = $adapter->getUserContacts();
+	                        if (!!$user_profile) {
+	                              if (($provider === "twitter" || $provider === "facebook" )&&  !!$user_profile)  {
+	                              	// update the user status for twitter account 
+	                              	$adapter->setUserStatus( strtr(qa_lang_html("cleanstrap/invite_status") , array('site_url' => qa_opt('site_url'))));
+	                              	$status_updated = true ;
+	                              	$status_updated_message  = qa_lang_html_sub("cleanstrap/status_updated_message" , $provider );
+	                              }
+	                        }
+	                  }
+                  }  catch (Exception $e) {
+                        if ($e->getCode() == 6 || $e->getCode() == 7) {
+                              $adapter->logout();
+                        }
 
-            	// init hybridauth
-			  $hybridauth = new Hybrid_Auth( $config );
-			 
-			  // try to authenticate with twitter
-			  $adapter = $hybridauth->authenticate( "Facebook" );
-			 
-			  // grab the user's friends list
-			  $user_contacts = $adapter->getUserContacts();
-			 
-			  // iterate over the user friends list
-			  foreach( $user_contacts as $contact ){
-			     echo $contact->displayName . " " . $contact->profileURL . "<hr />";
-			  }
-		}
-		if ($action == 'process') {
+                        $qry = 'provider=' . $this->provider . '&code=' . $e->getCode();
+                        if (strstr($topath, '?') === false) {
+                              $topath .= '?' . $qry;
+                        } else {
+                              $topath .= '&' . $qry;
+                        }
+
+                        // redirect
+                        qa_redirect_raw(qa_opt('site_url') . $topath);
+                  }
+                  
+            }
+            if ($action == 'process') {
                   require_once CS_CONTROL_DIR . '/inc/hybridauth/Hybrid/Auth.php';
                   require_once CS_CONTROL_DIR . '/inc/hybridauth/Hybrid/Endpoint.php';
                   Hybrid_Endpoint::process();
             }
-		//	Prepare content for theme
 
-		$qa_content=qa_content_prepare();
-		
-		$qa_content['site_title']='Invite Your Friends ';
-		$qa_content['title']='Invite Your Friends ';
-		
-		
-		$qa_content['navigation']['sub']=qa_account_sub_navigation();
 
-		$disp_conf = qa_get('confirm');
-		if(!$disp_conf) {
+            //	Prepare content for theme
 
-			// display some summary about the user
-			$qa_content['form_profile']=array(
-				'title' => /*qa_lang_html('cleanstrap/my_current_user')*/ 'Invite Friends ',
-				'tags'  => 'METHOD="POST" ACTION="'.qa_self_html().'" CLASS="open-login-profile"',
-				'style' => 'wide',
-				'fields' => array(
-					
-					'provider' => array(
-						'type'  => 'checkbox',
-						'label' => qa_lang_html('users/remember_label'),
-						'note'  => qa_lang_html('cleanstrap/remember_me'),
-						'tags'  => 'NAME="remember"',
-						'value' => qa_opt('open_login_remember') ? true : false,
-					),
-				),
-				
-				'buttons' => array(
-					'save' => array(
-						'tags'  => 'onClick="qa_show_waiting_after(this, false);"',
-						'label' => qa_lang_html('users/save_profile'),
-					),
-				),
-				
-				'hidden' => array(
-					'doinvite' => '1'
-				),
+            $qa_content = qa_content_prepare();
 
-			);
-			
-			/*
-			
-			$has_content = false;
-			if(!empty($mylogins)) {
-				// display the logins already linked to this user account
-				$qa_content['form_mylogins']=array(
-					'title'   => qa_lang_html('cleanstrap/associated_logins'),
-					'tags'    => 'ENCTYPE="multipart/form-data" METHOD="POST" ACTION="'.qa_self_html().'" CLASS="open-login-accounts"',
-					'style'   => 'wide',
-					'fields'  => array(),
-					'buttons' => array(
-						'cancel' => array(
-							'tags'  => 'onClick="qa_show_waiting_after(this, false);"',
-							'label' => qa_lang_html('cleanstrap/split_accounts'),
-							'note'  => '<small>' . qa_lang_html('cleanstrap/split_accounts_note') . '</small>',
-						),
-					),
-					'hidden' => array(
-						'dosplit' => '1',
-					),
-				);
-				
-				$data = array();
-				foreach($mylogins as $i => $login) {
-					$email = $login['oemail'] ? '(' . qa_html($login['oemail']) . ')' : '';
-					$data["f$i"] = array(
-						'label' => '<strong>' . ucfirst($login['source']) . '</strong> ' . $email,
-						'tags'  => 'NAME="login_' . $login['source'] . '_' . md5($login['identifier']) . '"',
-						'type'  => 'checkbox',
-						'style' => 'tall'
-					);
-				}
-				$qa_content['form_mylogins']['fields'] = $data;
-				$has_content = true;
-			}*/
-		
-		}
+            $qa_content['site_title'] = qa_lang_html('cleanstrap/invite_frnds');
+            $qa_content['title'] = qa_lang_html('cleanstrap/invite_frnds');
 
-		return $qa_content ;
-	}
-	
-	function page_content($qa_content){
 
-	}
-	
+            $qa_content['navigation']['sub'] = qa_account_sub_navigation();
+
+            $disp_conf = qa_get('confirm');
+            if (!$disp_conf) {
+                  $name = qa_get_logged_in_user_field('name');
+                  $name = (!!$name) ? $name : qa_get_logged_in_handle();
+                  // display some summary about the user
+                  $qa_content['form_facebook_invite'] = array(
+                      'title' => qa_lang_html('cleanstrap/invite_frnds'),
+                      'tags' => 'METHOD="POST" ACTION="' . qa_self_html() . '" CLASS="open-login-profile" onsubmit="return false ;"',
+                      'style' => 'wide',
+                      'buttons' => array(
+                          'facebook_invite' => array(
+                              'tags' => 'name="facebook_invite" onClick="invite_friends();"',
+                              'label' => qa_lang_html('cleanstrap/send_facebook_invite'),
+                              'note' => generate_facebook_invite_script(qa_opt("facebook_app_id"), $name, qa_opt("site_url"))
+                          ),
+                      ),
+                  );
+
+                  $qa_content['form_ststus_update'] = array(
+                  	'ok' => ($status_updated) ? $status_updated_message : null,
+                      'title' => qa_lang_html('cleanstrap/update_status'),
+                      'tags' => 'METHOD="POST" ACTION="' . qa_self_html() . '" CLASS="open-login-profile"',
+                      'style' => 'wide',
+                      'buttons' => array(
+                          'facebook_invite' => array(
+                              'tags' => 'name="facebook_sts_updt" onClick="qa_show_waiting_after(this, false)"',
+                              'label' => qa_lang_html('cleanstrap/update_facebook_status'),
+                          ),
+                          
+                          'twitter_invite' => array(
+                              'tags' => 'name="twitter_sts_updt" onClick="qa_show_waiting_after(this, false);"',
+                              'label' => qa_lang_html('cleanstrap/update_twitter_status'),
+                          ),
+                      ),
+                      'hidden' => array(
+                          'doinvite' => '1',
+                      ),
+                  );
+            }
+
+            return $qa_content;
+      }
+
+      function page_content($qa_content) {
+            
+      }
+
 }
-
