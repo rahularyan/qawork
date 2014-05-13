@@ -3,7 +3,7 @@
 	class qa_html_theme_layer extends qa_html_theme_base {
 		
 		function doctype(){	
-			
+
 			//content hook
 			cs_event_hook('content', $this->content);
 		

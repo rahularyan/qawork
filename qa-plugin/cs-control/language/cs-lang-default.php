@@ -1,6 +1,6 @@
 <?php
 	
-	$lang = array(
+	return array(
 		'open' 			=> 'Open',
 		'closed' 		=> 'Closed',
 		'duplicate' 	=> 'Duplicate',
@@ -161,8 +161,6 @@
 		'oopps_page_not_found' => 'Oops, page not found',
 		'mistyped_url' => 'You have mistyped the URL, check spelling.',
 	);
-	$lang_hook = cs_event_hook('language', array());
-	return array_merge($lang_hook , $lang);
 	
 
 /*
