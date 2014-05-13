@@ -12,15 +12,11 @@ if (!defined('QA_VERSION')) {
       header('Location: /');
       exit;
 }
-  qa_register_plugin_module('widget', 'addons/social-login/widget.php', 'cs_social_login_widget', 'CS Social Login');
 
+qa_register_plugin_module('widget', 'addons/social-login/widget.php', 'cs_social_login_widget', 'CS Social Login');
 qa_register_plugin_overrides('addons/social-login/cs-social-logins-overrides.php');
 qa_register_plugin_module('page', 'addons/social-login/page.php', 'cs_social_login_page', 'CS Social Login Page');
 qa_register_plugin_module('page', 'addons/social-login/invite-friends.php', 'cs_social_invite_friends_page', 'CS Social Invite Friends Page');
-/*
-  qa_register_plugin_module('login', 'addons/social-login/cs-social-login-module.php', 'cs_open_login', "Facebook");
-  qa_register_plugin_module('login', 'addons/social-login/cs-social-login-module.php', 'cs_open_login', "Google");
- */
 
 class Cs_Social_Login_Addon {
 
@@ -72,7 +68,7 @@ class Cs_Social_Login_Addon {
       }
 
       public function script($script_src) {
-            $script_src['cs_social_login'] = CS_CONTROL_URL . '/addons/social-login/scripts.js';
+            $script_src['cs_social_login'] = CS_CONTROL_URL . '/addons/social-login/script.js';
             return $script_src;
       }
 	  

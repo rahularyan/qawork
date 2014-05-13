@@ -1,5 +1,4 @@
 <?php
-
 /* don't allow this page to be requested directly from browser */
 if (!defined('QA_VERSION')) {
       header('Location: /');
@@ -83,6 +82,61 @@ function cs_social_login_get_new_source($source, $identifier) {
       // provider to be linked to an Q2A user (ie. a QA user can have 2 Facebook 
       // accounts linked to it)
       return substr($source, 0, 9) . '-' . substr(md5($identifier), 0, 6);
+}
+
+function cs_social_get_config_common($url, $provider) {
+      $key = strtolower($provider);
+      $app_id = qa_opt("{$key}_app_id");
+      $app_secret = qa_opt("{$key}_app_secret");
+
+      if (!$app_secret || !$app_id) {
+            return null;
+      }
+
+      return array(
+          'base_url' => $url,
+          'providers' => array(
+              $provider => array(
+                  'enabled' => true,
+                  'keys' => array(
+                      'id' => $app_id,
+                      'key' => $app_id,
+                      'secret' => $app_secret
+                  ),
+                  'scope' => $provider == 'Facebook' ? 'email,user_about_me,user_location,user_website' : null,
+              )
+          ),
+          'debug_mode' => false,
+          'debug_file' => ''
+      );
+}
+
+function generate_facebook_invite_script($app_id, $name, $url) {
+      if (!$app_id) {
+            return "";
+      }
+      $message = strtr(qa_lang("cs_social_login/facebook_invite_msg") , array('^name'=> $name , '^site_url' => $url));
+      ob_start();
+      ?>
+      <script src="http://connect.facebook.net/en_US/all.js"></script>  
+
+      <script>
+            FB.init({
+                  appId: '<?php echo $app_id; ?>', // or simply set your appid hard coded
+                  cookie: true,
+                  status: true,
+                  xfbml: true
+            });
+            function invite_friends() {
+                  FB.ui({
+                        method: 'apprequests',
+                        message: '<?php echo $message ?>',
+                  });
+            }
+      </script>
+      <?php
+      $output = ob_get_clean();
+      return $output;
 }
 
 /*
