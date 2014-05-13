@@ -58,7 +58,7 @@ class Cs_Social_Login_Addon {
       }
 
       public function language($lang_arr) {
-		$lang_arr['cs_social_login'] = CS_CONTROL_DIR .'/addons/social-login/lang-*.php';
+		$lang_arr['cs_social_login'] = CS_CONTROL_DIR .'/addons/social-login/language.php';
 		return $lang_arr;
       }
 
