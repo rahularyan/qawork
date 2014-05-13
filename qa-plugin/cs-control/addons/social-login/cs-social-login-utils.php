@@ -115,7 +115,7 @@ function generate_facebook_invite_script($app_id, $name, $url) {
       if (!$app_id) {
             return "";
       }
-      $message = strtr(qa_lang("cleanstrap/facebook_invite_msg") , array('name'=> $name , 'site_url' => $url));
+      $message = strtr(qa_lang("cs_social_login/facebook_invite_msg") , array('^name'=> $name , '^site_url' => $url));
       ob_start();
       ?>
       <script src="http://connect.facebook.net/en_US/all.js"></script>  

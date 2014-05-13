@@ -90,7 +90,7 @@ class cs_social_invite_friends_page {
 	                        if (!!$user_profile) {
 	                              if (($provider === "twitter" || $provider === "facebook" )&&  !!$user_profile)  {
 	                              	// update the user status for twitter account 
-	                              	$adapter->setUserStatus( strtr(qa_lang_html("cs_social_login/invite_status") , array('site_url' => qa_opt('site_url'))));
+	                              	$adapter->setUserStatus( strtr(qa_lang_html("cs_social_login/invite_status") , array('^site_url' => qa_opt('site_url'))));
 	                              	$status_updated = true ;
 	                              	$status_updated_message  = qa_lang_html_sub("cs_social_login/status_updated_message" , $provider );
 	                              }
