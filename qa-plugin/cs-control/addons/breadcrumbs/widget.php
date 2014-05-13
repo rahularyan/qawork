@@ -142,6 +142,7 @@ class cs_breadcrumbs_widget {
                               
 					$link .= (!!$link) ? "/" . $nav : $nav;
                               // added this to fix users page bug and tag page bug 
+                              $prev_link =  $link ;
                               $link = ($link === "user") ? "users" : $link ;
                               $link = ($link === "tag")  ? "tags"  : $link ;
 					$br   .= $this->breadcrumb_part(array(
@@ -149,6 +150,8 @@ class cs_breadcrumbs_widget {
 						'url'  => qa_path($link),
 						'text' => $nav,
                               ));
+                              // reset the link for next iteration 
+                              $link = $prev_link ;
                         }
 
                         switch ($type) {
