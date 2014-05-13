@@ -329,4 +329,8 @@ $(document).ready(function(){
 			"rgb(12, 52, 61)", "rgb(28, 69, 135)", "rgb(7, 55, 99)", "rgb(32, 18, 77)", "rgb(76, 17, 48)"]
 		]
 	});
+	
+	$('[data-opts]').click(function(){
+		$($(this).data('opts')).toggle();
+	});
 });

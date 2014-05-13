@@ -16,7 +16,7 @@ class cs_social_login_page {
 	}
 
 	function match_request($request)
-	{
+	{		
 		if ($request=='logins')
 			return true;
 
@@ -31,8 +31,8 @@ class cs_social_login_page {
 
 		$qa_content=qa_content_prepare();
 		
-		$qa_content['site_title']=qa_lang_html('cleanstrap/my_logins_title');
-		$qa_content['title']=qa_lang_html('cleanstrap/my_logins_title');
+		$qa_content['site_title']=qa_lang_html('cs_social_login/my_logins_title');
+		$qa_content['title']=qa_lang_html('cs_social_login/my_logins_title');
 		
 		require_once QA_INCLUDE_DIR.'qa-db-users.php';
 		require_once QA_INCLUDE_DIR.'qa-app-format.php';
@@ -176,13 +176,13 @@ class cs_social_login_page {
 
 		//	Prepare content for theme
 		$qa_content=qa_content_prepare();
-		$qa_content['title']=qa_lang_html('cleanstrap/my_logins_title');
+		$qa_content['title']=qa_lang_html('cs_social_login/my_logins_title');
 		
 		$disp_conf = qa_get('confirm');
 		if(!$disp_conf) {
 			// display some summary about the user
 			$qa_content['form_profile']=array(
-				'title' => qa_lang_html('cleanstrap/my_current_user'),
+				'title' => qa_lang_html('cs_social_login/my_current_user'),
 				'tags'  => 'ENCTYPE="multipart/form-data" METHOD="POST" ACTION="'.qa_self_html().'" CLASS="open-login-profile"',
 				'style' => 'wide',
 				'fields' => array(
@@ -201,7 +201,7 @@ class cs_social_login_page {
 					'remember' => array(
 						'type'  => 'checkbox',
 						'label' => qa_lang_html('users/remember_label'),
-						'note'  => qa_lang_html('cleanstrap/remember_me'),
+						'note'  => qa_lang_html('cs_social_login/remember_me'),
 						'tags'  => 'NAME="remember"',
 						'value' => qa_opt('open_login_remember') ? true : false,
 					),
@@ -228,15 +228,15 @@ class cs_social_login_page {
 			if(!empty($mylogins)) {
 				// display the logins already linked to this user account
 				$qa_content['form_mylogins']=array(
-					'title'   => qa_lang_html('cleanstrap/associated_logins'),
+					'title'   => qa_lang_html('cs_social_login/associated_logins'),
 					'tags'    => 'ENCTYPE="multipart/form-data" METHOD="POST" ACTION="'.qa_self_html().'" CLASS="open-login-accounts"',
 					'style'   => 'wide',
 					'fields'  => array(),
 					'buttons' => array(
 						'cancel' => array(
 							'tags'  => 'onClick="qa_show_waiting_after(this, false);"',
-							'label' => qa_lang_html('cleanstrap/split_accounts'),
-							'note'  => '<small>' . qa_lang_html('cleanstrap/split_accounts_note') . '</small>',
+							'label' => qa_lang_html('cs_social_login/split_accounts'),
+							'note'  => '<small>' . qa_lang_html('cs_social_login/split_accounts_note') . '</small>',
 						),
 					),
 					'hidden' => array(
@@ -263,15 +263,15 @@ class cs_social_login_page {
 		if(!empty($otherlogins)) {
 			// display other logins which could be linked to this user account
 			$qa_content['form_merge']=array(
-				'title'   => $disp_conf ? qa_lang_html('cleanstrap/other_logins_conf_title') : qa_lang_html('cleanstrap/other_logins'),
+				'title'   => $disp_conf ? qa_lang_html('cs_social_login/other_logins_conf_title') : qa_lang_html('cs_social_login/other_logins'),
 				'tags'    => 'ENCTYPE="multipart/form-data" METHOD="POST" ACTION="'.qa_self_html().'" CLASS="open-login-others"',
 				'style'   => 'wide',
-				'note'    => $disp_conf ? qa_lang_html('cleanstrap/other_logins_conf_text'): null,
+				'note'    => $disp_conf ? qa_lang_html('cs_social_login/other_logins_conf_text'): null,
 				'fields'  => array(),
 				'buttons' => array(
 						'save' => array(
 							'tags'  => 'onClick="qa_show_waiting_after(this, false);"',
-							'label' => qa_lang_html('cleanstrap/merge_accounts'),
+							'label' => qa_lang_html('cs_social_login/merge_accounts'),
 						),
 				),
 				'hidden' => array(
@@ -289,7 +289,7 @@ class cs_social_login_page {
 				
 				if(!$login['source']) { // this is a regular site login, not an openid login
 					$type  = 'user';
-					$name  = qa_lang_html('cleanstrap/local_user');
+					$name  = qa_lang_html('cs_social_login/local_user');
 					$email = '(' . $login['handle'] . ')';
 					$login['source']     = $login['userid'];
 					$login['identifier'] = $login['userid'];
@@ -311,12 +311,12 @@ class cs_social_login_page {
 				$qa_content['form_merge']['buttons']['cancel'] = array(
 					'tags'  => 'NAME="docancel"',
 					'label' => qa_lang_html('main/cancel_button'),
-					'note'  => '<small>' . qa_lang_html('cleanstrap/merge_accounts_note') . '</small>',
+					'note'  => '<small>' . qa_lang_html('cs_social_login/merge_accounts_note') . '</small>',
 				);
 			} else {
 				// when accessing the logins page, no confirmation is displayed
 				$qa_content['form_merge']['buttons']['save']['note'] = 
-					'<small>' . qa_lang_html('cleanstrap/merge_accounts_note') . '</small>';
+					'<small>' . qa_lang_html('cs_social_login/merge_accounts_note') . '</small>';
 			}
 			
 		} else if($disp_conf) {
@@ -326,11 +326,11 @@ class cs_social_login_page {
 		if(!$has_content) {
 			// no linked logins
 			$qa_content['form_nodata']=array(
-				'title' => '<br>' . qa_lang_html('cleanstrap/no_logins_title'),
+				'title' => '<br>' . qa_lang_html('cs_social_login/no_logins_title'),
 				'style' => 'light',
 				'fields' => array(
 					'note' => array(
-						'note' => qa_lang_html('cleanstrap/no_logins_text'),
+						'note' => qa_lang_html('cs_social_login/no_logins_text'),
 						'type' => 'static'
 					)
 				),
@@ -341,7 +341,7 @@ class cs_social_login_page {
 
 		// set some extra subnavigations 
 		$qa_content['navigation']['sub']['logins'] = array(
-														'label' => qa_lang_html('cleanstrap/my_logins_title'),
+														'label' => qa_lang_html('cs_social_login/my_logins_title'),
 														'url'   => './logins' ,
 													);
 		
@@ -359,131 +359,7 @@ class cs_social_login_page {
 		
 		return $output;
 	}
-	/*Admin form to be displayed for saving preferences */
-	function admin_form() {
-		$saved=false;
-		
-		if (qa_clicked('general_save_button')) {
-			
-			// loop through all providers and see which one was enabled
-			$allProviders = scandir( CS_CONTROL_DIR . '/inc/hybridauth/Hybrid/Providers' );
-			
-			$activeProviders = array();
-			foreach($allProviders as $providerFile) {
-				if(substr($providerFile,0,1) == '.') {
-					continue;
-				}
 
-				$provider = str_ireplace('.php', '', $providerFile);
-				$key = strtolower($provider);
-
-				$enabled = qa_post_text("{$key}_app_enabled_field");
-				$shortcut = qa_post_text("{$key}_app_shortcut_field");
-				qa_opt("{$key}_app_enabled", empty($enabled) ? 0 : 1);
-				qa_opt("{$key}_app_shortcut", empty($shortcut) ? 0 : 1);
-				qa_opt("{$key}_app_id", qa_post_text("{$key}_app_id_field"));
-				qa_opt("{$key}_app_secret", qa_post_text("{$key}_app_secret_field"));
-				
-				if(!empty($enabled)) {
-					$activeProviders[] = $provider;
-				}
-			}
-			
-			// at the end save a list of all active providers
-			file_put_contents( CS_CONTROL_DIR . '/inc/hybridauth/providers.php', 
-				'<' . '?' . 'php return "' . implode(',', $activeProviders) . '" ?' . '>'
-			);
-			
-			// also save the other configurations
-			$hidecss = qa_post_text('open_login_css');
-			qa_opt('open_login_css', empty($hidecss) ? 0 : 1);
-			
-			$zocial = qa_post_text('open_login_zocial');
-			qa_opt('open_login_zocial', empty($zocial) ? 0 : 1);
-			$saved=true;
-		}
-		
-		$form = array(
-			'ok' => $saved ? 'CleanStrap Social Login preferences saved' : null,
-			
-			'fields' => array(
-				array(
-					'type'  => 'static',
-					'label' => '<strong>'.qa_lang_html('cleanstrap/admin_options_heading').'</strong>',
-				),
-			),
-			
-			'buttons' => array(
-				array(
-					'label' => 'Save Changes',
-					'tags'  => 'NAME="general_save_button"',
-				),
-			),
-		);
-		
-		
-		$allProviders = scandir( CS_CONTROL_DIR . '/inc/hybridauth/Hybrid/Providers'  );
-		
-		foreach($allProviders as $providerFile) {
-			if(substr($providerFile,0,1) == '.' || $providerFile == 'OpenID.php') {
-				continue;
-			}
-			
-			$provider = str_ireplace('.php', '', $providerFile);
-			$key = strtolower($provider);
-			
-			$form['fields'][] = array(
-				'type'  => 'checkbox',
-				'label' => 'Enable ' . $provider,
-				'value' => qa_opt("{$key}_app_enabled") ? true : false,
-				'tags'  => "NAME=\"{$key}_app_enabled_field\"",
-			);
-			
-			$form['fields'][] = array(
-				'type'  => 'checkbox',
-				'label' => 'Show ' . $provider . ' button in the header',
-				'value' => qa_opt("{$key}_app_shortcut") ? true : false,
-				'tags'  => "NAME=\"{$key}_app_shortcut_field\"",
-			);
-			
-			$form['fields'][] = array(
-				'label' => $provider . ' App ID:',
-				'value' => qa_html(qa_opt("{$key}_app_id")),
-				'tags'  => "NAME=\"{$key}_app_id_field\"",
-			);
-
-			$form['fields'][] = array(
-				'label' => $provider . ' App Secret:',
-				'value' => qa_html(qa_opt("{$key}_app_secret")),
-				'tags'  => "NAME=\"{$key}_app_secret_field\"",
-			);
-			
-			$docUrl = "http://hybridauth.sourceforge.net/userguide/IDProvider_info_{$provider}.html";
-			if($provider == 'Google' || $provider == 'Yahoo') {
-				$form['fields'][] = array(
-					'type' => 'static',
-					'label' => 'By default, <strong>' . $provider . '</strong> uses OpenID and does not need any keys, so these fields should ' .
-								'be left blank. However, if you replaced the provider file with the one that uses OAuth, and not OpenID, you ' .
-								'need to provide the app keys. In this case, click on <a href="' . $docUrl . '" target="_blank">' . $docUrl . '</a> ' .
-								'for information on how to get them.',
-				);
-				
-			} else {
-				$form['fields'][] = array(
-					'type' => 'static',
-					'label' => 'For information on how to setup your application with <strong>' . $provider . '</strong> ' .
-								'see the <strong>Registering application</strong> section from <a href="' . $docUrl . '" target="_blank">' . $docUrl . '</a>.',
-				);
-			}
-			
-			$form['fields'][] = array(
-				'type'  => 'static',
-				'label' => '&nbsp;',
-			);
-		}
-		
-		return $form;
-	}
 	
 	
 }

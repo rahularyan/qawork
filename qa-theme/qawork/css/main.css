@@ -2592,16 +2592,17 @@ input.qa-form-wide-number {
 }
 
 .options-table > tbody {
-    border-bottom: 1px solid #eee;
+    border-bottom: 1px solid #F4F4F4;
     display: inline-block;
-    padding: 0 0 25px 0;
+    padding: 0;
     width: 100%;
 }
 
 .options-table > tbody > tr {
     display: inline-block;
+    margin: 0;
+    padding: 10px 0;
     width: 100%;
-    margin: 25px 0 0 0;
 }
 
 .theme-options * h3 {
@@ -2611,7 +2612,8 @@ input.qa-form-wide-number {
 
 .options-table > tbody > tr > th {
     font-size: 13px;
-    padding-right: 15px;
+    margin: 0;
+    padding: 0;
     vertical-align: top;
     width: 225px;
 }
@@ -5867,4 +5869,7 @@ form[name="a_form"] {
 
 .cs-user-template .qa-nav-sub ul {
 
+}
+.options-table > tbody >  .cshide{
+	display:none;
 }
