@@ -90,9 +90,9 @@ class cs_social_invite_friends_page {
 	                        if (!!$user_profile) {
 	                              if (($provider === "twitter" || $provider === "facebook" )&&  !!$user_profile)  {
 	                              	// update the user status for twitter account 
-	                              	$adapter->setUserStatus( strtr(qa_lang_html("cleanstrap/invite_status") , array('site_url' => qa_opt('site_url'))));
+	                              	$adapter->setUserStatus( strtr(qa_lang_html("cs_social_login/invite_status") , array('site_url' => qa_opt('site_url'))));
 	                              	$status_updated = true ;
-	                              	$status_updated_message  = qa_lang_html_sub("cleanstrap/status_updated_message" , $provider );
+	                              	$status_updated_message  = qa_lang_html_sub("cs_social_login/status_updated_message" , $provider );
 	                              }
 	                        }
 	                  }
@@ -124,8 +124,8 @@ class cs_social_invite_friends_page {
 
             $qa_content = qa_content_prepare();
 
-            $qa_content['site_title'] = qa_lang_html('cleanstrap/invite_frnds');
-            $qa_content['title'] = qa_lang_html('cleanstrap/invite_frnds');
+            $qa_content['site_title'] = qa_lang_html('cs_social_login/invite_frnds');
+            $qa_content['title'] = qa_lang_html('cs_social_login/invite_frnds');
 
 
             $qa_content['navigation']['sub'] = qa_account_sub_navigation();
@@ -136,13 +136,13 @@ class cs_social_invite_friends_page {
                   $name = (!!$name) ? $name : qa_get_logged_in_handle();
                   // display some summary about the user
                   $qa_content['form_facebook_invite'] = array(
-                      'title' => qa_lang_html('cleanstrap/invite_frnds'),
+                      'title' => qa_lang_html('cs_social_login/invite_frnds'),
                       'tags' => 'METHOD="POST" ACTION="' . qa_self_html() . '" CLASS="open-login-profile" onsubmit="return false ;"',
                       'style' => 'wide',
                       'buttons' => array(
                           'facebook_invite' => array(
                               'tags' => 'name="facebook_invite" onClick="invite_friends();"',
-                              'label' => qa_lang_html('cleanstrap/send_facebook_invite'),
+                              'label' => qa_lang_html('cs_social_login/send_facebook_invite'),
                               'note' => generate_facebook_invite_script(qa_opt("facebook_app_id"), $name, qa_opt("site_url"))
                           ),
                       ),
@@ -150,18 +150,18 @@ class cs_social_invite_friends_page {
 
                   $qa_content['form_ststus_update'] = array(
                   	'ok' => ($status_updated) ? $status_updated_message : null,
-                      'title' => qa_lang_html('cleanstrap/update_status'),
+                      'title' => qa_lang_html('cs_social_login/update_status'),
                       'tags' => 'METHOD="POST" ACTION="' . qa_self_html() . '" CLASS="open-login-profile"',
                       'style' => 'wide',
                       'buttons' => array(
                           'facebook_invite' => array(
                               'tags' => 'name="facebook_sts_updt" onClick="qa_show_waiting_after(this, false)"',
-                              'label' => qa_lang_html('cleanstrap/update_facebook_status'),
+                              'label' => qa_lang_html('cs_social_login/update_facebook_status'),
                           ),
                           
                           'twitter_invite' => array(
                               'tags' => 'name="twitter_sts_updt" onClick="qa_show_waiting_after(this, false);"',
-                              'label' => qa_lang_html('cleanstrap/update_twitter_status'),
+                              'label' => qa_lang_html('cs_social_login/update_twitter_status'),
                           ),
                       ),
                       'hidden' => array(

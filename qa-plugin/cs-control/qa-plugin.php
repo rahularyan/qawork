@@ -76,6 +76,16 @@ qa_register_plugin_layer('cs-layer.php', 'CS Control Layer');
 //load all addons
 cs_load_addons();
 
+//register addons language
+if (cs_hook_exist('register_language')){
+	$lang_file_array = cs_event_hook('register_language', array());
+
+	if(isset($lang_file_array) && is_array($lang_file_array)){
+		foreach($lang_file_array as $key => $file){
+			qa_register_phrases($file, $key);
+		}
+	}
+}
 
 cs_event_hook('enqueue_css', NULL, 'cs_admin_enqueue_css');
 function cs_admin_enqueue_css($css_src){
