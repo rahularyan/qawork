@@ -240,10 +240,6 @@ class qa_html_theme extends qa_html_theme_base
 			$this->content['navigation']['user']['updates']['icon'] = 'icon-rss';
 			$this->content['navigation']['user']['account'] = array('label' => qa_lang('cleanstrap/account'), 'url' => qa_path_html('account'), 'icon' => 'icon-cog');
 			$this->content['navigation']['user']['favorites'] = array('label' => qa_lang('cleanstrap/favorites'), 'url' => qa_path_html('favorites'), 'icon' =>'icon-heart');
-			$this->content['navigation']['user']['wall'] = array('label' => qa_lang('cleanstrap/wall'), 'url' => qa_path_html('user/'.qa_get_logged_in_handle().'/wall'), 'icon' =>'icon-pin');
-			$this->content['navigation']['user']['recent_activity'] = array('label' => qa_lang('cleanstrap/recent_activity'), 'url' => qa_path_html('user/'.qa_get_logged_in_handle().'/activity'), 'icon' =>'icon-world');
-			$this->content['navigation']['user']['all_questions'] = array('label' => qa_lang('cleanstrap/all_questions'), 'url' => qa_path_html('user/'.qa_get_logged_in_handle().'/questions'), 'icon' =>'icon-question');
-			$this->content['navigation']['user']['all_answers'] = array('label' => qa_lang('cleanstrap/all_answers'), 'url' => qa_path_html('user/'.qa_get_logged_in_handle().'/answers'), 'icon' =>'icon-answer');
 			
 			$user_menu = array_merge(array_flip(array('admin', 'themewidgets', 'themeoptions', 'profile')), $this->content['navigation']['user']);
 
@@ -462,7 +458,7 @@ class qa_html_theme extends qa_html_theme_base
         
         if (!isset($navigation)) {
             $categoryslugs = qa_request_parts(1);
-            $cats          = cs_get_cache_select_selectspec(qa_db_category_nav_selectspec($categoryslugs, false, false, true));
+            $cats          = qa_db_select_with_pending(qa_db_category_nav_selectspec($categoryslugs, false, false, true));
             $navigation    = qa_category_navigation($cats);
         }
 
@@ -657,39 +653,60 @@ class qa_html_theme extends qa_html_theme_base
 			$handle =  $user_date->user_login;
 			$about  = cs_name($handle);
 		}else{
-			$handle = $this->content['raw']['account']['handle'];
-			$userid = $this->content['raw']['account']['userid'];
-			$about  = cs_name($handle);
+			$handle = qa_request_part(1);
 		}
+
+		$this->content['active_user'] = cs_user_data($handle);
+		$this->content['active_user_profile'] = cs_user_profile($handle);
 		
-		$this->content['user'] = cs_user_data($handle);
-		
+		$this->output('<div class="user-block">');
 		$this->profile_page_head($handle);
+		$this->output('<div class="user-right">');
+		$this->user_cover();
 		$this->cs_user_nav($handle);
-		$this->profile_page($handle);	
+		$this->profile_page($content);
+		$this->output('</div></div>');		
 			
 	}
 	function profile_page_head($handle){
 		if (cs_hook_exist(__FUNCTION__)) {$args=func_get_args(); return cs_event_hook(__FUNCTION__, $args); }
-		$user = $this->content['user'];
-        $this->output('<div class="user-head">');
-		$this->output('<div class="user-thumb">' . cs_get_avatar($handle, 100) . '</div>');
+		
+		$user = $this->content['active_user'];
+		$profile = $this->content['active_user_profile'];
+        $this->output('<div class="user-left"><div class="user-left-inner">');
+		$this->output('<div class="user-thumb">' . cs_get_avatar($handle, 150) . '</div>');
 		
 		$this->output('<div class="user-details clearfix">');		
 			$this->output('<div class="user-name">');		
 				$this->output('<span>'.$handle.'</span>');
-				$this->output('<small class="block">' . qa_user_level_string($user['level']) . '</small>');
+				$this->output('<small class="block">' . qa_user_level_string($user['account']['level']) . '</small>');
 			$this->output('</div>');
 		
 			$this->favorite();
 		
+		$this->output('<ul>');
+		
+		$this->output(
+			'<li><a href="#">'.qa_lang_sub('cleanstrap/followers_x', cs_count_followers($handle)).'</a></li>',
+			'<li><a href="#">'.qa_lang_sub('cleanstrap/following_x', cs_count_following($handle)).'</a></li>'
+		);
+		$this->output('</ul>');
+		
+		$this->output('<p class="about-me">');
+			$this->output('<strong>About admin</strong>');
+			$this->output('<span>'.$profile['about'].'</span>');
+			$this->output('<i>'.qa_lang_html('cleanstrap/more').'</i>');
+		$this->output('</p>');
+		
 		$this->output('</div>');
-		$this->output('</div>');
+		$this->output('</div></div>');
 	}
-	function profile_page($handle)
+	function profile_page($content)
     {
 		if (cs_hook_exist(__FUNCTION__)) {$args=func_get_args(); return cs_event_hook(__FUNCTION__, $args); }
-		$user = $this->content['user'];
+		$user = $this->content['active_user'];
+		
+		$this->main_parts($content);
 		
 		if (qa_get_logged_in_level() >= QA_USER_LEVEL_ADMIN) {
 			$form = @$this->content['form_profile'];
@@ -708,13 +725,19 @@ class qa_html_theme extends qa_html_theme_base
         
     }
     
+	function user_cover(){
+		$this->output('<div class="user-cover">');
+		$this->output('</div>');
+	}
+	
     function cs_user_nav($handle)
     {
 		if (cs_hook_exist(__FUNCTION__)) {$args=func_get_args(); return cs_event_hook(__FUNCTION__, $args); }
         $sub = $this->content['navigation']['sub'];
+		unset($sub['account']);
+		unset($sub['favorites']);
 		
-		$sub['profile']['icon'] 		= 'icon-user';
-		$sub['account']['icon'] 		= 'icon-cog';
+		$sub['profile']['icon'] 		= 'icon-user';		
 		$sub['favorites']['icon'] 		= 'icon-heart';
 		$sub['wall']['icon'] 			= 'icon-pin';
 		$sub['activity']['icon'] 		= 'icon-chart-bar';
@@ -1699,16 +1722,16 @@ class qa_html_theme extends qa_html_theme_base
 											<img class="avatar" height="150" src="' . $avatar . '" />
 										</div>
 										<div class="back face center">
-											<span class="activity q"><i>' . $data['qposts'] . '</i>' . qa_lang_html('cleanstrap/questions') . ' </span>
-											<span class="activity a"><i>' . $data['aposts'] . '</i>' . qa_lang_html('cleanstrap/answers') . ' </span>
-											<span class="activity c"><i>' . $data['cposts'] . '</i>' . qa_lang_html('cleanstrap/comments') . ' </span>
+											<span class="activity q"><i>' . $data['points']['qposts'] . '</i>' . qa_lang_html('cleanstrap/questions') . ' </span>
+											<span class="activity a"><i>' . $data['points']['aposts'] . '</i>' . qa_lang_html('cleanstrap/answers') . ' </span>
+											<span class="activity c"><i>' . $data['points']['cposts'] . '</i>' . qa_lang_html('cleanstrap/comments') . ' </span>
 										</div>
 									</div>
 									' : '
 									<div class="card-metas center">
-										<span class="activity q"><i>' . $data['qposts'] . '</i>' . qa_lang_html('cleanstrap/questions') . ' </span>
-										<span class="activity a"><i>' . $data['aposts'] . '</i>' . qa_lang_html('cleanstrap/answers') . ' </span>
-										<span class="activity c"><i>' . $data['cposts'] . '</i>' . qa_lang_html('cleanstrap/comments') . ' </span>
+										<span class="activity q"><i>' . $data['points']['qposts'] . '</i>' . qa_lang_html('cleanstrap/questions') . ' </span>
+										<span class="activity a"><i>' . $data['points']['aposts'] . '</i>' . qa_lang_html('cleanstrap/answers') . ' </span>
+										<span class="activity c"><i>' . $data['points']['cposts'] . '</i>' . qa_lang_html('cleanstrap/comments') . ' </span>
 									</div>													
 								') . '
 								</div>	
@@ -2028,7 +2051,7 @@ class qa_html_theme extends qa_html_theme_base
     {
 		if (cs_hook_exist(__FUNCTION__)) {$args=func_get_args(); return cs_event_hook(__FUNCTION__, $args); }
         $query            = strip_tags($_REQUEST['start_with']);
-        $relatedquestions = cs_get_cache_select_selectspec(qa_db_search_posts_selectspec(null, qa_string_to_words($query), null, null, null, null, 0, false, 10));
+        $relatedquestions = qa_db_select_with_pending(qa_db_search_posts_selectspec(null, qa_string_to_words($query), null, null, null, null, 0, false, 10));
         //print_r($relatedquestions);
         
         if (isset($relatedquestions) && !empty($relatedquestions)) {
