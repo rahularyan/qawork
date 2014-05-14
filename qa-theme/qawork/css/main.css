@@ -95,7 +95,7 @@ textarea{
 .btn:hover, .qa-form-light-button:hover, .qa-form-tall-button:hover, .qa-form-wide-button:hover, .qa-a-select-button:hover, .qa-a-unselect-button:hover, .post-button .btn:hover{
 	background: linear-gradient(#FFFFFF, #EAEAEA) repeat scroll 0 0 #FDFDFF;
 }
-.btn.icon-answer:before{
+.btn.icon-answer:before,.btn.icon-user-add:before{
 	margin-right:5px;
 }
 
@@ -113,6 +113,12 @@ textarea{
 .btn-success:hover, .qa-form-tall-button-answer:hover{
     background-image: linear-gradient(#92E575, #69B94D);
 	color:#fff;
+}
+.btn.active,.fav-parent .fav-btn.active {
+    background: none repeat scroll 0 0 #FFFFFF;
+    border-color: #D3D3D3;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.2) inset;
+    color: #777777;
 }
 .qa-c-item-buttons .qa-form-light-button {
     font-size: 11px;
@@ -365,6 +371,11 @@ textarea{
     display: table-cell;
     padding: 0 0 25px;
     vertical-align: top;
+}
+.user-block {
+    display: table;
+    margin-top: 20px;
+    width: 100%;
 }
 .side-c {
     display: table-cell;
@@ -628,17 +639,14 @@ textarea{
 }
 .qa-q-list {
     background: none repeat scroll 0 0 #FFFFFF;
-    border-color: #FFFFFF #DDDDDD #DDDDDD;
-    border-image: none;
+    border: medium none;
     border-radius: 0 0 5px 5px;
-    border-style: solid;
-    border-width: 1px;
     margin-top: 0;
 }
 .qa-q-list .qa-q-list-item {
     border-bottom: 1px solid #F8F8F8;
     display: table;
-    padding: 12px 15px;
+    padding: 12px 0;
     width: 100%;
 }
 
@@ -961,12 +969,10 @@ ul.qa-nav-cat-list-4 > li.qa-nav-cat-item:first-child {
 }
 
 .qa-main .qa-nav-sub ul {
-    background: linear-gradient(#FFFFFF, #FBFBFB) repeat scroll 0 0 #FBFBFB;
-    border: 1px solid #DDDDDD;
-    border-radius: 5px 5px 0 0;
+    border-bottom: 1px solid #DDDDDD;
     list-style: none outside none;
     margin: 0;
-    padding: 10px 10px 0;
+    padding: 0;
 }
 
 .qa-main .qa-nav-sub ul li {
@@ -978,6 +984,9 @@ ul.qa-nav-cat-list-4 > li.qa-nav-cat-item:first-child {
     display: block;
     padding: 8px 15px;
 	border-radius: 3px 3px 0 0;
+}
+.qa-nav-sub ul li [class^="icon-"]:before {
+    margin-right: 5px;
 }
 .qa-nav-sub-link:hover {
     background: none repeat scroll 0 0 #EEEEEE;
@@ -1217,11 +1226,7 @@ a.feed-link {
 
 }
 
-.fav-parent .fav-btn.active {
-    background: none repeat scroll 0 0 #AAAAAA;
-    border-color: #777777;
-    color: #FFFFFF;
-}
+
 
 .fav-parent span {
     font-size: 12px;
@@ -2158,13 +2163,7 @@ table.page-users-list {
 }
 
 .qa-part-form-profile, .qa-part-form-activity, .qa-part-message-list, .qa-part-form-badges-list {
-    background: #FFF;
-    border: 1px solid rgba(0, 0, 0, 0.1);
-    -moz-border-radius: 4px;
-    -webkit-border-radius: 4px;
-    border-radius: 4px;
-    margin-bottom: 20px;
-    padding: 15px;
+
 }
 
 .qa-part-form-profile table, .qa-part-form-password table {
@@ -3267,14 +3266,23 @@ th .description {
 
 .user-left {
     display: table-cell;
-    padding: 15px 0 15px 15px;
+    padding: 0 25px 0 0;
     vertical-align: top;
-    width: 150px;
+    width: 250px;
 }
-
-.user-thumb {
-    float: left;
-    margin-right: 20px;
+.user-left-inner {
+    border: 3px solid #EEEEEE;
+    border-radius: 5px;
+    padding: 10px;
+}
+.user-right {
+    display: table-cell;
+    vertical-align: top;
+}
+.user-left .user-thumb img {
+    border-radius: 50%;
+    display: table;
+    margin: 0 auto;
 }
 
 .user-name-detail {
@@ -3308,10 +3316,8 @@ th .description {
 }
 
 .user-left .fav-parent .fav-btn {
-    color: #FFF;
-    display: table;
-    margin: 0 auto 10px;
-    text-align: center;
+    float: none;
+    margin: 10px auto 0;
 }
 
 .user-left .fav-parent .fav-btn span {
@@ -4714,7 +4720,7 @@ th .description {
     font-size: 12px;
     font-weight: 400;
     line-height: 1.42857;
-    padding: 10px 3px;
+    padding: 7px 3px;
     white-space: nowrap;
 }
 
@@ -5251,7 +5257,11 @@ th .description {
 
 }
 .user-cover {
-
+    background: none repeat scroll 0 0 #EEEEEE;
+    border-radius: 5px;
+    display: block;
+    height: 200px;
+    margin-bottom: 20px;
 }
 .user-cover > img {
     width: 100%;
@@ -5305,9 +5315,9 @@ th .description {
 .user-details .user-name {
     color: #333333;
     display: block;
-    float: left;
     font-size: 20px;
     font-weight: bold;
+    text-align: center;
 }
 .user-details .user-name small {
     color: #8B9096;
@@ -5316,8 +5326,23 @@ th .description {
     font-weight: normal;
     line-height: 17px;
 }
-.user-details {
-    
+.user-details > ul {
+    list-style: none outside none;
+    margin: 15px 0 0;
+    padding: 0;
+}
+.user-details > ul li {
+    border-top: 1px solid #EEEEEE;
+    padding: 5px 0;
+}
+.user-details > ul li:last-child{
+	border-bottom: 1px solid #EEEEEE;
+}
+.user-details > ul li span{
+	float: right;
+}
+.user-details > ul li a{
+	display:block;
 }
 .user-details .fav-btn {
     border: 1px solid rgba(0, 0, 0, 0.1);
@@ -5330,9 +5355,33 @@ th .description {
     text-align: center;
     width: 105px;
 }
-.user-details .fav-btn.active{
-	background:#3ac0f8;
+.about-me{
+    color: #888888;
+    font-size: 13px;
+    height: 94px;
+    margin-top: 15px;
+    overflow: hidden;
+    position: relative;
 }
+.about-me.full{
+	height:auto;
+}
+.about-me > strong{
+	color:#666;
+	display:block;
+	margin-bottom:5px;
+}
+.about-me > i{
+    background: none repeat scroll 0 0 #FFFFFF;
+    border-radius: 2px;
+    bottom: 0;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1) inset;
+    cursor: pointer;
+    padding: 0 14px;
+    position: absolute;
+    right: 0;
+}
+
 .q-item-footer {
     margin-top: 3px;
 }
@@ -5745,12 +5794,8 @@ form[name="a_form"] {
     padding: 3px 5px;
 }
 .nav.nav-tabs{
-    background: #FBFBFB;
-    border: 1px solid #DDDDDD;
-    border-radius: 5px 5px 0 0;
-    list-style: none outside none;
     margin: 0;
-    padding: 10px 10px 0;
+    padding: 0;
 }
 .nav.nav-tabs > li > a {
     border-radius: 4px 4px 0 0;
@@ -5765,12 +5810,7 @@ form[name="a_form"] {
     border-width: 1px;
 }
 .home-left-inner .tab-content{
-	background:#fff;
-	background: none repeat scroll 0 0 #FFFFFF;
-    border-color: #FFFFFF #F1F1F1 #F1F1F1;
-    border-image: none;
-    border-style: solid;
-    border-width: 1px;
+	border: medium none;
 }
 .home-left-inner  .qa-q-list{
 	border:none;
@@ -5860,7 +5900,7 @@ form[name="a_form"] {
 .error-404 .suggestion {
     margin-top: 35px;
 }
-.user-head {
+.user-left {
     margin-bottom: 20px;
 }
 .user-navigation {
