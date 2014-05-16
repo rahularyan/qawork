@@ -16,7 +16,6 @@ class cs_open_login {
 
             $action = null;
             $key = null;
-
             if (!empty($_GET['hauth_start'])) {
                   $key = trim(strip_tags($_GET['hauth_start']));
                   $action = 'process';
@@ -33,7 +32,6 @@ class cs_open_login {
                   $key = 'facebook';
                   $action = 'login';
             }
-
             if ($key == null || strcasecmp($key, $this->provider) != 0) {
                   return false;
             }
@@ -53,7 +51,6 @@ class cs_open_login {
                   if (!isset($topath)) {
                         $topath = ''; // redirect to front page
                   }
-
                   try {
                         // try to login
                         $hybridauth = new Hybrid_Auth($config);

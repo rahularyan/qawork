@@ -10,6 +10,7 @@ class cs_social_invite_friends_page {
 
       var $directory;
       var $urltoroot;
+      var $page_url = 'invite-friends' ;
 
       function load_module($directory, $urltoroot) {
             $this->directory = $directory;
@@ -17,7 +18,7 @@ class cs_social_invite_friends_page {
       }
 
       function match_request($request) {
-            if ($request == 'invite-friends') return true;
+            if ($request == $this->page_url) return true;
 
             return false;
       }
@@ -74,7 +75,9 @@ class cs_social_invite_friends_page {
                   }
                   require_once CS_CONTROL_DIR . '/inc/hybridauth/Hybrid/Auth.php';
                   require_once CS_CONTROL_DIR . '/inc/hybridauth/Hybrid/Endpoint.php';
-                  $loginCallback = qa_path('', array(), qa_self_html());
+                  // $loginCallback = qa_path('', array(), qa_self_html());
+                  $loginCallback = qa_path_absolute($this->page_url , array());
+
                   try{
                   	  // prepare the configuration of HybridAuth
 	                  $config = cs_social_get_config_common($loginCallback, $provider);
@@ -126,7 +129,6 @@ class cs_social_invite_friends_page {
 
             $qa_content['site_title'] = qa_lang_html('cs_social_login/invite_frnds');
             $qa_content['title'] = qa_lang_html('cs_social_login/invite_frnds');
-
 
             $qa_content['navigation']['sub'] = qa_account_sub_navigation();
 

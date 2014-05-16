@@ -187,6 +187,7 @@ class cs_theme_options {
 				<a href="#" data-toggle=".qa-part-form-tc-ads">Advertisements</a>
 			</li>
 			'.cs_event_hook('cs_theme_option_tab').'
+			'.cs_event_hook('cs_theme_option_tab1').' 
 		</ul>
 	</div>';
 		$output .= $this->opt_general();
@@ -196,6 +197,7 @@ class cs_theme_options {
 		$output .= $this->opt_social();
 		$output .= $this->opt_ads();
 		$output .= cs_event_hook('cs_theme_option_tab_content');
+		$output .= cs_event_hook('cs_theme_option_tab_content1');
 		
 		$output .= '<div class="form-button-sticky-footer">';
 			$output .= '<div class="form-button-holder">';

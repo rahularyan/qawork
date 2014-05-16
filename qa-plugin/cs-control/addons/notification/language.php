@@ -64,4 +64,15 @@ return array(
 	'u_wall_post_email_header' => "You have new stuffs on your wall :\n\n",
 	'u_level_email_header'     => "Level Improvements :\n\n",
 	'related_email_header'     => "Related Questions :\n\n",
+	'q_post_user_fl_email_header' => "Question from your favorite Users :\n\n",
+	'q_post_cat_fl_email_header'  => "Question from your favorite Categories :\n\n",
+	'q_post_tag_fl_email_header'  => "Question from your favorite Tags :\n\n",
+
+	// option tab content 
+	'cs_enable_email_notfn_lang' => "Enable Email Notfication " ,
+	'cs_notify_tag_followers_lang' => "Send Emaill to Tag Followers " ,
+	'cs_notify_cat_followers_lang' => "Send Emaill to Category Followers " ,
+	'cs_notify_user_followers_lan' => "Send Emaill to User Followers " ,
+	'cs_notify_min_points_opt_lang' => "Enable minimum point to receive email   " ,
+	'cs_notify_min_points_val_lang' => "Minimum Points for users to receive email " ,
 );
