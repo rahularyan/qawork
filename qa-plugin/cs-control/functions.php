@@ -178,8 +178,8 @@ function cs_user_data($handle){
 	$identifier=QA_FINAL_EXTERNAL_USERS ? $userid : $handle;
 	$user = array();
 	if(defined('QA_WORDPRESS_INTEGRATE_PATH')){
-		$u_rank = cs_get_cache_select_selectspec(qa_db_user_rank_selectspec($userid,true));
-		$u_points = cs_get_cache_select_selectspec(qa_db_user_points_selectspec($userid,true));
+		$u_rank = qa_db_select_with_pending(qa_db_user_rank_selectspec($userid,true));
+		$u_points = qa_db_select_with_pending(qa_db_user_points_selectspec($userid,true));
 		
 		$userinfo = array();
 		$user_info = get_userdata( $userid );
@@ -192,11 +192,11 @@ function cs_user_data($handle){
 		$user[2] = $u_points;
 		$user = ($user[0]+ $user[1]+ $user[2]);
 	}else{
-		$user[0] = cs_get_cache_select_selectspec( qa_db_user_account_selectspec($userid, true) );
-		$user[1]['rank'] = cs_get_cache_select_selectspec( qa_db_user_rank_selectspec($handle) );
-		$user[2] = cs_get_cache_select_selectspec( qa_db_user_points_selectspec($identifier) );
-		$user = ($user[0]+ $user[1]+ $user[2]);
+		$user['account'] = qa_db_select_with_pending( qa_db_user_account_selectspec($userid, true) );
+		$user['rank'] = qa_db_select_with_pending( qa_db_user_rank_selectspec($handle) );
+		$user['points'] = qa_db_select_with_pending( qa_db_user_points_selectspec($identifier) );
 	}
+
 	return $user;
 }	
 
@@ -216,7 +216,7 @@ function cs_get_avatar($handle, $size = 40, $html =true){
 				$img_html = '';
 		}else{
 			$f = cs_user_data($handle);
-			if(empty($f['avatarblobid'])){
+			if(empty($f['account']['avatarblobid'])){
 				if (qa_opt('avatar_allow_gravatar'))
 					$img_html = qa_get_gravatar_html(qa_get_user_email($userid), $size);
 				else if ( qa_opt('avatar_allow_upload') && qa_opt('avatar_default_show') && strlen(qa_opt('avatar_default_blobid')) )
@@ -224,7 +224,7 @@ function cs_get_avatar($handle, $size = 40, $html =true){
 				else
 					$img_html = '';
 			} else
-				$img_html = qa_get_user_avatar_html($f['flags'], $f['email'], $handle, $f['avatarblobid'], $size, $size, $size, true);
+				$img_html = qa_get_user_avatar_html($f['account']['flags'], $f['account']['email'], $handle, $f['account']['avatarblobid'], $size, $size, $size, true);
 		}
 	}
 	if (empty($img_html))
@@ -320,7 +320,7 @@ function cs_user_profile($handle, $field =NULL){
 	if(defined('QA_WORDPRESS_INTEGRATE_PATH')){
 		return get_user_meta( $userid );
 	}else{
-		$query = cs_get_cache_select_selectspec(qa_db_user_profile_selectspec($userid, true));
+		$query = qa_db_select_with_pending(qa_db_user_profile_selectspec($userid, true));
 		
 		if(!$field) return $query;
 		if (isset($query[$field]))
@@ -609,23 +609,8 @@ function cs_get_cache_popular_tags($to_show){
 	$cache['changed'] = true;	
 	return $populartags;
 }
-function cs_get_cache_select_selectspec($selectspec){
-	global $cache;
-	$age = 10;
-	
-	$hash = md5(json_encode($selectspec));
-	if (isset($cache[$hash])){
-		if ( ((int)$cache[$hash]['age'] + $age) > time()) {
-			$result = $cache[$hash]['result'];
-			return $result;
-		}
-	}
-	$result = qa_db_select_with_pending($selectspec);
-	$cache[$hash]['result'] =  $result;
-	$cache[$hash]['age'] = time();
-	$cache['changed'] = true;
-	return $result ;	
-}
+
+
 function cs_get_cache($query,$age = 10){
 	global $cache;
 
@@ -725,6 +710,16 @@ function cs_ago($time)
 function stripslashes2($string) {
 	str_replace('\\', '', $string);
     return $string;
+}
+
+function cs_count_followers($handle){
+	$userid = qa_handle_to_userid($handle);
+	return qa_db_read_one_value(qa_db_query_sub('SELECT count(*) FROM ^userfavorites WHERE ^userfavorites.entityid = # and ^userfavorites.entitytype = "U" ', $userid));	
+}
+
+function cs_count_following($handle){
+	$userid = qa_handle_to_userid($handle);
+	return qa_db_read_one_value(qa_db_query_sub('SELECT count(*) FROM ^userfavorites WHERE ^userfavorites.userid = # and ^userfavorites.entitytype = "U" ', $userid));	
 }
 
 function cs_followers_list($handle, $limit = 14, $order_by = 'rand'){

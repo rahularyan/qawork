@@ -756,4 +756,9 @@ $(document).ready(function(){
 		}
 	});
 	
+	$('.about-me i').click(function(){
+		$(this).parent().toggleClass('full');
+		$(this).hide();
+	});
+	
 });

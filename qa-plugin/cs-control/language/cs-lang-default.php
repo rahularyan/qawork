@@ -160,6 +160,9 @@
 		'not_found' => 'Not found',
 		'oopps_page_not_found' => 'Oops, page not found',
 		'mistyped_url' => 'You have mistyped the URL, check spelling.',
+		'followers_x' => 'Followers <span>^</span>',
+		'following_x' => 'Following <span>^</span>',
+		'more' => 'more',
 	);
 	
 
