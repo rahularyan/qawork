@@ -72,7 +72,7 @@ return array(
 	'cs_enable_email_notfn_lang' => "Enable Email Notfication " ,
 	'cs_notify_tag_followers_lang' => "Send Emaill to Tag Followers " ,
 	'cs_notify_cat_followers_lang' => "Send Emaill to Category Followers " ,
-	'cs_notify_user_followers_lan' => "Send Emaill to User Followers " ,
+	'cs_notify_user_followers_lang' => "Send Emaill to User Followers " ,
 	'cs_notify_min_points_opt_lang' => "Enable minimum point to receive email   " ,
 	'cs_notify_min_points_val_lang' => "Minimum Points for users to receive email " ,
 );

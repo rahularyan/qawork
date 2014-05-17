@@ -31,97 +31,11 @@ class cs_social_invite_friends_page {
             if (!isset($userid))      //if not logged in then redirect to login page
                   qa_redirect('login');
 
-            // get the provider information from the click event 
-            if (qa_clicked('facebook_sts_updt')) {
-                  $provider = "facebook";
-            }else if (qa_clicked('twitter_sts_updt')) {
-                  $provider = "twitter";
-            }
-
-            require_once QA_INCLUDE_DIR . 'qa-db-users.php';
-            require_once QA_INCLUDE_DIR . 'qa-app-format.php';
-            require_once QA_INCLUDE_DIR . 'qa-app-users.php';
-            require_once QA_INCLUDE_DIR . 'qa-db-selects.php';
             require_once CS_CONTROL_DIR . '/addons/social-login/cs-social-login-utils.php';
             $start = qa_get_start();
             $userid = qa_get_logged_in_userid();
             $action = null;
             $key = null;
-            $status_updated = false ;
-
-            if (!empty($_GET['hauth_start'])) {
-                  $key = trim(strip_tags($_GET['hauth_start']));
-                  $action = 'process';
-            } else if (!empty($_GET['hauth_done'])) {
-                  $key = trim(strip_tags($_GET['hauth_done']));
-                  $action = 'process';
-            } else if (!empty($_GET['login'])) {
-                  $key = trim(strip_tags($_GET['login']));
-                  $action = 'login';
-            } else if (isset($_GET['fb_source']) && $_GET['fb_source'] == 'appcenter' &&
-                    isset($_SERVER['HTTP_REFERER']) && stristr($_SERVER['HTTP_REFERER'], 'www.facebook.com') !== false &&
-                    isset($_GET['fb_appcenter']) && $_GET['fb_appcenter'] == '1' && isset($_GET['code'])) {
-                  // allow AppCenter users to login directly
-                  $key = 'facebook';
-                  $action = 'login';
-            }
-           
-            // Now process if the invite button is clicked 
-
-            if (qa_clicked('doinvite') || $action == 'login') {
-                  // $provider = qa_post_text('provider');
-                  if (!$provider) {
-                        $provider = 'facebook'; //the most papular one 
-                  }
-                  require_once CS_CONTROL_DIR . '/inc/hybridauth/Hybrid/Auth.php';
-                  require_once CS_CONTROL_DIR . '/inc/hybridauth/Hybrid/Endpoint.php';
-                  // $loginCallback = qa_path('', array(), qa_self_html());
-                  $loginCallback = qa_path_absolute($this->page_url , array());
-
-                  try{
-                  	  // prepare the configuration of HybridAuth
-	                  $config = cs_social_get_config_common($loginCallback, $provider);
-	                  if (isset($config)) {
-	                        // init hybridauth
-	                        $hybridauth = new Hybrid_Auth($config);
-	                        // try to authenticate with provider 
-	                        $adapter = $hybridauth->authenticate($provider);
-	                        //get user profile 
-	                        $user_profile = $adapter->getUserProfile();
-	                        // grab the user's friends list
-	                        $user_contacts = $adapter->getUserContacts();
-	                        if (!!$user_profile) {
-	                              if (($provider === "twitter" || $provider === "facebook" )&&  !!$user_profile)  {
-	                              	// update the user status for twitter account 
-	                              	$adapter->setUserStatus( strtr(qa_lang_html("cs_social_login/invite_status") , array('^site_url' => qa_opt('site_url'))));
-	                              	$status_updated = true ;
-	                              	$status_updated_message  = qa_lang_html_sub("cs_social_login/status_updated_message" , $provider );
-	                              }
-	                        }
-	                  }
-                  }  catch (Exception $e) {
-                        if ($e->getCode() == 6 || $e->getCode() == 7) {
-                              $adapter->logout();
-                        }
-
-                        $qry = 'provider=' . $this->provider . '&code=' . $e->getCode();
-                        if (strstr($topath, '?') === false) {
-                              $topath .= '?' . $qry;
-                        } else {
-                              $topath .= '&' . $qry;
-                        }
-
-                        // redirect
-                        qa_redirect_raw(qa_opt('site_url') . $topath);
-                  }
-                  
-            }
-            if ($action == 'process') {
-                  require_once CS_CONTROL_DIR . '/inc/hybridauth/Hybrid/Auth.php';
-                  require_once CS_CONTROL_DIR . '/inc/hybridauth/Hybrid/Endpoint.php';
-                  Hybrid_Endpoint::process();
-            }
-
 
             //	Prepare content for theme
 
@@ -143,33 +57,22 @@ class cs_social_invite_friends_page {
                       'style' => 'wide',
                       'buttons' => array(
                           'facebook_invite' => array(
-                              'tags' => 'name="facebook_invite" onClick="invite_friends();"',
+                              'tags' => 'name="facebook_invite" onClick="'.cs_generate_facebook_invite_script(qa_opt("facebook_app_id"), array('name' => $name, 'url' => qa_opt("site_url"))).'"',
                               'label' => qa_lang_html('cs_social_login/send_facebook_invite'),
-                              'note' => generate_facebook_invite_script(qa_opt("facebook_app_id"), $name, qa_opt("site_url"))
+                              // 'note' => cs_generate_facebook_invite_script(qa_opt("facebook_app_id"), $name, qa_opt("site_url"))
+                          ),
+                          'facebook_status_update' => array(
+                              'tags' => 'name="facebook_sts_updt" onClick="'.cs_generate_facebook_wall_post_script(qa_opt("facebook_app_id"), array('name' => $name, 'picture' => "http://amiyasahu.com/assets/img/amiya.jpg" , 'link' => "http://amiyasahu.com" , 'caption'=>"Amiya Sahu" , 'description' => "Web Application Developer and Designer (Updated from my application )")).'"',
+                              'label' => qa_lang_html('cs_social_login/update_facebook_status'),
+                          ),
+                          
+                          'facebook_link_share' => array(
+                              'tags' => 'name="facebook_link_share" onClick="'.cs_generate_facebook_link_share_script(qa_opt("facebook_app_id"), array('name' => "Amiya sahu",  'link' => "http://stackoverflow.com/questions/10415884/fb-init-has-already-been-called")).'"',
+                              'label' => "Facebook link share ",
                           ),
                       ),
                   );
 
-                  $qa_content['form_ststus_update'] = array(
-                  	'ok' => ($status_updated) ? $status_updated_message : null,
-                      'title' => qa_lang_html('cs_social_login/update_status'),
-                      'tags' => 'METHOD="POST" ACTION="' . qa_self_html() . '" CLASS="open-login-profile"',
-                      'style' => 'wide',
-                      'buttons' => array(
-                          'facebook_invite' => array(
-                              'tags' => 'name="facebook_sts_updt" onClick="qa_show_waiting_after(this, false)"',
-                              'label' => qa_lang_html('cs_social_login/update_facebook_status'),
-                          ),
-                          
-                          'twitter_invite' => array(
-                              'tags' => 'name="twitter_sts_updt" onClick="qa_show_waiting_after(this, false);"',
-                              'label' => qa_lang_html('cs_social_login/update_twitter_status'),
-                          ),
-                      ),
-                      'hidden' => array(
-                          'doinvite' => '1',
-                      ),
-                  );
             }
 
             return $qa_content;

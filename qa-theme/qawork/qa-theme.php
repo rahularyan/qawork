@@ -31,9 +31,9 @@
 		
 		if (qa_get_logged_in_level()>=QA_USER_LEVEL_ADMIN){
 			if(!(bool)qa_opt('cs_init')){ // theme init 
-				cs_register_widget_position(
+				// cs_register_widget_position(
 					
-				);
+				// );
 				reset_theme_options();
 				qa_opt('cs_init',true);
 			}

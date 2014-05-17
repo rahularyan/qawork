@@ -791,7 +791,7 @@ class Cs_Notification_Addon{
 				foreach ($all_options as $option) {
 					$output .= '<tbody>' ;
 					$output .= '<tr>
-									<th class="qa-form-tall-label">' . qa_lang("cs_notification/".$option."_lang") .'</th>
+									<th class="qa-form-tall-label">' . qa_lang("notification/".$option."_lang") .'</th>
 									<td class="qa-form-tall-data">
 										<input type="checkbox"' . (qa_opt($option) ? ' checked=""' : '') . ' id="cs_styling_rtl" name="'.$option.'_field" data-opts="'.$option.'_fields">
 									</td>
@@ -801,7 +801,7 @@ class Cs_Notification_Addon{
 				}
 				$output .= '<tbody>' ;
 					$output .= '<tr>
-									<th class="qa-form-tall-label">' . qa_lang("cs_notification/cs_notify_min_points_opt_lang") .'</th>
+									<th class="qa-form-tall-label">' . qa_lang("notification/cs_notify_min_points_opt_lang") .'</th>
 									<td class="qa-form-tall-data">
 										<input type="text" value="' . qa_opt('cs_notify_min_points_opt') . '" id="cs_styling_rtl" name="cs_notify_min_points_opt_field" data-opts="cs_notify_min_points_opt_fields">
 									</td>
