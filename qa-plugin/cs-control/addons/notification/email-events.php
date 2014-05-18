@@ -36,43 +36,14 @@ cs_event_hook('q_post_cat_fl', NULL, 'cs_notification_event');
 
 function cs_notification_event($data) {
       $params = $data[3];
-      cs_log("This method is invoked for " . $data[4]);
+      // cs_log("This method is invoked for " . $data[4]);
       // cs_log(print_r($params, true));
-      // cs_check_time_out_for_email();
       $postid         = isset($params['postid']) ? $params['postid'] : "";
       $event          = $data[4];
       $loggeduserid   = isset($data[1]) ? $data[1] : qa_get_logged_in_userid();
       $effecteduserid = isset($data[2]) ? $data[2] : "";
-      // cs_log("Effected user id " . $effecteduserid);
       if (!!$effecteduserid) {
             cs_notify_users_by_email($event, $postid, $loggeduserid, $effecteduserid, $params);
-      }
-}
-
-function cs_check_time_out_for_email() {
-      /* //get the last run date 
-        $last_run_date = qa_opt('cs_notification_last_run_date');
-        //get the interval
-        $email_event_interval = qa_opt('cs_notification_event_interval'); */
-      //hardcode the values for testing 
-      $date_format          = "d/m/Y H:i:s";
-      $last_run_date        = "01/05/2014 07:23:28";
-      $email_event_interval = 10; //always should be in seconds 
-      $last_run_date        = new DateTime($last_run_date);
-      $email_event_interval = "PT" . $email_event_interval . "S";
-
-      //get the event occurance date --> last_rundate + interval 
-      $last_run_date->add(new DateInterval($email_event_interval));
-
-      //get the current time 
-      $current_time = new DateTime("now");
-
-      //if current time is grater than last_rundate + interval then 
-      if ($current_time > $last_run_date) {
-            //extract the emails and send notification 
-            cs_process_emails_from_db();
-            //update the last rundate 
-            cs_update_last_rundate($current_time->format($date_format));
       }
 }
 
@@ -81,14 +52,13 @@ function cs_process_emails_from_db() {
       require_once QA_INCLUDE_DIR . 'qa-util-string.php';
       //here extract all the email contents from database and perform the email sending operation 
       $email_queue_data    = cs_get_email_queue();
-      // cs_log("The email list is " . print_r($email_queue_data, true));
       $email_list          = cs_get_email_list($email_queue_data);
-      // cs_log("The email list is " . print_r($email_list, true));
       $subs                = array();
       $subs['^site_title'] = qa_opt('site_title');
       $greeting            = qa_lang("notification/greeting");
       $thank_you_message   = qa_lang("notification/thank_you_message");
       $subject             = strtr(qa_lang("notification/notification_email_subject"), $subs);
+      $processed_queue_ids = array() ; 
 
       foreach ($email_list as $email_data) {
             $email              = $email_data['email'];
@@ -99,14 +69,16 @@ function cs_process_emails_from_db() {
             $email_body         = strtr($email_body, $subs);
             $notification_sent  = cs_send_email_notification(null, $email, $name, $subject, $email_body, $subs);
             if (!!$notification_sent) {
-                  //update the queue status 
-                  //get the queue ids 
-                  $queue_ids = cs_get_queue_ids_from_queue_data($email_queue_data, $email);
-                  if (isset($queue_ids) && !empty($queue_ids)) {
-                        // cs_update_email_queue_status($queue_ids);
-                  }
+                  // if the notification is sent then 
+                  $processed_queue_ids[] = cs_get_queue_ids_from_queue_data($email_queue_data, $email);
             }
+            
       }
+      if (!empty($processed_queue_ids)) {
+            //update the queue status 
+            cs_update_email_queue_status($queue_ids);
+      }
+
 }
 
 function cs_get_queue_ids_from_queue_data($email_queue_data, $email) {

@@ -724,7 +724,13 @@ class Cs_Notification_Addon{
 
 	public function activity_count(){
 		echo cs_get_total_activity(qa_get_logged_in_userid());
-		
+		// adding the feature of scheduler check here to make sure the sending email called on time 
+		$time_out = qa_opt('cs_process_emails_from_db_time_out');
+		if (!$time_out) {
+			// if the scheduler is not set set it for 15 mins 
+			cs_scheduler_set('cs_process_emails_from_db' , 15*60 /*15 mins*/ );
+		}		
+		cs_check_scheduler('cs_process_emails_from_db');
 		die();
 	}
 
