@@ -1,10 +1,10 @@
 @font-face {
 	font-family: 'ra';
-	src:url('../fonts/ra.eot?d0d8t1');
-	src:url('../fonts/ra.eot?#iefixd0d8t1') format('embedded-opentype'),
-		url('../fonts/ra.woff?d0d8t1') format('woff'),
-		url('../fonts/ra.ttf?d0d8t1') format('truetype'),
-		url('../fonts/ra.svg?d0d8t1#ra') format('svg');
+	src:url('../fonts/ra.eot?rqoo21');
+	src:url('../fonts/ra.eot?#iefixrqoo21') format('embedded-opentype'),
+		url('../fonts/ra.woff?rqoo21') format('woff'),
+		url('../fonts/ra.ttf?rqoo21') format('truetype'),
+		url('../fonts/ra.svg?rqoo21#ra') format('svg');
 	font-weight: normal;
 	font-style: normal;
 }
@@ -23,6 +23,9 @@
 	-moz-osx-font-smoothing: grayscale;
 }
 
+.icon-qawork:before {
+	content: "\e65d";
+}
 .icon-zip:before {
 	content: "\e65b";
 }
