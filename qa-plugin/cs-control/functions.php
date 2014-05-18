@@ -954,15 +954,15 @@ function cs_what_icon($what){
  */
 
 function cs_scheduler($function_name, $time_out = NULL, $params = NULL) {
-	 require_once QA_INCLUDE_DIR . 'qa-app-options.php';
+ 	  require_once QA_INCLUDE_DIR . 'qa-app-options.php';
       require_once QA_INCLUDE_DIR . 'qa-db.php';
       //first check $time_out == 0 , then check timeout and set the current rundate 
       if (!$function_name) {
             return;
       }
 
-	  $time_out_opt_name      = 'cs_' . $function_name . '_time_out';
-	  $last_run_date_opt_name = 'cs_' . $function_name . '_last_run_date';
+	  $time_out_opt_name      =  $function_name . '_time_out';
+	  $last_run_date_opt_name =  $function_name . '_last_run_date';
 
       if ($time_out === NULL || !$time_out) {
             //the call is for invoke the timeout function 
@@ -975,7 +975,8 @@ function cs_scheduler($function_name, $time_out = NULL, $params = NULL) {
                         $last_run_date = "01/01/2014 01:00:00";
                   }
                   $event_interval = "PT" . $time_out_val . "S";
-                  $last_run_date = new DateTime($last_run_date);
+                  // $last_run_date = new DateTime($last_run_date);
+                  $last_run_date = date_create_from_format($date_format, $last_run_date);
                   $last_run_date->add(new DateInterval($event_interval));
                   $probable_run_date = $last_run_date;
                   //get the current time 
@@ -1000,6 +1001,7 @@ function cs_scheduler($function_name, $time_out = NULL, $params = NULL) {
             if (!(is_numeric($time_out) && $time_out > 0 )) {
                   // if the $time_out is not a numeric value or not grater than 0 , then return 
                   return;
+                  cs_log("function came here ");
             }
             qa_opt($time_out_opt_name, $time_out);
       }
@@ -1007,8 +1009,8 @@ function cs_scheduler($function_name, $time_out = NULL, $params = NULL) {
       //first check the timeout for the function name 
 }
 
-function cs_check_scheduler($function_name, $params = null) {
-      if (!!$params) {
+function cs_check_scheduler($function_name, $params = NULL) {
+      if ($params !== NULL) {
             cs_scheduler($function_name, NULL, $params);
       } else {
             cs_scheduler($function_name);

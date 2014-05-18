@@ -67,7 +67,12 @@ class Cs_Notification_Addon{
 		cs_event_hook('cs_ajax_mark_all_messages', NULL, array($this, 'mark_all_messages'));
 		cs_event_hook('cs_ajax_activity_count', NULL, array($this, 'activity_count'));
 		cs_event_hook('cs_ajax_messages_count', NULL, array($this, 'messages_count'));
-		cs_event_hook('language', NULL, array($this, 'language'));
+		// cs_event_hook('language', NULL, array($this, 'language'));
+        cs_event_hook('register_language', NULL, array($this, 'language'));
+		
+		// added hooks for options and option tabs 
+		cs_event_hook('cs_theme_option_tab1', NULL, array($this, 'option_tab'));
+        cs_event_hook('cs_theme_option_tab_content1', NULL, array($this, 'option_tab_content'));
 	}
 	
 	public function init_queries($queries, $tableslc){
@@ -719,7 +724,13 @@ class Cs_Notification_Addon{
 
 	public function activity_count(){
 		echo cs_get_total_activity(qa_get_logged_in_userid());
-		
+		// adding the feature of scheduler check here to make sure the sending email called on time 
+		$time_out = qa_opt('cs_process_emails_from_db_time_out');
+		if (!$time_out) {
+			// if the scheduler is not set set it for 15 mins 
+			cs_scheduler_set('cs_process_emails_from_db' , 15*60 /*15 mins*/ );
+		}		
+		cs_check_scheduler('cs_process_emails_from_db');
 		die();
 	}
 
@@ -729,7 +740,7 @@ class Cs_Notification_Addon{
 		die();
 	}
 	public function language($lang_arr){
-		$site_lang = qa_opt('site_language');
+		/*$site_lang = qa_opt('site_language');
 		$lang_file = CS_CONTROL_DIR. '/addons/notification/language-'.qa_opt('site_language').'.php';
 		
 		if(!empty($site_lang) && file_exists($lang_file))
@@ -737,7 +748,74 @@ class Cs_Notification_Addon{
 		else
 			$lang_arr = require_once (CS_CONTROL_DIR. '/addons/notification/language.php');
 
+		return $lang_arr;*/
+		$lang_arr['notification'] = CS_CONTROL_DIR .'/addons/notification/language.php';
 		return $lang_arr;
 	}
+	// adding options and option tab 
+	function option_tab(){
+		$saved = false;
+			
+            if (qa_clicked('cs_save_button')) {
+            	  require_once CS_CONTROL_DIR .'/addons/notification/functions.php';
+                  $enable_plugin = !!qa_post_text('cs_enable_email_notfn_field');
+                  qa_opt('cs_enable_email_notfn', $enable_plugin);
+                  if (!$enable_plugin) {
+                        //if the plugin is disabled then turn off all features 
+                        reset_all_notification_options();
+                  } else {
+                        $response = set_all_notification_options();
+                        //$error will be false if the 
+                        $error = (isset($response) && is_array($response) && !empty($response)) ? true : false;
+                  }
+
+                  /*if (isset($response) && isset($error) && !!$error) {
+                        $err_enter_point_value = $this->qa_get($response, 'enter_point_value');
+                        $err_no_options_selected = $this->qa_get($response, 'no_options_selected');
+                  }*/
+
+                  $saved = true;
+            }
+
+		return '<li>
+				<a href="#" data-toggle=".qa-part-form-tc-notify">Notifications</a>
+			</li>';
+	  }
+	 function option_tab_content(){
+		$all_options = array(
+				'cs_enable_email_notfn' ,
+				'cs_notify_tag_followers' ,
+				'cs_notify_cat_followers' ,
+				'cs_notify_user_followers' ,
+				'cs_notify_min_points_opt' ,
+			);
+		$output = '<div class="qa-part-form-tc-notify">
+			<h3>Email Notification Settings</h3>
+			<table class="qa-form-tall-table options-table">';
+		
+				
+				foreach ($all_options as $option) {
+					$output .= '<tbody>' ;
+					$output .= '<tr>
+									<th class="qa-form-tall-label">' . qa_lang("notification/".$option."_lang") .'</th>
+									<td class="qa-form-tall-data">
+										<input type="checkbox"' . (qa_opt($option) ? ' checked=""' : '') . ' id="cs_styling_rtl" name="'.$option.'_field" data-opts="'.$option.'_fields">
+									</td>
+								</tr>' ;
+				$output .= '</tbody>' ;
+
+				}
+				$output .= '<tbody>' ;
+					$output .= '<tr>
+									<th class="qa-form-tall-label">' . qa_lang("notification/cs_notify_min_points_opt_lang") .'</th>
+									<td class="qa-form-tall-data">
+										<input type="text" value="' . qa_opt('cs_notify_min_points_opt') . '" id="cs_styling_rtl" name="cs_notify_min_points_opt_field" data-opts="cs_notify_min_points_opt_fields">
+									</td>
+								</tr>' ;
+				$output .= '</tbody>' ;
+			$output .= '</table></div>';
+			return $output;
+	  }
+
 }
 

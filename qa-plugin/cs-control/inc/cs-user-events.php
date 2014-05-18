@@ -5,7 +5,6 @@
 		function process_event($event, $userid, $handle, $cookieid, $params)
 		{
  			// call_this_method();  //here we can call the scheuler 
-
 			$loggeduserid = qa_get_logged_in_userid();
 			$dolog=true;
 			$postid = @$params['postid'];
@@ -155,7 +154,7 @@
 					break;					
 				case 'q_favorite':
 					$this->UpdateVote('q_favorite', $postid,$userid, $params, 'favorite', 1);
-					// cs_event_hook($event, array($postid,$userid, $effecteduserid, $params, $event));
+					cs_event_hook($event, array($postid,$userid, $effecteduserid, $params, $event));
 					$dolog=false;					
 					break;
 				/* case 'q_unfavorite':
@@ -163,6 +162,7 @@
 					$dolog=false;					
 					break; */
 				case 'q_post':
+					$already_notified = "" ;
 					if ($params['parent']['type']=='A') // related question
 					{
 						$effecteduserid = $params['parent']['userid'];
@@ -170,8 +170,23 @@
 							$event = 'related';
 							$this->AddEvent($postid,$userid, $effecteduserid, $params, $event);
 							cs_event_hook($event, array($postid,$userid, $effecteduserid, $params, $event));
+							$already_notified = $effecteduserid ;
 						}
 					}
+
+					$categoryid = isset($params['categoryid']) ? $params['categoryid'] : '' ;
+                    $tags = isset($params['tags']) ? $params['tags'] : '' ;
+					$user_datas = $this->cs_get_users_details_notify_email($userid , $tags , $categoryid );
+					foreach ($user_datas as $user_data  ) {
+						$effecteduserid = $user_data['userid'] ;
+						$event = $user_data['event']  ; 
+
+						if ( $effecteduserid != $already_notified ) {
+							// $this->AddEvent($postid,$userid, $effecteduserid, $params, $event);
+							cs_event_hook($event, array($postid,$userid, $effecteduserid, $params, $event));
+						}
+					}
+
 					break;
 				case 'u_favorite':
 					$this->UpdateUserFavorite($postid,$userid, $params, 'u_favorite', 1);
@@ -249,10 +264,9 @@
 				'SELECT params FROM ^ra_userevent WHERE postid=$ AND event=$',
 				$postid, $newevent
 			));
-			
 			if (!isset($effecteduserid))
 				return; // post from anonymous user
-				
+			
 			if (count($posts) == 0 ){ // Add New Event
 				
 				if(($eventname!='q_vote_nil') && ($eventname!='a_vote_nil') && ($eventname!='unfavorite')){
@@ -264,7 +278,7 @@
 					$params[$eventname] =1;
 					
 					$this->AddEvent($postid,$userid, $effecteduserid, $params, $newevent);
-					cs_event_hook($event, array($postid,$userid, $effecteduserid, $params, $event));
+					cs_event_hook($newevent, array($postid,$userid, $effecteduserid, $params, $newevent));
 				}
 			}else{
 				$postparams=json_decode($posts[0],true);
@@ -307,7 +321,7 @@
 					"UPDATE ^ra_userevent SET datetime=NOW(), userid=$, effecteduserid=$, postid=$, event=$, params=$ WHERE postid=$ AND event=$",
 					$userid, $effecteduserid, $postid, $newevent,$paramstring, $postid, $newevent
 				);
-				cs_event_hook($event, array($postid,$userid, $effecteduserid, $params, $event));
+				cs_event_hook($newevent, array($postid,$userid, $effecteduserid, $params, $newevent));
 			}
 		}
 		
@@ -380,14 +394,94 @@
 			//qa_fatal_error(var_dump($question));
 			return $question;
 		}
+
 		function GetUseridFromPost($postid)
 		{
 			
 			return qa_db_read_one_value(qa_db_query_sub('SELECT userid FROM ^posts WHERE postid=#', $postid ),true);
 			
 		}
+
+		function cs_get_users_details_notify_email( $userid, $tags , $categoryid )
+		{
+			$user_datas = qa_db_select_with_pending($this->cs_notify_emails_selectspec($userid, $tags , $categoryid));
+        	$user_datas = $this->combine_users($user_datas);
+            return $user_datas;
+		}
+
+		function cs_notify_emails_selectspec($userid, $tags, $categoryid) {
+				require_once CS_CONTROL_DIR .'/addons/notification/functions.php';
+	            if (notify_addon_enabled_from_admin_panel()) {  //proceed only if the plugin is enabled
+		                  require_once QA_INCLUDE_DIR . 'qa-app-updates.php';
+		                  $source = '';
+		                  $arguments = array();
+		                  if (!!qa_opt('cs_notify_user_followers')) {
+		                        $source .= (!!$source) ? ' UNION ' : '';
+		                        $source .= "( SELECT ^users.userid , 'q_post_user_fl' as event , ^userpoints.points from ^users JOIN ^userpoints ON ^users.userid=^userpoints.userid JOIN ^userfavorites ON ^users.userid=^userfavorites.userid WHERE ^userfavorites.entityid=$ AND ^userfavorites.entitytype=$  AND ^users.email !=$ )";
+		                        $args = array($userid, QA_ENTITY_USER, qa_get_logged_in_user_field('email'));
+		                        $arguments = array_merge($arguments, $args);
+		                  }
+		                  if (!!qa_opt('cs_notify_tag_followers') && !!$tags) {
+		                        $source .= (!!$source) ? ' UNION ' : '';
+		                        $source .= "( SELECT ^users.userid , 'q_post_tag_fl' as event , ^userpoints.points from ^users JOIN ^userpoints ON ^users.userid=^userpoints.userid JOIN ^userfavorites ON ^userfavorites.userid=^users.userid WHERE ^userfavorites.entityid IN 
+		                            ( SELECT wordid from ^words where ^words.word IN ($) ) AND ^userfavorites.entitytype=$ AND ^users.email !=$ )";
+		                        $args = array(qa_tagstring_to_tags($tags), QA_ENTITY_TAG, qa_get_logged_in_user_field('email'));
+		                        $arguments = array_merge($arguments, $args);
+		                  }
+		                  if (!!qa_opt('cs_notify_cat_followers') && !!$categoryid) {
+		                        $source .= (!!$source) ? ' UNION ' : '';
+		                        $source .= "( SELECT ^users.userid , 'q_post_cat_fl' as event , ^userpoints.points from ^users JOIN ^userpoints ON ^users.userid=^userpoints.userid JOIN ^userfavorites ON ^userfavorites.userid=^users.userid "
+		                                . " WHERE ^userfavorites.entityid=$ AND ^userfavorites.entitytype=$ AND ^users.email !=$ )";
+		                        $args = array($categoryid, QA_ENTITY_CATEGORY, qa_get_logged_in_user_field('email'));
+		                        $arguments = array_merge($arguments, $args);
+		                  }
+		                  $where_clause = '';
+		                  if (!!qa_opt('cs_notify_min_points_opt')) {
+		                        //generate where clause 
+		                        $min_user_points = qa_opt('cs_notify_min_points_val');
+		                        $where_clause = ((!!$min_user_points && ( $min_user_points > 0) )) ? ' WHERE result.points > ' . $min_user_points : '';
+		                  }
+		                  return array(
+		                      'columns' => array(' * '),
+		                      'source' => ' ( ' . $source . ' ) as result ' . $where_clause,
+		                      'arguments' => $arguments,
+		                      'sortasc' => 'title',
+		                  );
+	            	}  //if plugin is enabled 
+        	}
+
+            function combine_users($user_datas) {
+
+	            $unique_user_ids = array();
+	            $return_user_datas = array();
+
+	            foreach ($user_datas as $user_data) {
+	                  $userid = $user_data['userid'];
+	                  if (!!$userid && !in_array($userid, $unique_user_ids)) {
+	                        $return_user_datas[] = $user_data;
+	                        $unique_user_ids[] = $userid;
+	                  }
+	            }
+
+	            return $return_user_datas;
+      		}
+      
+
 	}
 	
+/**
+ * Checks weather the tag / cat /user follower email notification is enabled or noe 
+ * @return boolean true if it is enabled , false otherwise 
+ */
+function notify_addon_enabled_from_admin_panel() {
+    return ( (!!qa_opt('cs_enable_email_notfn')) &&
+            (
+            (!!qa_opt('cs_notify_cat_followers')) ||
+            (!!qa_opt('cs_notify_tag_followers')) ||
+            (!!qa_opt('cs_notify_user_followers'))
+            )
+            );
+ }
 
 /*
 	Omit PHP closing tag to help avoid accidental output

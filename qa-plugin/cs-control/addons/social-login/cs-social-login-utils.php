@@ -111,15 +111,26 @@ function cs_social_get_config_common($url, $provider) {
       );
 }
 
-function generate_facebook_invite_script($app_id, $name, $url) {
+// set this global variable to ensure that facebook is initialized only once . 
+if (!isset($facebook_js_api_initialized)) {
+    $facebook_js_api_initialized = false ; 
+}
+
+function cs_init_facebook_js_api($app_id)
+{
       if (!$app_id) {
             return "";
       }
-      $message = strtr(qa_lang("cs_social_login/facebook_invite_msg") , array('^name'=> $name , '^site_url' => $url));
+
+      if (!$facebook_js_api_initialized) {
+          $facebook_js_api_initialized = true ;
+      } else {
+          // if facebook api is already initialized then dont initialize it again . 
+          return "" ; 
+      }
       ob_start();
       ?>
-      <script src="http://connect.facebook.net/en_US/all.js"></script>  
-
+      <script src=""></script>  
       <script>
             FB.init({
                   appId: '<?php echo $app_id; ?>', // or simply set your appid hard coded
@@ -127,18 +138,109 @@ function generate_facebook_invite_script($app_id, $name, $url) {
                   status: true,
                   xfbml: true
             });
-            function invite_friends() {
-                  FB.ui({
-                        method: 'apprequests',
-                        message: '<?php echo $message ?>',
-                  });
-            }
       </script>
       <?php
       $output = ob_get_clean();
       return $output;
 }
 
+/**
+ * Generates a dynamic script for users so that they can post to facebook with some ajax calls 
+ * and no need of reloading web pages 
+ * @param  string $app_id [facebook application id ]
+ * @param  string $name   [name of the logged in user]
+ * @param  string $url    [url to be used for message ]
+ * @return string         [script to be printed below the button]
+ */
+function cs_generate_facebook_invite_script($app_id, $data , $no_script = true ) {
+      if (!$app_id || !is_array($data)) {
+            return "";
+      }
+      $name    = cs_extract_parameter_val($data , 'name') ;
+      $url     = cs_extract_parameter_val($data , 'url') ;
+      $message = strtr(qa_lang("cs_social_login/facebook_invite_msg") , array('^name'=> $name , '^site_url' => $url ));
+      $object  = "message:'$message' ," ;
+      ob_start();
+      if (!$no_script) echo "<script>" ;
+      ?>
+     cs_invite_facebook_friends(<?php echo $app_id ?> , {<?php echo $object ?>})
+      <?php
+      if (!$no_script) echo "</script>" ;
+      $output = ob_get_clean();
+      return $output;
+} //end of cs_generate_facebook_invite_script
+
+
+
+/**
+ * generate wall post for 
+ * @return [type] [description]
+ */
+function cs_generate_facebook_wall_post_script($app_id , $data , $no_script = true ){
+     if (!$app_id || !is_array($data)) {
+            return "";
+      }
+      $link        = cs_extract_parameter_val($data , 'link');
+      $picture     = cs_extract_parameter_val($data , 'picture');
+      $name        = cs_extract_parameter_val($data , 'name');
+      $caption     = cs_extract_parameter_val($data , 'caption');
+      $description = cs_extract_parameter_val($data , 'description');
+      $object      = "" ;
+
+      if (!!$link) {
+        $object .= "link: '" . $link . "' ," ;
+      }
+      if (!!$picture) {
+        $object .= "picture: '" . $picture . "' ," ;
+      }
+      if (!!$name) {
+        $object .= "name: '" . $name . "' ," ;
+      }
+      if (!!$caption) {
+        $object .= "caption: '" . $caption . "' ," ;
+      }
+      if (!!$description) {
+        $object .= "description: '" . $description . "' ," ;
+      }
+      ob_start();
+      if (!$no_script) echo "<script>" ;
+      ?>
+            cs_post_to_facebook_wall(<?php echo $app_id ?> , {<?php echo $object ?>}); 
+      <?php
+      if (!$no_script) echo "</script>" ;
+      $output = ob_get_clean();
+      return $output;
+}//cs_generate_facebook_wall_post_script
+
+function cs_generate_facebook_link_share_script($app_id , $data , $no_script = true){
+     if (!$app_id) {
+            return "";
+      }
+      $name   = cs_extract_parameter_val($data , 'name');
+      $link   = cs_extract_parameter_val($data , 'link');
+      $object = "" ;
+
+      if (!!$name) {
+        $object .= "name: '" . $name . "' ," ;
+      }
+      if (!!$link) {
+        $object .= "link: '" . $link . "' ," ;
+      }
+     
+      ob_start();
+      if (!$no_script) echo "<script>" ;
+      ?>
+            cs_share_link_to_facebook(<?php echo $app_id ?> ,{<?php echo $object ?>});
+      <?php
+      if (!$no_script) echo "</script>" ;
+      $output = ob_get_clean();
+      return $output;
+}//cs_generate_facebook_link_share_script
+
+function cs_extract_parameter_val($param , $name )
+{
+  return isset($param[$name]) ? $param[$name] : "" ;
+}
 /*
 	Omit PHP closing tag to help avoid accidental output
 */

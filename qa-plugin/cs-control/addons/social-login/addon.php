@@ -57,7 +57,7 @@ class Cs_Social_Login_Addon {
       }
 
       public function language($lang_arr) {
-		$lang_arr['cs_social_login'] = CS_CONTROL_DIR .'/addons/social-login/lang-*.php';
+		$lang_arr['cs_social_login'] = CS_CONTROL_DIR .'/addons/social-login/language.php';
 		return $lang_arr;
       }
 
@@ -68,6 +68,7 @@ class Cs_Social_Login_Addon {
 
       public function script($script_src) {
             $script_src['cs_social_login'] = CS_CONTROL_URL . '/addons/social-login/script.js';
+            $script_src['cs_social_login_facebook'] = "http://connect.facebook.net/en_US/all.js";
             return $script_src;
       }
 	  

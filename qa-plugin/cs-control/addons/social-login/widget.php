@@ -65,8 +65,6 @@ class cs_social_login_widget {
 
 
 }
-
-// qa_db_slugs_to_backpath
 /*
 
 	Omit PHP closing tag to help avoid accidental output
