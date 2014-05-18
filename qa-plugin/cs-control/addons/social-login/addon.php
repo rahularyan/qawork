@@ -48,11 +48,16 @@ class Cs_Social_Login_Addon {
 	}
 
       public function navigation($themeclass) {
-		if(cs_is_user())	
-			$themeclass['navigation']['sub']['logins'] = array(
-				'label' => qa_lang_html('cs_social_login/my_logins_nav'),
-				'url' => qa_path_html('logins')
-			);
+
+		if(cs_is_user())	{
+			if (isset($themeclass['raw']['userid']) && $themeclass['raw']['userid'] == qa_get_logged_in_userid() ) {
+				$themeclass['navigation']['sub']['logins'] = array(
+																	'label' => qa_lang_html('cs_social_login/my_logins_nav'),
+																	'url'   => qa_path_html('logins')
+																  );
+			}
+		}
+			
         return $themeclass;
       }
 
