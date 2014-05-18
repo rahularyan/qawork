@@ -29,3 +29,5 @@
 /qa-plugin/cs-control/logs
 /*.zip
 /qa-theme/qawork/uploads
+/logs
+/qa-lang
