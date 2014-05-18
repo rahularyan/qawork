@@ -421,13 +421,13 @@ function cs_url_grabber($str) {
 
 
 function cs_widget_position(){
-	return cs_event_hook('widget_positions', array());
+	return cs_apply_filter('widget_positions', array());
 }
 
 
 
 function cs_get_template_array(){
-	return cs_event_hook('template_array', array());
+	return cs_apply_filter('template_array', array());
 
 }
 
@@ -762,45 +762,93 @@ function handle_url($handle){
 }
 
 
-function cs_event_hook($event, $value = NULL, $callback = NULL, $check = false){
+function cs_event_hook($event, $value = NULL, $callback = NULL, $check = false, $filter = false, $order = 100){
     static $events;
+	
     // Adding or removing a callback?
-    if($callback !== NULL)
-    {
-        if($callback)
-        {
-            $events[$event][] = $callback;
-        }
-        else
-        {
+    if($callback !== NULL){
+        if($callback){
+            $events[$event][$order][] = $callback;
+        }else{
             unset($events[$event]);
         }
-    }
-	elseif($check && isset($events[$event])) // Fire a callback
+    }elseif($filter && isset($events[$event])) // filter
     {
-        foreach($events[$event] as $function)
+		
+		ksort($events[$event]);
+        foreach($events[$event] as $order){		
+			foreach($order as $function){
+				$filtered = call_user_func_array($function, $value);
+				$value[1] = $filtered;
+			}			
+        }
+        return $value[1];
+    }
+	elseif($check && isset($events[$event])) // check if hook exist
+    {
+		ksort($events[$event]);
+        foreach($events[$event] as $key => $order)
         {
-            if(is_array($function))
-				return method_exists($function[0], $function[1] );
-			return function_exists($function);
-				
+			
+			foreach($order as $function){
+				if(is_array($function))
+					return method_exists($function[0], $function[1] );
+				return function_exists($function);
+			}	
         }        
     }
-    elseif(isset($events[$event])) // Fire a callback
-    {
-        foreach($events[$event] as $function)
-        {
-            $value = call_user_func($function, $value);
+    elseif(isset($events[$event])) // Fire do_action
+    {				
+		ksort($events[$event]);
+        foreach($events[$event] as $order){
+			ob_start();
+			foreach($order as $function){
+				
+				call_user_func_array($function, $value);				
+			}
+			$output = ob_get_clean();
         }
-        return $value;
+        return $output;
     }
 	return false;
+}
+
+function cs_apply_filter(){
+	$args = func_get_args();
+	unset($args[0]);
+	return cs_event_hook(func_get_arg(0), $args, NULL, false, true);
+}
+function cs_do_action(){
+	$args = func_get_args();
+	if(isset($args))
+		unset($args[0]);
+
+	return cs_event_hook(func_get_arg(0), $args, NULL);
+}
+
+function cs_add_filter(){
+	$args = func_get_args();
+	
+	if(isset($args))
+		$order = (count($args) > 2) ? end($args) : 100;
+		
+	cs_event_hook(func_get_arg(0), NULL, (isset($args[1]) ? $args[1] : ''), false, false, (isset($order) ? $order : 100));
+}
+
+function cs_add_action(){
+	$args = func_get_args();
+	
+	if(isset($args))
+		$order = (count($args) > 2) ? end($args) : 100;
+		
+	cs_event_hook(func_get_arg(0), NULL, (isset($args[1]) ? $args[1] : ''), false, false, (isset($order) ? $order : 100));
 }
 
 // an Alice for cs_event_hook 
 function cs_hook_exist($event){
 	return cs_event_hook($event, null, null, true);
 }
+
 
 function cs_combine_assets($assets, $css = true){
 	$styles = '';
@@ -894,7 +942,7 @@ function cs_what_icon($what){
 			
 	}
 	if(cs_hook_exist('cs_what_icon'))
-		return cs_event_hook('cs_what_icon', $what);
+		return cs_apply_filter('cs_what_icon', $what);
 	else
 		return $icon;
 }
@@ -1052,3 +1100,28 @@ function cs_is_internal_link($link){
 		
 	return false;
 }
+
+function cs_upload_dir(){
+	return defined(QA_BLOBS_DIRECTORY) ? QA_BLOBS_DIRECTORY : QA_BASE_DIR.'images';
+}
+
+function cs_upload_file($field){
+	require_once CS_CONTROL_DIR.'/inc/class_upload.php';
+
+	if (isset($_FILES[$field]) && !empty($_FILES[$field])) {
+
+		$upload = Upload::factory( cs_upload_dir() );
+		$upload->file($_FILES[$field]);
+
+		//set max. file size (in mb)
+		$upload->set_max_file_size(1);
+
+		//set allowed mime types
+		$upload->set_allowed_mime_types(array('application/pdf', 'image/jpeg', 'image/jpg', 'image/png', 'image/gif'));
+
+		$results = $upload->upload();
+
+		var_dump($results);
+	}
+}
+			

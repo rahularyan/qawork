@@ -1,0 +1,27 @@
+
+
+.file-preview {
+    border: 1px solid #EEEEEE;
+    margin: 5px 0;
+    padding: 5px;
+}
+.file-preview > img{
+	height:60px;
+	width:60px;
+}
+
+.file-preview .preview {
+    color: #AAAAAA;
+    float: left;
+    font-size: 40px;
+    height: 60px;
+    margin-right: 10px;
+    text-align: center;
+    width: 60px;
+}
+.file-preview .file-info {
+    overflow: hidden;
+}
+.file-preview .progress {
+    margin-bottom:0;
+}

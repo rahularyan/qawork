@@ -239,6 +239,7 @@ textarea{
     border: medium none;
     border-radius: 2px;
     box-shadow: 0 0 4px rgba(0, 0, 0, 0.3);
+    margin-top: 11px;
     width: 190px;
 }
 .navbar-form .form-control {
@@ -2166,18 +2167,22 @@ table.page-users-list {
 
 }
 
-.qa-part-form-profile table, .qa-part-form-password table {
+.qa-part-form-profile table, .qa-part-form-password table, .qa-form-wide-table {
     width: 100%;
-}
-
-.qa-form-wide-table {
-    width: 98%;
 }
 
 .qa-form-wide-label {
     width: 40%;
 }
-
+.qa-form-wide-spacer:before {
+    border-bottom: 1px solid #DDDDDD;
+    content: "";
+    display: block;
+    height: 1px;
+    margin-bottom: 10px;
+    margin-top: 15px;
+    padding-top: 0;
+}
 input.qa-form-wide-number {
     display: inline-block;
     width: auto;
@@ -5605,21 +5610,16 @@ form[name="a_form"] {
     padding: 10px;
 }
 
-.qa-form-tall-label {
-    padding-bottom: 10px;
-    padding-top: 15px;
-}
-.qa-template-admin .qa-main {
-    border: 1px solid #DDDDDD;
-    border-radius: 10px;
-    margin-top: 40px;
-    overflow: hidden;
-}
+
+
 .left-side {
-    background: none repeat scroll 0 0 #FCFCFC;
-    border-right: 1px solid #DDDDDD;
     display: table-cell;
-    width: 150px;
+    padding-right: 20px;
+    width: 180px;
+}
+.qa-template-admin .qa-main .qa-nav-sub {
+    border: 1px solid #DDDDDD;
+    border-radius: 5px;
 }
 .qa-template-admin .left-side ul {
     background: none repeat scroll 0 0 rgba(0, 0, 0, 0);
@@ -5637,7 +5637,18 @@ form[name="a_form"] {
     font-weight: bold;
     padding: 10px;
 }
-
+.qa-template-admin .left-side ul li a.qa-nav-sub-selected {
+    background: none repeat scroll 0 0 #FAFAFA;
+    border-color: transparent transparent #EEEEEE;
+    border-image: none;
+    border-style: none none solid;
+    border-width: medium medium 1px;
+}
+.qa-part-form > form {
+    border: 1px solid #EEEEEE;
+    border-radius: 5px;
+    padding: 10px;
+}
 .btn.btn-loading {
   background-image: -webkit-gradient(linear, 0 100%, 100% 0, color-stop(0.25, rgba(255, 255, 255, 0.15)), color-stop(0.25, transparent), color-stop(0.5, transparent), color-stop(0.5, rgba(255, 255, 255, 0.15)), color-stop(0.75, rgba(255, 255, 255, 0.15)), color-stop(0.75, transparent), to(transparent));
   background-image: -webkit-linear-gradient(-45deg, rgba(255, 255, 255, 0.15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0.15) 75%, transparent 75%, transparent);
@@ -5912,4 +5923,15 @@ form[name="a_form"] {
 }
 .options-table > tbody >  .cshide{
 	display:none;
+}
+.my-website {
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+.my-website:before {
+    color: #666666;
+    font-size: 17px;
+    margin-right: 5px;
+    vertical-align: text-top;
 }
