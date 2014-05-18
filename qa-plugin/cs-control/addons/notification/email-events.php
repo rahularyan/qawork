@@ -30,46 +30,20 @@ cs_event_hook('u_wall_post', NULL, 'cs_notification_event');
 cs_event_hook('u_level', NULL, 'cs_notification_event');
 //added for related questions 
 cs_event_hook('related', NULL, 'cs_notification_event');
+cs_event_hook('q_post_user_fl', NULL, 'cs_notification_event');
+cs_event_hook('q_post_tag_fl', NULL, 'cs_notification_event');
+cs_event_hook('q_post_cat_fl', NULL, 'cs_notification_event');
 
 function cs_notification_event($data) {
       $params = $data[3];
       // cs_log("This method is invoked for " . $data[4]);
       // cs_log(print_r($params, true));
-      cs_check_time_out_for_email();
       $postid         = isset($params['postid']) ? $params['postid'] : "";
       $event          = $data[4];
       $loggeduserid   = isset($data[1]) ? $data[1] : qa_get_logged_in_userid();
       $effecteduserid = isset($data[2]) ? $data[2] : "";
-      // cs_log("Effected user id " . $effecteduserid);
       if (!!$effecteduserid) {
             cs_notify_users_by_email($event, $postid, $loggeduserid, $effecteduserid, $params);
-      }
-}
-
-function cs_check_time_out_for_email() {
-      /* //get the last run date 
-        $last_run_date = qa_opt('cs_notification_last_run_date');
-        //get the interval
-        $email_event_interval = qa_opt('cs_notification_event_interval'); */
-      //hardcode the values for testing 
-      $date_format          = "d/m/Y H:i:s";
-      $last_run_date        = "01/05/2014 07:23:28";
-      $email_event_interval = 10; //always should be in seconds 
-      $last_run_date        = new DateTime($last_run_date);
-      $email_event_interval = "PT" . $email_event_interval . "S";
-
-      //get the event occurance date --> last_rundate + interval 
-      $last_run_date->add(new DateInterval($email_event_interval));
-
-      //get the current time 
-      $current_time = new DateTime("now");
-
-      //if current time is grater than last_rundate + interval then 
-      if ($current_time > $last_run_date) {
-            //extract the emails and send notification 
-            cs_process_emails_from_db();
-            //update the last rundate 
-            cs_update_last_rundate($current_time->format($date_format));
       }
 }
 
@@ -78,14 +52,13 @@ function cs_process_emails_from_db() {
       require_once QA_INCLUDE_DIR . 'qa-util-string.php';
       //here extract all the email contents from database and perform the email sending operation 
       $email_queue_data    = cs_get_email_queue();
-      // cs_log("The email list is " . print_r($email_queue_data, true));
       $email_list          = cs_get_email_list($email_queue_data);
-      // cs_log("The email list is " . print_r($email_list, true));
       $subs                = array();
       $subs['^site_title'] = qa_opt('site_title');
-      $greeting            = qa_lang("cleanstrap/greeting");
-      $thank_you_message   = qa_lang("cleanstrap/thank_you_message");
-      $subject             = strtr(qa_lang("cleanstrap/notification_email_subject"), $subs);
+      $greeting            = qa_lang("notification/greeting");
+      $thank_you_message   = qa_lang("notification/thank_you_message");
+      $subject             = strtr(qa_lang("notification/notification_email_subject"), $subs);
+      $processed_queue_ids = array() ; 
 
       foreach ($email_list as $email_data) {
             $email              = $email_data['email'];
@@ -96,14 +69,16 @@ function cs_process_emails_from_db() {
             $email_body         = strtr($email_body, $subs);
             $notification_sent  = cs_send_email_notification(null, $email, $name, $subject, $email_body, $subs);
             if (!!$notification_sent) {
-                  //update the queue status 
-                  //get the queue ids 
-                  $queue_ids = cs_get_queue_ids_from_queue_data($email_queue_data, $email);
-                  if (isset($queue_ids) && !empty($queue_ids)) {
-                        cs_update_email_queue_status($queue_ids);
-                  }
+                  // if the notification is sent then 
+                  $processed_queue_ids[] = cs_get_queue_ids_from_queue_data($email_queue_data, $email);
             }
+            
       }
+      if (!empty($processed_queue_ids)) {
+            //update the queue status 
+            cs_update_email_queue_status($queue_ids);
+      }
+
 }
 
 function cs_get_queue_ids_from_queue_data($email_queue_data, $email) {
@@ -231,6 +206,9 @@ function cs_notify_users_by_email($event, $postid, $userid, $effecteduserid, $pa
                   case 'u_message':
                   case 'u_wall_post':
                   case 'u_level':
+                  case 'q_post_user_fl':
+                  case 'q_post_tag_fl':
+                  case 'q_post_cat_fl':
                         //this is because we wont have the $parent['email'] for each effected userids when a these selected events occurs 
                         $user_details = cs_get_user_details_from_userid($effecteduserid);
                         $name         = (!!$name) ? $name : $user_details['handle'];
@@ -294,7 +272,7 @@ function cs_notify_users_by_email($event, $postid, $userid, $effecteduserid, $pa
                         $new_designation = cs_get_user_desg($new_level);
                   }
 
-                  $content = strtr(qa_lang($approved_only ? 'cleanstrap/u_level_approved_body_email' : 'cleanstrap/u_level_improved_body_email'), array(
+                  $content = strtr(qa_lang($approved_only ? 'notification/u_level_approved_body_email' : 'notification/u_level_improved_body_email'), array(
                       '^f_handle'        => $fromhandle,
                       '^done_by'         => isset($logged_in_user_name) ? $logged_in_user_name : isset($logged_in_handle) ? $logged_in_handle : qa_lang('main/anonymous'),
                       '^url'             => $url,
@@ -322,25 +300,25 @@ function cs_notify_users_by_email($event, $postid, $userid, $effecteduserid, $pa
 function cs_get_user_desg($level) {
       switch ($level) {
             case QA_USER_LEVEL_BASIC :
-                  return qa_lang("cleanstrap/basic_desg");
+                  return qa_lang("notification/basic_desg");
                   break;
             case QA_USER_LEVEL_APPROVED :
-                  return qa_lang("cleanstrap/approved_desg");
+                  return qa_lang("notification/approved_desg");
                   break;
             case QA_USER_LEVEL_EXPERT :
-                  return qa_lang("cleanstrap/expert_desg");
+                  return qa_lang("notification/expert_desg");
                   break;
             case QA_USER_LEVEL_EDITOR :
-                  return qa_lang("cleanstrap/editor_desg");
+                  return qa_lang("notification/editor_desg");
                   break;
             case QA_USER_LEVEL_MODERATOR :
-                  return qa_lang("cleanstrap/moderator_desg");
+                  return qa_lang("notification/moderator_desg");
                   break;
             case QA_USER_LEVEL_ADMIN :
-                  return qa_lang("cleanstrap/admin_desg");
+                  return qa_lang("notification/admin_desg");
                   break;
             case QA_USER_LEVEL_SUPER :
-                  return qa_lang("cleanstrap/super_admin_desg");
+                  return qa_lang("notification/super_admin_desg");
                   break;
             default:
                   break;
@@ -351,79 +329,89 @@ function cs_get_email_headers($event = "") {
       if (!!$event) {
             switch ($event) {
                   case 'a_post':
-                        return qa_lang("cleanstrap/a_post_email_header");
+                        return qa_lang("notification/a_post_email_header");
                         break;
                   case 'c_post':
-                        return qa_lang("cleanstrap/c_post_email_header");
+                        return qa_lang("notification/c_post_email_header");
                         break;
                   case 'q_reshow':
-                        return qa_lang("cleanstrap/q_reshow_email_header");
+                        return qa_lang("notification/q_reshow_email_header");
                         break;
                   case 'a_reshow':
-                        return qa_lang("cleanstrap/a_reshow_email_header");
+                        return qa_lang("notification/a_reshow_email_header");
                         break;
                   case 'c_reshow':
-                        return qa_lang("cleanstrap/c_reshow_email_header");
+                        return qa_lang("notification/c_reshow_email_header");
                         break;
                   case 'a_select':
-                        return qa_lang("cleanstrap/a_select_email_header");
+                        return qa_lang("notification/a_select_email_header");
                         break;
                   case 'q_vote_up':
-                        return qa_lang("cleanstrap/q_vote_up_email_header");
+                        return qa_lang("notification/q_vote_up_email_header");
                         break;
                   case 'a_vote_up':
-                        return qa_lang("cleanstrap/a_vote_up_email_header");
+                        return qa_lang("notification/a_vote_up_email_header");
                         break;
                   case 'q_vote_down':
-                        return qa_lang("cleanstrap/q_vote_down_email_header");
+                        return qa_lang("notification/q_vote_down_email_header");
                         break;
                   case 'a_vote_down':
-                        return qa_lang("cleanstrap/a_vote_down_email_header");
+                        return qa_lang("notification/a_vote_down_email_header");
                         break;
                   case 'q_vote_nil':
-                        return qa_lang("cleanstrap/q_vote_nil_email_header");
+                        return qa_lang("notification/q_vote_nil_email_header");
                         break;
                   case 'a_vote_nil':
-                        return qa_lang("cleanstrap/a_vote_nil_email_header");
+                        return qa_lang("notification/a_vote_nil_email_header");
                         break;
                   case 'q_approve':
-                        return qa_lang("cleanstrap/q_approve_email_header");
+                        return qa_lang("notification/q_approve_email_header");
                         break;
                   case 'a_approve':
-                        return qa_lang("cleanstrap/a_approve_email_header");
+                        return qa_lang("notification/a_approve_email_header");
                         break;
                   case 'c_approve':
-                        return qa_lang("cleanstrap/c_approve_email_header");
+                        return qa_lang("notification/c_approve_email_header");
                         break;
                   case 'q_reject':
-                        return qa_lang("cleanstrap/q_reject_email_header");
+                        return qa_lang("notification/q_reject_email_header");
                         break;
                   case 'a_reject':
-                        return qa_lang("cleanstrap/a_reject_email_header");
+                        return qa_lang("notification/a_reject_email_header");
                         break;
                   case 'c_reject':
-                        return qa_lang("cleanstrap/c_reject_email_header");
+                        return qa_lang("notification/c_reject_email_header");
                         break;
                   case 'q_favorite':
-                        return qa_lang("cleanstrap/q_favorite_email_header");
+                        return qa_lang("notification/q_favorite_email_header");
                         break;
                   case 'q_post':
-                        return qa_lang("cleanstrap/q_post_email_header");
+                        return qa_lang("notification/q_post_email_header");
                         break;
+                  case 'q_post_user_fl':
+                        return qa_lang("notification/q_post_user_fl_email_header");
+                        break;
+                  case 'q_post_cat_fl':
+                        return qa_lang("notification/q_post_cat_fl_email_header");
+                        break;
+                  case 'q_post_tag_fl':
+                        return qa_lang("notification/q_post_tag_fl_email_header");
+                        break;
+
                   case 'u_favorite':
-                        return qa_lang("cleanstrap/u_favorite_email_header");
+                        return qa_lang("notification/u_favorite_email_header");
                         break;
                   case 'u_message':
-                        return qa_lang("cleanstrap/u_message_email_header");
+                        return qa_lang("notification/u_message_email_header");
                         break;
                   case 'u_wall_post':
-                        return qa_lang("cleanstrap/u_wall_post_email_header");
+                        return qa_lang("notification/u_wall_post_email_header");
                         break;
                   case 'u_level':
-                        return qa_lang("cleanstrap/u_level_email_header");
+                        return qa_lang("notification/u_level_email_header");
                         break;
                   case 'related':
-                        return qa_lang("cleanstrap/related_email_header");
+                        return qa_lang("notification/related_email_header");
                         break;
                   default:
                         break;
@@ -435,82 +423,85 @@ function cs_get_email_body($event = "") {
       if (!!$event) {
             switch ($event) {
                   case 'a_post':
-                        return qa_lang("cleanstrap/a_post_body_email");
+                        return qa_lang("notification/a_post_body_email");
                         break;
                   case 'c_post':
-                        return qa_lang("cleanstrap/c_post_body_email");
+                        return qa_lang("notification/c_post_body_email");
                         break;
                   case 'q_reshow':
-                        return qa_lang("cleanstrap/q_reshow_body_email");
+                        return qa_lang("notification/q_reshow_body_email");
                         break;
                   case 'a_reshow':
-                        return qa_lang("cleanstrap/a_reshow_body_email");
+                        return qa_lang("notification/a_reshow_body_email");
                         break;
                   case 'c_reshow':
-                        return qa_lang("cleanstrap/c_reshow_body_email");
+                        return qa_lang("notification/c_reshow_body_email");
                         break;
                   case 'a_select':
-                        return qa_lang("cleanstrap/a_select_body_email");
+                        return qa_lang("notification/a_select_body_email");
                         break;
                   case 'q_vote_up':
-                        return qa_lang("cleanstrap/q_vote_up_body_email");
+                        return qa_lang("notification/q_vote_up_body_email");
                         break;
                   case 'a_vote_up':
-                        return qa_lang("cleanstrap/a_vote_up_body_email");
+                        return qa_lang("notification/a_vote_up_body_email");
                         break;
                   case 'q_vote_down':
-                        return qa_lang("cleanstrap/q_vote_down_body_email");
+                        return qa_lang("notification/q_vote_down_body_email");
                         break;
                   case 'a_vote_down':
-                        return qa_lang("cleanstrap/a_vote_down_body_email");
+                        return qa_lang("notification/a_vote_down_body_email");
                         break;
                   case 'q_vote_nil':
-                        return qa_lang("cleanstrap/q_vote_nil_body_email");
+                        return qa_lang("notification/q_vote_nil_body_email");
                         break;
                   case 'a_vote_nil':
-                        return qa_lang("cleanstrap/a_vote_nil_body_email");
+                        return qa_lang("notification/a_vote_nil_body_email");
                         break;
                   case 'q_approve':
-                        return qa_lang("cleanstrap/q_approve_body_email");
+                        return qa_lang("notification/q_approve_body_email");
                         break;
                   case 'a_approve':
-                        return qa_lang("cleanstrap/a_approve_body_email");
+                        return qa_lang("notification/a_approve_body_email");
                         break;
                   case 'c_approve':
-                        return qa_lang("cleanstrap/c_approve_body_email");
+                        return qa_lang("notification/c_approve_body_email");
                         break;
                   case 'q_reject':
-                        return qa_lang("cleanstrap/q_reject_body_email");
+                        return qa_lang("notification/q_reject_body_email");
                         break;
                   case 'a_reject':
-                        return qa_lang("cleanstrap/a_reject_body_email");
+                        return qa_lang("notification/a_reject_body_email");
                         break;
                   case 'c_reject':
-                        return qa_lang("cleanstrap/c_reject_body_email");
+                        return qa_lang("notification/c_reject_body_email");
                         break;
                   case 'q_favorite':
-                        return qa_lang("cleanstrap/q_favorite_body_email");
+                        return qa_lang("notification/q_favorite_body_email");
                         break;
                   case 'q_post':
-                        return qa_lang("cleanstrap/q_post_body_email");
+                  case 'q_post_user_fl':
+                  case 'q_post_tag_fl':
+                  case 'q_post_cat_fl':
+                        return qa_lang("notification/q_post_body_email");
                         break;
                   case 'u_favorite':
-                        return qa_lang("cleanstrap/u_favorite_body_email");
+                        return qa_lang("notification/u_favorite_body_email");
                         break;
                   case 'u_message':
-                        $body = qa_lang("cleanstrap/u_message_body_email");
+                        $body = qa_lang("notification/u_message_body_email");
                         $canreply = !(qa_get_logged_in_flags() & QA_USER_FLAGS_NO_MESSAGES);
-                        $more = qa_lang($canreply ? 'cleanstrap/u_message_reply_email' : 'cleanstrap/u_message_info');
+                        $more = qa_lang($canreply ? 'notification/u_message_reply_email' : 'notification/u_message_info');
                         return $body . $more;
                         break;
                   case 'u_wall_post':
-                        return qa_lang("cleanstrap/u_wall_post_body_email");
+                        return qa_lang("notification/u_wall_post_body_email");
                         break;
                   case 'u_level':
-                        return qa_lang("cleanstrap/u_level_body_email");
+                        return qa_lang("notification/u_level_body_email");
                         break;
                   case 'related':
-                        return qa_lang("cleanstrap/related_body_email");
+                        return qa_lang("notification/related_body_email");
                         break;
                   default:
                         break;
