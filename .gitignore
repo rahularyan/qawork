@@ -1,4 +1,4 @@
-/qa-lang
+/qa-lang/logs
 /.htaccess
 /CHANGELOG.html
 /CHANGELOG.zip
@@ -28,4 +28,4 @@
 /nbproject
 /qa-plugin/cs-control/logs
 /*.zip
-/logs
+/qa-theme/qawork/uploads

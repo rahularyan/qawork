@@ -78,7 +78,7 @@ cs_load_addons();
 
 //register addons language
 if (cs_hook_exist('register_language')){
-	$lang_file_array = cs_event_hook('register_language', array());
+	$lang_file_array = cs_apply_filter('register_language', array());
 
 	if(isset($lang_file_array) && is_array($lang_file_array)){
 		foreach($lang_file_array as $key => $file){
@@ -138,4 +138,24 @@ function cs_ajax_delete_widget()
 		widget_opt_delete($id);
 	}
 	die();
+}
+
+cs_add_filter('init_queries', 'cs_create_widgets_table');
+function cs_create_widgets_table($queries, $tableslc){
+
+	$tablename=qa_db_add_table_prefix('ra_widgets');			
+	if (!in_array($tablename, $tableslc)) {
+		  $queries[] = 'CREATE TABLE IF NOT EXISTS ^ra_widgets ('.
+			'id INT(10) NOT NULL AUTO_INCREMENT,'.				
+			'name VARCHAR (64),'.				
+			'position VARCHAR (64),'.				
+			'widget_order INT(2) NOT NULL DEFAULT 0,'.				
+			'param LONGTEXT,'.				
+			'PRIMARY KEY (id),'.
+			'UNIQUE KEY id (id)'.				
+		') ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;';
+	}
+
+	return $queries;
+
 }
