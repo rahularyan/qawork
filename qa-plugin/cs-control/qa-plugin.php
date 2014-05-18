@@ -100,7 +100,6 @@ function cs_admin_enqueue_scripts($src){
 	if (qa_request() == 'themeoptions') {
 		$src['cs_admin'] = Q_THEME_URL . '/js/admin.js';
 		$src['spectrum'] = Q_THEME_URL . '/js/spectrum.js';
-		$src['uploadfile'] = Q_THEME_URL . '/js/jquery.uploadfile.min.js';
 	}
 	return  $src;
 }
