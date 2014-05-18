@@ -163,6 +163,7 @@
 		'followers_x' => 'Followers <span>^</span>',
 		'following_x' => 'Following <span>^</span>',
 		'more' => 'more',
+		'about_x' => 'About ^',
 	);
 	
 

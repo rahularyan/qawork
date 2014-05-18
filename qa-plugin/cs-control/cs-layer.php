@@ -5,28 +5,21 @@
 		function doctype(){	
 
 			//content hook
-			cs_event_hook('content', $this->content);
-		
+			//cs_apply('content', $this->content);
 			
 			$this->content['css_src']['cs_admin'] = Q_THEME_URL . '/css/admin.css';
 			$this->content['css_src']['cs_style'] = Q_THEME_URL .'/'. $this->css_name();
 		
 			//enqueue script and style in content
-			$hooked_script	= cs_event_hook('enqueue_scripts', array());
-			$hooked_css 	= cs_event_hook('enqueue_css', $this->content['css_src']);
+			$hooked_script	= cs_apply_filter('enqueue_scripts', array());
+			$hooked_css 	= cs_apply_filter('enqueue_css', $this->content['css_src']);
 
 			if(is_array($hooked_script))
 				$this->content['script_src'] =  $hooked_script;
 				
 			if(is_array($hooked_css))
 				$this->content['css_src'] = $hooked_css;
-			
-			
-			// unset old jQuery
-			if(($key = array_search('<script src="../../qa-content/jquery-1.7.2.min.js" type="text/javascript"></script>', $this->content['script'])) !== false) {
-				unset($this->content['script'][$key]);
-			}
-
+				
 			qa_html_theme_base::doctype();
 
 			if(qa_get_logged_in_level() >= QA_USER_LEVEL_ADMIN)	{
@@ -66,17 +59,27 @@
 			
 			}
 			if(cs_hook_exist('doctype'))
-				$this->content = cs_event_hook('doctype', $this->content);
+				$this->content = cs_apply_filter('doctype', $this->content);
+
 
 		}
 		
 		function head_script()
 		{
-			$this->output('<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>');
+			// unset old jQuery
+			if(($key = array_search('<script src="../qa-content/jquery-1.7.2.min.js" type="text/javascript"></script>', $this->content['script'])) !== false) {
+				unset($this->content['script'][$key]);
+			}
+			if(($key = array_search('qa-content/jquery-1.7.2.min.js', $this->content['script_rel'])) !== false) {
+				unset($this->content['script_rel'][$key]);
+			}
+			
+			$this->output('<script src="'.Q_THEME_URL.'/js/jquery-1.11.0.min.js"></script>');
 			
 			$this->output('<script> ajax_url = "' . CS_CONTROL_URL . '/ajax.php";</script>');
 		
 			qa_html_theme_base::head_script();
+			
 			$this->output('<script> theme_url = "' . Q_THEME_URL . '";</script>');
 		
 			if (qa_opt('cs_enable_gzip')){ //Gzip
@@ -95,7 +98,8 @@
 			}
 			
 			//register a hook
-			cs_event_hook('head_script', $this);
+			if(cs_hook_exist('head_script'))
+				$this->output(cs_do_action('head_script', $this));
 			
 			if($this->cs_is_widget_active('CS Ask Form') && $this->template != 'ask'){
 				$this->output('<script type="text/javascript" src="'.get_base_url().'/qa-content/qa-ask.js"></script>');
@@ -142,7 +146,6 @@
 		
 		function head_css()
 		{
-		
 			//qa_html_theme_base::head_css();
 	
 			if (qa_opt('cs_enable_gzip')){ //Gzip
@@ -190,14 +193,14 @@
 			}
 		
 			//register a hook
-			cs_event_hook('head_css', $this);
-
+			if(cs_hook_exist('head_css'))
+				$this->output(cs_do_action('head_css', $this));
 			
 		}
 		
 	function form_field($field, $style)
     {
-		if (cs_hook_exist(__FUNCTION__)) {$args=func_get_args(); return cs_event_hook(__FUNCTION__, $args); }
+		if (cs_hook_exist(__FUNCTION__)) {$args=func_get_args(); return cs_do_action(__FUNCTION__, $args); }
         
         if (@$field['type'] == 'cs_qaads_multi_text') {
             $this->form_prefix($field, $style);
@@ -211,7 +214,7 @@
     
     function cs_qaads_form_multi_text($field, $style)
     {
-		if (cs_hook_exist(__FUNCTION__)) {$args=func_get_args(); return cs_event_hook(__FUNCTION__, $args); }
+		if (cs_hook_exist(__FUNCTION__)) {$args=func_get_args(); return cs_do_action(__FUNCTION__, $args); }
         $this->output('<div class="ra-multitext"><div class="ra-multitext-append">');
         
         $i = 0;
@@ -247,7 +250,7 @@
     
     function q_list_items($q_items)
     {
-		if (cs_hook_exist(__FUNCTION__)) {$args=func_get_args(); return cs_event_hook(__FUNCTION__, $args); }
+		if (cs_hook_exist(__FUNCTION__)) {$args=func_get_args(); return cs_do_action(__FUNCTION__, $args); }
         if (qa_opt('cs_enable_adv_list')) {
             $advs = json_decode(qa_opt('cs_advs'), true);
             foreach ($advs as $k => $adv) {
@@ -278,7 +281,7 @@
 	
 	
 	function install_page(){
-		if (cs_hook_exist(__FUNCTION__)) {$args=func_get_args(); return cs_event_hook(__FUNCTION__, $args); }
+		if (cs_hook_exist(__FUNCTION__)) {$args=func_get_args(); return cs_do_action(__FUNCTION__, $args); }
 		$content = $this->content;
 		$this->output('<div class="clearfix qa-main container ' . (@$this->content['hidden'] ? ' qa-main-hidden' : '') . '">');
 		$this->main_parts($content);

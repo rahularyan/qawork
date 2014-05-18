@@ -25,28 +25,27 @@ class Cs_Social_Login_Addon {
             cs_event_hook('register_language', NULL, array($this, 'language'));
             cs_event_hook('enqueue_css', NULL, array($this, 'css'));
             cs_event_hook('enqueue_scripts', NULL, array($this, 'script'));
-            cs_event_hook('init_queries', NULL, array($this, 'init_queries'));
-            cs_event_hook('cs_theme_option_tab', NULL, array($this, 'option_tab'));
-            cs_event_hook('cs_theme_option_tab_content', NULL, array($this, 'option_tab_content'));
+			cs_add_filter('init_queries', array($this, 'init_queries'));
+            cs_add_action('cs_theme_option_tab', array($this, 'option_tab'));
+            cs_add_action('cs_theme_option_tab_content', array($this, 'option_tab_content'));
       }
 
-      public function init_queries($tableslc) {
-            $queries = array();
+	public function init_queries($queries, $tableslc){
 
-            $columns = qa_db_read_all_values(qa_db_query_sub('describe ^userlogins'));
-            if (!in_array('oemail', $columns)) {
-                  $queries[] = 'ALTER TABLE ^userlogins ADD `oemail` VARCHAR( 80 ) CHARACTER SET utf8 COLLATE utf8_general_ci NULL';
-            }
+		$columns = qa_db_read_all_values(qa_db_query_sub('describe ^userlogins'));
+		if (!in_array('oemail', $columns)) {
+			  $queries[] = 'ALTER TABLE ^userlogins ADD `oemail` VARCHAR( 80 ) CHARACTER SET utf8 COLLATE utf8_general_ci NULL';
+		}
 
-            $columns = qa_db_read_all_values(qa_db_query_sub('describe ^users'));
-            if (!in_array('oemail', $columns)) {
-                  $queries[] = 'ALTER TABLE ^users ADD `oemail` VARCHAR( 80 ) CHARACTER SET utf8 COLLATE utf8_general_ci NULL';
-            }
+		$columns = qa_db_read_all_values(qa_db_query_sub('describe ^users'));
+		if (!in_array('oemail', $columns)) {
+			  $queries[] = 'ALTER TABLE ^users ADD `oemail` VARCHAR( 80 ) CHARACTER SET utf8 COLLATE utf8_general_ci NULL';
+		}
 
-            if (count($queries)) {
-                  return $queries;
-            }
-      }
+		if (count($queries)) {
+			  return $queries;
+		}
+	}
 
       public function navigation($themeclass) {
 
@@ -120,7 +119,7 @@ class Cs_Social_Login_Addon {
 			$saved=true;
 
 		}
-		return '<li>
+		echo '<li>
 				<a href="#" data-toggle=".qa-part-form-tc-hybrid">Hybrid Auth</a>
 			</li>';
 	  }
@@ -170,7 +169,7 @@ class Cs_Social_Login_Addon {
 			}
 				
 			$output .= '</table></div>';
-			return $output;
+			echo $output;
 	  }
 
 }

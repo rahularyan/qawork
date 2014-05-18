@@ -58,7 +58,7 @@ function cs_get_total_messages($uid){
 
 class Cs_Notification_Addon{
 	function __construct(){
-		cs_event_hook('init_queries', NULL, array($this, 'init_queries'));
+		//cs_add_filter('init_queries', array($this, 'init_queries'));
 		cs_event_hook('enqueue_css', NULL, array($this, 'css'));
 		cs_event_hook('enqueue_scripts', NULL, array($this, 'scripts'));
 		cs_event_hook('cs_ajax_activitylist', NULL, array($this, 'activitylist'));
@@ -75,8 +75,8 @@ class Cs_Notification_Addon{
         cs_event_hook('cs_theme_option_tab_content1', NULL, array($this, 'option_tab_content'));
 	}
 	
-	public function init_queries($tableslc){
-		$queries = array();
+	public function init_queries($queries, $tableslc){
+		
 		$tablename=qa_db_add_table_prefix('ra_email_queue');			
 		if (!in_array($tablename, $tableslc)) {
 

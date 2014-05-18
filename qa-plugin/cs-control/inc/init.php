@@ -3,8 +3,7 @@
 		
 		function init_queries($tableslc) {
 			$queries = array();
-			$queries = cs_event_hook('init_queries', $tableslc);
-			
+			$queries = cs_apply_filter('init_queries', $queries, $tableslc);
 			$tablename=qa_db_add_table_prefix('ra_userevent');			
 			if (!in_array($tablename, $tableslc)) {
 				require_once QA_INCLUDE_DIR.'qa-app-users.php';
