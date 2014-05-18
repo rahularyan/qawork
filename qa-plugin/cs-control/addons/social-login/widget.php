@@ -53,13 +53,7 @@ class cs_social_login_widget {
 
       function output_widget($region, $place, $themeobject, $template, $request, $qa_content) {
             $widget_opt = @$themeobject->current_widget['param']['options'];
-            if (in_array($template, array("favorites" , "account")) || $request == "logins") {
-                        $qa_content['navigation']['sub']['logins'] = array(
-                            'label' => qa_lang_html('cleanstrap/my_logins_title'),
-                            'url'   => './logins' ,
-                          );
-            }
-
+            
        }
 
 
