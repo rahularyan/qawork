@@ -574,7 +574,7 @@ function cs_send_email_notification($bcclist, $email, $handle, $subject, $body, 
           'bcclist' => $bcclist,
           'subject' => strtr($subject, $subs),
           'body' => strtr($body, $subs),
-          'html' => false,
+          'html' => true ,
       );
       if (CS_SEND_EMAIL_DEBUG_MODE) {
             //this will write to the log file 
