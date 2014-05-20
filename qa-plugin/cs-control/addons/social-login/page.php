@@ -172,8 +172,6 @@ class cs_social_login_page {
 			$mylogins = cs_social_user_login_find_mine($userid, $useraccount['sessionsource']);
 		}
 
-		
-
 		//	Prepare content for theme
 		$qa_content=qa_content_prepare();
 		$qa_content['title']=qa_lang_html('cs_social_login/my_logins_title');
@@ -359,8 +357,6 @@ class cs_social_login_page {
 		
 		return $output;
 	}
-
-	
 	
 }
 
