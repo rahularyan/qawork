@@ -693,14 +693,18 @@ function cs_event_hook($event, $value = NULL, $callback = NULL, $check = false, 
         }
     }elseif($filter) // filter
     {	
-		if(!isset($events[$event]))
+		if(!isset($events[$event]) )
 			return $value[1];
 			
 		ksort($events[$event]);
         foreach($events[$event] as $order){		
 			foreach($order as $function){
 				$filtered = call_user_func_array($function, $value);
-				$value[1] = $filtered;
+				
+				if(isset($filtered))
+					$value[1] = $filtered;
+				else
+					$value[1] = $value[1];
 			}			
         }
 	
@@ -1023,4 +1027,18 @@ function cs_is_internal_link($link){
 		return true;
 		
 	return false;
+}
+
+function cs_array_insert_before($key, array &$array, $new_key, $new_value) {
+  if (array_key_exists($key, $array)) {
+    $new = array();
+    foreach ($array as $k => $value) {
+      if ($k === $key) {
+        $new[$new_key] = $new_value;
+      }
+      $new[$k] = $value;
+    }
+    return $new;
+  }
+  return FALSE;
 }

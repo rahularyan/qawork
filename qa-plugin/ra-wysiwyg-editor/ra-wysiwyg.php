@@ -144,7 +144,7 @@
 				$ui_color = strlen(qa_opt('wysiwyg_editor_ui_color')) ?  qa_opt('wysiwyg_editor_ui_color') : '#eeeeee';
 				
 				$qa_content['script_src'][]=$scriptsrc;
-				$qa_content['script_lines'][]=array(
+				/* $qa_content['script_lines'][]=array(
 					"qa_wysiwyg_editor_config={".
 						"uiColor: '".$ui_color."',".
 						"toolbar:[".
@@ -156,7 +156,7 @@
 						"['NumberedList','BulletedList','-','Outdent','Indent','Blockquote'],".
 						"['Image','Flash','Smiley'],".
 						"['RemoveFormat', 'Maximize'],".
-						"['oEmbed']".
+						//"['oEmbed']".
 					"]".
 					", defaultLanguage:".qa_js(qa_opt('site_language')).
 					", skin:'moono'".
@@ -168,7 +168,7 @@
 					($uploadimages ? (", filebrowserImageUploadUrl:".qa_js(qa_path('wysiwyg-editor-upload', array('qa_only_image' => true)))) : "").
 					($uploadall ? (", filebrowserUploadUrl:".qa_js(qa_path('wysiwyg-editor-upload'))) : "").
 					"};"
-				);
+				); */
 			}		
 				
 			if ($format=='html')
