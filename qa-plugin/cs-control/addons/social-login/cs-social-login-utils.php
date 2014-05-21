@@ -84,10 +84,6 @@ function cs_social_login_get_new_source($source, $identifier) {
       return substr($source, 0, 9) . '-' . substr(md5($identifier), 0, 6);
 }
 
-function cs_social_get_saved_hauth_session($hauthSession)
-{
-   return qa_db_read_one_value(qa_db_query_sub("SELECT ^userprofile.content AS name from  ^userprofile WHERE ^userprofile.title =$ AND ^userprofile.userid = # " , $hauthSession , qa_get_logged_in_userid()), true);
-}
 function cs_social_get_config_common($url, $provider) {
       $key = strtolower($provider);
       $app_id = qa_opt("{$key}_app_id");

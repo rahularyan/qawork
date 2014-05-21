@@ -13,8 +13,6 @@ if (!defined('QA_VERSION')) {
       exit;
 }
 
-require_once CS_CONTROL_DIR.'/addons/social-login/cs-social-event-post.php';
-
 qa_register_plugin_module('widget', 'addons/social-login/widget.php', 'cs_social_login_widget', 'CS Social Login');
 qa_register_plugin_overrides('addons/social-login/cs-social-logins-overrides.php');
 qa_register_plugin_module('page', 'addons/social-login/page.php', 'cs_social_login_page', 'CS Social Login Page');
