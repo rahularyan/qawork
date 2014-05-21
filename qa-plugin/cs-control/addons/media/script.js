@@ -1276,26 +1276,100 @@ function log() {
 
 }));
 
+function cs_load_media_item_to_edit(id, modal){
+	$.ajax({
+		url:ajax_url,
+		type:'POST',
+		data: {
+			args: id,
+			action: 'load_media_item_edit'
+		},
+		dataType: 'html',
+		context:this,
+		success: function (response) {
+			$(modal+' #editmedia-tab').html(response).find('form').hide().slideDown(200);
+			$(modal+' .media-action-tab a:last').tab('show');
+			
+			$(modal+' #editmedia-tab form').ajaxForm({
+				url:ajax_url, 
+				dataType:  'json',
+				beforeSend: function() {
+					
+				},
+				uploadProgress: function(event, position, total, percentComplete) {
+					
+				},
+				success: function(data) {
+					
+					if(data[0] == 'save'){
+						$(modal+' .modal-body').prepend(data[1]);
+					}else{
+						$(modal+' .modal-body').prepend(data[1]);
+						$(modal+' #editmedia-tab form').remove();
+						$(modal+' .editable-media > .ui-selected').remove();
+					}
+				},
+				complete: function(xhr) {
+					
+				},
+
+			});
+		},
+	});	
+}
+
 
 $(document).ready(function() {
     'use strict';
 	
-	$("#file-upload-input").change(function(){
-		readURL(this);
+	$('.open-media-modal').click(function(){
+		var postid = $(this).data('args');
+		
+		if(!$(this).is('.loaded')){
+			cs_animate_button(this, false);
+			$.ajax({
+				url:ajax_url,
+				type:'POST',
+				data: {
+					args: postid,
+					action: 'load_upload_modal'
+				},
+				dataType: 'html',
+				context:this,
+				success: function (response) {
+					$(this).addClass('loaded');
+					$(response).appendTo('body');
+					cs_animate_button(this, true);
+					$('#media-modal-'+postid).modal('show');
+					$( '#media-modal-'+postid+' .editable-media' ).selectable({
+						selected: function( event, ui ) {
+							cs_load_media_item_to_edit($(ui.selected).data('id'), '#media-modal-'+postid);
+						}
+					});
+				},
+			});	
+		}else{
+			$('#media-modal-'+postid).modal('toggle');
+		}
 	});
 	
-
+	$("body").delegate("#file-upload-input", 'change', function(){
+		cs_show_file_preview(this);	
+		cs_show_upload_btn(this);		
+	});
 	
-	$("form#file-upload").submit(function() { 
-		var bar = $('.progress > .progress-bar');
-		var percent = $('.progress > .sr-only');
-		var status = $('#status');
-		
+	
+	$('body').delegate('form#file-upload', 'submit', function() { 
+	
+		var elm = this;
+		var bar = $(this).find('.file-preview:last-child .progress .progress-bar');
+		var percent = $(this).find('.file-preview:last-child .progress > .sr-only');
+
 		$(this).ajaxSubmit({
 			url:ajax_url, 
 			data:{action:'upload_file'},
+			dataType:  'json',
 			beforeSend: function() {
-				status.empty();
 				var percentVal = '0%';
 				bar.width(percentVal)
 				percent.html(percentVal);
@@ -1304,29 +1378,58 @@ $(document).ready(function() {
 				var percentVal = percentComplete + '%';
 				bar.width(percentVal)
 				percent.html(percentVal);
-				//console.log(percentVal, position, total);
 			},
 			success: function(data) {
 				var percentVal = '100%';
 				bar.width(percentVal)
 				percent.html(percentVal);
-				$('#file-preview').append(data);
+				console.log(data);
+				if(!data['status']){
+					$('<div class="alert alert-danger alert-dismissable"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>'+data['errors'].join(' ')+'</div>').prependTo($(elm).closest('.modal-body'));
+					
+				}else{
+					if(data['ext'] == 'jpeg' || data['ext'] == 'jpg' || data['ext'] == 'gif' || data['ext'] == 'png'){
+						$('<li class="attachments" data-id="'+data['id']+'"><img src="'+data['url']+'/'+data['thumb']+'.'+data['ext']+'" /></li>').appendTo('.editable-media');	
+					}else{
+						$('<li class="attachments" data-id="'+data['id']+'"><i class="file-icon icon-'+data['ext']+'"></i></li>').appendTo('.editable-media');
+					}
+				}
 				
 			},
 			complete: function(xhr) {
-				status.html(xhr.responseText);
+				cs_hide_upload_btn(elm);
 			},
 			clearForm:true
 		});
 		return false; 
 	});
 	
+	$('body').delegate('form.media-item-form', 'submit', function() { 
+		return false; 
+	});
+	
+	$('.load-media-preview').on('click', function (e) {
+		$.ajax({
+			url:ajax_url,
+			type:'POST',
+			data: {
+				args: $(this).data('id'),
+				action: 'load_media_item'
+			},
+			dataType: 'html',
+			context:this,
+			success: function (response) {
+				$('#show_file_preview .modal-body').html(response);
+			},
+		});
+	});
+	
+	
 });
 
-function readURL(input) {
+function cs_show_file_preview(input) {
 
     if (input.files) {
-	
 		$(input.files).each(function(i){
 			var type = input.files[i]['type'];
 			var name = input.files[i]['name'];
@@ -1335,20 +1438,26 @@ function readURL(input) {
 				var reader = new FileReader();	
 				
 				reader.onload = function (e) {
-					$('#file-preview').append('<div class="file-preview"><img class="file'+ i +' preview" src="'+ e.target.result +'" /><div class="file-info"><p>'+ name +'</p><div class="progress"><div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%"><span class="sr-only">0% Complete (success)</span></div></div></div></div>');				
+					$('#file-preview').html('<div class="file-preview"><img class="file'+ i +' preview" src="'+ e.target.result +'" /><div class="file-info"><p>'+ name +'</p><div class="progress"><div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%"><span class="sr-only">0% Complete (success)</span></div></div></div></div>');				
 				}
 
 				reader.readAsDataURL(input.files[i]);
-			}else if(type.indexOf( "application/zip" ) !== -1){
-				$('#file-preview').append('<div class="file-preview"><i class="icon-zip preview"></i><div class="file-info"><p>'+ name +'</p><div class="progress"><div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%"><span class="sr-only">0% Complete (success)</span></div></div></div></div>');
-			}else if(type.indexOf( "application/pdf" ) !== -1){
-				$('#file-preview').append('<div class="file-preview"><i class="icon-zip preview"></i><div class="file-info"><p>'+ name +'</p><div class="progress"><div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%"><span class="sr-only">0% Complete (success)</span></div></div></div></div>');
-			}else if(type.indexOf( "video/" ) !== -1){
-				$('#file-preview').append('<div class="file-preview"><i class="icon-video preview"></i><div class="file-info"><p>'+ name +'</p><div class="progress"><div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%"><span class="sr-only">0% Complete (success)</span></div></div></div></div>');
+			}else if(type.indexOf( "application/zip" ) !== -1 || type.indexOf( "application/pdf" ) !== -1 || type.indexOf( "video/" ) !== -1){
+				var type = type.split('/');
+				$('#file-preview').html('<div class="file-preview"><i class="icon-'+type[1]+' preview"></i><div class="file-info"><p>'+ name +'</p><div class="progress"><div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%"><span class="sr-only">0% Complete (success)</span></div></div></div></div>');
 			}else{
-				$('#file-preview').prepend('<div class="alert alert-danger">File type not supported !</div>');
+				$('#file-preview').html('<div class="alert alert-danger">File type not supported !</div>');
 			}
+
 		});
     }
+
+}
+
+function cs_show_upload_btn(elm){
+	$(elm).closest('form').find('button[type="submit"]').show();
+}
+function cs_hide_upload_btn(elm){
+	$(elm).find('button[type="submit"]').hide();
 }
 

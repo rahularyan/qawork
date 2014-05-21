@@ -1246,7 +1246,7 @@ class qa_html_theme_layer extends qa_html_theme_base {
 		$this->output('</div>');        
         $this->output('</footer>');
 		
-		cs_do_action('footer_bottom', $this);
+		$this->output(cs_do_action('footer_bottom', $this));
     }
     
     function get_social_links()
@@ -1511,19 +1511,9 @@ class qa_html_theme_layer extends qa_html_theme_base {
 			$this->output('</div>');
 			
 			$this->q_view_content($q_view);
-			
 			if(isset($q_view['raw']['postid'])){
-				$featured_image = get_featured_thumb($q_view['raw']['postid']);
-				if($featured_image){
-					$this->output('<div class="widget">');           
-					$this->output('<h3 class="widget-title">'.qa_lang('cleanstrap/featured_image').'</h3>');           
-					$this->output('<div class="question-image-container">');           
-					$this->output($featured_image);
-					$this->output('</div>');
-					$this->output('</div>');
-				}
+				$this->output(cs_do_action('after_question', $q_view['raw']['postid']));
 			}
-						
             $this->output('</div>');
 						
 			$this->q_view_extra($q_view);
@@ -1631,7 +1621,7 @@ class qa_html_theme_layer extends qa_html_theme_base {
 			}
 
 			//register a hook
-			cs_do_action('ra_post_buttons_hook', $this, $q_view);
+			$this->output(cs_do_action('ra_post_buttons_hook', $this, $q_view));
 			
 			$this->output('</div>');
 		}
@@ -1769,6 +1759,9 @@ class qa_html_theme_layer extends qa_html_theme_base {
         //$this->post_meta($a_item, 'qa-a-item');
         //if ($a_item['hidden'] || $a_item['selected'])
         
+		if(isset($a_item['raw']['postid'])){
+			$this->output(cs_do_action('after_answer', $a_item['raw']['postid']));
+		}
         
         $this->ra_post_buttons($a_item);
         $this->output('</div></div>');
@@ -2438,34 +2431,7 @@ class qa_html_theme_layer extends qa_html_theme_base {
         }
         die();
     }
-    function cs_ajax_delete_featured_image()
-    {
-		if (cs_hook_exist(__FUNCTION__)) {$args=func_get_args(); return cs_do_action(__FUNCTION__, $args); }
-        $args = strip_tags($_REQUEST['args']);
-        $args = explode('_', $args);
-        print_r($args);
-        if ((qa_get_logged_in_level() > QA_USER_LEVEL_ADMIN) && isset($args) && qa_check_form_security_code('delete-image', $args[0])) {
-            require_once QA_INCLUDE_DIR . 'qa-db-metas.php';
-            $img = qa_db_postmeta_get($args[1], 'featured_image');
-            
-            if (!empty($img)) {
-                $thumb_img = preg_replace('/(\.[^.]+)$/', sprintf('%s$1', '_s'), $img);
-                $thumb     = Q_THEME_DIR . '/uploads/' . $thumb_img;
-                
-                $big_img = Q_THEME_DIR . '/uploads/' . $img;
-                qa_db_postmeta_clear($args[1], 'featured_image');
-                if (file_exists($big_img))
-                    unlink($big_img);
-                
-                if (file_exists($thumb))
-                    unlink($thumb);
-                
-                
-            }
-        }
-        
-        die();
-    }
+   
 	
 	function body_hidden()
 	{
