@@ -691,9 +691,11 @@ function cs_event_hook($event, $value = NULL, $callback = NULL, $check = false, 
         }else{
             unset($events[$event]);
         }
-    }elseif($filter && isset($events[$event])) // filter
-    {
-		
+    }elseif($filter) // filter
+    {	
+		if(!isset($events[$event]))
+			return $value[1];
+			
 		ksort($events[$event]);
         foreach($events[$event] as $order){		
 			foreach($order as $function){
@@ -701,6 +703,7 @@ function cs_event_hook($event, $value = NULL, $callback = NULL, $check = false, 
 				$value[1] = $filtered;
 			}			
         }
+	
         return $value[1];
     }
 	elseif($check && isset($events[$event])) // check if hook exist
