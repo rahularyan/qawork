@@ -58,7 +58,6 @@ class cs_open_login {
 
                         // if ok, create/refresh the user account
                         $user = $adapter->getUserProfile();
-                        cs_log("Login success now ");
                         $duplicates = 0;
                         if (!empty($user)) $duplicates = qa_log_in_external_user($key, $user->identifier, array(
                                   'email' => @$user->email,
@@ -87,7 +86,6 @@ class cs_open_login {
                         if ($e->getCode() == 6 || $e->getCode() == 7) {
                               $adapter->logout();
                         }
-                        cs_log("Some error is coming here   ". print_r($e , true));
                         $qry = 'provider=' . $this->provider . '&code=' . $e->getCode();
                         if (strstr($topath, '?') === false) {
                               $topath .= '?' . $qry;
