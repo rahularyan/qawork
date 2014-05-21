@@ -230,7 +230,7 @@ class CS_Media_Addon{
 		cs_add_filter('enqueue_css', array($this, 'head_css'));
 		
 		// hook buttons in theme layer
-		cs_add_action('ra_post_buttons_hook', array($this, 'ra_post_buttons'));
+		cs_add_action('doctype', array($this, 'ra_post_buttons'));
 		cs_event_hook('cs_ajax_load_upload_modal', NULL, array($this, 'upload_modal'));
 		cs_event_hook('cs_ajax_upload_file', NULL, array($this, 'upload_file'));
 		cs_event_hook('cs_ajax_load_media_item_edit', NULL, array($this, 'load_media_item_edit'));
@@ -239,9 +239,10 @@ class CS_Media_Addon{
 		
 		cs_add_filter('image_size', array($this, 'image_size'));
 
-		cs_add_action('after_question', array($this, 'show_media_button'));
-		cs_add_action('after_answer', array($this, 'show_media_button'));
 		cs_add_action('footer_bottom', array($this, 'add_preview_modal'));
+		
+		cs_add_action('cs_theme_option_tab', array($this, 'cs_theme_option_tab'));
+		cs_add_action('cs_theme_option_tab_content', array($this, 'cs_theme_option_tab_content'));
 		
 	}
 	public function init_queries($queries, $tableslc){
@@ -271,18 +272,21 @@ class CS_Media_Addon{
 		return $lang_arr;
 	}
 
-	public function ra_post_buttons($themeclass, $q_view){
-		
-		$postid = $q_view['raw']['postid'];
+	public function ra_post_buttons($content){
+		if(isset($content['q_view'])){
+			$postid = $content['q_view']['raw']['postid'];
 
-		if (($themeclass->template == 'question') && (qa_get_logged_in_level() >= QA_USER_LEVEL_ADMIN)){
-
-		?>
-		<button type="button" class="icon-image btn btn-default open-media-modal" data-args="<?php echo $postid; ?>">
-			<?php echo qa_lang_html('cs_media/media'); ?>
-		</button>
-		<?php
+			if (isset($content['form_q_edit']) && (qa_get_logged_in_level() >= QA_USER_LEVEL_ADMIN)){
+				$cs_media=array(
+					'label' => '<button type="button" class="icon-image btn btn-default open-media-modal" data-args="'.$postid.'">'.qa_lang_html('cs_media/media').'</button>',
+					'type' => 'custom',
+				);
+				
+				$content['form_q_edit']['fields'] = cs_array_insert_before('content', $content['form_q_edit']['fields'], 'cs_media', $cs_media );
 			
+				return $content;
+				
+			}
 		}
 	}
 	
@@ -349,7 +353,7 @@ class CS_Media_Addon{
 				</div>
 			  </div>
 			  <div class="modal-footer">
-				<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+				<button type="button" class="btn btn-success insert-media-to-editor">Insert</button>
 			  </div>
 			</div>
 		  </div>
@@ -363,14 +367,18 @@ class CS_Media_Addon{
 		if (qa_get_logged_in_level() >= QA_USER_LEVEL_ADMIN){
 		$id = (int)qa_post_text('args');
 		$media = cs_get_media_by_id($id);
-
+		$media = cs_get_media_by_id($id);
+		ob_start();
 		?>
 			<form class="media-item-form" method="POST">
 				<?php 
-					if($media['type'] == 'jpg' || $media['type'] == 'jpeg' || $media['type'] == 'png' || $media['type'] == 'gif')
-						echo '<img class="file-preview" src ="'.cs_media_filename($media, 'large').'" />';
-					else
+					if($media['type'] == 'jpg' || $media['type'] == 'jpeg' || $media['type'] == 'png' || $media['type'] == 'gif'){
+						$media['url'] = cs_media_filename($media, 'large');
+						echo '<img class="file-preview" src ="'.$media['url'].'" />';
+					}else{
+						$media['url'] = cs_media_filename($media);
 						echo '<i class="file-preview file-icon icon-'.$media['type'].'"></i>';
+					}
 				
 				?>
 				
@@ -386,6 +394,9 @@ class CS_Media_Addon{
 				<input type="hidden" name="code" value="<?php echo qa_get_form_security_code('media_edit_'.$id ); ?>">
 			</form>
 		<?php
+		 $html = ob_get_clean();
+		 
+		 echo json_encode(array($media, $html));
 		}
 		die();
 	}
@@ -441,10 +452,6 @@ class CS_Media_Addon{
 		);
 	}
 	
-	public function show_media_button($postid){
-		echo cs_post_medias($postid, 'small');
-	}
-	
 	public function add_preview_modal(){
 		?>
 		<!-- Modal -->
@@ -485,6 +492,70 @@ class CS_Media_Addon{
 		echo '</div>';
 		
 		die();
+	}
+	
+	public function cs_theme_option_tab(){
+		?>
+			<li>
+				<a href="#" data-toggle=".qa-part-form-tc-media">Media</a>
+			</li>
+		<?php
+	}
+	
+	public function cs_theme_option_tab_content(){
+		?>
+		<div class="qa-part-form-tc-media">
+			<h3>Media manager options</h3>
+			<table class="qa-form-tall-table options-table">
+				<tbody>
+					<tr>
+						<th class="qa-form-tall-label">
+							Max size of image (MB)
+						</th>
+						<td class="qa-form-tall-label">
+							<input type="input" name="cs_max_image_size" id="cs_max_image_size" value="1" class="form-control">
+						</td>
+					</tr>
+					<tr>
+						<th class="qa-form-tall-label">
+							Max size of file (MB)
+						</th>
+						<td class="qa-form-tall-label">
+							<input type="input" name="cs_max_image_file" id="cs_max_image_file" value="5" class="form-control">
+						</td>
+					</tr>
+				</tbody>
+				<tbody>
+				<tr>
+					<th class="qa-form-tall-label">
+						Image Cropping X
+						<span class="description">Crop Featured image from Right/Left</span>
+					</th>
+					<td class="qa-form-tall-label">
+						<select id="cs_crop_x" name="cs_crop_y" >
+							<option <?php echo (qa_opt('cs_crop_x') == 'l') ? ' selected' : ''; ?> value="l">left</option>
+							<option <?php echo (qa_opt('cs_crop_x') == 'c') ? ' selected' : ''; ?> value="c">Center</option>
+							<option <?php echo (qa_opt('cs_crop_x') == 'r') ? ' selected' : ''; ?> value="r">right</option>
+						</select>
+					</td>
+				</tr>
+				<tr>
+					<th class="qa-form-tall-label">
+						Image Cropping Y
+						<span class="description">Crop Featured image from Top/Bottom</span>
+					</th>
+					<td class="qa-form-tall-label">
+						<select id="cs_crop_y" name="cs_crop_y" >
+							<option <?php echo (qa_opt('cs_crop_y') == 't') ? ' selected' : '' ?> value="t">Top</option>
+							<option <?php echo (qa_opt('cs_crop_y') == 'c') ? ' selected' : ''; ?> value="c">Center</option>
+							<option <?php echo (qa_opt('cs_crop_y') == 'b') ? ' selected' : ''; ?> value="b">Bottom</option>
+						</select>
+					</td>
+				</tr>
+			</tbody>
+			</table>
+		</div>
+		<?php
 	}
 
 }

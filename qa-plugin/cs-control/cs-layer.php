@@ -8,7 +8,8 @@ class qa_html_theme_layer extends qa_html_theme_base {
 		global $widgets;
         $widgets       = get_all_widgets();
         $this->widgets = $widgets;
-        if (isset($_REQUEST['cs_ajax_html'])) {
+        
+		if (isset($_REQUEST['cs_ajax_html'])) {
             $action = 'cs_ajax_' . $_REQUEST['action'];
             if (method_exists($this, $action))
                 $this->$action();
@@ -82,16 +83,15 @@ class qa_html_theme_layer extends qa_html_theme_base {
 		if(cs_hook_exist('doctype'))
 			$this->content = cs_apply_filter('doctype', $this->content);
 
-
 	}
 	
 	function head_script()
 	{
 		// unset old jQuery
-		if(($key = array_search('<script src="../qa-content/jquery-1.7.2.min.js" type="text/javascript"></script>', $this->content['script'])) !== false) {
+		if($this->content['script'] && ($key = array_search('<script src="../qa-content/jquery-1.7.2.min.js" type="text/javascript"></script>', $this->content['script'])) !== false) {
 			unset($this->content['script'][$key]);
 		}
-		if(($key = array_search('qa-content/jquery-1.7.2.min.js', $this->content['script_rel'])) !== false) {
+		if($this->content['script_rel'] && ($key = array_search('qa-content/jquery-1.7.2.min.js', $this->content['script_rel'])) !== false) {
 			unset($this->content['script_rel'][$key]);
 		}
 		
@@ -1023,65 +1023,65 @@ class qa_html_theme_layer extends qa_html_theme_base {
     function question_view($content)
     {
 		if (cs_hook_exist(__FUNCTION__)) {$args=func_get_args(); return cs_do_action(__FUNCTION__, $args); }
-		$q_view = $content['q_view'];
+		$q_view = @$content['q_view'];
 
-		
-		$this->output('<header class="question-head">');
-			
-			$this->output('<div class="head-butns"><a id="focus_doanswer" class="btn btn-small btn-success icon-answer'. (!isset($this->content['a_form']) ? ' disabled' : '') .'" title="'.(!isset($this->content['a_form']) ? qa_lang_html('cleanstrap/you_cannot_answer') : qa_lang_html('cleanstrap/answer_this_question')).'" href="#" >'.qa_lang_html('cleanstrap/answer').'</a>');
-				$this->favorite();
-			$this->output('</div>');
-			
-			$this->output('<h2 class="question-title">');
-			$this->output( htmlspecialchars ($q_view['raw']['title']));				
-			$this->output('</h2>');
-			$this->output('<div class="question-metas">
-				'.(is_featured($q_view['raw']['postid']) ? '<span class="featured-sticker icon-star ra-tip" title="'.qa_lang_html('cleanstrap/question_is_featured').'">' . qa_lang_html('cleanstrap/featured') . '</span>' : '').'
-				'.cs_post_status($q_view).'				
-				<span class="meta-icon icon-answer"></span>
-				<span class="q-view-a-count">'.qa_lang_sub('cleanstrap/x_answers', $q_view['raw']['acount']).' </span>
-				<span class="icon-eye meta-icon"></span>
-				<span class="q-view-a-count">' . qa_lang_sub('cleanstrap/x_answers', $q_view['raw']['views']) . ' </span>
-				<span class="icon-folder meta-icon"></span>
-				'.qa_lang_html('cleanstrap/posted_under').' <a class="cat-in" href="' . cs_cat_path($q_view['raw']['categorybackpath']) . '">' . $q_view['raw']['categoryname'] . '</a>
-				</div>');
-			
-		$this->output('</header>');
-		
-		$this->output('<div class="lr-table"><div class="left-content question-main">');
-			$this->output('<ul class="nav nav-tabs question-tabs">
-			  <li class="active"><a href="#discussion" data-toggle="tab" class="icon-flow-children">'.qa_lang_html('cleanstrap/discussion').'</a></li>
-			  <li><a href="#share" data-toggle="tab" class="icon-world load-social-share">'.qa_lang_html('cleanstrap/share').'</a></li>
-			</ul>');
-			$this->output('<div class="tab-content question-tab-content">');
-				$this->output('<div class="tab-pane active" id="discussion">');
-					$this->main_parts($content); 
+		if(isset($q_view)){
+			$this->output('<header class="question-head">');
+				
+				$this->output('<div class="head-butns"><a id="focus_doanswer" class="btn btn-small btn-success icon-answer'. (!isset($this->content['a_form']) ? ' disabled' : '') .'" title="'.(!isset($this->content['a_form']) ? qa_lang_html('cleanstrap/you_cannot_answer') : qa_lang_html('cleanstrap/answer_this_question')).'" href="#" >'.qa_lang_html('cleanstrap/answer').'</a>');
+					$this->favorite();
 				$this->output('</div>');
-				$this->output('<div class="tab-pane" id="share">');
-					$this->q_social_share($q_view);	
-					cs_do_action('question_share', $this);
-				$this->output('</div>');
-			$this->output('</div>');
+				
+				$this->output('<h2 class="question-title">');
+				$this->output( htmlspecialchars ($q_view['raw']['title']));				
+				$this->output('</h2>');
+				$this->output('<div class="question-metas">
+					'.(is_featured($q_view['raw']['postid']) ? '<span class="featured-sticker icon-star ra-tip" title="'.qa_lang_html('cleanstrap/question_is_featured').'">' . qa_lang_html('cleanstrap/featured') . '</span>' : '').'
+					'.cs_post_status($q_view).'				
+					<span class="meta-icon icon-answer"></span>
+					<span class="q-view-a-count">'.qa_lang_sub('cleanstrap/x_answers', $q_view['raw']['acount']).' </span>
+					<span class="icon-eye meta-icon"></span>
+					<span class="q-view-a-count">' . qa_lang_sub('cleanstrap/x_answers', $q_view['raw']['views']) . ' </span>
+					<span class="icon-folder meta-icon"></span>
+					'.qa_lang_html('cleanstrap/posted_under').' <a class="cat-in" href="' . cs_cat_path($q_view['raw']['categorybackpath']) . '">' . $q_view['raw']['categoryname'] . '</a>
+					</div>');
+				
+			$this->output('</header>');
 			
-			$this->cs_position('Content Bottom');
-						
-		$this->output('</div>');
-		
-		$this->output('<div class="question-side">');
-			
-			$this->output('<div class="qa-post-meta">');
-				if (!empty($q_view['q_tags'])) {
-					$this->output('<div class="question-tags">');
-					$this->output('<h3 class="widget-title ff1">'.qa_lang('cleanstrap/tagged_under').'</h3>');	
-					$this->post_tag_list($q_view, 'tags');			
+			$this->output('<div class="lr-table"><div class="left-content question-main">');
+				$this->output('<ul class="nav nav-tabs question-tabs">
+				  <li class="active"><a href="#discussion" data-toggle="tab" class="icon-flow-children">'.qa_lang_html('cleanstrap/discussion').'</a></li>
+				  <li><a href="#share" data-toggle="tab" class="icon-world load-social-share">'.qa_lang_html('cleanstrap/share').'</a></li>
+				</ul>');
+				$this->output('<div class="tab-content question-tab-content">');
+					$this->output('<div class="tab-pane active" id="discussion">');
+						$this->main_parts($content); 
 					$this->output('</div>');
-				}
-			$this->output('</div>');			
-			$this->cs_position('Question Right');
-		
-		$this->output('</div>');
-		$this->output('</div>');
-
+					$this->output('<div class="tab-pane" id="share">');
+						$this->q_social_share($q_view);	
+						cs_do_action('question_share', $this);
+					$this->output('</div>');
+				$this->output('</div>');
+				
+				$this->cs_position('Content Bottom');
+							
+			$this->output('</div>');
+			
+			$this->output('<div class="question-side">');
+				
+				$this->output('<div class="qa-post-meta">');
+					if (!empty($q_view['q_tags'])) {
+						$this->output('<div class="question-tags">');
+						$this->output('<h3 class="widget-title ff1">'.qa_lang('cleanstrap/tagged_under').'</h3>');	
+						$this->post_tag_list($q_view, 'tags');			
+						$this->output('</div>');
+					}
+				$this->output('</div>');			
+				$this->cs_position('Question Right');
+			
+			$this->output('</div>');
+			$this->output('</div>');
+		}
     }
     
     function q_list_item($q_item)
