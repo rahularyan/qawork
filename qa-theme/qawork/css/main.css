@@ -2569,12 +2569,6 @@ input.qa-form-wide-number {
     color: #666;
 }
 
-[class^="qa-part-form-tc-"] {
-    background: #FFF;
-    border: 1px solid #DDD;
-    padding: 15px;
-    display: none;
-}
 
 .qa-part-form-tc-general {
     display: block;
@@ -6346,4 +6340,20 @@ margin: 0 0 0 2.857%;
 .oembedall-container .oembed {
     display: none;
 }
+
+#theme-option-form h3 {
+    color: #333333;
+    font-size: 14px;
+    font-weight: bold;
+}
+#theme-option-form .option-tab-content{
+	margin-top:10px;
+}
+.option-tab-content > div{
+	display:none;
+}
+.option-tab-content > div.active{
+	display:block;
+}
+
 
