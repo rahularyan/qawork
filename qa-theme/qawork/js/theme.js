@@ -768,4 +768,8 @@ $(document).ready(function(){
 	$(".oembed").oembed(null,{
 		embedMethod: 'auto',    // "auto", "append", "fill" 
 	});
+	
+	$('*[data-opts]').click(function(){
+		$($(this).data('opts')).toggle();
+	});
 });
