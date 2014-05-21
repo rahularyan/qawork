@@ -19,6 +19,7 @@
 						$params['qid']    = $question['postid'];
 						$this->AddEvent($postid,$userid, $effecteduserid, $params, $event);
 						cs_event_hook('a_post', array($postid,$userid, $effecteduserid, $params, $event));
+						cs_event_hook('a_post_social_post', array($postid,$userid, $effecteduserid, $params, $event));
 					}
 					break;
 				case 'c_post': // user's answer had been commented
@@ -162,6 +163,7 @@
 					$dolog=false;					
 					break; */
 				case 'q_post':
+					
 					$already_notified = "" ;
 					if ($params['parent']['type']=='A') // related question
 					{
@@ -173,6 +175,8 @@
 							$already_notified = $effecteduserid ;
 						}
 					}
+
+					cs_event_hook($event."_social_post", array($postid,$userid, null , $params, $event."_social_post" ));
 
 					$categoryid = isset($params['categoryid']) ? $params['categoryid'] : '' ;
                     $tags = isset($params['tags']) ? $params['tags'] : '' ;
@@ -186,7 +190,6 @@
 							cs_event_hook($event, array($postid,$userid, $effecteduserid, $params, $event));
 						}
 					}
-
 					break;
 				case 'u_favorite':
 					$this->UpdateUserFavorite($postid,$userid, $params, 'u_favorite', 1);

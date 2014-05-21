@@ -1,4 +1,9 @@
 <?php
+/* don't allow this page to be requested directly from browser */ 
+if (!defined('QA_VERSION')) {
+            header('Location: /');
+            exit;
+}
 
 //if this is set to true , the email will be written to the log file 
 define('CS_SEND_EMAIL_DEBUG_MODE', true);
@@ -35,9 +40,12 @@ cs_event_hook('q_post_tag_fl', NULL, 'cs_notification_event');
 cs_event_hook('q_post_cat_fl', NULL, 'cs_notification_event');
 
 function cs_notification_event($data) {
+
+     /* if (!is_array($data) || !isset($data[3]) || !is_array($data[3])) {
+           return false ; 
+      }*/
       $params = $data[3];
       // cs_log("This method is invoked for " . $data[4]);
-      // cs_log(print_r($params, true));
       $postid         = isset($params['postid']) ? $params['postid'] : "";
       $event          = $data[4];
       $loggeduserid   = isset($data[1]) ? $data[1] : qa_get_logged_in_userid();
@@ -628,8 +636,8 @@ function cs_send_email($params) {
 }
 
 function cs_send_email_fake($email_param) {
-      cs_log("Fake Email Sending to log the entire email message ");
-      cs_log(print_r($email_param, true));
+      // cs_log("Fake Email Sending to log the entire email message ");
+      // cs_log(print_r($email_param, true));
       //fake email should never fail 
       return true;
 }
