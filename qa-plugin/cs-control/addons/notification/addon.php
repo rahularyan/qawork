@@ -740,16 +740,7 @@ class Cs_Notification_Addon{
 		die();
 	}
 	public function language($lang_arr){
-		/*$site_lang = qa_opt('site_language');
-		$lang_file = CS_CONTROL_DIR. '/addons/notification/language-'.qa_opt('site_language').'.php';
-		
-		if(!empty($site_lang) && file_exists($lang_file))
-			$lang_arr = require_once ($lang_file);
-		else
-			$lang_arr = require_once (CS_CONTROL_DIR. '/addons/notification/language.php');
-
-		return $lang_arr;*/
-		$lang_arr['notification'] = CS_CONTROL_DIR .'/addons/notification/language.php';
+		$lang_arr['notification'] = CS_CONTROL_DIR .'/addons/notification/language-*.php';
 		return $lang_arr;
 	}
 	// adding options and option tab 
