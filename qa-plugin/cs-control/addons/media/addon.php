@@ -243,6 +243,9 @@ class CS_Media_Addon{
 		cs_add_action('after_answer', array($this, 'show_media_button'));
 		cs_add_action('footer_bottom', array($this, 'add_preview_modal'));
 		
+		cs_add_action('cs_theme_option_tab', array($this, 'cs_theme_option_tab'));
+		cs_add_action('cs_theme_option_tab_content', array($this, 'cs_theme_option_tab_content'));
+		
 	}
 	public function init_queries($queries, $tableslc){
 		$tablename=qa_db_add_table_prefix('ra_media');			
@@ -485,6 +488,70 @@ class CS_Media_Addon{
 		echo '</div>';
 		
 		die();
+	}
+	
+	public function cs_theme_option_tab(){
+		?>
+			<li>
+				<a href="#" data-toggle=".qa-part-form-tc-media">Media</a>
+			</li>
+		<?php
+	}
+	
+	public function cs_theme_option_tab_content(){
+		?>
+		<div class="qa-part-form-tc-media">
+			<h3>Media manager options</h3>
+			<table class="qa-form-tall-table options-table">
+				<tbody>
+					<tr>
+						<th class="qa-form-tall-label">
+							Max size of image (MB)
+						</th>
+						<td class="qa-form-tall-label">
+							<input type="input" name="cs_max_image_size" id="cs_max_image_size" value="1" class="form-control">
+						</td>
+					</tr>
+					<tr>
+						<th class="qa-form-tall-label">
+							Max size of file (MB)
+						</th>
+						<td class="qa-form-tall-label">
+							<input type="input" name="cs_max_image_file" id="cs_max_image_file" value="5" class="form-control">
+						</td>
+					</tr>
+				</tbody>
+				<tbody>
+				<tr>
+					<th class="qa-form-tall-label">
+						Image Cropping X
+						<span class="description">Crop Featured image from Right/Left</span>
+					</th>
+					<td class="qa-form-tall-label">
+						<select id="cs_crop_x" name="cs_crop_y" >
+							<option <?php echo (qa_opt('cs_crop_x') == 'l') ? ' selected' : ''; ?> value="l">left</option>
+							<option <?php echo (qa_opt('cs_crop_x') == 'c') ? ' selected' : ''; ?> value="c">Center</option>
+							<option <?php echo (qa_opt('cs_crop_x') == 'r') ? ' selected' : ''; ?> value="r">right</option>
+						</select>
+					</td>
+				</tr>
+				<tr>
+					<th class="qa-form-tall-label">
+						Image Cropping Y
+						<span class="description">Crop Featured image from Top/Bottom</span>
+					</th>
+					<td class="qa-form-tall-label">
+						<select id="cs_crop_y" name="cs_crop_y" >
+							<option <?php echo (qa_opt('cs_crop_y') == 't') ? ' selected' : '' ?> value="t">Top</option>
+							<option <?php echo (qa_opt('cs_crop_y') == 'c') ? ' selected' : ''; ?> value="c">Center</option>
+							<option <?php echo (qa_opt('cs_crop_y') == 'b') ? ' selected' : ''; ?> value="b">Bottom</option>
+						</select>
+					</td>
+				</tr>
+			</tbody>
+			</table>
+		</div>
+		<?php
 	}
 
 }

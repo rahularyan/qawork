@@ -166,10 +166,10 @@ class cs_theme_options {
 	
 	function opt_form(){
 		
-		$output = '<form class="form-horizontal" enctype="multipart/form-data" method="post">';		
+		$output = '<form id="theme-option-form" class="form-horizontal" enctype="multipart/form-data" method="post">';		
 		$output .= '<div class="qa-part-tabs-nav">
 		<ul class="ra-option-tabs nav nav-tabs">
-			<li>
+			<li class="active">
 				<a href="#" data-toggle=".qa-part-form-tc-general">General</a>
 			</li>
 			<li>
@@ -189,7 +189,7 @@ class cs_theme_options {
 			</li>
 			'.cs_do_action('cs_theme_option_tab').'
 		</ul>
-	</div>';
+	</div><div class="option-tab-content">';
 		$output .= $this->opt_general();
 		$output .= $this->opt_layout();
 		$output .= $this->opt_styling();
@@ -197,7 +197,7 @@ class cs_theme_options {
 		$output .= $this->opt_social();
 		$output .= $this->opt_ads();
 		$output .= cs_do_action('cs_theme_option_tab_content');
-		
+		$output .= '</div>';
 		$output .= '<div class="form-button-sticky-footer">';
 			$output .= '<div class="form-button-holder">';
 				$output .= '<input type="submit" class="qa-form-tall-button btn-primary" title="" value="Save Changes" name="cs_save_button">';
@@ -210,7 +210,7 @@ class cs_theme_options {
 	}
 	
 	function opt_general(){
-		return $output ='<div class="qa-part-form-tc-general">
+		return $output ='<div class="qa-part-form-tc-general active">
 		<h3>General Settings</h3>
 		<table class="qa-form-tall-table options-table">
 			<tbody>
@@ -250,94 +250,18 @@ class cs_theme_options {
 					</td>
 				</tr>
 			</tbody>
+			
 			<tbody>
-				<tr><td><h3>Featured Questions</h3></td></tr>
 				<tr>
 					<th class="qa-form-tall-label">
-						Featured Image Width
-						<span class="description">Question\'s Featured Image Width</span>
+						Text at right side of footer
+						<span class="description">you can add links or images by entering html code</span>
 					</th>
 					<td class="qa-form-tall-label">
-						<div class="input-group font-input">
-							<input id="cs_featured_image_width" class="form-control featured-image-width" type="text" name="cs_featured_image_width" value="' . qa_opt('cs_featured_image_width') . '">
-							<span class="input-group-addon">px</span>
-						</div>
-					</td>
-				</tr>
-				<tr>
-					<th class="qa-form-tall-label">
-						Featured Image Hight
-						<span class="description">Question\'s Featured Image Hight</span>
-					</th>
-					<td class="qa-form-tall-label">
-						<div class="input-group font-input">
-							<input id="cs_featured_image_height" class="form-control featured-image-height" type="text" name="cs_featured_image_height" value="' . qa_opt('cs_featured_image_height') . '">
-							<span class="input-group-addon">px</span>
-						</div>
-					</td>
-				</tr>
-				<tr>
-					<th class="qa-form-tall-label">
-						Thumbnail Width
-						<span class="description">Question\'s Featured Image Thumbnail Width</span>
-					</th>
-					<td class="qa-form-tall-label">
-						<div class="input-group font-input">
-							<input id="cs_featured_thumbnail_width" class="form-control featured-thumb-width" type="text" name="cs_featured_thumbnail_width" value="' . qa_opt('cs_featured_thumbnail_width') . '">
-							<span class="input-group-addon">px</span>
-						</div>
-					</td>
-				</tr>
-				<tr>
-					<th class="qa-form-tall-label">
-						Thumbnail Hight
-						<span class="description">Question\'s Featured Image Hight</span>
-					</th>
-					<td class="qa-form-tall-label">
-						<div class="input-group font-input">
-							<input id="cs_featured_thumbnail_height" class="form-control featured-thumb-height" type="text" name="cs_featured_thumbnail_height" value="' . qa_opt('cs_featured_thumbnail_height') . '">
-							<span class="input-group-addon">px</span>
-						</div>
-					</td>
-				</tr>
-				<tr>
-					<th class="qa-form-tall-label">
-						Image Cropping X
-						<span class="description">Crop Featured image from Right/Left</span>
-					</th>
-					<td class="qa-form-tall-label">
-						<select id="cs_crop_x" name="cs_crop_y" >
-							<option' . ((qa_opt('cs_crop_x') == 'l') ? ' selected' : '') . ' value="l">left</option>
-							<option' . ((qa_opt('cs_crop_x') == 'c') ? ' selected' : '') . ' value="c">Center</option>
-							<option' . ((qa_opt('cs_crop_x') == 'r') ? ' selected' : '') . ' value="r">right</option>
-						</select>
-					</td>
-				</tr>
-				<tr>
-					<th class="qa-form-tall-label">
-						Image Cropping Y
-						<span class="description">Crop Featured image from Top/Bottom</span>
-					</th>
-					<td class="qa-form-tall-label">
-						<select id="cs_crop_y" name="cs_crop_y" >
-							<option' . ((qa_opt('cs_crop_y') == 't') ? ' selected' : '') . ' value="t">Top</option>
-							<option' . ((qa_opt('cs_crop_y') == 'c') ? ' selected' : '') . ' value="c">Center</option>
-							<option' . ((qa_opt('cs_crop_y') == 'b') ? ' selected' : '') . ' value="b">Bottom</option>
-						</select>
+						<input id="cs_footer_copyright" class="form-control" type="text" name="cs_footer_copyright" value="' . qa_opt('cs_footer_copyright') . '">
 					</td>
 				</tr>
 			</tbody>
-			<tbody>
-			<tr>
-				<th class="qa-form-tall-label">
-					Text at right side of footer
-					<span class="description">you can add links or images by entering html code</span>
-				</th>
-				<td class="qa-form-tall-label">
-					<input id="cs_footer_copyright" class="form-control" type="text" name="cs_footer_copyright" value="' . qa_opt('cs_footer_copyright') . '">
-				</td>
-			</tr>
-		</tbody>
 		</table>
 	</div>';
 	}

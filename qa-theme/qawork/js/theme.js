@@ -35,14 +35,14 @@ function cs_question_meta(){
 }
 
 function cs_tab(){
-	jQuery('.ra-option-tabs li:first-child').addClass('active');
+
 	jQuery('.ra-option-tabs li a').click(function(e){
 		e.preventDefault();
 		jQuery('.ra-option-tabs li').removeClass('active');
 		jQuery(this).parent().addClass('active');
 		var t = jQuery(this).data('toggle');
-		jQuery('[class^="qa-part-form-tc-"]').hide();
-		jQuery(t).show();
+		jQuery('.option-tab-content >div').removeClass('active');
+		jQuery(t).addClass('active');
 		
 	});
 }
