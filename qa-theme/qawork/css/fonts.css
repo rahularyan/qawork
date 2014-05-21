@@ -23,11 +23,77 @@
 	-moz-osx-font-smoothing: grayscale;
 }
 
-.icon-qawork:before {
-	content: "\e65d";
-}
 .icon-zip:before {
 	content: "\e65b";
+}
+.icon-xlsx:before {
+	content: "\e65d";
+}
+.icon-xls:before {
+	content: "\e65e";
+}
+.icon-wmv:before {
+	content: "\e65f";
+}
+.icon-txt:before {
+	content: "\e660";
+}
+.icon-rar:before {
+	content: "\e661";
+}
+.icon-psd:before {
+	content: "\e662";
+}
+.icon-ppt:before {
+	content: "\e663";
+}
+.icon-pdf:before {
+	content: "\e664";
+}
+.icon-mp4:before {
+	content: "\e665";
+}
+.icon-mp3:before {
+	content: "\e666";
+}
+.icon-mov:before {
+	content: "\e667";
+}
+.icon-jpg:before {
+	content: "\e668";
+}
+.icon-html:before {
+	content: "\e669";
+}
+.icon-flv:before {
+	content: "\e66a";
+}
+.icon-eps:before {
+	content: "\e66b";
+}
+.icon-docx:before {
+	content: "\e66c";
+}
+.icon-doc:before {
+	content: "\e66d";
+}
+.icon-csv:before {
+	content: "\e66e";
+}
+.icon-avi:before {
+	content: "\e66f";
+}
+.icon-apk:before {
+	content: "\e670";
+}
+.icon-ai:before {
+	content: "\e671";
+}
+.icon-qawork:before {
+	content: "\e672";
+}
+.icon-email:before {
+	content: "\e657";
 }
 .icon-broken:before {
 	content: "\e65a";
@@ -292,9 +358,6 @@
 }
 .icon-at:before {
 	content: "\e654";
-}
-.icon-email:before {
-	content: "\e657";
 }
 .icon-video:before {
 	content: "\e65c";

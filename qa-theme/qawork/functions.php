@@ -35,7 +35,10 @@
 			$src['jquery-ui'] = Q_THEME_URL . '/js/jquery-ui.min.js';
 			$src['bootstrap_js'] = Q_THEME_URL . '/js/bootstrap.js';
 			
-			$src['sparkline'] = Q_THEME_URL . '/js/jquery.sparkline.min.js';		
+			$src['sparkline'] = Q_THEME_URL . '/js/jquery.sparkline.min.js';
+			
+			$src['oembed'] = Q_THEME_URL . '/js/jquery.oembed.js';
+			
 			$src['cs_theme'] = Q_THEME_URL . '/js/theme.js';
 
 

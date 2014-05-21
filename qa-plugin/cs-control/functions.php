@@ -432,7 +432,7 @@ function cs_get_template_array(){
 }
 
 function cs_social_icons(){
-	return array(
+	$icon =  array(
 		'icon-social-facebook' 		=> 'Facebook',
 		'icon-social-twitter' 		=> 'Twitter',
 		'icon-social-googleplus' 	=> 'Google',
@@ -441,89 +441,8 @@ function cs_social_icons(){
 		'icon-social-github' 		=> 'Github',
 		'icon-social-stumbleupon' 	=> 'Stumbleupon',
 	);
-}
-
-
-
-function reset_theme_options(){
-	qa_opt('cs_custom_style','');
-	// General
-	qa_opt('logo_url', Q_THEME_URL . '/images/logo.png');
-	qa_opt('cs_favicon_url', '');
-	qa_opt('cs_featured_image_width', 800);
-	qa_opt('cs_featured_image_height', 300);
-	qa_opt('cs_featured_thumbnail_width', 278);
-	qa_opt('cs_featured_thumbnail_height', 120);
-	qa_opt('cs_crop_x', 'c');
-	qa_opt('cs_crop_y', 'c');
 	
-	
-	
-	
-	// Layout
-	qa_opt('cs_theme_layout', 'boxed');
-	qa_opt('cs_nav_fixed', true);	
-	qa_opt('cs_show_icon', true);	
-	qa_opt('cs_enable_ask_button', true);	
-	qa_opt('cs_enable_category_nav', true);	
-	qa_opt('cs_enable_clean_qlist', true);	
-	qa_opt('cs_enable_default_home', true);	
-	qa_opt('cs_enable_except', false);
-	qa_opt('cs_except_len', 240);
-	if ((int)qa_opt('avatar_q_list_size')>0){
-		qa_opt('avatar_q_list_size',35);
-		qa_opt('cs_enable_avatar_lists', true);
-	}else
-		qa_opt('cs_enable_avatar_lists', false);
-	qa_opt('show_view_counts', false);
-	qa_opt('cs_show_tags_list', true);
-	qa_opt('cs_horizontal_voting_btns', false);
-	qa_opt('cs_enble_back_to_top', true);
-	qa_opt('cs_back_to_top_location', 'nav');
-	// Styling
-	qa_opt('cs_styling_duplicate_question', false);
-	qa_opt('cs_styling_solved_question', false);
-	qa_opt('cs_styling_closed_question', false);
-	qa_opt('cs_styling_open_question', false);
-	qa_opt('cs_bg_select', false);
-	qa_opt('cs_bg_color', '#F4F4F4');
-	qa_opt('cs_text_color', '');
-	qa_opt('cs_border_color', '#EEEEEE');
-	qa_opt('cs_q_link_color', '');
-	qa_opt('cs_q_link_hover_color', '');
-	qa_opt('cs_nav_link_color', '');
-	qa_opt('cs_nav_link_color_hover', '');
-	qa_opt('cs_subnav_link_color', '');
-	qa_opt('cs_subnav_link_color_hover', '');
-	qa_opt('cs_link_color', '');
-	qa_opt('cs_link_hover_color', '');
-	qa_opt('cs_highlight_color', '');
-	qa_opt('cs_highlight_bg_color', '');
-	qa_opt('cs_ask_btn_bg', '');
-	qa_opt('cs_custom_css', '');
-	
-	// Typography
-	$typo = array('h1','h2','h3','h4','h5','p','span','quote','qtitle','qtitlelink','pcontent','mainnav');
-	foreach($typo as $k ){
-		qa_opt('typo_options_family_' . $k , '');
-		qa_opt('typo_options_style_' . $k , '');
-		qa_opt('typo_options_size_' . $k , '');
-		qa_opt('typo_options_linehight_' . $k , '');
-		qa_opt('typo_options_backup_' . $k , '');
-	}
-	
-	// Social
-	qa_opt('cs_social_list','');
-	qa_opt('cs_social_enable', false);
-	
-	// Advertisement
-	qa_opt('cs_advs','');
-	qa_opt('cs_enable_adv_list', false);
-	qa_opt('cs_ads_below_question_title', '');
-	qa_opt('cs_ads_after_question_content','');
-
-	// footer							
-	qa_opt('cs_footer_copyright', 'Copyright © 2014');
+	return cs_apply_filter('social_icon', $icon);
 }
 
 function is_featured($postid){
@@ -772,9 +691,11 @@ function cs_event_hook($event, $value = NULL, $callback = NULL, $check = false, 
         }else{
             unset($events[$event]);
         }
-    }elseif($filter && isset($events[$event])) // filter
-    {
-		
+    }elseif($filter) // filter
+    {	
+		if(!isset($events[$event]))
+			return $value[1];
+			
 		ksort($events[$event]);
         foreach($events[$event] as $order){		
 			foreach($order as $function){
@@ -782,6 +703,7 @@ function cs_event_hook($event, $value = NULL, $callback = NULL, $check = false, 
 				$value[1] = $filtered;
 			}			
         }
+	
         return $value[1];
     }
 	elseif($check && isset($events[$event])) // check if hook exist
@@ -1102,28 +1024,3 @@ function cs_is_internal_link($link){
 		
 	return false;
 }
-
-function cs_upload_dir(){
-	return defined(QA_BLOBS_DIRECTORY) ? QA_BLOBS_DIRECTORY : QA_BASE_DIR.'images';
-}
-
-function cs_upload_file($field){
-	require_once CS_CONTROL_DIR.'/inc/class_upload.php';
-
-	if (isset($_FILES[$field]) && !empty($_FILES[$field])) {
-
-		$upload = Upload::factory( cs_upload_dir() );
-		$upload->file($_FILES[$field]);
-
-		//set max. file size (in mb)
-		$upload->set_max_file_size(1);
-
-		//set allowed mime types
-		$upload->set_allowed_mime_types(array('application/pdf', 'image/jpeg', 'image/jpg', 'image/png', 'image/gif'));
-
-		$results = $upload->upload();
-
-		var_dump($results);
-	}
-}
-			

@@ -1,11 +1,12 @@
 <?php
 
+	
 //	Output this header as early as possible
 	header('Content-Type: text/plain; charset=utf-8');
 
 
 //	Ensure no PHP errors are shown in the Ajax response
-	///@ini_set('display_errors', 0);
+	@ini_set('display_errors', 0);
 
 
 //	Load the Q2A base file which sets up a bunch of crucial functions

@@ -1,4 +1,4 @@
-function cs_animate_button(elm, hide ){
+function cs_animate_button(elm, hide){
 	//set the default value 
 	if (typeof(hide)==='undefined') {hide = false};
 
@@ -764,4 +764,12 @@ $(document).ready(function(){
 		$(this).hide();
 	});
 	
+	
+	$(".oembed").oembed(null,{
+		embedMethod: 'auto',    // "auto", "append", "fill" 
+	});
+	
+	$('*[data-opts]').click(function(){
+		$($(this).data('opts')).toggle();
+	});
 });
