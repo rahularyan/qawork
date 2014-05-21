@@ -8,11 +8,17 @@
 }
 
 .form-button-holder {
-    background-color: #EEEEEE;
-    border-radius: 0 0 5px 5px;
-    padding: 8px;
+    background: none repeat scroll 0 0 #FDFDFD;
+    border-color: transparent #DDDDDD #DDDDDD;
+    border-image: none;
+    border-right: 1px solid #DDDDDD;
+    border-style: none solid solid;
+    border-width: 0 1px 1px;
+    padding: 10px;
     text-align: right;
-    z-index: 999;
+}
+.form-button-holder > .qa-form-tall-button {
+    margin-right: 5px;
 }
 
 .font-input {

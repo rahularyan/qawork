@@ -1284,10 +1284,11 @@ function cs_load_media_item_to_edit(id, modal){
 			args: id,
 			action: 'load_media_item_edit'
 		},
-		dataType: 'html',
+		dataType: 'json',
 		context:this,
 		success: function (response) {
-			$(modal+' #editmedia-tab').html(response).find('form').hide().slideDown(200);
+			selected_media = response[0];
+			$(modal+' #editmedia-tab').html(response[1]).find('form').hide().slideDown(200);
 			$(modal+' .media-action-tab a:last').tab('show');
 			
 			$(modal+' #editmedia-tab form').ajaxForm({
@@ -1318,6 +1319,7 @@ function cs_load_media_item_to_edit(id, modal){
 	});	
 }
 
+var selected_media;
 
 $(document).ready(function() {
     'use strict';
@@ -1422,6 +1424,17 @@ $(document).ready(function() {
 				$('#show_file_preview .modal-body').html(response);
 			},
 		});
+	});
+	
+	$('body').delegate('.insert-media-to-editor', 'click', function(){
+
+		for ( var i in CKEDITOR.instances ){
+		   var currentInstance = i;
+		   break;
+		}
+		var oEditor   = CKEDITOR.instances[currentInstance];
+		var element = CKEDITOR.dom.element.createFromHtml( '<p class="content-media"><img src="'+selected_media['url']+'" /><strong>'+selected_media['title']+'</strong><em>'+selected_media['description']+'</em></p>' );
+		oEditor.insertElement( element );
 	});
 	
 	

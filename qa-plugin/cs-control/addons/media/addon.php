@@ -230,7 +230,7 @@ class CS_Media_Addon{
 		cs_add_filter('enqueue_css', array($this, 'head_css'));
 		
 		// hook buttons in theme layer
-		cs_add_action('ra_post_buttons_hook', array($this, 'ra_post_buttons'));
+		cs_add_action('doctype', array($this, 'ra_post_buttons'));
 		cs_event_hook('cs_ajax_load_upload_modal', NULL, array($this, 'upload_modal'));
 		cs_event_hook('cs_ajax_upload_file', NULL, array($this, 'upload_file'));
 		cs_event_hook('cs_ajax_load_media_item_edit', NULL, array($this, 'load_media_item_edit'));
@@ -239,8 +239,6 @@ class CS_Media_Addon{
 		
 		cs_add_filter('image_size', array($this, 'image_size'));
 
-		cs_add_action('after_question', array($this, 'show_media_button'));
-		cs_add_action('after_answer', array($this, 'show_media_button'));
 		cs_add_action('footer_bottom', array($this, 'add_preview_modal'));
 		
 		cs_add_action('cs_theme_option_tab', array($this, 'cs_theme_option_tab'));
@@ -274,18 +272,21 @@ class CS_Media_Addon{
 		return $lang_arr;
 	}
 
-	public function ra_post_buttons($themeclass, $q_view){
-		
-		$postid = $q_view['raw']['postid'];
+	public function ra_post_buttons($content){
+		if(isset($content['q_view'])){
+			$postid = $content['q_view']['raw']['postid'];
 
-		if (($themeclass->template == 'question') && (qa_get_logged_in_level() >= QA_USER_LEVEL_ADMIN)){
-
-		?>
-		<button type="button" class="icon-image btn btn-default open-media-modal" data-args="<?php echo $postid; ?>">
-			<?php echo qa_lang_html('cs_media/media'); ?>
-		</button>
-		<?php
+			if (isset($content['form_q_edit']) && (qa_get_logged_in_level() >= QA_USER_LEVEL_ADMIN)){
+				$cs_media=array(
+					'label' => '<button type="button" class="icon-image btn btn-default open-media-modal" data-args="'.$postid.'">'.qa_lang_html('cs_media/media').'</button>',
+					'type' => 'custom',
+				);
+				
+				$content['form_q_edit']['fields'] = cs_array_insert_before('content', $content['form_q_edit']['fields'], 'cs_media', $cs_media );
 			
+				return $content;
+				
+			}
 		}
 	}
 	
@@ -352,7 +353,7 @@ class CS_Media_Addon{
 				</div>
 			  </div>
 			  <div class="modal-footer">
-				<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+				<button type="button" class="btn btn-success insert-media-to-editor">Insert</button>
 			  </div>
 			</div>
 		  </div>
@@ -366,14 +367,18 @@ class CS_Media_Addon{
 		if (qa_get_logged_in_level() >= QA_USER_LEVEL_ADMIN){
 		$id = (int)qa_post_text('args');
 		$media = cs_get_media_by_id($id);
-
+		$media = cs_get_media_by_id($id);
+		ob_start();
 		?>
 			<form class="media-item-form" method="POST">
 				<?php 
-					if($media['type'] == 'jpg' || $media['type'] == 'jpeg' || $media['type'] == 'png' || $media['type'] == 'gif')
-						echo '<img class="file-preview" src ="'.cs_media_filename($media, 'large').'" />';
-					else
+					if($media['type'] == 'jpg' || $media['type'] == 'jpeg' || $media['type'] == 'png' || $media['type'] == 'gif'){
+						$media['url'] = cs_media_filename($media, 'large');
+						echo '<img class="file-preview" src ="'.$media['url'].'" />';
+					}else{
+						$media['url'] = cs_media_filename($media);
 						echo '<i class="file-preview file-icon icon-'.$media['type'].'"></i>';
+					}
 				
 				?>
 				
@@ -389,6 +394,9 @@ class CS_Media_Addon{
 				<input type="hidden" name="code" value="<?php echo qa_get_form_security_code('media_edit_'.$id ); ?>">
 			</form>
 		<?php
+		 $html = ob_get_clean();
+		 
+		 echo json_encode(array($media, $html));
 		}
 		die();
 	}
@@ -442,10 +450,6 @@ class CS_Media_Addon{
 			'small' => array('200', '150'),
 			'large' => array('400', '300'),
 		);
-	}
-	
-	public function show_media_button($postid){
-		echo cs_post_medias($postid, 'small');
 	}
 	
 	public function add_preview_modal(){
