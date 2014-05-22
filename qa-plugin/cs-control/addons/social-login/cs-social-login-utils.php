@@ -170,6 +170,11 @@ function cs_generate_facebook_wall_post_script($app_id , $data , $no_script = tr
       if (!!$description) {
         $object .= "description: '" . $description . "' ," ;
       }
+      
+      if (!!$message) {
+        $object .= "message: '" . $message . "' ," ;
+      }
+
       ob_start();
       if (!$no_script) echo "<script>" ;
       ?>
