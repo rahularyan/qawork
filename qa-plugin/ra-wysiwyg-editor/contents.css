@@ -7,20 +7,18 @@ body
 {
 	/* Font */
 	font-family: sans-serif, Arial, Verdana, "Trebuchet MS";
-	font-size: 12px;
+	font-size: 14px;
 
 	/* Text color */
 	color: #333;
 
 	/* Remove the background color to make it transparent */
 	background-color: #fff;
-
-	margin: 20px;
 }
 
 .cke_editable
 {
-	font-size: 13px;
+	font-size: 14px;
 	line-height: 1.6;
 }
 
@@ -131,4 +129,22 @@ a > img {
 	margin: 1px;
 	border: none;
 	outline: 1px solid #0782C1;
+}
+.content-media {    
+    color: #AAAAAA;
+    display: table;
+    font-size: 11px;    
+}
+.content-media img{
+	border: 1px solid #EEEEEE;
+	display:block;
+	padding: 5px;
+	border-radius: 3px;
+}
+.content-media strong{
+	display:block;
+	margin-top:5px;
+}
+.content-media em{
+	font-style:normal;
 }

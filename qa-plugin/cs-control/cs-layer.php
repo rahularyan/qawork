@@ -377,7 +377,7 @@ class qa_html_theme_layer extends qa_html_theme_base {
 				$this->output('</div></div>');
 			}
 			
-			$this->output('<div class="container"><div class="lr-table">');
+			$this->output('<div class="container"><div class="lr-table row">');
 			
 			if ($this->template == 'admin'){
 				$this->output('<div class="left-side">');
@@ -385,7 +385,7 @@ class qa_html_theme_layer extends qa_html_theme_base {
 				$this->output('</div>');
 			}
 			
-			$this->output('<div class="left-content">');
+			$this->output('<div class="left-content '. ($this->cs_position_active('Right') ? 'col-md-8' : '').'">');
 			$this->cs_page_title();
 
 			if ($this->template != 'question')
@@ -694,7 +694,7 @@ class qa_html_theme_layer extends qa_html_theme_base {
     {
 		if (cs_hook_exist(__FUNCTION__)) {$args=func_get_args(); return cs_do_action(__FUNCTION__, $args); }
         if ($this->cs_position_active('Right')) {
-            $this->output('<div class="side-c">');
+            $this->output('<div class="side-c col-md-4">');
             $this->output('<div class="qa-sidepanel">');
             $this->cs_position('Right');
             $this->output('</div>', '');
@@ -1048,7 +1048,7 @@ class qa_html_theme_layer extends qa_html_theme_base {
 				
 			$this->output('</header>');
 			
-			$this->output('<div class="lr-table"><div class="left-content question-main">');
+			$this->output('<div class="lr-table row"><div class="left-content question-main col-md-8">');
 				$this->output('<ul class="nav nav-tabs question-tabs">
 				  <li class="active"><a href="#discussion" data-toggle="tab" class="icon-flow-children">'.qa_lang_html('cleanstrap/discussion').'</a></li>
 				  <li><a href="#share" data-toggle="tab" class="icon-world load-social-share">'.qa_lang_html('cleanstrap/share').'</a></li>
@@ -1067,7 +1067,7 @@ class qa_html_theme_layer extends qa_html_theme_base {
 							
 			$this->output('</div>');
 			
-			$this->output('<div class="question-side">');
+			$this->output('<div class="question-side col-md-4">');
 				
 				$this->output('<div class="qa-post-meta">');
 					if (!empty($q_view['q_tags'])) {
@@ -1505,11 +1505,17 @@ class qa_html_theme_layer extends qa_html_theme_base {
 			$this->output('<div class="user-info no-overflow">');
 			
 			$asker = (isset($q_view['raw']['handle']) ? '<a href="'.handle_url($q_view['raw']['handle']).'">' . $q_view['raw']['handle'] . '</a>' : qa_lang_html('cleanstrap/anonymous') );
-			
-				$this->what_1($q_view);
+				if(isset($this->content['form_q_edit'])){
+					$this->output($asker.' <span>'.qa_lang_html('cleanstrap/asked').'</span>');
+				}else{
+					$this->what_1($q_view);
+				}
 			
 			$this->output('</div>');
 			
+			if(isset($this->content['form_q_edit']))
+				$this->form($this->content['form_q_edit']);
+				
 			$this->q_view_content($q_view);
 			if(isset($q_view['raw']['postid'])){
 				$this->output(cs_do_action('after_question', $q_view['raw']['postid']));
@@ -1790,11 +1796,14 @@ class qa_html_theme_layer extends qa_html_theme_base {
         
         if ($partdiv)
             $this->output('<div class="qa-part-' . strtr($key, '_', '-') . '">'); // to help target CSS to page parts
-        
+		
         if (strpos($key, 'custom') === 0)
             $this->output_raw($part);
         
-        elseif (strpos($key, 'form') === 0)
+        elseif (strpos($key, 'form_q_edit') === 0)
+            $this->output();
+		
+		elseif (strpos($key, 'form') === 0)
             $this->form($part);
         elseif (strpos($key, 'q_list') === 0)
             $this->q_list_and_form($part);
@@ -1865,7 +1874,7 @@ class qa_html_theme_layer extends qa_html_theme_base {
         $this->output('<div class="qa-a-form"' . (isset($a_form['id']) ? (' id="' . $a_form['id'] . '"') : '') . '>');
         
         if (isset($a_form)) {
-			$this->output('<h3 class="answers-label">Submit your answer</h3>');
+			$this->output('<h3 class="answers-label">'.$a_form['title'].'</h3>');
 			$this->output('<div class="big-s-avatar avatar">' . cs_get_avatar(qa_get_logged_in_handle(), 40) . '</div>');
 			//$this->output('<div class="your-answer-label">' . $a_form['title'] . '</div>');        
 				$this->output('<div class="q-cont-right">');

@@ -22,7 +22,6 @@
 			$css_src['cs_responsive'] = Q_THEME_URL . '/css/responsive.css';
 			$css_src['cs_main'] = Q_THEME_URL . '/css/main.css';
 			$css_src['cs_color'] = Q_THEME_URL . '/css/theme-green.css';
-			$css_src['anonymous_pro'] = 'http://fonts.googleapis.com/css?family=Anonymous+Pro';
 			
 			if (qa_opt('cs_styling_rtl'))
 				$css_src['cs_rtl'] = Q_THEME_URL . '/css/rtl.css';

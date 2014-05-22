@@ -59,8 +59,9 @@
 #upload-tab > form  button[type="submit"]{
 	display:none;
 }
-.modal .editable-media .attachments{
-	cursor:pointer;
+.modal .editable-media .attachments {
+    cursor: pointer;
+    position: relative;
 }
 .file-input-wrapper {
     height: 40px;
@@ -123,4 +124,34 @@
     font-size: 130px;
     line-height: 100%;
 }
-
+.attachments .insert-media-to-editor {
+    background: none repeat scroll 0 0 #222222;
+    border-radius: 2px;
+    color: #FFFFFF;
+    display: none;
+    font-size: 12px;
+    left: 12px;
+    margin: 0 auto;
+    padding: 1px 10px;
+    position: absolute;
+    text-align: center;
+    top: 20px;
+    width: 65px;
+}
+.attachments .handle {
+    background: none repeat scroll 0 0 #222222;
+    border-radius: 2px;
+    color: #FFFFFF;
+    display: none;
+    font-size: 12px;
+    left: 12px;
+    margin: 0 auto;
+    padding: 1px 10px;
+    position: absolute;
+    text-align: center;
+    top: 48px;
+    width: 65px;
+}
+.attachments:hover .insert-media-to-editor, .attachments:hover .handle{
+	display:block;
+}
