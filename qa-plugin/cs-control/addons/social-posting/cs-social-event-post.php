@@ -15,6 +15,7 @@ $isPosted = false ;
 
 function cs_social_post_event_handler($postid,$userid, $effecteduserid, $params, $event)
 {
+    require_once CS_CONTROL_DIR . '/addons/social-posting/cs-social-posting-utils.php';
     global $isPosted ;
 
     if ($isPosted) {
@@ -24,7 +25,13 @@ function cs_social_post_event_handler($postid,$userid, $effecteduserid, $params,
     $id = isset($params['qid']) ? $params['qid'] : (isset($params['postid']) ? $params['postid'] : "") ;
     $title = isset($params['qtitle']) ? $params['qtitle'] : (isset($params['title']) ? $params['title'] : "") ;
     $message = cs_get_message_using_event($event);
-    $post_to = array('Facebook' , 'Twitter');
+
+    $all_keys = array('cs_facebook_q_post','cs_facebook_a_post','cs_facebook_c_post','cs_twitter_q_post','cs_twitter_a_post','cs_twitter_c_post',);
+    $preferences = cs_get_social_posting_settings($all_keys , $userid);
+
+    $post_to = cs_get_user_social_post_status_for_event( $preferences , $event );
+
+    // $post_to = array('Facebook' , 'Twitter');
     $data = array(
             'link' => qa_q_path( $id , $qtitle, true),
             'name' => qa_opt('site_title'),
@@ -38,6 +45,10 @@ function cs_social_post_event_handler($postid,$userid, $effecteduserid, $params,
 
 function cs_social_post($post_to , $data )
 {
+    if (!is_array($post_to) || empty($post_to)) {
+        return false;
+    }
+
     if (is_array($post_to)) {
         foreach ($post_to as $provider) {
            switch ($provider) {
@@ -71,7 +82,7 @@ function cs_post_to_facebook($data) {
 
         if (!$facebook_active) {
             // if not connected with facebook then restore the session from database 
-            $facebook_hauthSession = cs_social_get_saved_hauth_session("facebook_hauthSession");
+            $facebook_hauthSession = cs_social_get_saved_hauth_session("facebook_hauthSession" , qa_get_logged_in_userid());
             if (!$facebook_hauthSession) {
                 // if the session is not set in the db then return 
                 return false;
@@ -116,7 +127,7 @@ function cs_post_to_twitter($data) {
         $twitter_active = $hybridauth->isConnectedWith("Twitter");
         if (!$twitter_active) {
             // if not connected with twitter then restore the session from database 
-            $twitter_hauthSession = cs_social_get_saved_hauth_session("twitter_hauthSession");
+            $twitter_hauthSession = cs_social_get_saved_hauth_session("twitter_hauthSession" , qa_get_logged_in_userid());
             if (!$twitter_hauthSession) {
                 // if the session is not set in the db then return 
                 return false;
