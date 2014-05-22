@@ -187,8 +187,6 @@ textarea {
 }
 
 #site-header #header-top {
-	background: linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.15)) repeat scroll 0 0 #4679BD;
-	border-bottom: 1px solid rgba(0, 0, 0, 0.2);
 	-moz-box-shadow: none;
 	-webkit-box-shadow: none;
 	box-shadow: none;
@@ -243,23 +241,19 @@ textarea {
 }
 
 #site-header .site-logo a {
-	background: none repeat scroll 0 0 rgba(0, 0, 0, 0);
-	display: block;
-	float: none;
-	height: auto;
-	padding: 0;
+    background: none repeat scroll 0 0 rgba(0, 0, 0, 0);
+    color: #FFFFFF;
+    display: block;
+    float: none;
+    font-size: 20px;
+    height: auto;
+    padding: 0;
 }
 
 #site-header .navbar {
 	background: none;
 	border: medium none;
 	margin: 0;
-}
-
-#site-header .navbar-form {
-	margin: 0 10px 0 0;
-	padding: 0;
-	position: relative;
 }
 
 #site-header #profile-link {
@@ -284,10 +278,11 @@ textarea {
 }
 
 .navbar-form .form-control {
-	border: medium none;
-	-moz-border-radius: 15px;
-	-webkit-border-radius: 15px;
-	border-radius: 15px;
+	border: 1px solid #AAAAAA;
+}
+
+#header-below .navbar-form {
+    margin: 0;
 }
 
 .qa-nav-main {
@@ -1061,12 +1056,12 @@ ul.qa-nav-cat-list-4 > li.qa-nav-cat-item:first-child {
 }
 
 .widget-title {
-	border-top: medium none;
-	color: #333;
-	font-size: 13px;
-	font-weight: bold;
-	margin: 0 0 5px;
-	padding: 5px 0;
+    border-top: medium none;
+    color: #333333;
+    font-size: 15px;
+    font-weight: bold;
+    margin: 0 0 5px;
+    padding: 0;
 }
 
 .widget .widget-title a {
@@ -1093,10 +1088,6 @@ a.feed-link {
 	display: block;
 	float: right;
 	padding: 0 2px;
-}
-
-.post-status {
-	vertical-align: text-top;
 }
 
 .post-status.closed {
@@ -1356,8 +1347,8 @@ a.feed-link {
 }
 
 .question-metas {
-	margin-bottom: 25px;
-	margin-top: 5px;
+    margin-bottom: 35px;
+    margin-top: 10px;
 }
 
 .big-status .post-status {
@@ -2921,16 +2912,11 @@ th .description {
 
 /* widget positions */
 .widget {
-	margin-bottom: 20px;
-	padding: 0;
+    margin-bottom: 25px;
+    padding: 0;
 }
 
 .header-position-c {
-	background: url(../images/community.jpg) repeat-x scroll center bottom #FFF;
-	border: 1px solid #EEE;
-	-moz-border-radius: 5px;
-	-webkit-border-radius: 5px;
-	border-radius: 5px;
 	margin-bottom: 20px;
 	margin-top: 15px;
 }
@@ -3966,7 +3952,7 @@ th .description {
 	-webkit-box-shadow: 0 0 3px rgba(0, 0, 0, 0.1);
 	box-shadow: 0 0 3px rgba(0, 0, 0, 0.1);
 	margin-top: 16px;
-	min-width: 320px;
+	min-width: 220px;
 	padding: 0;
 }
 
@@ -4692,11 +4678,6 @@ th .description {
 	overflow: hidden;
 }
 
-.ra-post-list-widget .post-content .title {
-	color: #747474;
-	font-size: 12px;
-}
-
 .ra-post-list-widget .post-content .title.question {
 	font-weight: bold;
 }
@@ -5299,7 +5280,7 @@ th .description {
 
 .cs-ask-widget-form {
 	background: none repeat scroll 0 0 rgba(255, 255, 255, 0.6);
-	border: 2px solid #EEE;
+	border: 1px solid #EEE;
 	-moz-border-radius: 5px;
 	-webkit-border-radius: 5px;
 	border-radius: 5px;
@@ -5326,18 +5307,14 @@ th .description {
 }
 
 .category-nav .all-cat {
-	background: none repeat scroll 0 0 #333;
-	border-bottom: 1px solid #EEE;
-	-moz-border-radius: 1px 1px 0 0;
-	-webkit-border-radius: 1px 1px 0 0;
-	border-radius: 1px 1px 0 0;
-	color: #fff;
-	display: block;
-	font-size: 13px;
-	font-weight: bold;
-	margin: 0;
-	padding: 7px 10px;
-	text-align: center;
+    border-bottom: 1px solid #EEEEEE;
+    border-radius: 1px 1px 0 0;
+    display: block;
+    font-size: 15px;
+    font-weight: bold;
+    margin: 0;
+    padding: 7px 10px;
+    text-align: center;
 }
 
 .category-nav .category-toggle:hover {
@@ -5647,15 +5624,14 @@ th .description {
 }
 
 .cat-tag-drop .btn {
-	background: none repeat scroll 0 0 #FFF;
-	border: 1px solid #EEE;
-	-moz-border-radius: 2px;
-	-webkit-border-radius: 2px;
-	border-radius: 2px;
-	color: #AAA;
-	font-size: 11px;
-	margin: 0;
-	padding: 3px 5px;
+    background: none repeat scroll 0 0 #BBBBBB;
+    border: medium none;
+    border-radius: 2px;
+    color: #FFFFFF;
+    font-size: 11px;
+    font-weight: normal;
+    margin: 0;
+    padding: 3px 5px;
 }
 
 .cat-tag-drop .dropdown-menu {

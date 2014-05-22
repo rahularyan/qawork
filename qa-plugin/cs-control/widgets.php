@@ -228,7 +228,7 @@ class cs_theme_widgets {
 		function widget_options_form_select($field){
 			$option = '';
 			foreach($field['options'] as $k => $opt)
-				$option .= '<option value="'.$k.'"'.($field['value']== $k ? ' selected ' : '' ).'>'.$opt.'</option>';
+				$option .= '<option value="'.$k.'"'.(@$field['value']== $k ? ' selected ' : '' ).'>'.$opt.'</option>';
 				
 			return '<select '.$field['tags'].'>'.$option.'</select>';
 		}

@@ -15,10 +15,6 @@ class qa_html_theme_layer extends qa_html_theme_base {
                 $this->$action();
         } else {
             $this->output('<!DOCTYPE html>');
-
-            $this->content['navigation']['main']['widgets']['icon']      = 'icon-puzzle';
-            $this->content['navigation']['main']['admin']['icon']        = 'icon-spanner';
-            $this->content['navigation']['main']['themeoptions']['icon'] = 'icon-spanner';
             
             unset($this->content['navigation']['main']['ask']);
             unset($this->content['navigation']['main']['admin']);
@@ -53,18 +49,14 @@ class qa_html_theme_layer extends qa_html_theme_base {
 				$this->content['navigation']['user']['themeoptions'] = array(
 					'label' => qa_lang('cleanstrap/theme_options'),
 					'url' => qa_path_html('themeoptions'),
-					'icon' => 'icon-wrench'
+					'icon' => 'icon-spanner'
 				);
 				$this->content['navigation']['user']['themewidgets'] = array(
 					'label' => 'Theme Widgets',
 					'url' => qa_path_html('themewidgets'),
 					'icon' => 'icon-puzzle',
 				);
-				$this->content['navigation']['main']['featured'] = array(
-					'label' => 'featured',
-					'url' => qa_path_html('featured'),
-					'icon' => 'icon-star',
-				);
+				
 				if ($this->request == 'themeoptions') {
 					$this->content['navigation']['user']['themeoptions']['selected'] = true;
 					$this->content['navigation']['user']['selected']                 = true;
@@ -433,14 +425,14 @@ class qa_html_theme_layer extends qa_html_theme_base {
 		$this->get_social_links();
 		
 		$this->output('<div id="header-below" class="clearfix"><div class="container">');		
-		$this->cs_position('Breadcrumbs');
-		$this->nav_ask_btn();	
+		$this->cs_position('Breadcrumbs');		
+		$this->search();
+		$this->nav_ask_btn();		
 		$this->output('</div></div>');
     }
 	function main_nav_menu(){
-		if (cs_hook_exist(__FUNCTION__)) {$args=func_get_args(); return cs_do_action(__FUNCTION__, $args); }
+		if (cs_hook_exist(__FUNCTION__)) {$args=func_get_args(); return cs_do_action(__FUNCTION__, $args); }		
 		
-		$this->search();
 		$this->output('<nav class="pull-left clearfix">');
        // $this->output('<a href="#" class="slide-mobile-menu icon-th-menu"></a>');
         
@@ -479,8 +471,8 @@ class qa_html_theme_layer extends qa_html_theme_base {
 		if (cs_hook_exist(__FUNCTION__)) {$args=func_get_args(); return cs_do_action(__FUNCTION__, $args); }
 		
         $logo = qa_opt('logo_url');
-        $this->output('<div class="site-logo">', '<a class="navbar-brand" title="' . strip_tags($this->content['logo']) . '" href="' . get_base_url() . '">
-						<img class="navbar-site-logo" src="' . $logo . '">
+        $this->output('<div class="site-logo">', '<a class="navbar-brand icon-qawork" title="' . strip_tags($this->content['logo']) . '" href="' . get_base_url() . '">
+						'.($logo ? '<img class="navbar-site-logo" src="' . $logo . '">' : '').'
 					</a>', '</div>');
     }
 	
@@ -671,7 +663,7 @@ class qa_html_theme_layer extends qa_html_theme_base {
 		if (cs_hook_exist(__FUNCTION__)) {$args=func_get_args(); return cs_do_action(__FUNCTION__, $args); }
         $search = $this->content['search'];
         
-        $this->output('<form ' . $search['form_tags'] . ' class="navbar-form navbar-left form-search" role="search" >', @$search['form_extra']);
+        $this->output('<form ' . $search['form_tags'] . ' class="navbar-form navbar-right form-search" role="search" >', @$search['form_extra']);
         
         $this->search_field($search);
         //$this->search_button($search);
@@ -886,30 +878,8 @@ class qa_html_theme_layer extends qa_html_theme_base {
 			
         $this->output('<div class="home-left-inner">'); 
 			
-			$this->output('<ul class="nav nav-tabs home-sub-tabs">
-				<li class="active"><a href="#home-tab-recent" data-toggle="tab">'.qa_lang_html('cleanstrap/recent').'</a></li>
-				<li><a href="#home-tab-activities" data-toggle="tab">'.qa_lang_html('cleanstrap/activities').'</a></li>
-				<li><a href="#home-tab-content" data-toggle="tab">'.qa_lang_html('cleanstrap/newest').'</a></li>						  
-			</ul>
-			<div class="tab-content">');
-			
-			//home recent tab
-			$this->output('<div class="tab-pane active" id="home-tab-recent">');
-			$this->cs_position('Home Recent Tab');
-			$this->output('</div>');
-			
-			//home activities tab
-			$this->output('<div class="tab-pane" id="home-tab-activities">');
-			$this->cs_position('Home Activities Tab');
-			$this->output('</div>');
-			
-			//home main active tabs
-			$this->output('<div class="tab-pane" id="home-tab-content">');
 			$this->main_parts($content);
-			$this->output('</div>');
-			
-		$this->output('</div>');
-
+		
         $this->output('</div>');
     }
     
