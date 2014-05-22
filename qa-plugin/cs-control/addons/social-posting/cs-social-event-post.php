@@ -8,6 +8,7 @@ if (!defined('QA_VERSION')) {
 
 // to register the event 
 cs_add_action('a_post',        'cs_social_post_event_handler');
+cs_add_action('c_post',        'cs_social_post_event_handler');
 cs_add_action('q_post_social', 'cs_social_post_event_handler');
 
 $isPosted = false ;
@@ -22,12 +23,13 @@ function cs_social_post_event_handler($postid,$userid, $effecteduserid, $params,
     
     $id = isset($params['qid']) ? $params['qid'] : (isset($params['postid']) ? $params['postid'] : "") ;
     $title = isset($params['qtitle']) ? $params['qtitle'] : (isset($params['title']) ? $params['title'] : "") ;
+    $message = cs_get_message_using_event($event);
     $post_to = array('Facebook' , 'Twitter');
     $data = array(
             'link' => qa_q_path( $id , $qtitle, true),
             'name' => qa_opt('site_title'),
             'caption' => $title,
-            'message' => 'My Participation',
+            'message' => $message ,
             'picture' => qa_opt('ra_logo'),
         );
     cs_social_post($post_to , $data );
@@ -45,7 +47,7 @@ function cs_social_post($post_to , $data )
                    break;
                case 'Twitter':
                case 'twitter':
-                   cs_post_to_twitter($data['message']) ;
+                   cs_post_to_twitter($data) ;
                    break;
                default:
                    break;
@@ -58,20 +60,26 @@ function cs_post_to_facebook($data) {
     require_once CS_CONTROL_DIR . '/inc/hybridauth/Hybrid/Auth.php';
     require_once CS_CONTROL_DIR . '/addons/social-login/cs-social-login-utils.php';
     require_once CS_CONTROL_DIR . '/addons/social-posting/cs-social-posting-utils.php';
+
     try {
         $loginCallback = qa_path_absolute(qa_opt('site_url'), array());
-        // get the config for facebookand creaet a instance
+        // get the config for facebook and creaet a instance
         $config = cs_social_get_config_common($loginCallback, 'Facebook');
         $hybridauth = new Hybrid_Auth($config);
         // check if the fb is previously connected 
         $facebook_active = $hybridauth->isConnectedWith("Facebook");
+
         if (!$facebook_active) {
+            // if not connected with facebook then restore the session from database 
             $facebook_hauthSession = cs_social_get_saved_hauth_session("facebook_hauthSession");
             if (!$facebook_hauthSession) {
+                // if the session is not set in the db then return 
                 return false;
             }
+            // then restore the facebook session 
             $hybridauth->restoreSessionData($facebook_hauthSession);
         }
+        // get the Facebook adaptor 
         $adapter = $hybridauth->getAdapter("Facebook");
         /*
         $data = array(
@@ -81,6 +89,7 @@ function cs_post_to_facebook($data) {
             'caption' => 'Asking for testing this functionality',
             'message' => 'Web Application Developer and Designer (Updated from my application )',
         );*/
+        // Now update the Facebook Status 
         $adapter->setUserStatus($data);
     } catch (Exception $e) {
         // cs_log("Error while posting to facebook " . print_r($e, true));
@@ -88,26 +97,62 @@ function cs_post_to_facebook($data) {
 }
 
 
-function cs_post_to_twitter($message) {
+function cs_post_to_twitter($data) {
     require_once CS_CONTROL_DIR . '/inc/hybridauth/Hybrid/Auth.php';
     require_once CS_CONTROL_DIR . '/addons/social-login/cs-social-login-utils.php';
+    require_once CS_CONTROL_DIR . '/addons/social-posting/cs-social-posting-utils.php';
+    // build the message for twitter with only message and link
     
+    $message  = $data['message'] ;
+    $message .= " " ;
+    $message .= $data['link'] ;
+
     try {
         $loginCallback = qa_path_absolute(qa_opt('site_url'), array());
+        // get the config for twitter and creaet a instance
         $config = cs_social_get_config_common($loginCallback, 'Twitter');
         $hybridauth = new Hybrid_Auth($config);
+        // check if the twitter is previously connected 
         $twitter_active = $hybridauth->isConnectedWith("Twitter");
         if (!$twitter_active) {
+            // if not connected with twitter then restore the session from database 
             $twitter_hauthSession = cs_social_get_saved_hauth_session("twitter_hauthSession");
             if (!$twitter_hauthSession) {
+                // if the session is not set in the db then return 
                 return false;
             }
+            // then restore the twitter session 
             $hybridauth->restoreSessionData($twitter_hauthSession);
         }
+        // get the Facebook adaptor 
         $adapter = $hybridauth->getAdapter("Twitter");
-       
+        // Now update the Facebook Status 
         $adapter->setUserStatus($message);
     } catch (Exception $e) {
         // cs_log("Error while posting to twitter " . print_r($e, true));
     }
+}
+
+function cs_get_message_using_event($event)
+{
+    if (!$event) {
+        return "" ;
+    }
+    $subs = array( 
+                '^site_title' => qa_opt('site_title') , 
+                );   
+    switch ($event) {
+        case 'q_post_social':
+            $message = strtr(qa_lang("cs_social_posting/q_asked") , $subs );
+            break;
+        case 'a_post':
+            $message = strtr(qa_lang("cs_social_posting/a_posted") , $subs );
+            break;
+        case 'c_post':
+            $message = strtr(qa_lang("cs_social_posting/c_posted") , $subs );
+            break;
+        default:
+            break;
+    }
+
 }

@@ -24,8 +24,10 @@ class Cs_Social_Posting_Addon {
       }
 
       public function language($lang_arr) {
-		    $lang_arr['cs_social_login'] = CS_CONTROL_DIR .'/addons/social-login/language.php';
+		    $lang_arr['cs_social_posting'] = CS_CONTROL_DIR .'/addons/social-posting/language.php';
 		    return $lang_arr;
       }
 
 }
+
+$cs_social_posting_addon = new Cs_Social_Posting_Addon;
