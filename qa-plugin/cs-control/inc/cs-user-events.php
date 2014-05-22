@@ -18,7 +18,9 @@
 						$params['qtitle'] = $question['title'];
 						$params['qid']    = $question['postid'];
 						$this->AddEvent($postid,$userid, $effecteduserid, $params, $event);
-						cs_event_hook('a_post', array($postid,$userid, $effecteduserid, $params, $event));
+						cs_do_action('a_post', $postid,$userid, $effecteduserid, $params, $event);
+						//cs_event_hook('a_post_social_post', array($postid,$userid, $effecteduserid, $params, $event));
+						//wait replace all cs_event hook to cs_do_action . and also array to non array
 					}
 					break;
 				case 'c_post': // user's answer had been commented
@@ -31,7 +33,7 @@
 					if ($loggeduserid != $params['parent']['userid']){
 						$effecteduserid = $params['parent']['userid'];
 						$this->AddEvent($postid, $userid, $params['parent']['userid'], $params, $event);
-						cs_event_hook('c_post', array($postid,$userid, $effecteduserid, $params, $event));
+						cs_do_action('c_post', $postid , $userid, $effecteduserid, $params, $event);
 					}
 					
 					if(count($thread) > 0){
@@ -44,7 +46,7 @@
 						foreach ($user_array as $user){		
 							$this->AddEvent($postid, $userid, $user, $params, $event);	
 							$effecteduserid = $user ; //for this scenario the $user_array contains all user ids in the current commented thread 
-							cs_event_hook('c_post', array($postid,$userid, $effecteduserid, $params, $event));							
+							cs_do_action('c_post', $postid,$userid, $effecteduserid, $params, $event);							
 						}
 					}			
 					break;
@@ -57,7 +59,8 @@
 						$params['qtitle'] = $question['title'];
 						$params['qid']    = $question['postid'];
 						$this->AddEvent($postid,$userid, $effecteduserid, $params, $event);
-						cs_event_hook('q_reshow', array($postid,$userid, $effecteduserid, $params, $event));
+						cs_do_action('q_reshow', $postid,$userid, $effecteduserid, $params, $event);
+				
 					}
 					break;
 				case 'a_reshow':
@@ -72,7 +75,7 @@
 						unset($params['content']);
 						unset($params['text']);
 						$this->AddEvent($postid,$userid, $effecteduserid, $params, $event);
-						cs_event_hook('a_reshow', array($postid,$userid, $effecteduserid, $params, $event));
+						cs_do_action('a_reshow', $postid,$userid, $effecteduserid, $params, $event);
 					}
 					break;
 				case 'c_reshow':
@@ -85,7 +88,7 @@
 						$params['qtitle'] = $question['title'];
 						$params['qid']    = $question['postid'];
 						$this->AddEvent($postid,$userid, $effecteduserid, $params, $event);
-						cs_event_hook('c_reshow', array($postid,$userid, $effecteduserid, $params, $event));
+						cs_do_action('c_reshow',$postid,$userid, $effecteduserid, $params, $event);
 					}
 					break;
 				/* case 'a_unselect':
@@ -96,7 +99,7 @@
 						"DELETE FROM ^ra_userevent WHERE effecteduserid=$ AND event=$ AND postid=$",
 						$effecteduserid, 'a_select', $postid
 					);
-					cs_event_hook('a_unselect', array($postid,$userid, $effecteduserid, $params, $event));
+					cs_do_action('a_unselect', array($postid,$userid, $effecteduserid, $params, $event));
 					
 					break; */
 				case 'a_select':
@@ -108,7 +111,7 @@
 						$params['qtitle'] = $question['title'];
 						$params['qid']    = $question['postid'];
 						$this->AddEvent($postid,$userid, $effecteduserid, $params, $event);
-						cs_event_hook('a_select', array($postid,$userid, $effecteduserid, $params, $event));
+						cs_do_action('a_select', $postid,$userid, $effecteduserid, $params, $event);
 					}
 					break;
 				case 'q_vote_up':
@@ -149,12 +152,12 @@
 						$params['qtitle'] = $question['title'];
 						$params['qid']    = $question['postid'];
 						$this->AddEvent($postid,$userid, $effecteduserid, $params, $event);
-						cs_event_hook($event, array($postid,$userid, $effecteduserid, $params, $event));
+						cs_do_action($event, $postid,$userid, $effecteduserid, $params, $event);
 					}
 					break;					
 				case 'q_favorite':
 					$this->UpdateVote('q_favorite', $postid,$userid, $params, 'favorite', 1);
-					cs_event_hook($event, array($postid,$userid, $effecteduserid, $params, $event));
+					cs_do_action($event, $postid,$userid, $effecteduserid, $params, $event);
 					$dolog=false;					
 					break;
 				/* case 'q_unfavorite':
@@ -162,6 +165,7 @@
 					$dolog=false;					
 					break; */
 				case 'q_post':
+					
 					$already_notified = "" ;
 					if ($params['parent']['type']=='A') // related question
 					{
@@ -169,11 +173,11 @@
 						if ($loggeduserid != $effecteduserid){
 							$event = 'related';
 							$this->AddEvent($postid,$userid, $effecteduserid, $params, $event);
-							cs_event_hook($event, array($postid,$userid, $effecteduserid, $params, $event));
+							cs_do_action($event, $postid,$userid, $effecteduserid, $params, $event);
 							$already_notified = $effecteduserid ;
 						}
 					}
-
+					cs_do_action('q_post_social', $postid,$userid, $effecteduserid, $params, $event);
 					$categoryid = isset($params['categoryid']) ? $params['categoryid'] : '' ;
                     $tags = isset($params['tags']) ? $params['tags'] : '' ;
 					$user_datas = $this->cs_get_users_details_notify_email($userid , $tags , $categoryid );
@@ -183,14 +187,13 @@
 
 						if ( $effecteduserid != $already_notified ) {
 							// $this->AddEvent($postid,$userid, $effecteduserid, $params, $event);
-							cs_event_hook($event, array($postid,$userid, $effecteduserid, $params, $event));
+							cs_do_action($event, $postid,$userid, $effecteduserid, $params, $event);
 						}
 					}
-
 					break;
 				case 'u_favorite':
 					$this->UpdateUserFavorite($postid,$userid, $params, 'u_favorite', 1);
-					cs_event_hook($event, array($postid,$userid, $effecteduserid, $params, $event));
+					cs_do_action($event, $postid,$userid, $effecteduserid, $params, $event);
 					$dolog=false;
 					break;
 				/* case 'u_unfavorite':
@@ -200,18 +203,18 @@
 				case 'u_message':
 					$effecteduserid = $params['userid'];
 					$this->AddEvent($postid,$userid, $effecteduserid, $params, $event);
-					cs_event_hook($event, array($postid,$userid, $effecteduserid, $params, $event));
+					cs_do_action($event, $postid,$userid, $effecteduserid, $params, $event);
 					break;
 				case 'u_wall_post':
 					$effecteduserid    = $params['userid'];
 					$params['message'] =$params['content'];
 					$this->AddEvent($postid,$userid, $effecteduserid, $params, $event);
-					cs_event_hook($event, array($postid,$userid, $effecteduserid, $params, $event));
+					cs_do_action($event, $postid,$userid, $effecteduserid, $params, $event);
 					break;
 				case 'u_level':
 					$effecteduserid = $params['userid'];
 					$this->AddEvent($postid,$userid, $effecteduserid, $params, $event);
-					cs_event_hook($event, array($postid,$userid, $effecteduserid, $params, $event));
+					cs_do_action($event, $postid,$userid, $effecteduserid, $params, $event);
 					break;
 				default:
 					$dolog=false;
@@ -278,7 +281,7 @@
 					$params[$eventname] =1;
 					
 					$this->AddEvent($postid,$userid, $effecteduserid, $params, $newevent);
-					cs_event_hook($newevent, array($postid,$userid, $effecteduserid, $params, $newevent));
+					cs_do_action($newevent, $postid,$userid, $effecteduserid, $params, $newevent);
 				}
 			}else{
 				$postparams=json_decode($posts[0],true);
@@ -321,7 +324,7 @@
 					"UPDATE ^ra_userevent SET datetime=NOW(), userid=$, effecteduserid=$, postid=$, event=$, params=$ WHERE postid=$ AND event=$",
 					$userid, $effecteduserid, $postid, $newevent,$paramstring, $postid, $newevent
 				);
-				cs_event_hook($newevent, array($postid,$userid, $effecteduserid, $params, $newevent));
+				cs_do_action($newevent, $postid,$userid, $effecteduserid, $params, $newevent);
 			}
 		}
 		

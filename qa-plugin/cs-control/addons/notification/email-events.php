@@ -1,47 +1,46 @@
 <?php
+/* don't allow this page to be requested directly from browser */ 
+if (!defined('QA_VERSION')) {
+            header('Location: /');
+            exit;
+}
 
 //if this is set to true , the email will be written to the log file 
 define('CS_SEND_EMAIL_DEBUG_MODE', true);
 
-//define the event hook event handlers 
-cs_event_hook('a_post', NULL, 'cs_notification_event');
-cs_event_hook('c_post', NULL, 'cs_notification_event');
-cs_event_hook('q_reshow', NULL, 'cs_notification_event');
-cs_event_hook('a_reshow', NULL, 'cs_notification_event');
-cs_event_hook('c_reshow', NULL, 'cs_notification_event');
-cs_event_hook('a_select', NULL, 'cs_notification_event');
-cs_event_hook('q_vote_up', NULL, 'cs_notification_event');
-cs_event_hook('a_vote_up', NULL, 'cs_notification_event');
-cs_event_hook('q_vote_down', NULL, 'cs_notification_event');
-cs_event_hook('a_vote_down', NULL, 'cs_notification_event');
-cs_event_hook('q_vote_nil', NULL, 'cs_notification_event');
-cs_event_hook('a_vote_nil', NULL, 'cs_notification_event');
-cs_event_hook('q_approve', NULL, 'cs_notification_event');
-cs_event_hook('a_approve', NULL, 'cs_notification_event');
-cs_event_hook('c_approve', NULL, 'cs_notification_event');
-cs_event_hook('q_reject', NULL, 'cs_notification_event');
-cs_event_hook('a_reject', NULL, 'cs_notification_event');
-cs_event_hook('c_reject', NULL, 'cs_notification_event');
-cs_event_hook('q_favorite', NULL, 'cs_notification_event');
-cs_event_hook('q_post', NULL, 'cs_notification_event');
-cs_event_hook('u_favorite', NULL, 'cs_notification_event');
-cs_event_hook('u_message', NULL, 'cs_notification_event');
-cs_event_hook('u_wall_post', NULL, 'cs_notification_event');
-cs_event_hook('u_level', NULL, 'cs_notification_event');
+//define the event hook event handlers // remove  NULL, ok , and here 
+cs_add_action('a_post','cs_notification_event');
+cs_add_action('c_post','cs_notification_event');
+cs_add_action('q_reshow','cs_notification_event');
+cs_add_action('a_reshow','cs_notification_event');
+cs_add_action('c_reshow','cs_notification_event');
+cs_add_action('a_select','cs_notification_event');
+cs_add_action('q_vote_up','cs_notification_event');
+cs_add_action('a_vote_up','cs_notification_event');
+cs_add_action('q_vote_down','cs_notification_event');
+cs_add_action('a_vote_down','cs_notification_event');
+cs_add_action('q_vote_nil','cs_notification_event');
+cs_add_action('a_vote_nil','cs_notification_event');
+cs_add_action('q_approve','cs_notification_event');
+cs_add_action('a_approve','cs_notification_event');
+cs_add_action('c_approve','cs_notification_event');
+cs_add_action('q_reject','cs_notification_event');
+cs_add_action('a_reject','cs_notification_event');
+cs_add_action('c_reject','cs_notification_event');
+cs_add_action('q_favorite','cs_notification_event');
+cs_add_action('q_post','cs_notification_event');
+cs_add_action('u_favorite','cs_notification_event');
+cs_add_action('u_message','cs_notification_event');
+cs_add_action('u_wall_post','cs_notification_event');
+cs_add_action('u_level','cs_notification_event');
 //added for related questions 
-cs_event_hook('related', NULL, 'cs_notification_event');
-cs_event_hook('q_post_user_fl', NULL, 'cs_notification_event');
-cs_event_hook('q_post_tag_fl', NULL, 'cs_notification_event');
-cs_event_hook('q_post_cat_fl', NULL, 'cs_notification_event');
+cs_add_action('related','cs_notification_event');
+cs_add_action('q_post_user_fl','cs_notification_event');
+cs_add_action('q_post_tag_fl','cs_notification_event');
+cs_add_action('q_post_cat_fl','cs_notification_event');
 
-function cs_notification_event($data) {
-      $params = $data[3];
-      // cs_log("This method is invoked for " . $data[4]);
-      // cs_log(print_r($params, true));
-      $postid         = isset($params['postid']) ? $params['postid'] : "";
-      $event          = $data[4];
-      $loggeduserid   = isset($data[1]) ? $data[1] : qa_get_logged_in_userid();
-      $effecteduserid = isset($data[2]) ? $data[2] : "";
+function cs_notification_event($postid,$userid, $effecteduserid, $params, $event) {
+      $loggeduserid   = isset($userid) ? $userid : qa_get_logged_in_userid();
       if (!!$effecteduserid) {
             cs_notify_users_by_email($event, $postid, $loggeduserid, $effecteduserid, $params);
       }
@@ -574,7 +573,7 @@ function cs_send_email_notification($bcclist, $email, $handle, $subject, $body, 
           'bcclist' => $bcclist,
           'subject' => strtr($subject, $subs),
           'body' => strtr($body, $subs),
-          'html' => false,
+          'html' => true ,
       );
       if (CS_SEND_EMAIL_DEBUG_MODE) {
             //this will write to the log file 
@@ -628,8 +627,8 @@ function cs_send_email($params) {
 }
 
 function cs_send_email_fake($email_param) {
-      cs_log("Fake Email Sending to log the entire email message ");
-      cs_log(print_r($email_param, true));
+      // cs_log("Fake Email Sending to log the entire email message ");
+      // cs_log(print_r($email_param, true));
       //fake email should never fail 
       return true;
 }

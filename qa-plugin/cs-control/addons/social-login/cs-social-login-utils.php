@@ -111,38 +111,6 @@ function cs_social_get_config_common($url, $provider) {
       );
 }
 
-// set this global variable to ensure that facebook is initialized only once . 
-if (!isset($facebook_js_api_initialized)) {
-    $facebook_js_api_initialized = false ; 
-}
-
-function cs_init_facebook_js_api($app_id)
-{
-      if (!$app_id) {
-            return "";
-      }
-
-      if (!$facebook_js_api_initialized) {
-          $facebook_js_api_initialized = true ;
-      } else {
-          // if facebook api is already initialized then dont initialize it again . 
-          return "" ; 
-      }
-      ob_start();
-      ?>
-      <script src=""></script>  
-      <script>
-            FB.init({
-                  appId: '<?php echo $app_id; ?>', // or simply set your appid hard coded
-                  cookie: true,
-                  status: true,
-                  xfbml: true
-            });
-      </script>
-      <?php
-      $output = ob_get_clean();
-      return $output;
-}
 
 /**
  * Generates a dynamic script for users so that they can post to facebook with some ajax calls 
@@ -173,8 +141,8 @@ function cs_generate_facebook_invite_script($app_id, $data , $no_script = true )
 
 
 /**
- * generate wall post for 
- * @return [type] [description]
+ * generate wall post for a user 
+ * @return [string] [script to be printed below the button for posting to wall ]
  */
 function cs_generate_facebook_wall_post_script($app_id , $data , $no_script = true ){
      if (!$app_id || !is_array($data)) {
@@ -202,6 +170,11 @@ function cs_generate_facebook_wall_post_script($app_id , $data , $no_script = tr
       if (!!$description) {
         $object .= "description: '" . $description . "' ," ;
       }
+      
+      if (!!$message) {
+        $object .= "message: '" . $message . "' ," ;
+      }
+
       ob_start();
       if (!$no_script) echo "<script>" ;
       ?>
@@ -212,10 +185,18 @@ function cs_generate_facebook_wall_post_script($app_id , $data , $no_script = tr
       return $output;
 }//cs_generate_facebook_wall_post_script
 
+/**
+ * Generate facebok link share button with the given parameters 
+ * @param  string  $app_id     facebook application id 
+ * @param  array   $data       array of data 
+ * @param  boolean $no_script  pass false if the script tag is needed 
+ * @return string              reutrns the function calling signature 
+ */
 function cs_generate_facebook_link_share_script($app_id , $data , $no_script = true){
      if (!$app_id) {
             return "";
       }
+
       $name   = cs_extract_parameter_val($data , 'name');
       $link   = cs_extract_parameter_val($data , 'link');
       $object = "" ;
@@ -237,9 +218,44 @@ function cs_generate_facebook_link_share_script($app_id , $data , $no_script = t
       return $output;
 }//cs_generate_facebook_link_share_script
 
+/**
+ * Generate facebok login button with the given parameters 
+ * @param  string  $app_id     facebook application id 
+ * @param  array   $data       array of data (generally here is empty )
+ * @param  boolean $no_script  pass false if the script tag is needed 
+ * @return string              reutrns the function calling signature 
+ */
+function cs_generate_facebook_login_script($app_id , $data = array() , $no_script = true)
+{
+    if (!$app_id) {
+        return "";
+    }
+
+    ob_start();
+    if (!$no_script) echo "<script>" ;
+    ?>
+          cs_login_to_facebook(<?php echo $app_id ?>);
+    <?php
+    if (!$no_script) echo "</script>" ;
+    $output = ob_get_clean();
+    return $output;
+
+}
+
+/**
+ * extracts the value from the associative array according to the name passed and empty string if the value is not set 
+ * @param  [array]  $param
+ * @param  [string] $name  
+ * @return [type]   $value 
+ */
 function cs_extract_parameter_val($param , $name )
 {
   return isset($param[$name]) ? $param[$name] : "" ;
+}
+
+function cs_update_facebook_status($app_id , $data = array() , $no_script = true)
+{
+  
 }
 /*
 	Omit PHP closing tag to help avoid accidental output

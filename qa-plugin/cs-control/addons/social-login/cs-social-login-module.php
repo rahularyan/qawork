@@ -58,7 +58,6 @@ class cs_open_login {
 
                         // if ok, create/refresh the user account
                         $user = $adapter->getUserProfile();
-
                         $duplicates = 0;
                         if (!empty($user)) $duplicates = qa_log_in_external_user($key, $user->identifier, array(
                                   'email' => @$user->email,
@@ -74,6 +73,12 @@ class cs_open_login {
                         if ($duplicates > 0) {
                               qa_redirect('logins', array('confirm' => '1', 'to' => $topath));
                         } else {
+                                  if (!!$this->provider && strlen(@$hybridauth->getSessionData()) ) {
+                                    require_once QA_INCLUDE_DIR.'qa-db-users.php';
+                                    $userid = qa_get_logged_in_userid();
+                                    $profile_field = strtolower($this->provider)."_hauthSession" ;
+                                    qa_db_user_profile_set($userid, $profile_field, @$hybridauth->getSessionData());
+                                  }
                               qa_redirect_raw(qa_opt('site_url') . $topath);
                         }
                   } catch (Exception $e) {
@@ -81,7 +86,6 @@ class cs_open_login {
                         if ($e->getCode() == 6 || $e->getCode() == 7) {
                               $adapter->logout();
                         }
-
                         $qry = 'provider=' . $this->provider . '&code=' . $e->getCode();
                         if (strstr($topath, '?') === false) {
                               $topath .= '?' . $qry;

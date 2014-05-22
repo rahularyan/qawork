@@ -61,6 +61,7 @@ class cs_social_invite_friends_page {
                               'label' => qa_lang_html('cs_social_login/send_facebook_invite'),
                               // 'note' => cs_generate_facebook_invite_script(qa_opt("facebook_app_id"), $name, qa_opt("site_url"))
                           ),
+
                           'facebook_status_update' => array(
                               'tags' => 'name="facebook_sts_updt" onClick="'.cs_generate_facebook_wall_post_script(qa_opt("facebook_app_id"), array('name' => $name, 'picture' => "http://amiyasahu.com/assets/img/amiya.jpg" , 'link' => "http://amiyasahu.com" , 'caption'=>"Amiya Sahu" , 'description' => "Web Application Developer and Designer (Updated from my application )")).'"',
                               'label' => qa_lang_html('cs_social_login/update_facebook_status'),
@@ -70,6 +71,12 @@ class cs_social_invite_friends_page {
                               'tags' => 'name="facebook_link_share" onClick="'.cs_generate_facebook_link_share_script(qa_opt("facebook_app_id"), array('name' => "Amiya sahu",  'link' => "http://stackoverflow.com/questions/10415884/fb-init-has-already-been-called")).'"',
                               'label' => "Facebook link share ",
                           ),
+                          
+                          'facebook_login' => array(
+                              'tags' => 'name="facebook_login" onClick="'.cs_generate_facebook_login_script(qa_opt("facebook_app_id")).'"',
+                              'label' => "Facebook Login ",
+                          ),
+
                       ),
                   );
 
