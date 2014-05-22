@@ -1,10 +1,10 @@
 <?php
 
 /*
-  Name:CS Social Login
+  Name:CS Social Posting
   Version:1.0
   Author: Amiya Sahu
-  Description:For enabling social logins
+  Description:For enabling social posting when some new Event happens 
  */
 
 /* don't allow this page to be requested directly from browser */
