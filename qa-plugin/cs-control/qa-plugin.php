@@ -59,7 +59,7 @@ qa_register_plugin_module('widget', 'widgets/widget_featured_questions.php', 'cs
 qa_register_plugin_module('widget', 'widgets/widget_question_activity.php', 'cs_question_activity_widget', 'CS Question Activity');
 qa_register_plugin_module('widget', 'widgets/widget_related_questions.php', 'cs_related_questions', 'CS Related Questions');
 qa_register_plugin_module('widget', 'widgets/widget_new_users.php', 'cs_new_users_widget', 'CS New Users');
-qa_register_plugin_module('widget', 'widgets/widget_site_status.php', 'cs_site_status_widget', 'CS Site Status');
+
 qa_register_plugin_module('widget', 'widgets/widget_top_users.php', 'cs_top_users_widget', 'CS Top Contributors');
 qa_register_plugin_module('widget', 'widgets/widget_posts.php', 'cs_widget_posts', 'CS Posts');
 qa_register_plugin_module('widget', 'widgets/widget_user_activity.php', 'cs_user_activity_widget', 'CS User Activity');
