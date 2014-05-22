@@ -236,10 +236,10 @@ class cs_breadcrumbs_widget {
             // $text = qa_lang("breadcrumbs/$text");
             switch ($type) {
                   case 'home':
-                        $url = qa_opt('site_url');
-                        $text = qa_lang("cs_breadcrumbs/home");
+                        $url   = qa_opt('site_url');
+                        $text  = qa_lang("cs_breadcrumbs/home");
                         $class = "class='cs-breadcrumbs-home'";
-                        $icon = "<i class='icon-home'></i> ";
+                        $icon  = "<i class='icon-home'></i> ";
                         break;
                   case 'cat':
                   case 'categories':
@@ -256,9 +256,9 @@ class cs_breadcrumbs_widget {
             }
             return strtr($li_template, array(
                 '^class' => $class,
-                '^url' => $url,
-                '^icon' => $icon,
-                '^text' => $text,
+                '^url'   => $url,
+                '^icon'  => $icon,
+                '^text'  => $text,
             ));
       }
 
@@ -271,7 +271,6 @@ class cs_breadcrumbs_widget {
 
 }
 
-// qa_db_slugs_to_backpath
 /*
 
 	Omit PHP closing tag to help avoid accidental output
