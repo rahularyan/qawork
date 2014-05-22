@@ -19,7 +19,7 @@ function cs_social_post_event_handler($postid,$userid, $effecteduserid, $params,
     if ($isPosted) {
         return ;
     }
-
+    
     $id = isset($params['qid']) ? $params['qid'] : (isset($params['postid']) ? $params['postid'] : "") ;
     $title = isset($params['qtitle']) ? $params['qtitle'] : (isset($params['title']) ? $params['title'] : "") ;
     $post_to = array('Facebook' , 'Twitter');
@@ -48,7 +48,6 @@ function cs_social_post($post_to , $data )
                    cs_post_to_twitter($data['message']) ;
                    break;
                default:
-                   # code...
                    break;
            }
         }
@@ -59,7 +58,6 @@ function cs_post_to_facebook($data) {
     require_once CS_CONTROL_DIR . '/inc/hybridauth/Hybrid/Auth.php';
     require_once CS_CONTROL_DIR . '/addons/social-login/cs-social-login-utils.php';
     require_once CS_CONTROL_DIR . '/addons/social-posting/cs-social-posting-utils.php';
-    cs_log(print_r($data , true ));
     try {
         $loginCallback = qa_path_absolute(qa_opt('site_url'), array());
         // get the config for facebookand creaet a instance
