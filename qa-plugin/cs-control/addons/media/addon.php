@@ -87,7 +87,11 @@ function cs_upload_image($file, $postid = 0){
 
 		foreach($sizes as $k => $s){
 			$image = new Image($uploaddir.$temp_name);
-			$image->resize($s[0], $s[1], 'crop', $crop_x, $crop_y, 90);
+			
+			if($k =='thumb')
+				$image->resize($s[0], $s[1], 'crop', $crop_x, $crop_y, 90);
+			else
+				$image->resize($s[0], $s[1], 'fit', $crop_x, $crop_y, 90);
 			
 			$file_name = $name['name'].'_'.$s[0].'x'. $s[1];
 			$image->save($file_name, $uploaddir);
@@ -347,14 +351,10 @@ class CS_Media_Addon{
 							<p><?php echo qa_lang_html('cs_media/select_a_file_to_edit'); ?></p>
 						  </div>
 						</div>
-
-						
 					</div>				
 				</div>
 			  </div>
-			  <div class="modal-footer">
-				<button type="button" class="btn btn-success insert-media-to-editor">Insert</button>
-			  </div>
+			  
 			</div>
 		  </div>
 		</div>
@@ -367,7 +367,7 @@ class CS_Media_Addon{
 		if (qa_get_logged_in_level() >= QA_USER_LEVEL_ADMIN){
 		$id = (int)qa_post_text('args');
 		$media = cs_get_media_by_id($id);
-		$media = cs_get_media_by_id($id);
+
 		ob_start();
 		?>
 			<form class="media-item-form" method="POST">
@@ -382,13 +382,15 @@ class CS_Media_Addon{
 				
 				?>
 				
-				<input class="form-control" type="text" value="<?php echo cs_upload_url().$media['name'].'.'.$media['type']; ?>"  disabled>
+				<input class="form-control" type="text" value="<?php echo cs_upload_url().'/'.$media['name'].'.'.$media['type']; ?>" name="url">
 				
 				<input class="form-control" type="text" name="title" placeholder="<?php echo qa_lang_html('cs_media/title'); ?>" value="<?php echo isset($media['title']) ? $media['title'] : ''; ?>">
 				<textarea class="form-control" name="description" placeholder="<?php echo qa_lang_html('cs_media/description'); ?>"><?php echo isset($media['description']) ? $media['description'] : ''; ?></textarea>
 
 				<input type="submit" class="btn btn-success" name="do" value="save">
 				<input type="submit" class="btn" name="do" value="delete">
+				<input type="submit" class="btn insert-media-to-editor pull-right" value="insert" data-dismiss="modal">
+				<input type="hidden" name="type" value="<?php echo $media['type']; ?>">
 				<input type="hidden" name="action" value="edit_media_item">
 				<input type="hidden" name="id" value="<?php echo $id; ?>">
 				<input type="hidden" name="code" value="<?php echo qa_get_form_security_code('media_edit_'.$id ); ?>">
@@ -447,8 +449,7 @@ class CS_Media_Addon{
 	public function image_size($sizes){
 		return array(
 			'thumb' => array('80', '80'),
-			'small' => array('200', '150'),
-			'large' => array('400', '300'),
+			'large' => array('686', '400'),
 		);
 	}
 	
