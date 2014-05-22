@@ -20,6 +20,7 @@ return array(
 	"no_upvoted_ans" => "No Upvoted Answer" ,
 	"questions"      => "Questions" ,
 	"unanswered"     => "Unanswered" ,
+	"categories"     => "Categories" ,
 	"tags"           => "Tags" ,
 	"tag"            => "Tag" ,
 	"users"          => "Users" ,

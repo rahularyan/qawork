@@ -138,7 +138,7 @@ class cs_breadcrumbs_widget {
                         if (!$type) {
                         	return ; //if there is not a single part -- go back from here 
                         }
-                        $translate_this_arr = array("questions","unanswered","tags","tag" ,"users","user" );
+                        $translate_this_arr = array("questions","unanswered","tags","tag" ,"users","user", "categories");
                         foreach ($navs as $nav) {
                               
 					$link .= (!!$link) ? "/" . $nav : $nav;
