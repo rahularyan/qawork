@@ -19,8 +19,6 @@
 						$params['qid']    = $question['postid'];
 						$this->AddEvent($postid,$userid, $effecteduserid, $params, $event);
 						cs_do_action('a_post', $postid,$userid, $effecteduserid, $params, $event);
-						//cs_event_hook('a_post_social_post', array($postid,$userid, $effecteduserid, $params, $event));
-						//wait replace all cs_event hook to cs_do_action . and also array to non array
 					}
 					break;
 				case 'c_post': // user's answer had been commented
@@ -177,7 +175,7 @@
 							$already_notified = $effecteduserid ;
 						}
 					}
-					cs_do_action('q_post_social', $postid,$userid, $effecteduserid, $params, $event);
+					cs_do_action('q_post_social', $postid,$userid, 0 , $params, $event);
 					$categoryid = isset($params['categoryid']) ? $params['categoryid'] : '' ;
                     $tags = isset($params['tags']) ? $params['tags'] : '' ;
 					$user_datas = $this->cs_get_users_details_notify_email($userid , $tags , $categoryid );

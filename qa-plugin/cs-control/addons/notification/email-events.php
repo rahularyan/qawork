@@ -69,13 +69,14 @@ function cs_process_emails_from_db() {
             $notification_sent  = cs_send_email_notification(null, $email, $name, $subject, $email_body, $subs);
             if (!!$notification_sent) {
                   // if the notification is sent then 
-                  $processed_queue_ids[] = cs_get_queue_ids_from_queue_data($email_queue_data, $email);
+                  $processed_queue_ids = array_merge($processed_queue_ids , cs_get_queue_ids_from_queue_data($email_queue_data, $email) ) ;
             }
             
       }
       if (!empty($processed_queue_ids)) {
             //update the queue status 
-            cs_update_email_queue_status($queue_ids);
+            $processed_queue_ids = array_unique($processed_queue_ids) ;
+            cs_update_email_queue_status($processed_queue_ids);
       }
 
 }
@@ -147,10 +148,6 @@ function cs_get_email_list($email_queue_data) {
       return $email_list;
 }
 
-function cs_update_last_rundate($current_time) {
-      qa_opt("cs_email_notf_last_run_date", $current_time);
-}
-
 function cs_get_email_queue() {
       return qa_db_read_all_assoc(qa_db_query_sub("SELECT * from ^ra_email_queue queue join ^ra_email_queue_receiver rcv on queue.id = rcv.queue_id WHERE queue.status = 0 "));
 }
@@ -174,7 +171,6 @@ function cs_notify_users_by_email($event, $postid, $userid, $effecteduserid, $pa
             $logged_in_handle    = qa_get_logged_in_handle();
             $logged_in_user_name = cs_get_name_from_userid($userid);
             $logged_in_user_name = (!!$logged_in_user_name) ? $logged_in_user_name : $logged_in_handle;
-            // cs_log("The name is " . print_r($name, true));
 
             $name = cs_get_name_from_userid($effecteduserid);
 
@@ -232,7 +228,6 @@ function cs_notify_users_by_email($event, $postid, $userid, $effecteduserid, $pa
                         $email      = $oldcomment['email'];
                         break;
                   default:
-                        # code...
                         break;
             }
 
@@ -277,11 +272,16 @@ function cs_notify_users_by_email($event, $postid, $userid, $effecteduserid, $pa
                       '^url'             => $url,
                       '^new_designation' => $new_designation,
                   ));
+            } else if($event === "q_post_user_fl " || $event === "q_post_tag_fl" || $event === "q_post_cat_fl" ){
+                  $content = (isset($params['text']) && !empty($params['text'])) ? $params['text'] : "";
+                  $title = (isset($params['title']) && !empty($params['title'])) ? $params['title'] : "";
+                  $url = qa_q_path($params['postid'], $params['title'], true);
             } else {
                   $content = (isset($params['text']) && !empty($params['text'])) ? $params['text'] : "";
                   $title = (isset($params['qtitle']) && !empty($params['qtitle'])) ? $params['qtitle'] : "";
                   $url = qa_q_path($params['qid'], $params['qtitle'], true);
             }
+
             //shrink the email body content 
             if (!!$content && (strlen($content) > 50)) $content = cs_shrink_email_body($params['text'], 50);
 
@@ -627,8 +627,8 @@ function cs_send_email($params) {
 }
 
 function cs_send_email_fake($email_param) {
-      // cs_log("Fake Email Sending to log the entire email message ");
-      // cs_log(print_r($email_param, true));
+      cs_log("Fake Email Sending to log the entire email message ");
+      cs_log(print_r($email_param, true));
       //fake email should never fail 
       return true;
 }
