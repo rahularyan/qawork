@@ -33,7 +33,7 @@ function cs_get_user_social_post_status_for_event($preferences , $event )
     $post_to = array() ; 
 
     switch ($event) {
-        case 'q_post_social':
+        case 'q_post':
             if (isset($preferences['cs_facebook_q_post']) && !!$preferences['cs_facebook_q_post']) {
               $post_to[] = "Facebook" ;
             }
