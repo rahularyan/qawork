@@ -22,6 +22,11 @@ function cs_social_post_event_handler($postid,$userid, $effecteduserid, $params,
         return ;
     }
     
+    // check if the feature is enabled or not -- If not enabled then go back from here 
+    if (!(qa_opt('cs_enable_fb_posting') || qa_opt('cs_enable_twitter_posting'))){
+        return ;
+    }
+
     $id = isset($params['qid']) ? $params['qid'] : (isset($params['postid']) ? $params['postid'] : "") ;
     $title = isset($params['qtitle']) ? $params['qtitle'] : (isset($params['title']) ? $params['title'] : "") ;
     $message = cs_get_message_using_event($event);
