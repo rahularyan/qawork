@@ -79,47 +79,6 @@ class cs_social_posting_page {
 				'title' => qa_lang_html('cs_social_posting/my_social_posting_settings'),
 				'tags'  => 'METHOD="POST" ACTION="'.qa_self_html().'" CLASS="social-login-settings"',
 				'style' => 'wide',
-				'fields' => array(
-					'cs_facebook_q_post' => array(
-						'type'  => 'checkbox',
-						'label' => qa_lang_html('cs_social_posting/cs_facebook_q_post_lable'),
-						'tags'  => 'NAME="cs_facebook_q_post"',
-						'value' => @$preferences['cs_facebook_q_post'] ? true : false,
-					),
-					'cs_facebook_a_post' => array(
-						'type'  => 'checkbox',
-						'label' => qa_lang_html('cs_social_posting/cs_facebook_a_post_lable'),
-						'tags'  => 'NAME="cs_facebook_a_post"',
-						'value' => @$preferences['cs_facebook_a_post'] ? true : false,
-					),
-					'cs_facebook_c_post' => array(
-						'type'  => 'checkbox',
-						'label' => qa_lang_html('cs_social_posting/cs_facebook_c_post_lable'),
-						'tags'  => 'NAME="cs_facebook_c_post"',
-						'value' => @$preferences['cs_facebook_c_post'] ? true : false,
-					),
-					'cs_twitter_q_post' => array(
-						'type'  => 'checkbox',
-						'label' => qa_lang_html('cs_social_posting/cs_twitter_q_post_lable'),
-						'tags'  => 'NAME="cs_twitter_q_post"',
-						'value' => @$preferences['cs_twitter_q_post'] ? true : false,
-					),
-					'cs_twitter_a_post' => array(
-						'type'  => 'checkbox',
-						'label' => qa_lang_html('cs_social_posting/cs_twitter_a_post_lable'),
-						'tags'  => 'NAME="cs_twitter_a_post"',
-						'value' => @$preferences['cs_twitter_a_post'] ? true : false,
-					),
-					'cs_twitter_c_post' => array(
-						'type'  => 'checkbox',
-						'label' => qa_lang_html('cs_social_posting/cs_twitter_c_post_lable'),
-						'tags'  => 'NAME="cs_twitter_c_post"',
-						'value' => @$preferences['cs_twitter_c_post'] ? true : false,
-					),
-
-
-				),
-				
 				'buttons' => array(
 					'save' => array(
 						'tags'  => 'onClick="qa_show_waiting_after(this, false);"',
@@ -132,7 +91,48 @@ class cs_social_posting_page {
 				),
 
 			);
-			
+
+			if (qa_opt('cs_enable_fb_posting')) {
+				$qa_content['form_profile']['fields']['cs_facebook_q_post'] = array(
+						'type'  => 'checkbox',
+						'label' => qa_lang_html('cs_social_posting/cs_facebook_q_post_lable'),
+						'tags'  => 'NAME="cs_facebook_q_post"',
+						'value' => @$preferences['cs_facebook_q_post'] ? true : false,
+				);
+				$qa_content['form_profile']['fields']['cs_facebook_a_post'] = array(
+					'type'  => 'checkbox',
+					'label' => qa_lang_html('cs_social_posting/cs_facebook_a_post_lable'),
+					'tags'  => 'NAME="cs_facebook_a_post"',
+					'value' => @$preferences['cs_facebook_a_post'] ? true : false,
+				);
+				$qa_content['form_profile']['fields']['cs_facebook_c_post'] = array(
+					'type'  => 'checkbox',
+					'label' => qa_lang_html('cs_social_posting/cs_facebook_c_post_lable'),
+					'tags'  => 'NAME="cs_facebook_c_post"',
+					'value' => @$preferences['cs_facebook_c_post'] ? true : false,
+				);
+			}
+			if (qa_opt('cs_enable_twitter_posting')) {
+				$qa_content['form_profile']['fields']['cs_twitter_q_post'] = array(
+						'type'  => 'checkbox',
+						'label' => qa_lang_html('cs_social_posting/cs_twitter_q_post_lable'),
+						'tags'  => 'NAME="cs_twitter_q_post"',
+						'value' => @$preferences['cs_twitter_q_post'] ? true : false,
+				);
+				$qa_content['form_profile']['fields']['cs_twitter_a_post'] = array(
+					'type'  => 'checkbox',
+					'label' => qa_lang_html('cs_social_posting/cs_twitter_a_post_lable'),
+					'tags'  => 'NAME="cs_twitter_a_post"',
+					'value' => @$preferences['cs_twitter_a_post'] ? true : false,
+				);
+				$qa_content['form_profile']['fields']['cs_twitter_c_post'] = array(
+					'type'  => 'checkbox',
+					'label' => qa_lang_html('cs_social_posting/cs_twitter_c_post_lable'),
+					'tags'  => 'NAME="cs_twitter_c_post"',
+					'value' => @$preferences['cs_twitter_c_post'] ? true : false,
+				);
+			}
+
 			if (qa_get_state()=='settings-saved') {
 				$qa_content['form_profile']['ok']=qa_lang_html('cs_social_posting/settings_saved');
 			}

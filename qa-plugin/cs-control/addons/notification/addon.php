@@ -58,7 +58,7 @@ function cs_get_total_messages($uid){
 
 class Cs_Notification_Addon{
 	function __construct(){
-		//cs_add_filter('init_queries', array($this, 'init_queries'));
+		cs_add_filter('init_queries', array($this, 'init_queries'));
 		cs_event_hook('enqueue_css', NULL, array($this, 'css'));
 		cs_event_hook('enqueue_scripts', NULL, array($this, 'scripts'));
 		cs_event_hook('cs_ajax_activitylist', NULL, array($this, 'activitylist'));
@@ -71,8 +71,8 @@ class Cs_Notification_Addon{
         cs_event_hook('register_language', NULL, array($this, 'language'));
 		
 		// added hooks for options and option tabs 
-		cs_event_hook('cs_theme_option_tab1', NULL, array($this, 'option_tab'));
-        cs_event_hook('cs_theme_option_tab_content1', NULL, array($this, 'option_tab_content'));
+		cs_add_action('cs_theme_option_tab', array($this, 'option_tab'));
+        cs_add_action('cs_theme_option_tab_content', array($this, 'option_tab_content'));
 	}
 	
 	public function init_queries($queries, $tableslc){
@@ -744,7 +744,7 @@ class Cs_Notification_Addon{
 		return $lang_arr;
 	}
 	// adding options and option tab 
-	function option_tab(){
+	public function option_tab(){
 		$saved = false;
 			
             if (qa_clicked('cs_save_button')) {
@@ -760,19 +760,14 @@ class Cs_Notification_Addon{
                         $error = (isset($response) && is_array($response) && !empty($response)) ? true : false;
                   }
 
-                  /*if (isset($response) && isset($error) && !!$error) {
-                        $err_enter_point_value = $this->qa_get($response, 'enter_point_value');
-                        $err_no_options_selected = $this->qa_get($response, 'no_options_selected');
-                  }*/
-
                   $saved = true;
             }
 
-		return '<li>
-				<a href="#" data-toggle=".qa-part-form-tc-notify">Notifications</a>
+		echo '<li>
+				<a href="#" data-toggle=".qa-part-form-tc-notify">Notification Settings</a>
 			</li>';
 	  }
-	 function option_tab_content(){
+	 public function option_tab_content(){
 		$all_options = array(
 				'cs_enable_email_notfn' ,
 				'cs_notify_tag_followers' ,
@@ -805,7 +800,7 @@ class Cs_Notification_Addon{
 								</tr>' ;
 				$output .= '</tbody>' ;
 			$output .= '</table></div>';
-			return $output;
+			echo $output;
 	  }
 
 }

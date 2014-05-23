@@ -57,7 +57,7 @@ class Cs_Social_Posting_Addon {
             }
           
           echo '<li>
-              <a href="#" data-toggle=".qa-part-form-social-posting">Social Post</a>
+              <a href="#" data-toggle=".qa-part-form-social-posting">Social Posting</a>
             </li>';
     }
     function option_tab_content(){

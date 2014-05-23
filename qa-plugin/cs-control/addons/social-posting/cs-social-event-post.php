@@ -15,9 +15,6 @@ $isPosted = false ;
 
 function cs_social_post_event_handler($postid,$userid, $effecteduserid, $params, $event)
 {
-      cs_log("cs_social_post_event_handler called for " . $event );
-      cs_log(print_r($params , true ));
-
     require_once CS_CONTROL_DIR . '/addons/social-posting/cs-social-posting-utils.php';
     global $isPosted ;
 
@@ -27,7 +24,6 @@ function cs_social_post_event_handler($postid,$userid, $effecteduserid, $params,
     
     // check if the feature is enabled or not -- If not enabled then go back from here 
     if (!(qa_opt('cs_enable_fb_posting') || qa_opt('cs_enable_twitter_posting'))){
-        cs_log("Returning from here ");
         return ;
     }
 
@@ -39,8 +35,6 @@ function cs_social_post_event_handler($postid,$userid, $effecteduserid, $params,
     $preferences = cs_get_social_posting_settings($all_keys , $userid);
 
     $post_to = cs_get_user_social_post_status_for_event( $preferences , $event );
-    cs_log(print_r($post_to , true ));
-    // $post_to = array('Facebook' , 'Twitter');
     $data = array(
             'link' => qa_q_path( $id , $title, true),
             'name' => qa_opt('site_title'),
@@ -57,7 +51,6 @@ function cs_social_post($post_to , $data )
     if (!is_array($post_to) || empty($post_to)) {
         return false;
     }
-    cs_log(print_r($data , true )) ;
     return ; 
     if (is_array($post_to)) {
         foreach ($post_to as $provider) {

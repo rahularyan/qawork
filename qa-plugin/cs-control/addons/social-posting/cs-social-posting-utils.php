@@ -34,27 +34,27 @@ function cs_get_user_social_post_status_for_event($preferences , $event )
 
     switch ($event) {
         case 'q_post':
-            if (isset($preferences['cs_facebook_q_post']) && !!$preferences['cs_facebook_q_post']) {
-              $post_to[] = "Facebook" ;
+            if (isset($preferences['cs_facebook_q_post']) && !!$preferences['cs_facebook_q_post'] && !!qa_opt('cs_enable_fb_posting') ) {
+               $post_to[] = "Facebook" ;
             }
-            if (isset($preferences['cs_twitter_q_post']) && !!$preferences['cs_twitter_q_post']) {
-              $post_to[] = "Twitter" ;
+            if (isset($preferences['cs_twitter_q_post']) && !!$preferences['cs_twitter_q_post'] && !!qa_opt('cs_enable_twitter_posting') ) {
+               $post_to[] = "Twitter" ;
             }
             break;
         case 'a_post':
-            if (isset($preferences['cs_facebook_a_post']) && !!$preferences['cs_facebook_a_post']) {
-              $post_to[] = "Facebook" ;
+            if (isset($preferences['cs_facebook_a_post']) && !!$preferences['cs_facebook_a_post'] && !!qa_opt('cs_enable_fb_posting') ) {
+               $post_to[] = "Facebook" ;
             }
-            if (isset($preferences['cs_twitter_a_post']) && !!$preferences['cs_twitter_a_post']) {
-              $post_to[] = "Twitter" ;
+            if (isset($preferences['cs_twitter_a_post']) && !!$preferences['cs_twitter_a_post'] && !!qa_opt('cs_enable_twitter_posting') ) {
+               $post_to[] = "Twitter" ;
             }
             break;
         case 'c_post':
-            if (isset($preferences['cs_facebook_c_post']) && !!$preferences['cs_facebook_c_post']) {
-              $post_to[] = "Facebook" ;
+            if (isset($preferences['cs_facebook_c_post']) && !!$preferences['cs_facebook_c_post'] && !!qa_opt('cs_enable_fb_posting') ) {
+               $post_to[] = "Facebook" ;
             }
-            if (isset($preferences['cs_twitter_c_post']) && !!$preferences['cs_twitter_c_post']) {
-              $post_to[] = "Twitter" ;
+            if (isset($preferences['cs_twitter_c_post']) && !!$preferences['cs_twitter_c_post'] && !!qa_opt('cs_enable_twitter_posting') ) {
+               $post_to[] = "Twitter" ;
             }
             break;
         default:

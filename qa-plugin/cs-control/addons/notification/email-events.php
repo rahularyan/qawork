@@ -627,8 +627,8 @@ function cs_send_email($params) {
 }
 
 function cs_send_email_fake($email_param) {
-      cs_log("Fake Email Sending to log the entire email message ");
-      cs_log(print_r($email_param, true));
+      // cs_log("Fake Email Sending to log the entire email message ");
+      // cs_log(print_r($email_param, true));
       //fake email should never fail 
       return true;
 }
