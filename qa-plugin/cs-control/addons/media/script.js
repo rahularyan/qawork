@@ -1276,7 +1276,8 @@ function log() {
 
 }));
 
-function cs_load_media_item_to_edit(id, modal){
+function cs_load_media_item_to_edit(ui, modal){
+	var id = ui.data('id');
 	$.ajax({
 		url:ajax_url,
 		type:'POST',
@@ -1301,7 +1302,7 @@ function cs_load_media_item_to_edit(id, modal){
 					
 				},
 				success: function(data) {
-					
+					ui.removeClass('ui-selected');
 					if(data[0] == 'save'){
 						$(modal+' .modal-body').prepend(data[1]);
 					}else{
@@ -1345,7 +1346,7 @@ $(document).ready(function() {
 					$('#media-modal-'+postid).modal('show');
 					$( '#media-modal-'+postid+' .editable-media' ).selectable({
 						selected: function( event, ui ) {
-							cs_load_media_item_to_edit($(ui.selected).data('id'), '#media-modal-'+postid);
+							cs_load_media_item_to_edit($(ui.selected), '#media-modal-'+postid);
 						}
 					});
 				},
@@ -1427,13 +1428,28 @@ $(document).ready(function() {
 	});
 	
 	$('body').delegate('.insert-media-to-editor', 'click', function(){
-
+		var form = $(this).closest('form');
+		
+		var selected_media = { };
+		$.each(form.serializeArray(), function() {
+			selected_media[this.name] = this.value;
+		});
+		
 		for ( var i in CKEDITOR.instances ){
 		   var currentInstance = i;
 		   break;
 		}
+		
+		var title = selected_media['title'] ? '<strong>'+selected_media['title']+'</strong>' : '';
+		var description = selected_media['title'] ? '<em>'+selected_media['description']+'</em>' : '';
+		
 		var oEditor   = CKEDITOR.instances[currentInstance];
-		var element = CKEDITOR.dom.element.createFromHtml( '<p class="content-media"><img src="'+selected_media['url']+'" /><strong>'+selected_media['title']+'</strong><em>'+selected_media['description']+'</em></p>' );
+		
+		if(selected_media['type'] == 'jpeg' || selected_media['type'] == 'jpg' || selected_media['type'] == 'png' || selected_media['type'] == 'gif')
+			var element = CKEDITOR.dom.element.createFromHtml( '<p class="content-media"><img src="'+selected_media['url']+'" />'+title+description+'</p>' );
+		else
+			var element = CKEDITOR.dom.element.createFromHtml( '<p class="content-media download"><a href="'+selected_media['url']+'" class="btn icon-'+selected_media['type']+'">Download</a>'+title+description+'</p>' );
+			
 		oEditor.insertElement( element );
 	});
 	

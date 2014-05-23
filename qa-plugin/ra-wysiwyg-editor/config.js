@@ -5,9 +5,9 @@
 
 CKEDITOR.editorConfig = function( config ) {
 	
-	config.removePlugins = 'elementspath, specialchar, spellchecker, tabletools, contextmenu, pastetext, pastefromword';
+	config.removePlugins = 'specialchar, spellchecker, tabletools, contextmenu, pastetext, pastefromword';
 	config.disableNativeSpellChecker = false;
-	
+	config.extraPlugins = 'oEmbed';
 	// Define changes to default configuration here.
 	// For complete reference see:
 	// http://docs.ckeditor.com/#!/api/CKEDITOR.config
@@ -17,11 +17,12 @@ CKEDITOR.editorConfig = function( config ) {
 		{ name: 'basicstyles', items: [ 'Bold', 'Italic', 'Underline', 'Strike', 'RemoveFormat' ] },	
 		{ name: 'paragraph', items: [ 'NumberedList', 'BulletedList', '-', 'Outdent', 'Indent' ] },
 		{ name: 'links', items: [ 'Link', 'Unlink'] },
-		{ name: 'document', items: [ 'Source', 'CodeSnippet' ] }
+		{ name: 'document', items: [ 'Source', 'CodeSnippet', 'oEmbed' ] }
 		
 	];
 	
-	config.extraAllowedContent= 'img[!src,alt,width,height]';
+	config.extraAllowedContent= 'img[!src,alt,width,height]; p(*); a(*)';
+	config.protectedSource.push('/<([\S]+)[^>]*class="preserve"[^>]*>.*<\/\1>/g' );
 
 	// Remove some buttons provided by the standard plugins, which are
 	// not needed in the Standard(s) toolbar.
