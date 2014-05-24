@@ -51,7 +51,6 @@ function cs_social_post($post_to , $data )
     if (!is_array($post_to) || empty($post_to)) {
         return false;
     }
-    return ; 
     if (is_array($post_to)) {
         foreach ($post_to as $provider) {
            switch ($provider) {

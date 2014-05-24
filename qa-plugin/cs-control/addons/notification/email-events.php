@@ -271,15 +271,15 @@ function cs_notify_users_by_email($event, $postid, $userid, $effecteduserid, $pa
                       '^done_by'         => isset($logged_in_user_name) ? $logged_in_user_name : isset($logged_in_handle) ? $logged_in_handle : qa_lang('main/anonymous'),
                       '^url'             => $url,
                       '^new_designation' => $new_designation,
-                  ));
-            } else if($event === "q_post_user_fl " || $event === "q_post_tag_fl" || $event === "q_post_cat_fl" ){
+                  )); 
+            } else if($event === "q_post_user_fl" || $event === "q_post_tag_fl" || $event === "q_post_cat_fl" ){
                   $content = (isset($params['text']) && !empty($params['text'])) ? $params['text'] : "";
                   $title = (isset($params['title']) && !empty($params['title'])) ? $params['title'] : "";
-                  $url = qa_q_path($params['postid'], $params['title'], true);
+                  $url = qa_q_path($params['postid'], $title , true);
             } else {
                   $content = (isset($params['text']) && !empty($params['text'])) ? $params['text'] : "";
                   $title = (isset($params['qtitle']) && !empty($params['qtitle'])) ? $params['qtitle'] : "";
-                  $url = qa_q_path($params['qid'], $params['qtitle'], true);
+                  $url = qa_q_path($params['qid'], $title , true);
             }
 
             //shrink the email body content 
