@@ -17,20 +17,13 @@ qa_register_plugin_module('widget', 'addons/breadcrumbs/widget.php', 'cs_breadcr
 
 class Cs_Breadcrumb_Addon{
 	function __construct(){
-		cs_event_hook('language', NULL, array($this, 'language'));
+		cs_event_hook('register_language', NULL, array($this, 'language'));
 		cs_event_hook('enqueue_css', NULL, array($this, 'css'));
 		//cs_event_hook('enqueue_script', NULL, array($this, 'script'));
 	}
 		
 	public function language($lang_arr){
-		$site_lang = qa_opt('site_language');
-		$lang_file = CS_CONTROL_DIR. '/addons/breadcrumbs/language-'.qa_opt('site_language').'.php';
-		
-		if(!empty($site_lang) && file_exists($lang_file))
-			$lang_arr = require_once ($lang_file);
-		else
-			$lang_arr = require_once (CS_CONTROL_DIR. '/addons/breadcrumbs/language.php');
-
+		$lang_arr['cs_breadcrumbs'] = CS_CONTROL_DIR .'/addons/breadcrumbs/language.php';
 		return $lang_arr;
 	}
 

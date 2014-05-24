@@ -12,12 +12,12 @@ class cs_breadcrumbs_widget {
 						'tags'  => 'name="cs_breadcrumb_show_home"',
 						'value' => '1',
 						'options' => array(
-							'1'  => qa_lang_html('cleanstrap/yes'),
-							'0'  => qa_lang_html('cleanstrap/no'),
-						)
+							'1'  => qa_lang('cs_breadcrumbs/opt_yes'),
+							'0'  => qa_lang('cs_breadcrumbs/opt_no'),
+						),
                     ),
                     'cs_breadcrumb_trunc_len' => array(
-						'label' => 'Truncate title in breadcrumb if No category exists',
+						'label' => qa_lang('cs_breadcrumbs/opt_truncate'),
 						'type'  => 'text',
 						'tags'  => 'name="cs_breadcrumb_trunc_len"',
 						'value' => '0',
@@ -87,7 +87,7 @@ class cs_breadcrumbs_widget {
 				$br .=$this->breadcrumb_part(array(
 						  'type' => 'not-found',
 						  'url' => '/',
-						  'text' => qa_lang_html('cleanstrap/not_found'),
+						  'text' => qa_lang('cs_breadcrumbs/not_found'),
 					  ));
             elseif (!!$question_page) {     //if it is a question page 
                   // category is the first priority 
@@ -115,7 +115,7 @@ class cs_breadcrumbs_widget {
                               $br .=$this->breadcrumb_part(array(
                                   'type' => 'questions',
                                   'url' => qa_opt('site_url')."questions",
-                                  'text' => "questions",
+                                  'text' => qa_lang('cs_breadcrumbs/questions'),
                               ));
                   }
 
@@ -128,7 +128,7 @@ class cs_breadcrumbs_widget {
                   }
                   $br .=$this->breadcrumb_part(array(
                       'type' => 'questions',
-                      'url' => qa_q_path($q_id, $q_title, true) ,
+                      'url' =>  qa_q_path($q_id, $q_title, true) ,
                       'text' => cs_truncate($q_title, $trunc_len ),
                   ));
             } else {  //means non questions page 
@@ -138,6 +138,7 @@ class cs_breadcrumbs_widget {
                         if (!$type) {
                         	return ; //if there is not a single part -- go back from here 
                         }
+                        $translate_this_arr = array("questions","unanswered","tags","tag" ,"users","user", "categories");
                         foreach ($navs as $nav) {
                               
 					$link .= (!!$link) ? "/" . $nav : $nav;
@@ -145,10 +146,11 @@ class cs_breadcrumbs_widget {
                               $prev_link =  $link ;
                               $link = ($link === "user") ? "users" : $link ;
                               $link = ($link === "tag")  ? "tags"  : $link ;
+                              $text = (in_array($nav, $translate_this_arr)) ? qa_lang("cs_breadcrumbs/".$nav) : ucwords($nav) ;
 					$br   .= $this->breadcrumb_part(array(
 						'type' => $type,
 						'url'  => qa_path($link),
-						'text' => $nav,
+						'text' => $text,
                               ));
                               // reset the link for next iteration 
                               $link = $prev_link ;
@@ -161,19 +163,19 @@ class cs_breadcrumbs_widget {
                                           $br .= $this->breadcrumb_part(array(
 												'type' => 'no-ans',
 												'url'  => qa_path($link),
-												'text' => "No Answer",
+												'text' => qa_lang('cs_breadcrumbs/no_ans'),
                                           ));
                                     } else if ($by === 'selected') {
                                           $br .= $this->breadcrumb_part(array(
 												'type' => 'no-selected',
 												'url'  => qa_path($link) . '?by=selected',
-												'text' => "No Selected Answer",
+												'text' => qa_lang('cs_breadcrumbs/no_selected_ans'),
                                           ));
                                     } else if ($by === 'upvotes') {
                                           $br .= $this->breadcrumb_part(array(
 												'type' => 'no-upvots',
 												'url'  => qa_path($link) . '?by=upvotes',
-												'text' => "No Upvoted Answer",
+												'text' => qa_lang('cs_breadcrumbs/no_upvoted_ans'),
                                           ));
                                     }
 
@@ -184,31 +186,31 @@ class cs_breadcrumbs_widget {
                                           $br .= $this->breadcrumb_part(array(
 												'type' => 'q-sort-recent',
 												'url'  => qa_path($link),
-												'text' => "Recent Questions",
+												'text' => qa_lang('cs_breadcrumbs/recent_que'),
                                           ));
                                     } else if ($sort === 'hot') {
                                           $br .= $this->breadcrumb_part(array(
 												'type' => 'q-sort-hot',
 												'url'  => qa_path($link) . '?sort=hot',
-												'text' => "Hot",
+												'text' => qa_lang('cs_breadcrumbs/hot'),
                                           ));
                                     } else if ($sort === 'votes') {
                                           $br .= $this->breadcrumb_part(array(
 												'type' => 'q-sort-votes',
 												'url'  => qa_path($link) . '?sort=votes',
-												'text' => "Most Votes",
+												'text' => qa_lang('cs_breadcrumbs/most_votes'),
                                           ));
                                     } else if ($sort === 'answers') {
                                           $br .= $this->breadcrumb_part(array(
 												'type' => 'q-sort-answers',
 												'url'  => qa_path($link) . '?sort=answers',
-												'text' => "Most Answers",
+												'text' => qa_lang('cs_breadcrumbs/most_answers'),
                                           ));
                                     } else if ($sort === 'views') {
                                           $br .= $this->breadcrumb_part(array(
 												'type' => 'no-sort-views',
 												'url'  => qa_path($link) . '?sort=views',
-												'text' => "Most Views",
+												'text' => qa_lang('cs_breadcrumbs/most_views'),
                                           ));
                                     }
                                     break;
@@ -234,10 +236,10 @@ class cs_breadcrumbs_widget {
             // $text = qa_lang("breadcrumbs/$text");
             switch ($type) {
                   case 'home':
-                        $url = qa_opt('site_url');
-                        $text = "Home";
+                        $url   = qa_opt('site_url');
+                        $text  = qa_lang("cs_breadcrumbs/home");
                         $class = "class='cs-breadcrumbs-home'";
-                        $icon = "<i class='icon-home'></i> ";
+                        $icon  = "<i class='icon-home'></i> ";
                         break;
                   case 'cat':
                   case 'categories':
@@ -254,9 +256,9 @@ class cs_breadcrumbs_widget {
             }
             return strtr($li_template, array(
                 '^class' => $class,
-                '^url' => $url,
-                '^icon' => $icon,
-                '^text' => $text,
+                '^url'   => $url,
+                '^icon'  => $icon,
+                '^text'  => $text,
             ));
       }
 
@@ -269,7 +271,6 @@ class cs_breadcrumbs_widget {
 
 }
 
-// qa_db_slugs_to_backpath
 /*
 
 	Omit PHP closing tag to help avoid accidental output

@@ -120,13 +120,13 @@ class Cs_Social_Login_Addon {
 
 		}
 		echo '<li>
-				<a href="#" data-toggle=".qa-part-form-tc-hybrid">Hybrid Auth</a>
+				<a href="#" data-toggle=".qa-part-form-tc-hybrid">Social Login</a>
 			</li>';
 	  }
 	  function option_tab_content(){
 		$allProviders = scandir( CS_CONTROL_DIR . '/inc/hybridauth/Hybrid/Providers'  );
 		$output = '<div class="qa-part-form-tc-hybrid">
-			<h3>Social login and postings</h3>
+			<h3>Social login</h3>
 			<table class="qa-form-tall-table options-table">';
 		
 			foreach($allProviders as $providerFile) {
