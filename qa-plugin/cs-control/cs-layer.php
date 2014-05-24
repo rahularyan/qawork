@@ -369,7 +369,7 @@ class qa_html_theme_layer extends qa_html_theme_base {
 				$this->output('</div></div>');
 			}
 			
-			$this->output('<div class="container"><div class="lr-table row">');
+			$this->output('<div class="container"><div class="'.($this->template == 'admin' ? 'lr-table' : 'row').'">');
 			
 			if ($this->template == 'admin'){
 				$this->output('<div class="left-side">');
@@ -377,7 +377,11 @@ class qa_html_theme_layer extends qa_html_theme_base {
 				$this->output('</div>');
 			}
 			
-			$this->output('<div class="left-content '. ($this->cs_position_active('Right') ? 'col-md-8' : '').'">');
+			if ($this->template == 'admin')
+				$this->output('<div class="left-content">');
+			else
+				$this->output('<div class="left-content '. ($this->cs_position_active('Right') ? 'col-md-8' : 'col-md-12').'">');
+				
 			$this->cs_page_title();
 
 			if ($this->template != 'question')
@@ -896,39 +900,96 @@ class qa_html_theme_layer extends qa_html_theme_base {
 
 		$this->content['active_user'] = cs_user_data($handle);
 		$this->content['active_user_profile'] = cs_user_profile($handle);
-		
-		$this->output('<div class="user-block">');
+
 		$this->profile_page_head($handle);
 		$this->output('<div class="user-right">');
-		$this->user_cover();
+	
 		$this->cs_user_nav($handle);
 		$this->profile_page($content);
-		$this->output('</div></div>');		
+		$this->output('</div>');		
 			
 	}
+	function profile_user_card($handle){
+		if (cs_hook_exist(__FUNCTION__)) {$args=func_get_args(); return cs_do_action(__FUNCTION__, $args); }
+		
+		$user = $this->content['active_user'];
+		$profile = $this->content['active_user_profile'];	
+
+		$this->output('<div class="user-card">');
+			/* start user info */
+			$this->output(
+				'<div class="user-info">',
+				'<div class="user-thumb">' . cs_get_avatar($handle, 100) . '</div>',
+				'<div class="user-name">',
+					'<span>'.$handle.'</span>',
+					'<small class="block">' . qa_user_level_string($user['account']['level']) . '</small>',
+					'<p class="user-rank">'. $handle .' ' . qa_lang_sub('cleanstrap/ranked_x_among_all_user', $user['rank'] ) . '</p>',
+					'<p class="about-me">',
+						'<strong>'.qa_lang_sub('cleanstrap/about_x', $handle).'</strong>',
+						'<span>'.$profile['about'].'</span>',
+						'<i>'.qa_lang_html('cleanstrap/more').'</i>',
+					'</p>',
+				'</div>'
+			);
+				$this->favorite();
+			$this->output('</div>');
+			/* end user info */
+			
+			$this->cs_user_activity_count($handle);			
+		$this->output('</div>');
+
+	}
+	function cs_user_activity_count($handle)
+    {
+		if (cs_hook_exist(__FUNCTION__)) {$args=func_get_args(); return cs_do_action(__FUNCTION__, $args); }
+		
+        $user = $this->content['active_user'];
+
+        $this->output(
+			'<ul class="user-activity-count clearfix">', 
+				'<li class="points-count counts">', $user['points']['points'], 
+					'<span>' . qa_lang_html('cleanstrap/points') . '</span>', 
+				'</li>', 
+				'<li class="counts">', 
+					$user['points']['aselecteds'],
+					'<span>' . qa_lang_html('cleanstrap/best_answers'). '</span>', 
+				'</li>',
+				'<li class="counts">', 
+					$user['points']['aposts'],
+					'<span>' . qa_lang_html('cleanstrap/answers'). '</span>', 
+				'</li>', 
+				'<li class="counts">', 
+					$user['points']['qposts'], 
+					'<span>' . qa_lang_html('cleanstrap/questions'). '</span>', 
+				'</li>', 
+				'<li class="counts">', 
+					$user['points']['cposts'], 
+					'<span>' .qa_lang_html('cleanstrap/comments'). '</span>', 
+				'</li>', 
+				'<li class="counts">', 
+					'<i>'.cs_count_followers($handle).'</i>',
+					'<span>' .qa_lang_html('cleanstrap/followers'). '</span>', 
+				'</li>', 
+				'<li class="counts">', 
+					'<i>'.cs_count_following($handle).'</i>',
+					'<span>' .qa_lang_html('cleanstrap/following'). '</span>', 
+				'</li>', 
+			'</ul>'
+		);
+    }
 	function profile_page_head($handle){
 		if (cs_hook_exist(__FUNCTION__)) {$args=func_get_args(); return cs_do_action(__FUNCTION__, $args); }
 		
 		$user = $this->content['active_user'];
 		$profile = $this->content['active_user_profile'];
-        $this->output('<div class="user-left"><div class="user-left-inner">');
-		$this->output('<div class="user-thumb">' . cs_get_avatar($handle, 150) . '</div>');
+		
+		$this->profile_user_card($handle);		
+		
+        $this->output('<div class="user-head">');
+		
 		
 		$this->output('<div class="user-details clearfix">');		
-			$this->output('<div class="user-name">');		
-				$this->output('<span>'.$handle.'</span>');
-				$this->output('<small class="block">' . qa_user_level_string($user['account']['level']) . '</small>');
-			$this->output('</div>');
-		
-			$this->favorite();
-		
-		$this->output('<ul>');
-		
-		$this->output(
-			'<li><a href="#">'.qa_lang_sub('cleanstrap/followers_x', cs_count_followers($handle)).'</a></li>',
-			'<li><a href="#">'.qa_lang_sub('cleanstrap/following_x', cs_count_following($handle)).'</a></li>'
-		);
-		$this->output('</ul>');
+
 		
 		$this->output('<p class="about-me">');
 			$this->output('<strong>'.qa_lang_sub('cleanstrap/about_x', $handle).'</strong>');
@@ -938,7 +999,7 @@ class qa_html_theme_layer extends qa_html_theme_base {
 		$this->output('<a class="my-website icon-world" rel="nofollow" href="'.$profile['website'].'">'.$profile['website'].'</a>');
 		
 		$this->output('</div>');
-		$this->output('</div></div>');
+		$this->output('</div>');
 	}
 	function profile_page($content)
     {
@@ -958,15 +1019,11 @@ class qa_html_theme_layer extends qa_html_theme_base {
         }
 		
         /*
-        $this->cs_user_activity_count($handle);
+        
         $this->cs_user_qa($handle); */
         
     }
-    
-	function user_cover(){
-		$this->output('<div class="user-cover">');
-		$this->output('</div>');
-	}
+
 	
     function cs_user_nav($handle)
     {
@@ -1794,38 +1851,7 @@ class qa_html_theme_layer extends qa_html_theme_base {
         if ($partdiv)
             $this->output('</div>');
     }
-    
-    
-
-    
-    function cs_user_activity_count($handle)
-    {
-		if (cs_hook_exist(__FUNCTION__)) {$args=func_get_args(); return cs_do_action(__FUNCTION__, $args); }
-		
-        $user = cs_user_data($handle);
-        $this->output('<div class="user-activity-count clearfix">', '<div class="points">', $user['points'], '<span>' . qa_lang_html('cleanstrap/points') . '</span>', '</div>', '<div class="counts">', '<div class="a-counts">', '<span>' . $user['aposts'] . '</span>', qa_lang_html('cleanstrap/answers'), '</div>', '<div class="q-counts">', '<span>' . $user['qposts'] . '</span>', 'Questions', '</div>', '<div class="c-counts">', '<span>' . $user['cposts'] . '</span>', qa_lang_html('cleanstrap/comments'), '</div>', '</div>', '
-				<div class="bar-chart">	
-					<div class="sparkline" data-type="bar" data-bar-color="#FDAB0C" data-bar-width="20" data-height="28"><!--' . $user['aposts'] . ',' . $user['qposts'] . ',' . $user['cposts'] . '--></div>
-                    <ul class="list-inline text-muted axis"><li>A</li><li>Q</li><li>C</li></ul>
-				</div>
-				', '</div>');
-    }
-    
-    function cs_user_qa($handle)
-    {
-		if (cs_hook_exist(__FUNCTION__)) {$args=func_get_args(); return cs_do_action(__FUNCTION__, $args); }
-        ob_start();
-?>
-			<div class="user-qac-list">
-				<?php
-        $this->cs_position('User Content');
-?>
-			</div>
-			<?php
-        //echo '<pre>'; cs_user_activity($handle); echo '</pre>';
-        $this->output(ob_get_clean());
-		
-    }
+ 
     
     function answer_form()
     {
