@@ -191,6 +191,7 @@
 					break;
 				case 'u_favorite':
 					$this->UpdateUserFavorite($postid,$userid, $params, 'u_favorite', 1);
+					$effecteduserid = $params['userid'];
 					cs_do_action($event, $postid,$userid, $effecteduserid, $params, $event);
 					$dolog=false;
 					break;
@@ -330,13 +331,13 @@
 		{
 			if (isset($params)){
 				$params['parent_uid'] = $params['parent']['userid'];
-				unset($params['content']);
-				unset($params['question']);
-				unset($params['answer']);
-				unset($params['text']);
-				unset($params['parent']);
-				unset($params['question']['content']);
-				unset($params['oldquestion']);
+				if(isset($params['content']))    unset($params['content']);
+				if(isset($params['question']))   unset($params['question']);
+				if(isset($params['answer']))     unset($params['answer']);
+				if(isset($params['text'])) 		 unset($params['text']);
+				if(isset($params['parent'])) 	 unset($params['parent']);
+				if(isset($params['question']['content'])) unset($params['question']['content']);
+				if(isset($params['oldquestion'])) unset($params['oldquestion']);
 				//qa_fatal_error(var_dump($postid));
 				$paramstring = json_encode( $params );
 			}

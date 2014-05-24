@@ -10,7 +10,7 @@ return array(
 	'thank_you_message'          => "\n\nThank you,\n^site_title" ,
 	'notification_email_subject' => "Updates from ^site_title" ,
 	//databse snippets to be saved for async email 
-	'a_post_body_email'      => "^open ^done_by has answered this question <a href='^url'> ^q_title </a> \n^q_content^close <a href='^url'>Click  here </a> to see the question\n",
+	'a_post_body_email'      => "^open ^done_by has answered your question <a href='^url'> ^q_title </a> \n^q_content^close <a href='^url'>Click  here </a> to see the question\n",
 	'c_post_body_email'      => "^open ^done_by has commented on a post <a href='^url'> ^q_title </a> \n^q_content^close <a href='^url'>Click  here </a> to see the question\n",
 	'q_reshow_body_email'    => "^open ^done_by has reshown your question <a href='^url'> ^q_title </a> \n^q_content^close <a href='^url'>Click  here </a> to see the question\n",
 	'a_reshow_body_email'    => "^open ^done_by has reshown your answer <a href='^url'> ^q_title </a> \n^q_content^close <a href='^url'>Click  here </a> to see the question\n",
@@ -33,7 +33,7 @@ return array(
 	'q_post_body_email'     => "^open ^done_by has posted a new question <a href='^url'> ^q_title </a> \n^q_content^close <a href='^url'>Click  here </a> to see the question\n",
 	// these four things have to be tested properly
 	'u_favorite_body_email'  => "^open ^done_by is now following you \n",
-	'u_message_body_email'   => "^open ^done_by has sent a private message ^q_content^close <a href='^url'>Click  here </a> to reply \n",
+	'u_message_body_email'   => "^open ^done_by has sent a private message - ^q_content^close <a href='^url'>Click  here </a> to reply \n",
 	'u_wall_post_body_email' => "^open ^done_by has posted on your wall ^q_content^close <a href='^url'>Click  here </a> to view \n",
 	'u_level_body_email'     => "^open ^done_by has posted on your wall ^q_content^close <a href='^url'>Click  here </a> to view \n",
 	'related_body_email'     => "^open ^done_by has posted a related question question <a href='^url'> ^q_title </a> \n^q_content^close <a href='^url'>Click  here </a> to see the question\n",
