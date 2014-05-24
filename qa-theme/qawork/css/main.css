@@ -406,11 +406,6 @@ textarea {
 	position: relative;
 }
 
-.user-block {
-	display: table;
-	margin-top: 20px;
-	width: 100%;
-}
 
 .side-c {
 	display: table-cell;
@@ -3346,31 +3341,10 @@ th .description {
 	padding: 7px 20px;
 }
 
-/* user page */
-.user-cols {
-	display: table;
-	width: 100%;
-}
-
-.user-cols-right {
-	display: table-cell;
-	position: relative;
-	vertical-align: top;
-}
-
-.user-left {
-	display: table-cell;
-	padding: 0 25px 0 0;
-	vertical-align: top;
-	width: 250px;
-}
-
 .user-left-inner {
-	border: 3px solid #EEE;
-	-moz-border-radius: 5px;
-	-webkit-border-radius: 5px;
-	border-radius: 5px;
-	padding: 10px;
+    background: none repeat scroll 0 0 #EEEEEE;
+    border-radius: 5px;
+    padding: 10px;
 }
 
 .user-right {
@@ -3379,11 +3353,7 @@ th .description {
 }
 
 .user-left .user-thumb img {
-	-moz-border-radius: 50%;
-	-webkit-border-radius: 50%;
-	border-radius: 50%;
-	display: table;
-	margin: 0 auto;
+    border-radius: 2px;
 }
 
 .user-name-detail {
@@ -3454,77 +3424,6 @@ th .description {
 	font-size: 15px;
 	margin-bottom: 15px;
 	margin-top: 15px;
-}
-
-.user-activity-count {
-	margin-bottom: 15px;
-}
-
-.user-activity-count .points {
-	background: #FFF;
-	-moz-border-radius: 3px;
-	-webkit-border-radius: 3px;
-	border-radius: 3px;
-	border-right: 1px solid #EEE;
-	display: block;
-	float: left;
-	font-size: 25px;
-	font-weight: 300;
-	overflow: hidden;
-	padding: 10px;
-	text-align: center;
-	width: 150px;
-}
-
-.user-activity-count .points span {
-	display: block;
-	font-size: 13px;
-	text-align: center;
-	text-transform: uppercase;
-}
-
-.user-activity-count .counts {
-	float: left;
-}
-
-.user-activity-count .counts > div {
-	background: #FFF;
-	-moz-border-radius: 3px;
-	-webkit-border-radius: 3px;
-	border-radius: 3px;
-	color: #AAA;
-	display: inline-block;
-	font-size: 12px;
-	font-weight: 300;
-	margin-left: 16px;
-	margin-right: 0;
-	min-width: 100px;
-	padding: 10px;
-	text-align: center;
-	text-transform: uppercase;
-}
-
-.user-activity-count .counts > div span {
-	display: block;
-	font-size: 22px;
-}
-
-.user-activity-count .bar-chart {
-	display: block;
-	float: right;
-	margin-top: 14px;
-	width: 75px;
-}
-
-.bar-chart .list-inline {
-	line-height: 12px;
-	margin: 0;
-}
-
-.bar-chart .list-inline li {
-	font-size: 11px;
-	line-height: 12px;
-	text-align: center;
 }
 
 .user-qac-list {
@@ -5055,7 +4954,7 @@ th .description {
 }
 
 .qa-nav-main .qa-nav-main-list li a {
-	font-size: 13px;
+	font-size: 15px;
 	font-weight: bold;
 	line-height: 30px;
 	margin: 0 2px 0 0;
@@ -5362,6 +5261,64 @@ th .description {
 	text-align: center;
 }
 
+.user-card {
+    background: url("../images/default.jpg") repeat scroll 0 0 rgba(0, 0, 0, 0);
+    margin-bottom: 15px;
+    position: relative;
+}
+.user-card .user-info {
+    background: none repeat scroll 0 0 rgba(0, 0, 0, 0.1);
+    min-height: 155px;
+    padding: 10px 25px 25px 135px;
+}
+.user-card .fav-btn{
+    background: none repeat scroll 0 0 #333333;
+    border: medium none;
+    color: #FFFFFF;
+    text-shadow: none;
+}
+.user-card .user-info .user-thumb {
+    left: 20px;
+    position: absolute;
+    top: 20px;
+}
+
+.user-card .user-name > span{
+    font-size: 25px;
+}
+
+.user-card .user-info .user-name{
+    color: #FFFFFF;
+    text-shadow: 0 1px 1px rgba(0, 0, 0, 0.3);
+}
+
+.user-card .user-info .user-name small{
+    background: none repeat scroll 0 0 rgba(0, 0, 0, 0.2);
+    border-radius: 2px;
+    font-size: 12px;
+    padding: 3px 10px;
+    vertical-align: text-bottom;
+}
+.user-activity-count {
+    background: none repeat scroll 0 0 rgba(0, 0, 0, 0.5);
+    color: #FFFFFF;
+    font-size: 13px;
+    font-weight: bold;
+    list-style: none outside none;
+    margin: 0;
+    padding: 0;
+    text-align: center;
+}
+.user-activity-count > li {
+    float: left;
+    padding: 10px 20px;
+}
+.user-activity-count > li:hover{
+	background: none repeat scroll 0 0 rgba(0, 0, 0, 0.6);
+}
+.user-activity-count > li span {
+    font-weight: normal;
+}
 .user-table-box {
 	-moz-border-radius: 0 0 5px 5px;
 	-webkit-border-radius: 0 0 5px 5px;
@@ -5369,6 +5326,15 @@ th .description {
 	display: table;
 	overflow: hidden;
 	width: 100%;
+}
+
+.user-activity-count > li i{
+    background: none repeat scroll 0 0 #FFFFFF;
+    border-radius: 3px;
+    color: #444444;
+    font-style: normal;
+    margin-right: 5px;
+    padding: 3px 4px;
 }
 
 .user-followers {
@@ -5380,20 +5346,6 @@ th .description {
 .user-followers > li {
 	display: block;
 	float: left;
-}
-
-.user-cover {
-	background: none repeat scroll 0 0 #EEE;
-	-moz-border-radius: 5px;
-	-webkit-border-radius: 5px;
-	border-radius: 5px;
-	display: block;
-	height: 200px;
-	margin-bottom: 20px;
-}
-
-.user-cover > img {
-	width: 100%;
 }
 
 .widget.cs_followers {
@@ -5458,11 +5410,10 @@ th .description {
 }
 
 .user-details .user-name {
-	color: #333;
-	display: block;
-	font-size: 20px;
-	font-weight: bold;
-	text-align: center;
+    color: #333333;
+    display: block;
+    font-size: 20px;
+    font-weight: bold;
 }
 
 .user-details .user-name small {
@@ -5509,37 +5460,25 @@ th .description {
 }
 
 .about-me {
-	color: #888;
-	font-size: 13px;
-	height: 94px;
-	margin-top: 15px;
-	overflow: hidden;
-	position: relative;
+    font-size: 13px;
+    height: 42px;
+    margin-top: 15px;
+    overflow: hidden;
+    position: relative;
 }
 
 .about-me.full {
 	height: auto;
 }
 
-.about-me > strong {
-	color: #666;
-	display: block;
-	margin-bottom: 5px;
-}
 
 .about-me > i {
-	background: none repeat scroll 0 0 #FFF;
-	-moz-border-radius: 2px;
-	-webkit-border-radius: 2px;
-	border-radius: 2px;
-	bottom: 0;
-	-moz-box-shadow: 0 0 5px rgba(0, 0, 0, 0.1) inset;
-	-webkit-box-shadow: 0 0 5px rgba(0, 0, 0, 0.1) inset;
-	box-shadow: 0 0 5px rgba(0, 0, 0, 0.1) inset;
-	cursor: pointer;
-	padding: 0 14px;
-	position: absolute;
-	right: 0;
+    background: none repeat scroll 0 0 rgba(0, 0, 0, 0.1);
+    border-radius: 2px;
+    bottom: 0;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1) inset;
+    cursor: pointer;
+    padding: 0 5px;
 }
 
 .q-item-footer {
@@ -5853,6 +5792,11 @@ form[name="a_form"] {
 	display: table-cell;
 	padding-right: 20px;
 	width: 180px;
+	vertical-align: top;
+}
+.left-content {
+    display: table-cell;
+    vertical-align: top;
 }
 
 .qa-template-admin .qa-main .qa-nav-sub {
