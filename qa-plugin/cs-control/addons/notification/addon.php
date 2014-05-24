@@ -728,7 +728,7 @@ class Cs_Notification_Addon{
 		$time_out = qa_opt('cs_process_emails_from_db_time_out');
 		if (!$time_out) {
 			// if the scheduler is not set set it for 15 mins 
-			cs_scheduler_set('cs_process_emails_from_db' , 15*60 /*15 mins*/ );
+			cs_scheduler_set('cs_process_emails_from_db' , 6*60*60 /*4 times a day by default*/ );
 		}		
 		cs_check_scheduler('cs_process_emails_from_db');
 		die();
@@ -759,7 +759,10 @@ class Cs_Notification_Addon{
                         //$error will be false if the 
                         $error = (isset($response) && is_array($response) && !empty($response)) ? true : false;
                   }
-
+                  $notification_time_out = qa_post_text('cs_process_emails_from_db_time_out');
+                  if ($notification_time_out > 0) {	
+                  		qa_opt('cs_process_emails_from_db_time_out' , $notification_time_out );
+                  }
                   $saved = true;
             }
 
@@ -793,12 +796,65 @@ class Cs_Notification_Addon{
 				}
 				$output .= '<tbody>' ;
 					$output .= '<tr>
-									<th class="qa-form-tall-label">' . qa_lang("notification/cs_notify_min_points_opt_lang") .'</th>
+									<th class="qa-form-tall-label">' . qa_lang("notification/cs_notify_min_points_val_lang") .'</th>
 									<td class="qa-form-tall-data">
-										<input type="text" value="' . qa_opt('cs_notify_min_points_opt') . '" id="cs_styling_rtl" name="cs_notify_min_points_opt_field" data-opts="cs_notify_min_points_opt_fields">
+										<input type="text" value="' . qa_opt('cs_notify_min_points_val') . '" id="cs_styling_rtl" name="cs_notify_min_points_val_field" data-opts="cs_notify_min_points_val_fields">
 									</td>
 								</tr>' ;
 				$output .= '</tbody>' ;
+				$output .= '<tbody>' ;
+					$output .= '<tr>
+									<th class="qa-form-tall-label">' . qa_lang("notification/cs_notify_enable_async_lang") .'</th>
+									<td class="qa-form-tall-data">
+										<input type="checkbox" checked="true" id="cs_styling_rtl" name="cs_notify_enable_async_field" data-opts="cs_notify_enable_async_fields">
+									</td>
+								</tr>' ;
+				$output .= '</tbody>' ;
+				$output .= '<tbody>' ;
+					$output .= '<tr>
+									<th class="qa-form-tall-label">' . qa_lang("notification/cs_notify_enable_summerize_email_lang") .'</th>
+									<td class="qa-form-tall-data">
+										<input type="checkbox" checked="true" id="cs_styling_rtl" name="cs_notify_enable_summerize_email_field" data-opts="cs_notify_enable_summerize_email_fields">
+									</td>
+								</tr>' ;
+				$output .= '</tbody>' ;
+
+				$output .= '<tbody>' ;
+				$option_value = array(
+							"choose_one"              => -1 ,
+							"once_a_day"              => 24*60*60 ,
+							"twice_a_day"             => 12*60*60 ,
+							"four_times_a_day"        => 6*60*60 , /*this is the default value*/
+							"six_times_a_day"         => 4*60*60 ,
+							"eight_times_a_day"       => 3*60*60 ,
+							"twelve_times_a_day"      => 2*60*60 ,
+							"sixteen_times_a_day"     => 1.5*60*60 ,
+							"twenty_times_a_day"      => 1.2*60*60 ,
+							"twenty_four_times_a_day" => 1*60*60 ,
+					);
+
+				$selected_frequency = qa_opt('cs_process_emails_from_db_time_out');
+
+				if (!$selected_frequency) {
+					$selected_frequency = 6*60*60 ;
+					qa_opt('cs_process_emails_from_db_time_out' , $selected_frequency );
+				}
+				
+				$select_string = "" ;
+				foreach ($option_value as $key => $value) {
+					$selected = ($value == $selected_frequency) ? " selected " : "" ;
+					$select_string .= '<option value="'.$value.'"'. $selected.'>'.qa_lang("notification/{$key}_lang").'</option>' ;
+				}
+				$output .= '<tr>
+									<th class="qa-form-tall-label">' . qa_lang("notification/cs_notify_freq_per_day_opt_lang") .'</th>
+									<td class="qa-form-tall-data">
+										<select id="cs_styling_rtl" name="cs_process_emails_from_db_time_out" data-opts="cs_process_emails_from_db_time_out_fields"> 
+											'.$select_string.'
+										</select>
+									</td>
+								</tr>' ;
+				$output .= '</tbody>' ;
+
 			$output .= '</table></div>';
 			echo $output;
 	  }
