@@ -164,6 +164,9 @@
 		'following_x' => 'Following <span>^</span>',
 		'more' => 'more',
 		'about_x' => 'About ^',
+		'best_answers' => 'Best answers',
+		'ranked_x_among_all_user' => 'ranked ^ among all user',
+		'following' => 'following',
 	);
 	
 
