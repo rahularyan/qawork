@@ -31,7 +31,7 @@ class cs_social_invite_friends_page {
             if (!isset($userid))      //if not logged in then redirect to login page
                   qa_redirect('login');
 
-            require_once CS_CONTROL_DIR . '/addons/social-login/cs-social-login-utils.php';
+            require_once CS_CONTROL_DIR . '/addons/social-posting/cs-social-posting-utils.php';
             $start = qa_get_start();
             $userid = qa_get_logged_in_userid();
             $action = null;
@@ -41,8 +41,8 @@ class cs_social_invite_friends_page {
 
             $qa_content = qa_content_prepare();
 
-            $qa_content['site_title'] = qa_lang_html('cs_social_login/invite_frnds');
-            $qa_content['title'] = qa_lang_html('cs_social_login/invite_frnds');
+            $qa_content['site_title'] = qa_lang_html('cs_social_posting/invite_frnds');
+            $qa_content['title'] = qa_lang_html('cs_social_posting/invite_frnds');
 
             $qa_content['navigation']['sub'] = qa_account_sub_navigation();
 
@@ -52,23 +52,23 @@ class cs_social_invite_friends_page {
                   $name = (!!$name) ? $name : qa_get_logged_in_handle();
                   // display some summary about the user
                   $qa_content['form_facebook_invite'] = array(
-                      'title' => qa_lang_html('cs_social_login/invite_frnds'),
+                      'title' => qa_lang_html('cs_social_posting/invite_frnds'),
                       'tags' => 'METHOD="POST" ACTION="' . qa_self_html() . '" CLASS="open-login-profile" onsubmit="return false ;"',
                       'style' => 'wide',
                       'buttons' => array(
                           'facebook_invite' => array(
                               'tags' => 'name="facebook_invite" onClick="'.cs_generate_facebook_invite_script(qa_opt("facebook_app_id"), array('name' => $name, 'url' => qa_opt("site_url"))).'"',
-                              'label' => qa_lang_html('cs_social_login/send_facebook_invite'),
+                              'label' => qa_lang_html('cs_social_posting/send_facebook_invite'),
                               // 'note' => cs_generate_facebook_invite_script(qa_opt("facebook_app_id"), $name, qa_opt("site_url"))
                           ),
 
                           'facebook_status_update' => array(
                               'tags' => 'name="facebook_sts_updt" onClick="'.cs_generate_facebook_wall_post_script(qa_opt("facebook_app_id"), array('name' => $name, 'picture' => "http://amiyasahu.com/assets/img/amiya.jpg" , 'link' => "http://amiyasahu.com" , 'caption'=>"Amiya Sahu" , 'description' => "Web Application Developer and Designer (Updated from my application )")).'"',
-                              'label' => qa_lang_html('cs_social_login/update_facebook_status'),
+                              'label' => qa_lang_html('cs_social_posting/update_facebook_status'),
                           ),
                           
                           'facebook_link_share' => array(
-                              'tags' => 'name="facebook_link_share" onClick="'.cs_generate_facebook_link_share_script(qa_opt("facebook_app_id"), array('name' => "Amiya sahu",  'link' => "http://stackoverflow.com/questions/10415884/fb-init-has-already-been-called")).'"',
+                              'tags' => 'name="facebook_link_share" onClick="'.cs_generate_facebook_link_share_script(qa_opt("facebook_app_id"), array('to' => "sachi059",'message' =>"please check out this link" , 'link' => "http://stackoverflow.com/questions/10415884/fb-init-has-already-been-called")).'"',
                               'label' => "Facebook link share ",
                           ),
                           

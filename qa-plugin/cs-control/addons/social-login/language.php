@@ -26,12 +26,4 @@ return array(
 	'remember_me'            => 'Keep me signed in when I log in using any of the linked accounts.',
 	'login_using'            => 'Login using ^',
 	'admin_options_heading'  => 'CleanStrap Social Login Preferences',
-	'invite_frnds'           => 'Invite Your Friends ',
-	'update_status'          => 'Update your status ',
-	'invite_status'          => 'I am using a very helpful QuestionAnswer website ^site_url . Lets join togather and enjoy ',
-	'facebook_invite_msg'    => '^name invited to join a very helpful QuestionAnswer Website here ^site_url ',
-	'update_facebook_status' => 'Update Facebook Status',
-	'send_facebook_invite'   => 'Invite Your Facebook Friends',
-	'update_twitter_status'  => 'Tweet your followers',
-	'status_updated_message' => 'your ^ status is updated successfully',
 );

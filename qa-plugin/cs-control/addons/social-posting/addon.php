@@ -16,6 +16,7 @@ if (!defined('QA_VERSION')) {
 require_once CS_CONTROL_DIR.'/addons/social-posting/cs-social-event-post.php';
 
 qa_register_plugin_module('page', 'addons/social-posting/social-posting-settings.php', 'cs_social_posting_page', 'CS Social Posting Page');
+qa_register_plugin_module('page', 'addons/social-posting/invite-friends.php', 'cs_social_invite_friends_page', 'CS Social Invite Friends Page');
 
 class Cs_Social_Posting_Addon {
 
@@ -23,6 +24,7 @@ class Cs_Social_Posting_Addon {
             cs_event_hook('doctype', NULL, array($this, 'navigation'));
             cs_event_hook('register_language', NULL, array($this, 'language'));
             cs_event_hook('enqueue_css', NULL, array($this, 'css'));
+            cs_event_hook('enqueue_scripts', NULL, array($this, 'script'));
             cs_add_action('cs_theme_option_tab', array($this, 'option_tab'));
             cs_add_action('cs_theme_option_tab_content', array($this, 'option_tab_content'));
       }
@@ -34,6 +36,12 @@ class Cs_Social_Posting_Addon {
       public function css($css_src) {
             $css_src['cs_social_posting'] = CS_CONTROL_URL . '/addons/social-posting/styles.css';
             return $css_src;
+      }
+      
+      public function script($script_src) {
+            $script_src['cs_social_posting'] = CS_CONTROL_URL . '/addons/social-posting/script.js';
+            $script_src['cs_social_posting_facebook'] = "http://connect.facebook.net/en_US/all.js";
+            return $script_src;
       }
       public function navigation($themeclass) {
         if(cs_is_user())  {
