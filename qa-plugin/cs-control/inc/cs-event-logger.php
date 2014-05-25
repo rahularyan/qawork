@@ -13,11 +13,13 @@
 			$tablename=qa_db_add_table_prefix('eventlog');
 			$quries = array();	
 			if (!in_array($tablename, $tableslc)) {
+				require_once QA_INCLUDE_DIR.'qa-app-users.php';
+				require_once QA_INCLUDE_DIR.'qa-db-maxima.php';
 
 				$quries[] = 'CREATE TABLE ^eventlog ('.
 					'datetime DATETIME NOT NULL,'.
 					'ipaddress VARCHAR (15) CHARACTER SET ascii,'.
-					'userid '.qa_get_mysql_user_column_type().','.
+					'userid INT(10),'.
 					'handle VARCHAR('.QA_DB_MAX_HANDLE_LENGTH.'),'.
 					'cookieid BIGINT UNSIGNED,'.
 					'event VARCHAR (20) CHARACTER SET ascii NOT NULL,'.
