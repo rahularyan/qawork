@@ -68,7 +68,7 @@ class cs_social_invite_friends_page {
                           ),
                           
                           'facebook_link_share' => array(
-                              'tags' => 'name="facebook_link_share" onClick="'.cs_generate_facebook_link_share_script(qa_opt("facebook_app_id"), array('to' => "sachi059",'message' =>"please check out this link" , 'link' => "http://stackoverflow.com/questions/10415884/fb-init-has-already-been-called")).'"',
+                              'tags' => 'name="facebook_link_share" onClick="'.cs_generate_facebook_link_share_script(qa_opt("facebook_app_id"), array('to' => "sachi059", 'link' => "http://stackoverflow.com/questions/10415884/fb-init-has-already-been-called")).'"',
                               'label' => "Facebook link share ",
                           ),
                           

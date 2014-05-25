@@ -151,7 +151,6 @@ function cs_generate_facebook_link_share_script($app_id , $data , $no_script = t
 
       $to   = cs_extract_parameter_val($data , 'to');
       $link   = cs_extract_parameter_val($data , 'link');
-      $message = cs_extract_parameter_val($data , 'message');
 
       $object = "" ;
 
@@ -160,9 +159,6 @@ function cs_generate_facebook_link_share_script($app_id , $data , $no_script = t
       }
       if (!!$link) {
         $object .= "link: '" . $link . "' ," ;
-      }
-      if (!!$message) {
-        $object .= "message: '" . $message . "' ," ;
       }
      
       ob_start();
