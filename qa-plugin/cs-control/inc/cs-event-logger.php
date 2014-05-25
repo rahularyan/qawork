@@ -4,6 +4,9 @@
 		
 		function init_queries($tableslc)
 		{
+            require_once QA_INCLUDE_DIR.'qa-app-users.php';
+            require_once QA_INCLUDE_DIR.'qa-db-maxima.php';
+                                                        
 			if (qa_opt('event_logger_to_database')) {
 				qa_opt('event_logger_to_database', 0);
 			}

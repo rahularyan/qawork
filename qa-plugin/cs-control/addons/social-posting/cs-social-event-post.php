@@ -30,6 +30,10 @@ function cs_social_post_event_handler($postid,$userid, $effecteduserid, $params,
     $id = isset($params['qid']) ? $params['qid'] : (isset($params['postid']) ? $params['postid'] : "") ;
     $title = isset($params['qtitle']) ? $params['qtitle'] : (isset($params['title']) ? $params['title'] : "") ;
     $message = cs_get_message_using_event($event);
+    $logo = qa_opt('ra_logo') ;
+    if (!$logo) {       //if ra_logo is not set 
+        $logo = qa_opt('logo_url') ;
+    }
 
     $all_keys = array('cs_facebook_q_post','cs_facebook_a_post','cs_facebook_c_post','cs_twitter_q_post','cs_twitter_a_post','cs_twitter_c_post',);
     $preferences = cs_get_social_posting_settings($all_keys , $userid);
@@ -40,8 +44,11 @@ function cs_social_post_event_handler($postid,$userid, $effecteduserid, $params,
             'name' => qa_opt('site_title'),
             'caption' => $title,
             'message' => $message ,
-            'picture' => qa_opt('ra_logo'),
         );
+    
+    if (!$logo) {
+        $data['picture'] = $logo ;
+    }
     cs_social_post($post_to , $data );
     $isPosted = true ;
 }

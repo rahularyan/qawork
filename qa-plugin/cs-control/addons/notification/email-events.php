@@ -6,7 +6,7 @@ if (!defined('QA_VERSION')) {
 }
 
 //if this is set to true , the email will be written to the log file 
-define('CS_SEND_EMAIL_DEBUG_MODE', true);
+define('CS_SEND_EMAIL_DEBUG_MODE', false );
 
 //define the event hook event handlers // remove  NULL, ok , and here 
 cs_add_action('a_post','cs_notification_event');
