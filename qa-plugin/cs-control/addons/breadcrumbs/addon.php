@@ -23,7 +23,7 @@ class Cs_Breadcrumb_Addon{
 	}
 		
 	public function language($lang_arr){
-		$lang_arr['cs_breadcrumbs'] = CS_CONTROL_DIR .'/addons/breadcrumbs/language.php';
+		$lang_arr['cs_breadcrumbs'] = CS_CONTROL_DIR .'/addons/breadcrumbs/language-*.php';
 		return $lang_arr;
 	}
 

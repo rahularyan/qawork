@@ -30,7 +30,7 @@ class Cs_Social_Posting_Addon {
       }
 
       public function language($lang_arr) {
-		    $lang_arr['cs_social_posting'] = CS_CONTROL_DIR .'/addons/social-posting/language.php';
+		    $lang_arr['cs_social_posting'] = CS_CONTROL_DIR .'/addons/social-posting/language-*.php';
 		    return $lang_arr;
       }
       public function css($css_src) {
