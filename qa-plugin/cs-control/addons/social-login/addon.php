@@ -16,7 +16,6 @@ if (!defined('QA_VERSION')) {
 qa_register_plugin_module('widget', 'addons/social-login/widget.php', 'cs_social_login_widget', 'CS Social Login');
 qa_register_plugin_overrides('addons/social-login/cs-social-logins-overrides.php');
 qa_register_plugin_module('page', 'addons/social-login/page.php', 'cs_social_login_page', 'CS Social Login Page');
-qa_register_plugin_module('page', 'addons/social-login/invite-friends.php', 'cs_social_invite_friends_page', 'CS Social Invite Friends Page');
 
 class Cs_Social_Login_Addon {
 
@@ -24,7 +23,6 @@ class Cs_Social_Login_Addon {
             cs_event_hook('doctype', NULL, array($this, 'navigation'));
             cs_event_hook('register_language', NULL, array($this, 'language'));
             cs_event_hook('enqueue_css', NULL, array($this, 'css'));
-            cs_event_hook('enqueue_scripts', NULL, array($this, 'script'));
 			cs_add_filter('init_queries', array($this, 'init_queries'));
             cs_add_action('cs_theme_option_tab', array($this, 'option_tab'));
             cs_add_action('cs_theme_option_tab_content', array($this, 'option_tab_content'));
@@ -69,12 +67,6 @@ class Cs_Social_Login_Addon {
       public function css($css_src) {
             $css_src['cs_social_login'] = CS_CONTROL_URL . '/addons/social-login/styles.css';
             return $css_src;
-      }
-
-      public function script($script_src) {
-            $script_src['cs_social_login'] = CS_CONTROL_URL . '/addons/social-login/script.js';
-            $script_src['cs_social_login_facebook'] = "http://connect.facebook.net/en_US/all.js";
-            return $script_src;
       }
 	  
 	  function option_tab(){
