@@ -1042,3 +1042,9 @@ function cs_array_insert_before($key, array &$array, $new_key, $new_value) {
   }
   return FALSE;
 }
+
+function cs_order_profile_fields($profile){
+	$keys = cs_apply_filter('order_profile_field', array('name', 'website', 'location', 'about'));
+	$short =  array_flip( $keys );
+	return array_merge($short, $profile);
+}
