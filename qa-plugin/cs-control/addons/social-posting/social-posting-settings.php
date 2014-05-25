@@ -28,11 +28,6 @@ class cs_social_posting_page {
 		$start=qa_get_start();
 		$userid=qa_get_logged_in_userid();
 		//	Prepare content for theme
-
-		$qa_content=qa_content_prepare();
-		
-		$qa_content['site_title']=qa_lang_html('cs_social_login/my_logins_title');
-		$qa_content['title']=qa_lang_html('cs_social_login/my_logins_title');
 		
 		require_once QA_INCLUDE_DIR.'qa-db-users.php';
 		require_once QA_INCLUDE_DIR.'qa-app-format.php';
@@ -53,6 +48,7 @@ class cs_social_posting_page {
 		
 		$qa_content=qa_content_prepare();
 		$qa_content['title']=qa_lang_html('cs_social_posting/social_posting_title');
+		$qa_content['site_title']=qa_lang_html('cs_social_posting/social_posting_title');
     	
     	require_once CS_CONTROL_DIR . '/addons/social-posting/cs-social-posting-utils.php';
 		if (qa_clicked('dosave_settings')) {
