@@ -41,9 +41,9 @@ class qa_html_theme_layer extends qa_html_theme_base {
 			if(qa_get_logged_in_level() >= QA_USER_LEVEL_ADMIN)	{
 
 				// theme installation & update
-				$version = qa_opt('cs_version');
+				/* $version = qa_opt('cs_version');
 				if( CS_VERSION > $version )
-					qa_redirect('cs_installation');
+					qa_redirect('cs_installation'); */
 
 				//show theme option menu if user is admin
 				$this->content['navigation']['user']['themeoptions'] = array(
@@ -901,11 +901,11 @@ class qa_html_theme_layer extends qa_html_theme_base {
 		$this->content['active_user'] = cs_user_data($handle);
 		$this->content['active_user_profile'] = cs_user_profile($handle);
 
-		$this->profile_page_head($handle);
+		$this->profile_user_card($handle);	
 		$this->output('<div class="user-right">');
 	
 		$this->cs_user_nav($handle);
-		$this->profile_page($content);
+		$this->profile_page($content, $handle);
 		$this->output('</div>');		
 			
 	}
@@ -914,7 +914,24 @@ class qa_html_theme_layer extends qa_html_theme_base {
 		
 		$user = $this->content['active_user'];
 		$profile = $this->content['active_user_profile'];	
-
+		
+		$this->output('<div class="user-personal-links">');
+		if (qa_get_logged_in_level() >= QA_USER_LEVEL_ADMIN) {
+			$form = @$this->content['form_profile'];
+			if(isset($form)){
+				$this->output('<form class="user-buttons" '.$form['tags'].'><div class="btn-group">');
+				foreach($form['buttons'] as $btn)
+					$this->output('<button ' . $btn['tags'] . ' class="btn" type="submit">' . $btn['label'] . '</button>');
+				$this->output('</div></form>');
+			}
+        }
+		$this->output(
+			'<ul class="user-own-menu">',
+				'<li><a href="">Permission</a></li>',
+			'</ul>'
+		);
+		$this->output('</div>');
+		
 		$this->output('<div class="user-card">');
 			/* start user info */
 			$this->output(
@@ -924,11 +941,6 @@ class qa_html_theme_layer extends qa_html_theme_base {
 					'<span>'.$handle.'</span>',
 					'<small class="block">' . qa_user_level_string($user['account']['level']) . '</small>',
 					'<p class="user-rank">'. $handle .' ' . qa_lang_sub('cleanstrap/ranked_x_among_all_user', $user['rank'] ) . '</p>',
-					'<p class="about-me">',
-						'<strong>'.qa_lang_sub('cleanstrap/about_x', $handle).'</strong>',
-						'<span>'.$profile['about'].'</span>',
-						'<i>'.qa_lang_html('cleanstrap/more').'</i>',
-					'</p>',
 				'</div>'
 			);
 				$this->favorite();
@@ -977,53 +989,85 @@ class qa_html_theme_layer extends qa_html_theme_base {
 			'</ul>'
 		);
     }
-	function profile_page_head($handle){
-		if (cs_hook_exist(__FUNCTION__)) {$args=func_get_args(); return cs_do_action(__FUNCTION__, $args); }
-		
-		$user = $this->content['active_user'];
-		$profile = $this->content['active_user_profile'];
-		
-		$this->profile_user_card($handle);		
-		
-        $this->output('<div class="user-head">');
-		
-		
-		$this->output('<div class="user-details clearfix">');		
 
-		
-		$this->output('<p class="about-me">');
-			$this->output('<strong>'.qa_lang_sub('cleanstrap/about_x', $handle).'</strong>');
-			$this->output('<span>'.$profile['about'].'</span>');
-			$this->output('<i>'.qa_lang_html('cleanstrap/more').'</i>');
-		$this->output('</p>');
-		$this->output('<a class="my-website icon-world" rel="nofollow" href="'.$profile['website'].'">'.$profile['website'].'</a>');
-		
-		$this->output('</div>');
-		$this->output('</div>');
-	}
-	function profile_page($content)
+	
+	function profile_page($content, $handle)
     {
 		if (cs_hook_exist(__FUNCTION__)) {$args=func_get_args(); return cs_do_action(__FUNCTION__, $args); }
 		$user = $this->content['active_user'];
+		$profile = $this->content['active_user_profile'];
 		
-		$this->main_parts($content);
+		if($this->template == 'user'){
+			$this->output('<div class="user-widgets row">');
+				$this->output('<div class="col-sm-4">');
+					$this->cs_position('Profile Left Top');
+					$this->cs_user_about($user, $profile);
+					$this->cs_user_activities($user, $profile);
+					$this->cs_position('Profile Left Bottom');
+				$this->output('</div>');
+				$this->output('<div class="col-sm-8">');
+					$this->cs_user_wall_widget($content['message_list'], $handle);
+				$this->output('</div>');				
+			$this->output('</div>');
+		}elseif($this->template != 'user'){
+			$this->main_parts($content);
+		}		
 		
-		if (qa_get_logged_in_level() >= QA_USER_LEVEL_ADMIN) {
-			$form = @$this->content['form_profile'];
-			if(isset($form)){
-				$this->output('<form class="user-buttons" '.$form['tags'].'>');
-				foreach($form['buttons'] as $btn)
-					$this->output('<button ' . $btn['tags'] . ' class="btn btn-xs btn-success" type="submit">' . $btn['label'] . '</button>');
-				$this->output('</form>');
-			}
-        }
-		
-        /*
-        
-        $this->cs_user_qa($handle); */
-        
     }
+	function cs_user_about($user, $profile){
+		
+		if(isset($profile) && !empty($profile)){
+			$profile = cs_order_profile_fields($profile);
+			$html = '';
+			foreach ($profile as $k => $p)
+				if(!empty($p))
+					$html .= '<li class="'.$k.'"><strong>'.$k.'</strong> '.$p.'</li>';
+			if(!empty($html))	
+			$this->output(
+				'<div class="user-widget user-profile">',
+					'<h3 class="icon-user">'.qa_lang_html('cleanstrap/profile').'</h3>',
+					'<div class="widget-inner">',
+						'<ul>',
+							$html,
+						'</ul>',
+					'</div>',
+				'</div>'
+			);
+		}
 
+	}
+	function cs_user_activities($user, $profile){
+		if(isset($user['points']) && !empty($user['points'])){
+			$p = $user['points'];
+			$this->output(
+				'<div class="user-widget user-activities">',
+					'<h3 class="icon-chart-bar">'.qa_lang_html('cleanstrap/activities').'</h3>',
+					'<div class="widget-inner">',
+						'<ul>',
+							'<li class="points"><strong>'.qa_lang_html('cleanstrap/score').'</strong> '.$p['points'].' '.qa_lang_sub('cleanstrap/ranked_x_among_all_user', $user['rank']).'</li>',
+							'<li class="qcount"><strong>'.qa_lang_html('cleanstrap/questions').'</strong> '.$p['qposts'].' '.qa_lang_sub('cleanstrap/x_wth_best_answer_chosen', $p['aselects']).'</li>',
+							'<li class="acount"><strong>'.qa_lang_html('cleanstrap/answers').'</strong> '.$p['aposts'].' '.qa_lang_sub('cleanstrap/x_chosen_as_best', $p['aselects']).'</li>',
+							'<li class="acount"><strong>'.qa_lang_html('cleanstrap/voted_on').'</strong> '.qa_lang_sub('cleanstrap/x_questions', $p['qvoteds']).', '.qa_lang_sub('cleanstrap/x_answers', $p['avoteds']).'</li>',
+							'<li class="acount"><strong>'.qa_lang_html('cleanstrap/gave_out').'</strong> '.qa_lang_sub('cleanstrap/x_up_votes', $p['qupvotes'] + $p['aupvotes']).', '.qa_lang_sub('cleanstrap/x_down_votes', $p['qdownvotes'] + $p['adownvotes']).'</li>',
+							'<li class="acount"><strong>'.qa_lang_html('cleanstrap/received').'</strong> '.qa_lang_sub('cleanstrap/x_up_votes', $p['upvoteds']).', '.qa_lang_sub('cleanstrap/x_down_votes', $p['downvoteds']).'</li>',
+						'</ul>',
+					'</div>',
+				'</div>'
+			);
+		}
+	}
+	
+	function cs_user_wall_widget($message_list, $handle){
+		/* unset title */
+		unset($message_list['title']);
+		
+		if(isset($message_list) and !empty($message_list)){
+			$this->output('<div class="user-widget user-wall">');
+				$this->output('<h3 class="icon-wall">'. qa_lang_sub('cleanstrap/x_wall', $handle) .'</h3>');
+				$this->message_list_and_form($message_list, $handle);
+			$this->output('</div>');
+		}
+	}
 	
     function cs_user_nav($handle)
     {
@@ -2120,13 +2164,30 @@ class qa_html_theme_layer extends qa_html_theme_base {
         $this->output(cs_get_avatar($message['raw']['fromhandle'], 30));
         $this->output('</div>');
         $this->output('<div class="qa-message-item-inner">');
-        $this->post_meta($message, 'qa-message');
-        $this->message_content($message);
-        $this->message_buttons($message);
+		$this->message_buttons($message);
+			$this->output('<div class="no-overflow">');
+				$this->output(
+					'<div class="message-head">',
+						'<span class="who">' .implode(' ', $message['who']).'</span>',
+						'<span class="when icon-calender">' .implode(' ', $message['when']). '</span>',
+					'</div>'
+				);
+				//$this->post_meta($message, 'qa-message');
+				$this->message_content($message);        
+			$this->output('</div>');
         $this->output('</div>');
         $this->output('</div> <!-- END qa-message-item -->', '');
     }
-    
+	
+    function message_content($message)
+	{
+		if (!empty($message['content'])) {
+			$this->output('<div class="qa-message-content">');
+			$this->output_raw($message['content']);
+			$this->output('</div>');
+		}
+	}
+	
     function cs_ajax_get_ajax_block()
     {
 		if (cs_hook_exist(__FUNCTION__)) {$args=func_get_args(); return cs_do_action(__FUNCTION__, $args); }

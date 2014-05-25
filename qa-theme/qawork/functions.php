@@ -34,9 +34,8 @@
 			$src['jquery-ui'] = Q_THEME_URL . '/js/jquery-ui.min.js';
 			$src['bootstrap_js'] = Q_THEME_URL . '/js/bootstrap.js';
 			
-			$src['sparkline'] = Q_THEME_URL . '/js/jquery.sparkline.min.js';
-			
 			$src['oembed'] = Q_THEME_URL . '/js/jquery.oembed.js';
+			$src['masonry'] = Q_THEME_URL . '/js/masonry.pkgd.min.js';
 			
 			$src['cs_theme'] = Q_THEME_URL . '/js/theme.js';
 
@@ -66,7 +65,9 @@
 				'Home Right' => 'Home right side',						
 				'Question Right' => 'Right side of question',
 				'User Content' => 'On user page',
-				'User Right' => 'Right side of user page'
+				'User Right' => 'Right side of user page',
+				'Profile Left Bottom' => 'Left side of user page',
+				'Profile Left Top' => 'Left side of user page'
 			);
 			return array_merge($positions, $new_positions); 
 		}

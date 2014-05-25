@@ -165,8 +165,17 @@
 		'more' => 'more',
 		'about_x' => 'About ^',
 		'best_answers' => 'Best answers',
-		'ranked_x_among_all_user' => 'ranked ^ among all user',
+		'ranked_x_among_all_user' => 'ranked #^ among all user',
 		'following' => 'following',
+		'score' => 'Score',
+		'x_wth_best_answer_chosen' => '(^ with best answer chosen)',
+		'x_chosen_as_best' => '(^ chosen_as_best)',
+		'voted_on' => 'Voted on',
+		'gave_out' => 'Gave out',
+		'x_up_votes' => '^ up votes',
+		'x_down_votes' => '^ down votes',
+		'received' => 'Received',
+		'x_wall' => '^\'s wall',
 	);
 	
 
