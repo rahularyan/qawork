@@ -67,7 +67,8 @@
 				'User Content' => 'On user page',
 				'User Right' => 'Right side of user page',
 				'Profile Left Bottom' => 'Left side of user page',
-				'Profile Left Top' => 'Left side of user page'
+				'Profile Left Top' => 'Left side of user page',
+				'Profile Right' => 'Right side of user page'
 			);
 			return array_merge($positions, $new_positions); 
 		}

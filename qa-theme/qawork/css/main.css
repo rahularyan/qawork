@@ -1,6 +1,6 @@
 body {
-	background: none repeat scroll 0 0 #fff;
-	color: #37404E;
+	background: #FBFBFB;
+	color: #5f5f5f;
 	font-size: 14px;
 	line-height: 1.7;
 }
@@ -344,9 +344,9 @@ textarea {
 }
 
 #header-below {
-	border-bottom: 1px solid #EEE;
-	margin-bottom: 10px;
-	padding: 10px 0;
+    background: none repeat scroll 0 0 #FDFDFD;
+    border-bottom: 1px solid #F9F9F9;
+    padding: 10px 0;
 }
 
 /*styling for the ask button*/
@@ -1008,10 +1008,9 @@ ul.qa-nav-cat-list-4 > li.qa-nav-cat-item:first-child {
 
 .qa-nav-sub ul li a {
     border-radius: 3px 3px 0 0;
-    color: #666666;
+    color: #888888;
     display: block;
-    font-size: 12px;
-    font-weight: bold;
+    font-size: 13px;
     padding: 8px 15px;
 }
 
@@ -1054,12 +1053,16 @@ ul.qa-nav-cat-list-4 > li.qa-nav-cat-item:first-child {
     padding: 0;
 }
 
-.widget .widget-title a {
-	color: #AAA;
-	float: right;
-	font-style: italic;
-	font-weight: 300;
-	text-transform: lowercase;
+.widget >h3> a {
+    background: none repeat scroll 0 0 #F3F3F3;
+    border-radius: 2px;
+    color: #666666;
+    display: block;
+    float: right;
+    font-size: 12px;
+    font-weight: normal;
+    margin-top: -2px;
+    padding: 4px 8px;
 }
 
 .widget .ra-ticker-widget .widget-title a {
@@ -1251,9 +1254,7 @@ a.feed-link {
 }
 
 .asker-avatar img {
-	-moz-border-radius: 2px;
-	-webkit-border-radius: 2px;
-	border-radius: 2px;
+	border-radius: 50%;
 	position: relative;
 	z-index: 9;
 }
@@ -2037,9 +2038,9 @@ table.page-users-list {
 }
 
 .question-list {
-	list-style: none;
-	margin: 0;
-	padding: 5px 10px;
+    list-style: none outside none;
+    margin: 0;
+    padding: 10px;
 }
 
 .question-list .question-item {
@@ -2069,18 +2070,16 @@ table.page-users-list {
 }
 
 .question-list .question-item .big-ans-count {
-	-moz-border-radius: 2px;
-	-webkit-border-radius: 2px;
-	border-radius: 2px;
-	color: #FFF;
-	font-size: 15px;
-	font-weight: bold;
-	height: 40px;
-	line-height: 25px;
-	margin-right: 15px;
-	margin-top: 0;
-	text-align: center;
-	width: 40px;
+    border-radius: 2px;
+    color: #FFFFFF;
+    font-size: 13px;
+    font-weight: bold;
+    height: 25px;
+    line-height: 25px;
+    margin-right: 15px;
+    margin-top: 0;
+    min-width: 25px;
+    text-align: center;
 }
 
 .question-list .question-item .big-ans-count.vote {
@@ -2111,15 +2110,12 @@ table.page-users-list {
 }
 
 .question-list .question-item .list-right h5 {
-	font-size: 13px;
-	font-weight: 600;
-	margin-bottom: 8px;
-	margin-top: 0;
+    font-size: 13px;
+    font-weight: 600;
+    margin-bottom: 0;
+    margin-top: 0;
 }
 
-.question-list .question-item .list-right h5 a {
-	color: #555;
-}
 
 .question-list .question-item .list-right .counts {
 	position: absolute;
@@ -2142,11 +2138,6 @@ table.page-users-list {
 	padding: 1px 5px;
 	position: relative;
 	vertical-align: text-bottom;
-}
-
-.question-list .question-item .list-right .list-date {
-	color: #666;
-	font-size: 12px;
 }
 
 .question-list .question-item .list-right .list-date span {
@@ -2182,27 +2173,36 @@ table.page-users-list {
 
 .qa-message-list-form {
     background: none repeat scroll 0 0 #FDFDFD;
-    border-bottom: 1px solid #EEEEEE;
+    border: 1px solid #E9E9E9;
+    border-radius: 5px;
     display: table;
     padding: 10px;
     width: 100%;
 }
 
 .qa-message-list-form > .asker-avatar {
-	display: table-cell;
-	margin: 0;
-	width: 40px;
+    display: table-cell;
+    margin: 0;
+    width: 50px;
 }
 .qa-message-list-form > .qa-message-list-inner {
+    border-radius: 5px;
     display: table-cell;
     position: relative;
     vertical-align: top;
     width: 100%;
 }
 
-
+.qa-message-list:before {
+    background: none repeat scroll 0 0 #F8F8F8;
+    content: "";
+    height: 100%;
+    left: 16px;
+    position: absolute;
+    width: 3px;
+}
 .qa-message-list {
-
+    position: relative;
 }
 
 .qa-message-list-form > .qa-message-list-inner textarea {
@@ -2218,8 +2218,7 @@ table.page-users-list {
 }
 
 .qa-message-item {
-    border-bottom: 1px solid #F9F9F9;
-    padding: 5px 0;
+    padding: 12px 0;
 }
 
 .qa-message-item-inner {
@@ -2230,7 +2229,7 @@ table.page-users-list {
 .qa-message-meta {
     display: block;
     font-size: 12px;
-    font-weight: 600;
+    font-weight: bold;
 }
 
 .qa-template-user-wall .content-sidebar .main form {
@@ -2910,10 +2909,6 @@ th .description {
 }
 
 /* widget positions */
-.widget {
-    margin-bottom: 25px;
-    padding: 0;
-}
 
 .header-position-c {
 	margin-bottom: 20px;
@@ -3855,9 +3850,9 @@ th .description {
 }
 
 .navbar-nav.category-nav .category-list {
-	display: table;
-	padding: 2px;
-	width: 100%;
+    display: table;
+    padding: 2px 5px;
+    width: 100%;
 }
 
 .navbar-nav.category-nav .category-list-drop {
@@ -4302,10 +4297,6 @@ th .description {
 	list-style: none;
 }
 
-.ra-ua-widget {
-	margin: -10px;
-}
-
 .user-activities ul .activity-item {
 	border-bottom: 1px solid rgba(0, 0, 0, 0.03);
 	padding: 10px;
@@ -4335,12 +4326,9 @@ th .description {
 }
 
 .users-post-widget .question-item .list-right h5 {
-	font-size: 15px;
-	font-weight: 300;
-}
-
-.users-post-widget .question-item .list-right h5 a {
-	color: #777;
+    font-size: 15px;
+    font-weight: 300;
+    margin-bottom: 3px;
 }
 
 .users-post-widget.post-type-A .question-item .list-right h5 a, .users-post-widget.post-type-C .question-item .list-right h5 a {
@@ -4373,20 +4361,10 @@ th .description {
 }
 
 .users-post-widget .question-item .list-right .list-date span {
-	color: #AAA;
-	font-size: 11px;
+    color: #777777;
+    font-size: 12px;
 }
 
-.widget .user-post-title a {
-	background: #333;
-	-moz-border-radius: 2px;
-	-webkit-border-radius: 2px;
-	border-radius: 2px;
-	color: #FFF;
-	margin-right: -5px;
-	margin-top: -5px;
-	padding: 5px 10px;
-}
 
 .list-tag-tag-list {
 	display: inline;
@@ -4953,15 +4931,12 @@ th .description {
 }
 
 .qa-nav-main .qa-nav-main-list li a {
-	font-size: 15px;
-	font-weight: bold;
-	line-height: 30px;
-	margin: 0 2px 0 0;
-	padding: 1px 8px;
-	-moz-transition: all 0.5s ease 0s;
-	-o-transition: all 0.5s ease 0s;
-	-webkit-transition: all 0.5s ease 0s;
-	transition: all 0.5s ease 0s;
+    font-size: 13px;
+    font-weight: bold;
+    line-height: 30px;
+    margin: 0 2px 0 0;
+    padding: 1px 8px;
+    transition: all 0.5s ease 0s;
 }
 
 .qa-nav-main .qa-nav-main-list li a:hover, .qa-nav-main .qa-nav-main-list li a.qa-nav-main-selected {
@@ -4991,9 +4966,19 @@ th .description {
 .q-view-body {
 	min-height: 115px;
 }
+.user-buttons{
+    float: left;
+    margin-bottom: 0;
+    margin-top: 4px;
+}
 
-.user-buttons {
-    margin-bottom: 15px;
+.user-buttons > button {
+    background: none repeat scroll 0 0 rgba(0, 0, 0, 0);
+    border: medium none;
+    color: #777777;
+    font-size: 13px;
+    margin: 0;
+    padding: 0;
 }
 .your-answer-label {
 	font-size: 20px;
@@ -5261,10 +5246,25 @@ th .description {
     margin: 0;
     padding: 10px 10px 0;
 }
-
+.user-own-menu {
+    float: right;
+    list-style: none outside none;
+    margin: 0;
+    padding: 5px 0;
+}
+.user-own-menu li {
+    float: left;
+    margin-left: 15px;
+}
+.user-own-menu li a {
+    color: #777777;
+    font-size: 13px;
+}
 .user-card {
     background: url("../images/default.jpg") repeat scroll 0 0 rgba(0, 0, 0, 0);
+    border-radius: 5px;
     margin-bottom: 30px;
+    overflow: hidden;
     position: relative;
 }
 .user-card .user-info {
@@ -5272,11 +5272,16 @@ th .description {
     min-height: 155px;
     padding: 10px 25px 25px 135px;
 }
-.user-card .fav-btn{
+.user-card .btn{
     background: none repeat scroll 0 0 #333333;
     border: medium none;
     color: #FFFFFF;
+    float: left;
+    margin-right: 7px;
     text-shadow: none;
+}
+.user-card .btn:before{
+	margin-right:5px;
 }
 .user-card .user-info .user-thumb {
     left: 20px;
@@ -5351,19 +5356,12 @@ th .description {
 	float: left;
 }
 
-.widget.cs_followers {
+.user-followers > li {
 	margin: 0;
 }
 
-.user-followers > li {
-	margin-bottom: 1px;
-	margin-right: 1px;
-}
-
 .user-followers .avatar img {
-	-moz-border-radius: 0;
-	-webkit-border-radius: 0;
-	border-radius: 0;
+border-radius: 50%;
 }
 
 .user-header > #user-right-position {
@@ -5374,25 +5372,28 @@ th .description {
 
 .user-followers > li.total-followers {
 	float: left;
-	height: 59px;
-	width: 59px;
 }
-
+.user-followers > li > *{
+	margin:5px;
+}
 .user-followers > li.total-followers a {
-	background: none repeat scroll 0 0 #F44442;
-	color: #FFF;
-	display: block;
-	font-size: 11px;
-	height: 59px;
-	line-height: 16px;
-	padding-top: 14px;
-	text-align: center;
+    background: none repeat scroll 0 0 #F44442;
+    border-radius: 50%;
+    color: #FFFFFF;
+    display: block;
+    font-size: 11px;
+    height: 59px;
+    position: relative;
 }
 
 .total-followers > a span {
-	display: block;
-	font-size: 15px;
-	font-weight: bold;
+    display: block;
+    font-size: 14px;
+    font-weight: bold;
+    left: 40%;
+    line-height: 15px;
+    position: absolute;
+    top: 30%;
 }
 
 .user-followers > li .avatar {
@@ -6173,7 +6174,7 @@ form[name="a_form"] {
 }
 
 .user-navigation {
-	margin-bottom: 15px;
+    margin: 0 -15px 20px;
 }
 
 .options-table > tbody > .cshide {
@@ -6701,13 +6702,13 @@ div.oembedall-lanyard .first {
 }
 
 .user-widget, .widget{
-    border: 1px solid #EEEEEE;
+    background: none repeat scroll 0 0 #FFFFFF;
+    border: 1px solid #D9D9D9;
     border-radius: 5px;
-    box-shadow: 0 0 1px rgba(0, 0, 0, 0.1);
-    margin-bottom: 10px;
+    box-shadow: 0 0 2px rgba(0, 0, 0, 0.05);
+    margin-bottom: 25px;
 }
 .user-widget > h3, .widget > h3{
-    background: none repeat scroll 0 0 #FCFCFC;
     border-bottom: 1px solid #EEEEEE;
     border-radius: 5px 5px 0 0;
     font-size: 15px;
@@ -6716,9 +6717,7 @@ div.oembedall-lanyard .first {
     padding: 12px 15px;
     text-transform: capitalize;
 }
-.widget > div{
-	padding:15px;
-}
+
 .user-widget > h3:before{
 	margin-right:5px;
 }
@@ -6762,29 +6761,46 @@ div.oembedall-lanyard .first {
 .qa-message-item-inner:hover .qa-message-buttons > input{
 	display:block;
 }
-.qa-message-content{
-    color: #777777;
-    font-size: 13px;
-}
+
 .user-widgets > .user-widget{
 
 }
 .qa-message-item .asker-avatar {
-    margin-top: 6px;
+    margin-top: 3px;
+	margin-right: 15px;
 }
-.message-head > .who{
-    color: #3B5998;
-    font-size: 13px;
-    font-weight: bold;
-}
-.message-head > .when {
-    color: #AAAAAA;
-    float: right;
-    font-size: 11px;
-}
-.message-head > .when:before{
-	margin-right:5px;
-}
+
 .qa-message-item:last-child {
     border-bottom: medium none;
+}
+.user-wall{
+	margin-bottom:25px;
+}
+.widget.cs_user_posts {
+    border: medium none;
+    box-shadow: none;
+}
+.widget.cs_user_posts . h3{
+	padding:0;
+}
+.user-right {
+    background: none repeat scroll 0 0 #FFFFFF;
+    border: 1px solid #E7E7E7;
+    border-radius: 5px;
+    padding: 0 15px;
+}
+#profile-right-position{
+	margin:0 -15px;
+}
+#profile-right-position > .widget{
+    float: left;
+    padding: 15px;
+    width: 50%;
+}
+#profile-right-position > .widget > h3 {
+    padding: 15px 0;
+}
+#profile-right-position .question-list {
+    margin-top: 10px;
+    padding: 0;
 }

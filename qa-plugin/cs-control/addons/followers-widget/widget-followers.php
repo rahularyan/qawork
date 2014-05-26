@@ -73,15 +73,16 @@
 		
 		function output_widget($region, $place, $themeobject, $template, $request, $qa_content)
 		{
+			$handle = qa_request_part(1);
 			$widget_opt = $themeobject->current_widget['param']['options'];
 
 			if(@$themeobject->current_widget['param']['locations']['show_title'])
-				$themeobject->output('<h3 class="widget-title">Followers</h3>');
+				$themeobject->output('<h3 class="widget-title">Followers <a href="'.qa_path_html('user/'.$handle.'/followers').'">'. qa_lang_html('cleanstrap/view_more') .'</a></h3>');
 			
 	
 			$themeobject->output('<div class="ra-followers-widget">');
-			$handle = qa_request_parts(1);
-			$themeobject->output(cs_followers_list($handle[0]));
+			
+			$themeobject->output(cs_followers_list($handle, $widget_opt['cs_nu_avatar'], $widget_opt['cs_nu_count']));
 			$themeobject->output('</div>');
 		}
 	

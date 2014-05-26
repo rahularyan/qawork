@@ -9,6 +9,12 @@ class qa_html_theme_layer extends qa_html_theme_base {
         $widgets       = get_all_widgets();
         $this->widgets = $widgets;
         
+		if(cs_is_user()){
+			$handle = qa_request_part(1);
+			$this->content['active_user'] = cs_user_data($handle);
+			$this->content['active_user_profile'] = cs_user_profile($handle);
+		}
+		
 		if (isset($_REQUEST['cs_ajax_html'])) {
             $action = 'cs_ajax_' . $_REQUEST['action'];
             if (method_exists($this, $action))
@@ -897,10 +903,7 @@ class qa_html_theme_layer extends qa_html_theme_base {
 		}else{
 			$handle = qa_request_part(1);
 		}
-
-		$this->content['active_user'] = cs_user_data($handle);
-		$this->content['active_user_profile'] = cs_user_profile($handle);
-
+		
 		$this->profile_user_card($handle);	
 		$this->output('<div class="user-right">');
 	
@@ -915,19 +918,21 @@ class qa_html_theme_layer extends qa_html_theme_base {
 		$user = $this->content['active_user'];
 		$profile = $this->content['active_user_profile'];	
 		
-		$this->output('<div class="user-personal-links">');
+		$this->output('<div class="user-personal-links clearfix">');
 		if (qa_get_logged_in_level() >= QA_USER_LEVEL_ADMIN) {
 			$form = @$this->content['form_profile'];
 			if(isset($form)){
-				$this->output('<form class="user-buttons" '.$form['tags'].'><div class="btn-group">');
+				$this->output('<form class="user-buttons" '.$form['tags'].'>');
 				foreach($form['buttons'] as $btn)
-					$this->output('<button ' . $btn['tags'] . ' class="btn" type="submit">' . $btn['label'] . '</button>');
-				$this->output('</div></form>');
+					$this->output('<button ' . $btn['tags'] . ' type="submit">' . $btn['label'] . '</button>');
+				$this->output('</form>');
 			}
         }
 		$this->output(
-			'<ul class="user-own-menu">',
-				'<li><a href="">Permission</a></li>',
+			'<ul class="user-own-menu">',				
+				'<li><a href="'.qa_path_html('account').'">Account</a></li>',
+				'<li><a href="'.qa_path_html('user/'. $handle .'/notifications').'">'.qa_lang_html('cleanstrap/notifications').'</a></li>',
+				'<li><a href="'.qa_path_html('user/'. $handle .'/permission').'">'.qa_lang_html('cleanstrap/permission').'</a></li>',
 			'</ul>'
 		);
 		$this->output('</div>');
@@ -944,6 +949,7 @@ class qa_html_theme_layer extends qa_html_theme_base {
 				'</div>'
 			);
 				$this->favorite();
+				$this->output('<a class="btn icon-email" href="'.qa_path_html('message/'.$handle).'">'.qa_lang_html('cleanstrap/message').'</a>');
 			$this->output('</div>');
 			/* end user info */
 			
@@ -1007,6 +1013,7 @@ class qa_html_theme_layer extends qa_html_theme_base {
 				$this->output('</div>');
 				$this->output('<div class="col-sm-8">');
 					$this->cs_user_wall_widget($content['message_list'], $handle);
+					$this->cs_position('Profile Right');
 				$this->output('</div>');				
 			$this->output('</div>');
 		}elseif($this->template != 'user'){
@@ -1062,8 +1069,7 @@ class qa_html_theme_layer extends qa_html_theme_base {
 		unset($message_list['title']);
 		
 		if(isset($message_list) and !empty($message_list)){
-			$this->output('<div class="user-widget user-wall">');
-				$this->output('<h3 class="icon-wall">'. qa_lang_sub('cleanstrap/x_wall', $handle) .'</h3>');
+			$this->output('<div class="user-wall">');
 				$this->message_list_and_form($message_list, $handle);
 			$this->output('</div>');
 		}
@@ -2146,8 +2152,8 @@ class qa_html_theme_layer extends qa_html_theme_base {
 		if (cs_hook_exist(__FUNCTION__)) {$args=func_get_args(); return cs_do_action(__FUNCTION__, $args); }
         if (!empty($list['form'])) {
             $this->output('<div class="qa-message-list-form">');
-            $this->output('<div class="asker-avatar no-radius">');
-            $this->output(cs_get_avatar(qa_get_logged_in_handle(), 30));
+            $this->output('<div class="asker-avatar">');
+            $this->output(cs_get_avatar(qa_get_logged_in_handle(), 35));
             $this->output('</div>');
             $this->output('<div class="qa-message-list-inner">');
             $this->form($list['form']);
@@ -2161,18 +2167,12 @@ class qa_html_theme_layer extends qa_html_theme_base {
 		if (cs_hook_exist(__FUNCTION__)) {$args=func_get_args(); return cs_do_action(__FUNCTION__, $args); }
         $this->output('<div class="qa-message-item" ' . @$message['tags'] . '>');
         $this->output('<div class="asker-avatar">');
-        $this->output(cs_get_avatar($message['raw']['fromhandle'], 30));
+        $this->output(cs_get_avatar($message['raw']['fromhandle'], 35));
         $this->output('</div>');
         $this->output('<div class="qa-message-item-inner">');
 		$this->message_buttons($message);
 			$this->output('<div class="no-overflow">');
-				$this->output(
-					'<div class="message-head">',
-						'<span class="who">' .implode(' ', $message['who']).'</span>',
-						'<span class="when icon-calender">' .implode(' ', $message['when']). '</span>',
-					'</div>'
-				);
-				//$this->post_meta($message, 'qa-message');
+				$this->post_meta($message, 'qa-message');
 				$this->message_content($message);        
 			$this->output('</div>');
         $this->output('</div>');
