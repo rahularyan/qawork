@@ -39,8 +39,8 @@ class cs_notification_page {
 		require_once CS_CONTROL_DIR .'/addons/notification/functions.php';
 		ob_start();
 		?>
-			<div id="" class="col-md-6">
-				<a href="#"></a>
+			<div id="notifications-page" class="col-md-6">
+				<a class="mark-activity icon-tick" href="#" data-id="<?php echo qa_get_logged_in_userid() ?> "> <?php echo qa_lang('cleanstrap/mark_all_as_read') ?> </a>
 				<?php cs_activitylist(); ?>
 			</div>
 		<?php

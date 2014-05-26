@@ -225,3 +225,8 @@
     font-weight: bold;
 }
 .qa-part-form-tc-notify tbody > tr > th.qa-form-tall-label {width: 400px}
+#notifications-page .mark-activity {
+    float: right;
+    margin-right: 10px;
+    margin-top: 5px ;
+}
