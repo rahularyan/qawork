@@ -100,11 +100,11 @@
 					$timeCode = qa_when_to_html(  strtotime( $p['created'] ) ,7);
 					$when = @$timeCode['prefix'] . @$timeCode['data'] . @$timeCode['suffix'];
 					if($type=='Q'){
-						$output .= '<h5><a href="'. qa_q_path_html($p['postid'], $p['title']) .'" title="'. $p['title'] .'">'.qa_html($p['title']).'</a></h5>';
+						$output .= '<a href="'. qa_q_path_html($p['postid'], $p['title']) .'" title="'. $p['title'] .'">'.qa_html($p['title']).'</a>';
 					}elseif($type=='A'){
-						$output .= '<h5><a href="'.cs_post_link($p['parentid']).'#a'.$p['postid'].'">'. cs_truncate(strip_tags($p['content']), 300).'</a></h5>';
+						$output .= '<a href="'.cs_post_link($p['parentid']).'#a'.$p['postid'].'">'. cs_truncate(strip_tags($p['content']), 100).'</a>';
 					}else{
-						$output .= '<h5><a href="'.cs_post_link($p['parentid']).'#c'.$p['postid'].'">'. cs_truncate(strip_tags($p['content']), 300).'</a></h5>';
+						$output .= '<a href="'.cs_post_link($p['parentid']).'#c'.$p['postid'].'">'. cs_truncate(strip_tags($p['content']), 100).'</a>';
 					}
 					
 					$output .= '<div class="list-date"><span class="icon-calendar">'.$when.'</span>';	
@@ -147,7 +147,7 @@
 				$type_link = '<a class="see-all" href="'.qa_path_html('user/'.$handle.'/'.$type_title).'">Show all</a>';
 			
 			if(@$themeobject->current_widget['param']['locations']['show_title'])
-				$themeobject->output('<h3 class="user-post-title">'.cs_name($handle).'\'s '.$type_title.@$type_link.'</h3>');
+				$themeobject->output('<h3 class="user-post-title">'.$handle.'\'s '.$type_title.@$type_link.'</h3>');
 
 			$themeobject->output('<div class="ra-ua-widget">');
 			$themeobject->output($this->cs_user_post_list($handle, @$widget_opt['cs_up_type'],  (int)$widget_opt['cs_up_count']));

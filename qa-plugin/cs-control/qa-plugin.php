@@ -159,3 +159,36 @@ function cs_create_widgets_table($queries, $tableslc){
 	return $queries;
 
 }
+
+cs_event_hook('cs_ajax_upload_cover', NULL, 'cs_upload_cover_modal');
+function cs_upload_cover_modal(){
+	if (qa_is_logged_in()){
+
+	?>
+	<div class="modal fade" id="upload_cover_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	  <div class="modal-dialog">
+		<div class="modal-content">
+		  <div class="modal-header">
+			<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+			<h4 class="modal-title" id="myModalLabel"><?php echo qa_lang_html('cs_media/add_media'); ?></h4>
+		  </div>
+		  <div class="modal-body">			
+			<form id="file-upload" method="POST" enctype="multipart/form-data">
+				<div class="file-input-wrapper">
+					<button class="btn-file-input btn"><?php echo qa_lang_html('cs_media/select_a_file'); ?></button>
+					<input id="file-upload-input" name="cover" type="file" />
+				</div>
+				<div id="file-preview" class="clearfix"></div>
+				<button type="submit" class="btn btn-success"><?php echo qa_lang_html('cs_media/upload'); ?></button>
+				<input type="hidden" name="type" value="cover">
+				<input type="hidden" name="code" value="<?php echo qa_get_form_security_code('upload_cover' ); ?>">
+			</form>
+		  </div>
+		  
+		</div>
+	  </div>
+	</div>
+	<?php
+	}
+	die(); 
+}
