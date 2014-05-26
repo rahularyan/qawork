@@ -29,6 +29,7 @@ $(document).ready(function(){
 			},
 			success: function (response) {				
 				$('.activity-dropdown-list .append .event-content').addClass('read');
+				$('#notifications-page .event-content').addClass('read');
 				$('#activitylist > span').remove();
 			},
 		});
