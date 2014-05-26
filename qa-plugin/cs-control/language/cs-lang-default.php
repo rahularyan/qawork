@@ -169,7 +169,7 @@
 		'following' => 'following',
 		'score' => 'Score',
 		'x_wth_best_answer_chosen' => '(^ with best answer chosen)',
-		'x_chosen_as_best' => '(^ chosen_as_best)',
+		'x_chosen_as_best' => '(^ chosen as best)',
 		'voted_on' => 'Voted on',
 		'gave_out' => 'Gave out',
 		'x_up_votes' => '^ up votes',

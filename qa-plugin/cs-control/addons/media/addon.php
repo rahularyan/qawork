@@ -57,9 +57,10 @@ function cs_upload_file($field, $postid){
 
 function cs_file_name($file){
 	$ext = pathinfo( $file, PATHINFO_EXTENSION);
+	$md5 = md5(time().uniqid());
 	return array(
-		'file' => md5(time().uniqid()).'.'.$ext,
-		'name' => md5(time().uniqid()),
+		'file' => $md5.'.'.$ext,
+		'name' => $md5,
 		'ext' => $ext
 	);
 }
@@ -106,6 +107,47 @@ function cs_upload_image($file, $postid = 0){
 	$name['url'] = cs_upload_url();
 	$name['status'] = 'true';
 	unlink ($uploaddir.$temp_name); 
+	
+	return $name;
+}
+
+function cs_upload_cover($file){
+	$file = $_FILES[$file];
+	include_once(CS_CONTROL_DIR.'/inc/class_images.php');
+	require_once QA_INCLUDE_DIR.'qa-db-users.php';
+	
+	$uploaddir = cs_upload_dir();
+	$name = cs_file_name($file['name']);
+	$temp_name = 'temp_image'.$name['ext'];
+	move_uploaded_file($file['tmp_name'], $uploaddir.$temp_name);
+	
+	// get cropping position
+	$crop_x = qa_opt('cs_crop_x');
+	$crop_y = qa_opt('cs_crop_y');
+	
+	/// save original image first, and then assign id of original to other size
+	$image = new Image($uploaddir.$temp_name);
+	$image->resize(1140, 217, 'crop');
+	$image->save($name['name'], $uploaddir);	
+	
+	cs_add_action('after_uploading_cover', $image);
+	
+	// insert to DB
+	$name['id'] = cs_insert_media($name['name'], $name['ext'], 0 );
+	$name['url'] = cs_upload_url();
+	$name['status'] = 'true';
+	$name['action'] = 'cover';
+	unlink ($uploaddir.$temp_name); 
+	
+	$prev_file = cs_user_profile(qa_get_logged_in_handle(), 'cover');
+
+	if (!empty($prev_file)){	
+		$delete = $uploaddir.'/'.$prev_file;
+		if (file_exists($delete))  
+			unlink ($delete); 
+	}
+	
+	qa_db_user_profile_set(qa_get_logged_in_userid(), 'cover', $name['file']);
 	
 	return $name;
 }
@@ -439,10 +481,17 @@ class CS_Media_Addon{
 	
 	public function upload_file(){
 		$postid = (int)qa_post_text('postid');
-		if(qa_get_logged_in_level() >= QA_USER_LEVEL_ADMIN && qa_check_form_security_code('media_'.$postid, qa_post_text('code')))
+		$type = qa_post_text('type');
+		
+		if($type == 'cover' && qa_check_form_security_code('upload_cover', qa_post_text('code'))){
+		
+			echo json_encode(cs_upload_cover('cover'));
+		
+		}elseif(qa_get_logged_in_level() >= QA_USER_LEVEL_ADMIN && qa_check_form_security_code('media_'.$postid, qa_post_text('code'))){
 			echo json_encode(cs_upload_file('post_media', $postid));
-		else
+		}else{
 			echo '0';
+		}
 		die();
 	}
 	

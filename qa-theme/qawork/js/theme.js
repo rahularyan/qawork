@@ -1,11 +1,11 @@
-function cs_animate_button(elm, hide){
+function cs_animate_button(elm, hide = false){
 	//set the default value 
 	if (typeof(hide)==='undefined') {hide = false};
 
 	if(hide)
-		$(elm).removeClass('.btn-loading.active');
+		$(elm).removeClass('btn-loading');
 	else
-		$(elm).addClass('.btn-loading.active');
+		$(elm).addClass('btn-loading');
 }
 function cs_remove_animate_button(elm){
 	$(elm).removeClass('.btn-loading.active');
@@ -592,6 +592,24 @@ function cs_check_site_status_size(){
 	if($('.site-status-inner .bar-float').width() < 160)
 		$('.site-status-inner > *').css({'float': 'none', 'width':'100%'});
 }
+
+function cs_change_cover(elm){
+	cs_animate_button(elm);
+	$.ajax({
+		url: ajax_url,
+		type: 'POST',
+		data: {
+			action: 'upload_cover'
+		},
+		dataType: 'html',
+		context: elm,
+		success: function (response) {
+			$(response).appendTo('body');
+			$('#upload_cover_modal').modal('show');
+		},
+	});
+}
+
 jQuery.fn.redraw = function() {
     return this.hide(0, function(){jQuery(this).show()});
 }; 
@@ -688,6 +706,13 @@ $(document).ready(function(){
 	
 	$(".oembed").oembed(null,{
 		embedMethod: 'auto',    // "auto", "append", "fill" 
+	});
+	
+	$('body').delegate('*[data-qawork]', 'click', function(){
+		var action = $(this).data('qawork');
+		
+		if(action == 'change-cover')
+			cs_change_cover(this);
 	});
 
 });
