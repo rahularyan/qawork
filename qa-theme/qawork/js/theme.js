@@ -1,4 +1,4 @@
-function cs_animate_button(elm, hide = false){
+function cs_animate_button(elm, hide){
 	//set the default value 
 	if (typeof(hide)==='undefined') {hide = false};
 
