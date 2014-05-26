@@ -89,23 +89,12 @@
 			
 			if(count($post) > 0){
 				foreach($post as $p){
-				
-					if($type=='Q'){
-						$what = qa_lang_html('cleanstrap/asked');
-					}elseif($type=='A'){
-						$what = qa_lang_html('cleanstrap/answered');
-					}elseif('C'){
-						$what = qa_lang_html('cleanstrap/commented');
-					}
+			
 					$handle = $p['handle'];
 
 					$output .= '<li id="q-list-'.$p['postid'].'" class="question-item">';
 					if ($type=='Q'){
-						$output .= '<div class="big-ans-count pull-left">'.$p['acount'].'<span>'.qa_lang_html('cleanstrap/ans').'</span></div>';
-					}elseif($type=='A'){
-						$output .= '<div class="big-ans-count pull-left icon-answer"></div>';
-					}elseif($type=='C'){
-						$output .= '<div class="big-ans-count pull-left icon-comments"></div>';
+						$output .= '<div class="big-ans-count pull-left">'.$p['acount'].'<span></span></div>';
 					}
 					$output .= '<div class="list-right">';
 					$timeCode = qa_when_to_html(  strtotime( $p['created'] ) ,7);
@@ -118,8 +107,8 @@
 						$output .= '<h5><a href="'.cs_post_link($p['parentid']).'#c'.$p['postid'].'">'. cs_truncate(strip_tags($p['content']), 300).'</a></h5>';
 					}
 					
-					$output .= '<div class="list-date"><span class="icon-clock">'.$when.'</span>';	
-					$output .= '<span class="icon-thumbs-up2">'.qa_lang_sub('cleanstrap/x_votes', $p['netvotes']).'</span></div>';	
+					$output .= '<div class="list-date"><span class="icon-calendar">'.$when.'</span>';	
+					$output .= '<span class="icon-thumbs-up">'.qa_lang_sub('cleanstrap/x_votes', $p['netvotes']).'</span></div>';	
 					$output .= '</div>';	
 					$output .= '</li>';
 				}
@@ -158,7 +147,7 @@
 				$type_link = '<a class="see-all" href="'.qa_path_html('user/'.$handle.'/'.$type_title).'">Show all</a>';
 			
 			if(@$themeobject->current_widget['param']['locations']['show_title'])
-				$themeobject->output('<h3 class="widget-title user-post-title">'.cs_name($handle).'\'s '.$type_title.@$type_link.'</h3>');
+				$themeobject->output('<h3 class="user-post-title">'.cs_name($handle).'\'s '.$type_title.@$type_link.'</h3>');
 
 			$themeobject->output('<div class="ra-ua-widget">');
 			$themeobject->output($this->cs_user_post_list($handle, @$widget_opt['cs_up_type'],  (int)$widget_opt['cs_up_count']));
