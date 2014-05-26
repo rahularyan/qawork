@@ -21,3 +21,7 @@
 .breadcrumb > li:last-child > a{
 	color:#999;
 }
+.widget.cs_breadcrumbs{
+	border:none;
+	box-shadow: none;
+}
