@@ -73,29 +73,20 @@ textarea {
 
 /* Buttons */
 .btn, .qa-form-light-button, .qa-form-tall-button, .qa-form-wide-button, .qa-a-select-button, .qa-a-unselect-button {
-	background-color: #EEE;
-	background-image: -moz-linear-gradient(#FCFCFC, #EEE);
-	background-image: -o-linear-gradient(#FCFCFC, #EEE);
-	background-image: -webkit-linear-gradient(#FCFCFC, #EEE);
-	background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0, #FCFCFC), color-stop(1, #EEE));
-	filter: "progid:DXImageTransform.Microsoft.gradient(startColorStr=#FCFCFC, EndColorStr=#EEE)";
-	background-image: linear-gradient(#FCFCFC, #EEE);
-	background-repeat: repeat-x;
-	border: 1px solid #D5D5D5;
-	-moz-border-radius: 3px;
-	-webkit-border-radius: 3px;
-	border-radius: 3px;
-	color: #333;
-	cursor: pointer;
-	display: inline-block;
-	font-size: 13px;
-	font-weight: bold;
-	padding: 4px 12px;
-	position: relative;
-	text-shadow: 0 1px 0 rgba(255, 255, 255, 0.9);
-	text-transform: capitalize;
-	vertical-align: middle;
-	white-space: nowrap;
+    background: none repeat scroll 0 0 #FFFFFF;
+    border: 1px solid #D5D5D5;
+    border-radius: 3px;
+    color: #333333;
+    cursor: pointer;
+    display: inline-block;
+    font-size: 12px;
+    font-weight: bold;
+    padding: 4px 12px;
+    position: relative;
+    text-shadow: 0 1px 0 rgba(255, 255, 255, 0.9);
+    text-transform: capitalize;
+    vertical-align: middle;
+    white-space: nowrap;
 }
 
 .btn:hover, .qa-form-light-button:hover, .qa-form-tall-button:hover, .qa-form-wide-button:hover, .qa-a-select-button:hover, .qa-a-unselect-button:hover, .post-button .btn:hover {
@@ -133,7 +124,12 @@ textarea {
 	background-image: linear-gradient(#92E575, #69B94D);
 	color: #fff;
 }
-
+.btn-danger {
+    background-color: #D9534F;
+    border-color: #D43F3A;
+    color: #FFFFFF;
+    text-shadow: 0 1px 0 rgba(0, 0, 0, 0.2);
+}
 .btn.active, .fav-parent .fav-btn.active {
 	background: none repeat scroll 0 0 #FFF;
 	border-color: #D3D3D3;
@@ -344,8 +340,8 @@ textarea {
 }
 
 #header-below {
-    background: none repeat scroll 0 0 #FDFDFD;
-    border-bottom: 1px solid #F9F9F9;
+    background: none repeat scroll 0 0 #FFFFFF;
+    border-bottom: 1px solid #EEEEEE;
     padding: 10px 0;
 }
 
@@ -1008,14 +1004,16 @@ ul.qa-nav-cat-list-4 > li.qa-nav-cat-item:first-child {
 
 .qa-nav-sub ul li a {
     border-radius: 3px 3px 0 0;
-    color: #888888;
+    color: #666666;
     display: block;
     font-size: 13px;
     padding: 8px 15px;
 }
 
 .qa-nav-sub ul li [class^="icon-"]:before {
-	margin-right: 5px;
+    color: #BABABA;
+    font-size: 15px;
+    margin-right: 5px;
 }
 
 .qa-nav-sub-link:hover {
@@ -1053,8 +1051,9 @@ ul.qa-nav-cat-list-4 > li.qa-nav-cat-item:first-child {
     padding: 0;
 }
 
-.widget >h3> a {
+.widget > h3 > a {
     background: none repeat scroll 0 0 #F3F3F3;
+    border: 1px solid #DDDDDD;
     border-radius: 2px;
     color: #666666;
     display: block;
@@ -2077,7 +2076,7 @@ table.page-users-list {
     height: 25px;
     line-height: 25px;
     margin-right: 15px;
-    margin-top: 0;
+    margin-top: 5px;
     min-width: 25px;
     text-align: center;
 }
@@ -2095,7 +2094,6 @@ table.page-users-list {
 }
 
 .question-list .question-item .list-right {
-	line-height: 20px;
 	overflow: hidden;
 }
 
@@ -2105,16 +2103,6 @@ table.page-users-list {
 	margin: 0 0 7px;
 }
 
-.question-list .question-item .list-right p a {
-	color: #888;
-}
-
-.question-list .question-item .list-right h5 {
-    font-size: 13px;
-    font-weight: 600;
-    margin-bottom: 0;
-    margin-top: 0;
-}
 
 
 .question-list .question-item .list-right .counts {
@@ -3076,6 +3064,11 @@ th .description {
 
 #header-position {
 	background: none;
+}
+#header-position .widget{
+    background: none repeat scroll 0 0 rgba(0, 0, 0, 0);
+    border: medium none;
+    box-shadow: none;
 }
 
 /* Ticker widget */
@@ -4326,16 +4319,12 @@ th .description {
 }
 
 .users-post-widget .question-item .list-right h5 {
-    font-size: 15px;
-    font-weight: 300;
     margin-bottom: 3px;
+    margin-top: 0;
 }
-
-.users-post-widget.post-type-A .question-item .list-right h5 a, .users-post-widget.post-type-C .question-item .list-right h5 a {
-	font-size: 14px;
-	line-height: 24px;
+.users-post-widget.post-type-A .question-item .list-right h5 a{
+	color:#5F5F5F;
 }
-
 .question-list .question-item .big-ans-count.icon-answer {
 	-moz-border-radius: 50%;
 	-webkit-border-radius: 50%;
@@ -4968,16 +4957,15 @@ th .description {
 }
 .user-buttons{
     float: left;
-    margin-bottom: 0;
-    margin-top: 4px;
+    margin: 0;
 }
 
 .user-buttons > button {
     background: none repeat scroll 0 0 rgba(0, 0, 0, 0);
     border: medium none;
-    color: #777777;
+    color: #555555;
     font-size: 13px;
-    margin: 0;
+    margin: 0 20px 0 0;
     padding: 0;
 }
 .your-answer-label {
@@ -5257,11 +5245,11 @@ th .description {
     margin-left: 15px;
 }
 .user-own-menu li a {
-    color: #777777;
     font-size: 13px;
 }
 .user-card {
-    background: url("../images/default.jpg") repeat scroll 0 0 rgba(0, 0, 0, 0);
+    background-image: url("../images/default.jpg");
+    background-size: cover;
     border-radius: 5px;
     margin-bottom: 30px;
     overflow: hidden;
@@ -5269,7 +5257,7 @@ th .description {
 }
 .user-card .user-info {
     background: none repeat scroll 0 0 rgba(0, 0, 0, 0.1);
-    min-height: 155px;
+    min-height: 175px;
     padding: 10px 25px 25px 135px;
 }
 .user-card .btn{
@@ -5861,6 +5849,9 @@ form[name="a_form"] {
 	-webkit-animation: progress-bar-stripes 2s linear infinite;
 	-moz-animation: progress-bar-stripes 2s linear infinite;
 	animation: progress-bar-stripes 2s linear infinite;
+}
+.btn.btn-loading:hover{
+	background-color:#aaa;
 }
 
 .qa-q-view-inner-line {
@@ -6773,8 +6764,12 @@ div.oembedall-lanyard .first {
 .qa-message-item:last-child {
     border-bottom: medium none;
 }
-.user-wall{
-	margin-bottom:25px;
+.user-personal-links {
+    margin: 15px 0;
+}
+.user-wall {
+    border-bottom: 2px solid #EEEEEE;
+    margin-bottom: 25px;
 }
 .widget.cs_user_posts {
     border: medium none;
@@ -6803,4 +6798,7 @@ div.oembedall-lanyard .first {
 #profile-right-position .question-list {
     margin-top: 10px;
     padding: 0;
+}
+.qa-message-content {
+    color: #9D9D9D;
 }
