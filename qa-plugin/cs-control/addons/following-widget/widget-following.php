@@ -1,5 +1,5 @@
 <?php
-	class cs_followers_widget {
+	class cs_following_widget {
 
 		function cs_widget_form()
 		{
@@ -79,13 +79,13 @@
 
 			
 			if(@$themeobject->current_widget['param']['locations']['show_title'])
-				$themeobject->output('<h3 class="widget-title">'.qa_lang_sub('cleanstrap/x_followers', $account['followers']).' <a href="'.qa_path_html('user/'.$handle.'/followers').'">'. qa_lang_html('cleanstrap/view_more') .'</a></h3>');
+				$themeobject->output('<h3 class="widget-title">'.qa_lang_sub('cleanstrap/x_following', $account['followers']).' <a href="'.qa_path_html('user/'.$handle.'/following').'">'. qa_lang_html('cleanstrap/view_more') .'</a></h3>');
 			
 	
 			$themeobject->output('<div class="ra-followers-widget">');
 				
 				if($account['followers'] <1){
-					$themeobject->output('<div class="no-followers"><span>Follow '.$handle.' for updates</span>');
+					$themeobject->output('<div class="no-followers"><span>'.$handle.' following none</span>');
 					$themeobject->favorite();
 					$themeobject->output('</div>');
 				}else

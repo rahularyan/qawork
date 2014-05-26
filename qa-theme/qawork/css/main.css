@@ -6802,3 +6802,21 @@ div.oembedall-lanyard .first {
 .qa-message-content {
     color: #9D9D9D;
 }
+.ra-followers-widget .no-followers{
+    padding: 25px;
+    text-align: center;
+}
+.white-bg {
+    background: none repeat scroll 0 0 #FFFFFF;
+    border: 1px solid #E7E7E7;
+    border-radius: 5px;
+}
+.white-bg .qa-q-list {
+    padding: 0 15px;
+}
+.white-bg > .qa-nav-sub {
+    padding-top: 8px;
+}
+.white-bg > .qa-nav-sub .qa-nav-sub-list{
+	padding-left:10px;
+}

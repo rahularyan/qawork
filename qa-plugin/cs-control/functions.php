@@ -40,6 +40,14 @@ function cs_is_user(){
 	return false;
 }
 
+function cs_is_state_edit(){
+	$request = cs_request_text('state');
+	if( $request == 'edit')
+		return true;
+		
+	return false;
+}
+
 function cs_read_addons(){
 	$addons = array();
 	//load files from addons folder
@@ -195,6 +203,10 @@ function cs_user_data($handle){
 		$user['account'] = qa_db_select_with_pending( qa_db_user_account_selectspec($userid, true) );
 		$user['rank'] = qa_db_select_with_pending( qa_db_user_rank_selectspec($handle) );
 		$user['points'] = qa_db_select_with_pending( qa_db_user_points_selectspec($identifier) );
+		
+		$user['followers'] = qa_db_read_one_value( qa_db_query_sub('SELECT count(*) FROM ^userfavorites WHERE ^userfavorites.entityid = # and ^userfavorites.entitytype = "U" ', $userid), true );
+		
+		$user['following'] = qa_db_read_one_value( qa_db_query_sub('SELECT count(*) FROM ^userfavorites WHERE ^userfavorites.userid = # and ^userfavorites.entitytype = "U" ', $userid), true );
 	}
 
 	return $user;
