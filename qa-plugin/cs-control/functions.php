@@ -591,22 +591,22 @@ function cs_ajax_user_popover(){
 		<div id="<?php echo $userid;?>_popover" class="user-popover">
 			<div class="counts clearfix">
 				<div class="points">
-					<?php echo '<span>'.$data['points'] .'</span>Points'; ?>
+					<?php echo '<span>'.$data['points']['points'] .'</span>Points'; ?>
 				</div>
 				<div class="qcount">
-					<?php echo '<span>'.$data['qposts'] .'</span>Questions'; ?>
+					<?php echo '<span>'.$data['points']['qposts'] .'</span>Questions'; ?>
 				</div>
 				<div class="acount">
-					<?php echo '<span>'.$data['aposts'] .'</span>Answers'; ?>
+					<?php echo '<span>'.$data['points']['aposts'] .'</span>Answers'; ?>
 				</div>
 				<div class="ccount">
-					<?php echo '<span>'.$data['cposts'] .'</span>Comments'; ?>
+					<?php echo '<span>'.$data['points']['cposts'] .'</span>Comments'; ?>
 				</div>
 			</div>
 			<div class="bottom">	
 				<div class="avatar pull-left"><?php echo cs_get_avatar($handle, 30); ?></div>
 				<span class="name"><?php echo cs_name($handle); ?></span>				
-				<span class="level"><?php echo qa_user_level_string($data['level']); ?></span>				
+				<span class="level"><?php echo qa_user_level_string($data['account']['level']); ?></span>				
 			</div>
 		</div>	
 		<?php
