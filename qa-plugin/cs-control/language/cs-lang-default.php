@@ -176,6 +176,9 @@
 		'x_down_votes' => '^ down votes',
 		'received' => 'Received',
 		'x_wall' => '^\'s wall',
+		'view_more' => 'View more',
+		'message' => 'Message',
+		'permission' => 'Permission',
 	);
 	
 
