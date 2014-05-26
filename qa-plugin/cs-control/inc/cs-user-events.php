@@ -338,7 +338,6 @@
 				if(isset($params['parent'])) 	 unset($params['parent']);
 				if(isset($params['question']['content'])) unset($params['question']['content']);
 				if(isset($params['oldquestion'])) unset($params['oldquestion']);
-				//qa_fatal_error(var_dump($postid));
 				$paramstring = json_encode( $params );
 			}
 			else

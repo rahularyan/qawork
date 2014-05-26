@@ -14,7 +14,7 @@ class qa_html_theme_layer extends qa_html_theme_base {
 			$this->content['active_user'] = cs_user_data($handle);
 			$this->content['active_user_profile'] = cs_user_profile($handle);
 		}
-		
+
 		if (isset($_REQUEST['cs_ajax_html'])) {
             $action = 'cs_ajax_' . $_REQUEST['action'];
             if (method_exists($this, $action))
@@ -395,11 +395,14 @@ class qa_html_theme_layer extends qa_html_theme_base {
 
 			if (isset($this->content['error']) && $this->template != 'not-found')
 				$this->error(@$this->content['error']);
-			
-			if(!cs_is_user() && $this->template != 'admin')
-				$this->nav('sub');
-				
-			$this->main();
+			if (!cs_is_user())
+			$this->output('<div class="white-bg">');
+				if(!cs_is_user() && $this->template != 'admin')
+					$this->nav('sub');
+					
+				$this->main();
+			if (!cs_is_user())
+				$this->output('</div>');
 			
 			if ($this->template != 'question')
 				$this->page_links();			
@@ -1009,7 +1012,7 @@ class qa_html_theme_layer extends qa_html_theme_base {
 		$user = $this->content['active_user'];
 		$profile = $this->content['active_user_profile'];
 
-		if($this->template == 'user' && 'edit' != cs_request_text('state')){
+		if($this->template == 'user' && !cs_is_state_edit()){
 			$this->output('<div class="user-widgets row">');
 				$this->output('<div class="col-sm-4">');
 					$this->cs_position('Profile Left Top');
