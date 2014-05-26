@@ -1008,8 +1008,8 @@ class qa_html_theme_layer extends qa_html_theme_base {
 		if (cs_hook_exist(__FUNCTION__)) {$args=func_get_args(); return cs_do_action(__FUNCTION__, $args); }
 		$user = $this->content['active_user'];
 		$profile = $this->content['active_user_profile'];
-		
-		if($this->template == 'user'){
+
+		if($this->template == 'user' && 'edit' != cs_request_text('state')){
 			$this->output('<div class="user-widgets row">');
 				$this->output('<div class="col-sm-4">');
 					$this->cs_position('Profile Left Top');
@@ -1022,9 +1022,9 @@ class qa_html_theme_layer extends qa_html_theme_base {
 					$this->cs_position('Profile Right');
 				$this->output('</div>');				
 			$this->output('</div>');
-		}elseif($this->template != 'user'){
+		}else{
 			$this->main_parts($content);
-		}		
+		}
 		
     }
 	function cs_user_about($user, $profile){
