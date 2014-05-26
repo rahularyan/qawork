@@ -213,8 +213,11 @@ class cs_theme_widgets {
 						$output .= $this->widget_options_form_textarea($field);
 					
 					elseif($field['type'] == 'checkbox'):
-						// $output .= $this->widget_options_form_label($k, $field);
 						$output .= $this->widget_options_form_checkbox($k ,$field);
+					
+					elseif($field['type'] == 'text'):
+						$output .= $this->widget_options_form_label($k, $field);
+						$output .= $this->widget_options_form_text($field);
 						
 					else:
 						$output .= $this->widget_options_form_label($k, $field);
@@ -235,6 +238,10 @@ class cs_theme_widgets {
 		
 		function widget_options_form_textarea($field){
 			return '<textarea '.$field['tags'].'>'.@$field['value'].'</textarea>';
+		}
+		
+		function widget_options_form_text($field){
+			return '<input type="text" '.$field['tags'].' value="'.@$field['value'].'" />';
 		}
 		
 		function widget_options_form_input($field){
