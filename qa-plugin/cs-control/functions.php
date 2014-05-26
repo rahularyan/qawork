@@ -641,7 +641,7 @@ function cs_count_following($handle){
 	return qa_db_read_one_value(qa_db_query_sub('SELECT count(*) FROM ^userfavorites WHERE ^userfavorites.userid = # and ^userfavorites.entitytype = "U" ', $userid));	
 }
 
-function cs_followers_list($handle, $limit = 14, $order_by = 'rand'){
+function cs_followers_list($handle, $size = 40, $limit = 10, $order_by = 'rand'){
 	$userid = qa_handle_to_userid($handle);
 	
 	if( $order_by == 'rand')
@@ -655,16 +655,18 @@ function cs_followers_list($handle, $limit = 14, $order_by = 'rand'){
 		$output .= '<ul class="user-followers clearfix">';
 		foreach($followers as $user){
 			$id = qa_handle_to_userid($user);
-			$output .= '<li><div class="avatar" data-handle="'.$user.'" data-id="'.$id.'"><a href="'.qa_path_html('user/'.$user).'"><img src="'.cs_get_avatar($user, 59, false).'" /></a></div></li>';
+			$output .= '<li><div class="avatar" data-handle="'.$user.'" data-id="'.$id.'"><a href="'.qa_path_html('user/'.$user).'"><img src="'.cs_get_avatar($user, $size, false).'" /></a></div></li>';
 		}
 		$count = cs_user_followers_count($userid);
 		
-		if($count > 100)
+		if(($count - $limit) > 100)
 			$count = '99+';
 		else
-			$count = ($count);
+			$count = ($count - $limit);
+		
+		if($count > 0)		
+			$output .= '<li class="total-followers"><a href="'.qa_path_html('followers').'" style="height:'.$size.'px;width:'.$size.'px;"><span>'.$count.'</span></a></li>';
 			
-		$output .= '<li class="total-followers"><a href="'.qa_path_html('followers').'"><span>'.$count.'</span>'.qa_lang_html('cleanstrap/followers').'</a></li>';
 		$output .= '</ul>';
 		$output .= '</div>';
 		return $output;
