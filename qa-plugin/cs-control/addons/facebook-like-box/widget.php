@@ -10,7 +10,7 @@ class cs_fb_likebox_widget {
                                     'label' => qa_lang('cs_fb_like_box/ur_fb_page_url'),
                                     'type'  => 'text',
                                     'tags'  => 'name="cs_fb_page_url"',
-                                    'value' => 'http://',
+                                    'value' => 'https://www.facebook.com/YourPage',
                     ),
                     'cs_fb_like_box_colorscheme' => array(
                                     'label' => qa_lang('cs_fb_like_box/colorscheme_label'),
