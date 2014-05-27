@@ -38,6 +38,8 @@ return array(
 	'u_level_body_email'     => "^open ^q_content^close <a href='^url'>Click  here </a> to see your new profile \n",
 	'u_level_approved_body_email'     => "Congratulations . You profile has been approved",
 	'u_level_improved_body_email'     => "Congratulations . ^done_by has selected you as ^new_designation ",
+	'u_level_improved_notf'     => " has selected you as ^new_designation ",
+	'u_level_approved_notf'     => " has approved your profile",
 	'related_body_email'     => "^open ^done_by has posted a related question question <a href='^url'> ^q_title </a> \n^q_content^close <a href='^url'>Click  here </a> to see the question\n",
 	
 	//subject headers
