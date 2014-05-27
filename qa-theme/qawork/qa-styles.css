@@ -9,7 +9,7 @@
 	Theme Update Check URI: 
 */
 .home-intro h1{
-    color: #333333;
+    color: #FFFFFF;
     font-size: 33px;
     font-weight: 600;
     margin-bottom: 20px;
@@ -17,6 +17,7 @@
     padding: 1px;
 }
 .home-intro .desc {
+    color: #CCCCCC;
     font-size: 19px;
     line-height: 30px;
 }
@@ -24,7 +25,7 @@
     margin-top: 30px;
 }
 .home-intro  .intro-icon > *:before{
-    background: none repeat scroll 0 0 #EEEEEE;
+    background: none repeat scroll 0 0 #45b168;
     border-radius: 50%;
     color: #FFFFFF;
     display: table;
@@ -38,6 +39,7 @@
 
 }
 .home-intro  .intro-icon > * span{
+    color: #FFFFFF;
     display: block;
     font-size: 15px;
     line-height: 20px;
