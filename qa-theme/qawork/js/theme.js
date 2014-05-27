@@ -506,33 +506,33 @@ function cs_user_popover(){
 		var $this = $(this);
 		
 		popover_time = setTimeout(function(){
-			if($('body').find('#'+userid+'_popover').length == 0 && (handle.length > 0)){
-			$this.addClass('mouseover');
-				$.ajax({
-					type: 'POST',
-					data: {
-						cs_ajax: true,
-						action: 'user_popover',
-						handle: handle,
-					},
-					dataType: 'html',
-					context: $this,
-					success: function (response) {
-						$('body').append(response);
-						$('#'+userid+'_popover').position({my: 'center bottom',at: 'center top', of:$this, collision: 'fit flip'});
-						$('#'+userid+'_popover').show();
-						$this.delay(500).queue(function() {$this.removeClass('mouseover'); $this.dequeue();});
-					},
-				});
-			}else{
-				//if($('.user-popover').is(':visible'))
-					//$('.user-popover').hide();
-				//$(this).addClass('mouseover');	
-				$('#'+userid+'_popover').removeAttr('style');
-				$('#'+userid+'_popover').position({my: 'center bottom',at: 'center top', of:$this, collision: 'fit flip'});
-				$('#'+userid+'_popover').show();
-			}
-		},500);
+		if($('body').find('#'+userid+'_popover').length == 0 && (handle.length > 0)){
+		$this.addClass('mouseover');
+			$.ajax({
+				type: 'POST',
+				data: {
+					cs_ajax: true,
+					action: 'user_popover',
+					handle: handle,
+				},
+				dataType: 'html',
+				context: $this,
+				success: function (response) {
+					$('body').append(response);
+					$('#'+userid+'_popover').position({my: 'center bottom',at: 'center top', of:$this, collision: 'fit flip'});
+					$('#'+userid+'_popover').show();
+					$this.delay(500).queue(function() {$this.removeClass('mouseover'); $this.dequeue();});
+				},
+			});
+		}else{
+			//if($('.user-popover').is(':visible'))
+				//$('.user-popover').hide();
+			//$(this).addClass('mouseover');	
+			$('#'+userid+'_popover').removeAttr('style');
+			$('#'+userid+'_popover').position({my: 'center bottom',at: 'center top', of:$this, collision: 'fit flip'});
+			$('#'+userid+'_popover').show();
+		}
+		},400);
 	}).on('mouseleave', '.avatar[data-handle]', function( event ) {
 		clearTimeout(popover_time);
 		var userid = $(this).data('id');

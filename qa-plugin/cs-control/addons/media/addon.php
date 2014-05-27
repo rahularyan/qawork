@@ -128,7 +128,11 @@ function cs_upload_cover($file){
 	/// save original image first, and then assign id of original to other size
 	$image = new Image($uploaddir.$temp_name);
 	$image->resize(1140, 217, 'crop');
-	$image->save($name['name'], $uploaddir);	
+	$image->save($name['name'], $uploaddir);
+
+	$image = new Image($uploaddir.$temp_name);
+	$image->resize(300, 53, 'crop');
+	$image->save($name['name'].'_s', $uploaddir);	
 	
 	cs_add_action('after_uploading_cover', $image);
 	
@@ -143,8 +147,11 @@ function cs_upload_cover($file){
 
 	if (!empty($prev_file)){	
 		$delete = $uploaddir.'/'.$prev_file;
-		if (file_exists($delete))  
-			unlink ($delete); 
+		if (file_exists($delete)){			
+			unlink ($delete);
+			$small = explode('.', $prev_file);
+			unlink ($uploaddir.'/'.$small[0].'_s'.$small[1]);
+		}
 	}
 	
 	qa_db_user_profile_set(qa_get_logged_in_userid(), 'cover', $name['file']);

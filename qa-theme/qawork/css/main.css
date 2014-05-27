@@ -3134,72 +3134,6 @@ th .description {
 	font-size: 12px;
 	line-height: 18px;
 }
-
-.card-container {
-	position: relative;
-	margin: 0;
-	z-index: 1;
-	height: 150px;
-	width: 150px;
-}
-
-.card-container {
-	perspective: 1000;
-}
-
-.card-container {
-	perspective: 1000;
-}
-
-.card-container > div {
-	width: 100%;
-	height: 100%;
-}
-
-.f1_card {
-	transform-style: preserve-3d;
-	-moz-transition: all 0.3s linear;
-	-o-transition: all 0.3s linear;
-	-webkit-transition: all 0.3s linear;
-	transition: all 0.3s linear;
-}
-
-.card-container:hover .f1_card {
-	-moz-transform: rotatey(180deg);
-	-ms-transform: rotatey(180deg);
-	-o-transform: rotatey(180deg);
-	-webkit-transform: rotatey(180deg);
-	transform: rotatey(180deg);
-}
-
-.face {
-	position: absolute;
-	width: 100%;
-	height: 100%;
-	backface-visibility: hidden;
-}
-
-.face.back {
-	display: block;
-	-moz-transform: rotatey(180deg);
-	-ms-transform: rotatey(180deg);
-	-o-transform: rotatey(180deg);
-	-webkit-transform: rotatey(180deg);
-	transform: rotatey(180deg);
-	-moz-box-sizing: border-box;
-	box-sizing: border-box;
-	padding: 10px;
-	color: white;
-	text-align: center;
-}
-
-.card-metas {
-	display: block;
-	padding: 10px;
-	color: white;
-	text-align: center;
-}
-
 .page-users-list .user-card-inner .activity {
 	display: block;
 	font-size: 12px;
@@ -4411,7 +4345,7 @@ th .description {
 }
 
 .user-popover {
-	background: #FFF;
+	background:#fff;
 	-moz-border-radius: 5px;
 	-webkit-border-radius: 5px;
 	border-radius: 5px;
@@ -4426,21 +4360,27 @@ th .description {
 }
 
 .user-popover .counts {
-	padding: 10px 0;
+	background-image: url("../images/default_s.jpg");
+    background-size: cover;
+}
+.user-popover .counts .bg-opacity{
+    background: none repeat scroll 0 0 rgba(0, 0, 0, 0.2);
+    display: block;
+    padding: 10px 0;
+}
+.user-popover .counts .bg-opacity > div {
+    color: #FFFFFF;
+    display: block;
+    float: left;
+    font-size: 11px;
+    font-weight: 300;
+    text-align: center;
+    text-shadow: 0 0 3px rgba(0, 0, 0, 0.9), 0 1px 0 rgba(0, 0, 0, 0.9);
+    text-transform: uppercase;
+    width: 25%;
 }
 
-.user-popover .counts > div {
-	color: #fff;
-	display: block;
-	float: left;
-	font-size: 11px;
-	font-weight: 300;
-	text-align: center;
-	text-transform: uppercase;
-	width: 25%;
-}
-
-.user-popover .counts > div span {
+.user-popover .counts .bg-opacity > div span {
 	display: block;
 	font-size: 20px;
 	font-weight: bold;
@@ -6819,4 +6759,41 @@ div.oembedall-lanyard .first {
 }
 .white-bg > .qa-nav-sub .qa-nav-sub-list{
 	padding-left:10px;
+}
+.user-box {
+    display: block;
+    float: left;
+    width: 20%;
+}
+.user-box-inner {
+    padding: 15px;
+}
+.user-box-inner .avatar {
+    border-radius: 50%;
+}
+.user-box-inner .user-avatar, .user-box-inner .user-name, .user-box-inner .score {
+    display: block;
+    text-align: center;
+}
+.user-box-inner .user-avatar{
+    border-radius: 50%;
+    display: table;
+    margin: 0 auto;
+    overflow: hidden;
+}
+.user-box-inner .user-name{
+    color: #5F5F5F;
+    font-size: 13px;
+    font-weight: bold;
+    margin-top: 10px;
+    overflow: hidden;
+    white-space: nowrap;
+}
+.user-box-inner .score{
+    color: #777777;
+    font-size: 12px;
+}
+.user-box-inner:hover img {
+    transform: scale(1.15);
+    transition: all 1s ease 0s;
 }
