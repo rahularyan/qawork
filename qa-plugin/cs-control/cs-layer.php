@@ -957,8 +957,11 @@ class qa_html_theme_layer extends qa_html_theme_base {
 					'<p class="user-rank">'. $handle .' ' . qa_lang_sub('cleanstrap/ranked_x_among_all_user', $user['rank'] ) . '</p>',
 				'</div>'
 			);
+			if(qa_get_logged_in_handle() != $handle){
 				$this->favorite();
+				
 				$this->output('<a class="btn icon-email" href="'.qa_path_html('message/'.$handle).'">'.qa_lang_html('cleanstrap/message').'</a>');
+			}
 			$this->output('</div>');
 			/* end user info */
 			
