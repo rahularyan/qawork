@@ -267,10 +267,8 @@ function cs_notify_users_by_email($event, $postid, $userid, $effecteduserid, $pa
                   }
 
                   $content = strtr(qa_lang($approved_only ? 'notification/u_level_approved_body_email' : 'notification/u_level_improved_body_email'), array(
-                      '^f_handle'        => $fromhandle,
                       '^done_by'         => isset($logged_in_user_name) ? $logged_in_user_name : isset($logged_in_handle) ? $logged_in_handle : qa_lang('main/anonymous'),
-                      '^url'             => $url,
-                      '^new_designation' => $new_designation,
+                      '^new_designation' => @$new_designation,
                   )); 
             } else if($event === "q_post_user_fl" || $event === "q_post_tag_fl" || $event === "q_post_cat_fl" ){
                   $content = (isset($params['text']) && !empty($params['text'])) ? $params['text'] : "";
