@@ -20,7 +20,7 @@ return array(
 	'a_vote_up_body_email'   => "^open ^done_by has voted up your answer <a href='^url'> ^q_title </a> \n^q_content^close <a href='^url'>Click  here </a> to see the question\n",
 	'q_vote_down_body_email' => "^open ^done_by has voted down your question <a href='^url'> ^q_title </a> \n^q_content^close <a href='^url'>Click  here </a> to see the question\n",
 	'a_vote_down_body_email' => "^open ^done_by has voted down your answer <a href='^url'> ^q_title </a> \n^q_content^close <a href='^url'>Click  here </a> to see the question\n",
-	//I am not sure about this message 
+	
 	'q_vote_nil_body_email' => "^open ^done_by has voted nill your answer <a href='^url'> ^q_title </a> \n^q_content^close <a href='^url'>Click  here </a> to see the question\n",
 	'a_vote_nil_body_email' => "^open ^done_by has voted nill your answer <a href='^url'> ^q_title </a> \n^q_content^close <a href='^url'>Click  here </a> to see the question\n",
 	'q_approve_body_email'  => "^open ^done_by has approved  your question <a href='^url'> ^q_title </a> \n^q_content^close <a href='^url'>Click  here </a> to see the question\n",
@@ -31,7 +31,7 @@ return array(
 	'c_reject_body_email'   => "^open ^done_by has rejected  your comment <a href='^url'> ^q_title </a> \n^q_content^close <a href='^url'>Click  here </a> to see the question\n",
 	'q_favorite_body_email' => "^open ^done_by has favorited  your question <a href='^url'> ^q_title </a> \n^q_content^close <a href='^url'>Click  here </a> to see the question\n",
 	'q_post_body_email'     => "^open ^done_by has posted a new question <a href='^url'> ^q_title </a> \n^q_content^close <a href='^url'>Click  here </a> to see the question\n",
-	// these four things have to be tested properly
+
 	'u_favorite_body_email'  => "^open ^done_by is now following you \n",
 	'u_message_body_email'   => "^open ^done_by has sent a private message - ^q_content^close <a href='^url'>Click  here </a> to reply \n",
 	'u_wall_post_body_email' => "^open ^done_by has posted on your wall ^q_content^close <a href='^url'>Click  here </a> to view \n",
