@@ -36,17 +36,15 @@ class cs_notification_page {
 	}
 	
 	function opt_form(){
+		require_once CS_CONTROL_DIR .'/addons/notification/functions.php';
 		ob_start();
 		?>
-			<div id="ra-install-page">
-				<div class="step-one">
-					<h1>Welcome to the theme installation</h1>
-				</div>
-				<?php $this->cs_install_nav(); ?>
+			<div id="notifications-page" class="col-md-6">
+				<a class="mark-activity icon-tick" href="#" data-id="<?php echo qa_get_logged_in_userid() ?> "> <?php echo qa_lang('cleanstrap/mark_all_as_read') ?> </a>
+				<?php cs_activitylist(); ?>
 			</div>
 		<?php
 		$output = ob_get_clean();
-		
 		return $output;
 	}
 	function cs_install_nav(){
