@@ -12,7 +12,7 @@ a:hover{
 #site-header #header-top {
     background: none repeat scroll 0 0 #5db839;
 }
-.card-metas , .on-off-checkbox-container label, #ra-widgets .widget-canvas .widget-save.active, .ra-tags-widget .widget-tag:hover, .t-bg, .face.back, .qa-form-tall-button-login, .qa-form-tall-button-send, .qa-form-tall-button-register, .question-list .question-item .big-ans-count, .pagination > li > .qa-page-selected, .pagination > li:hover > a, .qa-template-tags .qa-part-ranking .list-group-item span,.qa-a-selection .qa-a-select-button, .question-title .fav-parent .fav-btn.active, .post-button #q_doanswer , .navbar-default .category-nav .category-toggle, .featured-questions .answer-list-title span, .bg1{
+.on-off-checkbox-container label, #ra-widgets .widget-canvas .widget-save.active, .ra-tags-widget .widget-tag:hover, .t-bg, .face.back, .qa-form-tall-button-login, .qa-form-tall-button-send, .qa-form-tall-button-register, .question-list .question-item .big-ans-count, .pagination > li > .qa-page-selected, .pagination > li:hover > a, .qa-template-tags .qa-part-ranking .list-group-item span,.qa-a-selection .qa-a-select-button, .question-title .fav-parent .fav-btn.active, .post-button #q_doanswer , .navbar-default .category-nav .category-toggle, .featured-questions .answer-list-title span, .bg1{
 	background:#4679BD;
 }
 .answer-selected .a-item-wrap {
@@ -38,9 +38,7 @@ a:hover{
 .navbar-default .navbar-form .icon-search{
     color: #aaa;
 }
-.user-popover .counts{
-	background:#e45840;
-}
+
 .left-sidebar .qa-nav-main-list .qa-nav-main-item .qa-nav-main-link.qa-nav-main-selected, .left-sidebar .qa-nav-main-list .qa-nav-main-item .qa-nav-main-link:hover{
 	color:#6E973C;
 }
