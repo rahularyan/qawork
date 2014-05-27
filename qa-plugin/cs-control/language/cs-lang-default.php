@@ -179,6 +179,7 @@
 		'view_more' => 'View more',
 		'message' => 'Message',
 		'permission' => 'Permission',
+		'x_following' => 'following ^ users',
 	);
 	
 
