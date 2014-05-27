@@ -481,32 +481,12 @@ class cs_theme_options {
 	}
 
 	function opt_styling(){
-			$p_path       = Q_THEME_DIR . '/images/patterns';
-            $bg_images    = array();
             $list_options = '';
-            $files        = scandir($p_path, 1);
-            $list_options .= '<option class="icon-wrench" value="bg_default"' . ((qa_opt('cs_bg_select') == 'bg_default') ? ' selected' : '') . '>Default Background</option>';
-            $list_options .= '<option class="icon-wrench" value="bg_color"' . ((qa_opt('cs_bg_select') == 'bg_color') ? ' selected' : '') . '>only use Background Color</option>';
-            //@$bg_images[qa_opt('qat_bg_image_index')
-            foreach ($files as $file)
-                if (!((empty($file)) or ($file == '.') or ($file == '..'))) {
-                    $image       = preg_replace("/\\.[^.]*$/", "", $file);
-                    $bg_images[] = $image;
-                    $list_options .= '<option value="' . $image . '"' . ((qa_opt('cs_bg_select') == $image) ? ' selected' : '') . '>' . $image . '</option>';
-                }
-		$bg_select               = '<select id="cs_bg_select" name="cs_bg_select" class="qa-form-wide-select">' . $list_options . '</select>';
+
 		return '<div class="qa-part-form-tc-styling">
 		<h3>Colors</h3>
 		<table class="qa-form-tall-table options-table">
 			<tbody>
-				<tr>
-					<th class="qa-form-tall-label">
-						Body background
-					</th>
-					<td class="qa-form-tall-label">
-						' . $bg_select . '
-					</td>
-				</tr>
 				<tr id="bg-color-container"' . ((qa_opt('cs_bg_select') == 'bg_color') ? '' : ' style="display:none;"') . '>
 					<th class="qa-form-tall-label">
 						Body Font Color

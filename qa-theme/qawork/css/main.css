@@ -73,7 +73,7 @@ textarea {
 
 /* Buttons */
 .btn, .qa-form-light-button, .qa-form-tall-button, .qa-form-wide-button, .qa-a-select-button, .qa-a-unselect-button {
-    background: none repeat scroll 0 0 #FFFFFF;
+    background: #FFFFFF;
     border: 1px solid #D5D5D5;
     border-radius: 3px;
     color: #333333;
@@ -131,7 +131,7 @@ textarea {
     text-shadow: 0 1px 0 rgba(0, 0, 0, 0.2);
 }
 .btn.active, .fav-parent .fav-btn.active {
-	background: none repeat scroll 0 0 #FFF;
+	background: #FFF;
 	border-color: #D3D3D3;
 	-moz-box-shadow: 0 0 5px rgba(0, 0, 0, 0.2) inset;
 	-webkit-box-shadow: 0 0 5px rgba(0, 0, 0, 0.2) inset;
@@ -159,7 +159,7 @@ textarea {
 }
 
 .navbar-default {
-	background: none repeat scroll 0 0 rgba(0, 0, 0, 0);
+	background: rgba(0, 0, 0, 0);
 	-moz-border-radius: 0;
 	-webkit-border-radius: 0;
 	border-radius: 0;
@@ -232,7 +232,7 @@ textarea {
 }
 
 #site-header .site-logo a {
-    background: none repeat scroll 0 0 rgba(0, 0, 0, 0);
+    background: rgba(0, 0, 0, 0);
     color: #FFFFFF;
     display: block;
     float: none;
@@ -324,7 +324,7 @@ textarea {
 }
 
 .ra-social-links a {
-	background: none repeat scroll 0 0 rgba(0, 0, 0, 0.5);
+	background: rgba(0, 0, 0, 0.3);
 	-moz-border-radius: 2px;
 	-webkit-border-radius: 2px;
 	border-radius: 2px;
@@ -340,8 +340,9 @@ textarea {
 }
 
 #header-below {
-    background: none repeat scroll 0 0 #FFFFFF;
+    background: #FFFFFF;
     border-bottom: 1px solid #EEEEEE;
+    margin-bottom: 20px;
     padding: 10px 0;
 }
 
@@ -660,7 +661,7 @@ textarea {
 }
 
 .qa-q-list {
-	background: none repeat scroll 0 0 #FFF;
+	background: #FFF;
 	border: medium none;
 	-moz-border-radius: 0 0 5px 5px;
 	-webkit-border-radius: 0 0 5px 5px;
@@ -791,7 +792,7 @@ textarea {
 }
 
 .left-sidebar .float-nav {
-	background: none repeat scroll 0 0 #FFF;
+	background: #FFF;
 	width: 180px;
 }
 
@@ -1017,11 +1018,11 @@ ul.qa-nav-cat-list-4 > li.qa-nav-cat-item:first-child {
 }
 
 .qa-nav-sub-link:hover {
-	background: none repeat scroll 0 0 #EEE;
+	background: #EEE;
 }
 
 .qa-main .qa-nav-sub ul li a.qa-nav-sub-selected {
-	background: none repeat scroll 0 0 #FFF;
+	background: #FFF;
 	border-color: #DDD #DDD #FFF;
 	-moz-border-image: none;
 	-ms-border-image: none;
@@ -1052,7 +1053,7 @@ ul.qa-nav-cat-list-4 > li.qa-nav-cat-item:first-child {
 }
 
 .widget > h3 > a {
-    background: none repeat scroll 0 0 #F3F3F3;
+    background: #F3F3F3;
     border: 1px solid #DDDDDD;
     border-radius: 2px;
     color: #666666;
@@ -1072,7 +1073,7 @@ ul.qa-nav-cat-list-4 > li.qa-nav-cat-item:first-child {
 }
 
 a.feed-link {
-	background: none repeat scroll 0 0 #FCB034;
+	background: #FCB034;
 	-moz-border-radius: 3px;
 	-webkit-border-radius: 3px;
 	border-radius: 3px;
@@ -1143,7 +1144,7 @@ a.feed-link {
 }
 
 .big-s-avatar .qa-voting-net > a, .big-s-avatar .qa-voting-net > span {
-	background: none repeat scroll 0 0 #FBFBFB;
+	background: #FBFBFB;
 	-moz-border-radius: 2px;
 	-webkit-border-radius: 2px;
 	border-radius: 2px;
@@ -1278,7 +1279,7 @@ a.feed-link {
 }
 
 .page-title .fav-btn.icon-heart {
-	background: none repeat scroll 0 0 rgba(0, 0, 0, 0);
+	background: rgba(0, 0, 0, 0);
 	color: #333;
 	font-size: 17px;
 	padding: 0;
@@ -1371,7 +1372,7 @@ a.feed-link {
 }
 
 .question-title .fav-parent .fav-btn {
-	background: none repeat scroll 0 0 rgba(0, 0, 0, 0.2);
+	background: rgba(0, 0, 0, 0.2);
 	color: #FFF;
 	display: block;
 	margin: 0;
@@ -1513,7 +1514,7 @@ a.feed-link {
 }
 
 .post-footer:before {
-	background: none repeat scroll 0 0 #EEE;
+	background: #EEE;
 	content: "";
 	height: 100%;
 	left: 15px;
@@ -1528,7 +1529,7 @@ a.feed-link {
 }
 
 .what-2:before {
-	background: none repeat scroll 0 0 #EAEAEA;
+	background: #EAEAEA;
 	-moz-border-radius: 50%;
 	-webkit-border-radius: 50%;
 	border-radius: 50%;
@@ -1556,7 +1557,7 @@ a.feed-link {
 }
 
 .comment-items:before {
-	background: none repeat scroll 0 0 #FAFAFA;
+	background: #FAFAFA;
 	content: "";
 	height: 100%;
 	margin-left: -24px;
@@ -1566,7 +1567,7 @@ a.feed-link {
 }
 
 .qa-c-list-item:before {
-	background: none repeat scroll 0 0 #D4D4D4;
+	background: #D4D4D4;
 	border: 2px solid #FFF;
 	-moz-border-radius: 50%;
 	-webkit-border-radius: 50%;
@@ -1587,7 +1588,7 @@ a.feed-link {
 }
 
 .toggle-comment {
-	background: none repeat scroll 0 0 #CCC;
+	background: #CCC;
 	color: #FFF;
 	cursor: pointer;
 	display: block;
@@ -1755,7 +1756,7 @@ a.feed-link {
 }
 
 #ra-alert {
-	background: none repeat scroll 0 0 #FFF;
+	background: #FFF;
 	border-top: 3px solid #FF4F4F;
 	color: #333;
 	font-size: 14px;
@@ -1842,7 +1843,7 @@ a.feed-link {
 }
 
 .comment-f-wrap > h3 {
-	background: none repeat scroll 0 0 #FBFBFB;
+	background: #FBFBFB;
 	border-bottom: 1px solid #DDD;
 	font-size: 13px;
 	font-weight: bold;
@@ -2060,7 +2061,7 @@ table.page-users-list {
 }
 
 .question-list .question-item .big-ans-count.icon-comments {
-	background: none repeat scroll 0 0 #777;
+	background: #777;
 	-moz-border-radius: 50%;
 	-webkit-border-radius: 50%;
 	border-radius: 50%;
@@ -2160,7 +2161,7 @@ table.page-users-list {
 }
 
 .qa-message-list-form {
-    background: none repeat scroll 0 0 #FDFDFD;
+    background: #FDFDFD;
     border: 1px solid #E9E9E9;
     border-radius: 5px;
     display: table;
@@ -2182,7 +2183,7 @@ table.page-users-list {
 }
 
 .qa-message-list:before {
-    background: none repeat scroll 0 0 #F8F8F8;
+    background: #F8F8F8;
     content: "";
     height: 100%;
     left: 16px;
@@ -2430,7 +2431,7 @@ input.qa-form-wide-number {
 }
 
 .qa-suggest-next {
-	background: none repeat scroll 0 0 #F9F9F9;
+	background: #F9F9F9;
 	-moz-border-radius: 2px;
 	-webkit-border-radius: 2px;
 	border-radius: 2px;
@@ -2445,7 +2446,7 @@ input.qa-form-wide-number {
 }
 
 #site-footer {
-	background: none repeat scroll 0 0 #FDFDFD;
+	background: #FDFDFD;
 	border-top: 1px solid #F1F1F1;
 	margin-top: 30px;
 }
@@ -2509,7 +2510,7 @@ input.qa-form-wide-number {
 }
 
 #site-header .login-register {
-	background: none repeat scroll 0 0 rgba(0, 0, 0, 0.4);
+	background: rgba(0, 0, 0, 0.4);
 	-moz-border-radius: 2px;
 	-webkit-border-radius: 2px;
 	border-radius: 2px;
@@ -2619,14 +2620,8 @@ input.qa-form-wide-number {
 }
 
 .qa-part-tabs-nav .ra-option-tabs.nav.nav-tabs {
-	background: none repeat scroll 0 0 #FBFBFB;
-	border: 1px solid #DDD;
-	-moz-border-radius: 5px 5px 0 0;
-	-webkit-border-radius: 5px 5px 0 0;
-	border-radius: 5px 5px 0 0;
-	margin-top: 20px;
-	padding-left: 10px;
-	padding-top: 10px;
+    padding-left: 10px;
+    padding-top: 10px;
 }
 
 .qa-part-tabs-nav .ra-option-tabs li a {
@@ -2899,8 +2894,18 @@ th .description {
 /* widget positions */
 
 .header-position-c {
-	margin-bottom: 20px;
-	margin-top: 15px;
+    margin: -21px 0 0;
+}
+.header-position-c	{ 
+    background-position: 0 0;
+    background-repeat: repeat-x;
+    margin-bottom: 25px;
+
+	animation: animatedBackground 40s linear infinite;
+}
+@keyframes animatedBackground {
+	from { background-position: 0 0; }
+	to { background-position: 100% 0; }
 }
 
 /* RA Ajax ask box */
@@ -3066,7 +3071,7 @@ th .description {
 	background: none;
 }
 #header-position .widget{
-    background: none repeat scroll 0 0 rgba(0, 0, 0, 0);
+    background: rgba(0, 0, 0, 0);
     border: medium none;
     box-shadow: none;
 }
@@ -3078,17 +3083,17 @@ th .description {
 
 /* Social links */
 .ra-social-links {
-	display: block;
-	left: 0;
-	list-style: none outside none;
-	margin: 0 0 0 5px;
-	padding: 1px;
-	position: absolute;
-	top: 15px;
+    display: block;
+    left: 0;
+    list-style: none outside none;
+    margin: 0 0 0 5px;
+    padding: 1px;
+    position: fixed;
+    top: 50%;
 }
 
 .ra-social-links li {
-	display: inline-block;
+    margin-bottom: 5px;
 }
 
 .ra-social-links li a {
@@ -3251,7 +3256,7 @@ th .description {
 
 /* Buttons */
 .qa-form-tall-button-login, .qa-form-tall-button-register {
-	background: none repeat scroll 0 0 #333;
+	background: #333;
 	border: medium none;
 	color: #FFF;
 	display: block;
@@ -3268,7 +3273,7 @@ th .description {
 }
 
 .user-left-inner {
-    background: none repeat scroll 0 0 #EEEEEE;
+    background: #EEEEEE;
     border-radius: 5px;
     padding: 10px;
 }
@@ -3334,11 +3339,11 @@ th .description {
 }
 
 .user-left .qa-nav-sub ul li a:hover {
-	background: none repeat scroll 0 0 rgba(0, 0, 0, 0.5);
+	background: rgba(0, 0, 0, 0.5);
 }
 
 .user-cols-right .about-me {
-	background: none repeat scroll 0 0 #FFF;
+	background: #FFF;
 	-moz-border-radius: 4px;
 	-webkit-border-radius: 4px;
 	border-radius: 4px;
@@ -3763,7 +3768,7 @@ th .description {
 }
 
 .navbar-nav.category-nav .dropdown-menu {
-	background: none repeat scroll 0 0 #FFF;
+	background: #FFF;
 	border: 3px solid #333;
 	-moz-border-radius: 5px;
 	-webkit-border-radius: 5px;
@@ -3783,7 +3788,7 @@ th .description {
 }
 
 .navbar-nav.category-nav .category-list-drop {
-	background: none repeat scroll 0 0 #FFF;
+	background: #FFF;
 	border: 2px solid #fff;
 	display: table-cell;
 	width: 50%;
@@ -3816,7 +3821,7 @@ th .description {
 }
 
 #home-slide-position {
-	background: none repeat scroll 0 0 rgba(0, 0, 0, 0);
+	background: rgba(0, 0, 0, 0);
 	padding: 30px 0;
 }
 
@@ -4122,7 +4127,7 @@ th .description {
 }
 
 .qa-c-wrap .post-button {
-	background: none repeat scroll 0 0 rgba(0, 0, 0, 0);
+	background: rgba(0, 0, 0, 0);
 	border: medium none;
 	margin: 0;
 	padding: 10px 0;
@@ -4180,7 +4185,7 @@ th .description {
 }
 
 .question-image {
-	background: none repeat scroll 0 0 #F9F9F9;
+	background: #F9F9F9;
 	border: 1px solid #EEE;
 	padding: 5px 10px;
 }
@@ -4364,7 +4369,7 @@ th .description {
     background-size: cover;
 }
 .user-popover .counts .bg-opacity{
-    background: none repeat scroll 0 0 rgba(0, 0, 0, 0.2);
+    background: rgba(0, 0, 0, 0.2);
     display: block;
     padding: 10px 0;
 }
@@ -4414,7 +4419,7 @@ th .description {
 }
 
 .qa-form-tall-data .cke_1 .cke_top {
-	background: none repeat scroll 0 0 rgba(0, 0, 0, 0);
+	background: rgba(0, 0, 0, 0);
 	-moz-box-shadow: none;
 	-webkit-box-shadow: none;
 	box-shadow: none;
@@ -4446,7 +4451,7 @@ th .description {
 }
 
 .pagination > li > a, .pagination > li > span {
-	background: none repeat scroll 0 0 #FFF;
+	background: #FFF;
 	border: medium none;
 	color: #777;
 	font-size: 13px;
@@ -4459,7 +4464,7 @@ th .description {
 }
 
 .pagination > li > .qa-page-selected, .pagination > li:hover > a {
-	background: none repeat scroll 0 0 #FF6838;
+	background: #FF6838;
 	color: #FFF;
 }
 
@@ -4542,7 +4547,7 @@ th .description {
 }
 
 .qa-q-list.clean .q-item-head .ans-count {
-	background: none repeat scroll 0 0 #FFDB3D;
+	background: #FFDB3D;
 	-moz-border-radius: 12px;
 	-webkit-border-radius: 12px;
 	border-radius: 12px;
@@ -4557,11 +4562,11 @@ th .description {
 }
 
 .qa-q-list.clean .q-item-head .ans-count.total-0 {
-	background: none repeat scroll 0 0 #DDD;
+	background: #DDD;
 }
 
 .qa-q-list.clean .qa-q-list-item.featured {
-	background: none repeat scroll 0 0 #FFFAE5;
+	background: #FFFAE5;
 	border-top: 1px solid rgba(0, 0, 0, 0.02);
 }
 
@@ -4663,7 +4668,7 @@ th .description {
 }
 
 .qa-form-tall-data .cke_toolgroup {
-	background: none repeat scroll 0 0 rgba(0, 0, 0, 0);
+	background: rgba(0, 0, 0, 0);
 }
 
 .ra-rq-widget ul {
@@ -4727,7 +4732,7 @@ th .description {
 }
 
 .page-cat-list .page-cat-list .ra-cat-item h4 span {
-	background: none repeat scroll 0 0 #EEE;
+	background: #EEE;
 	font-weight: normal;
 	padding: 4px 5px;
 }
@@ -4745,7 +4750,7 @@ th .description {
 }
 
 .qa-q-view-follows > .question-status-icon, .qa-q-view-closed > .question-status-icon {
-	background: none repeat scroll 0 0 #95D3FF;
+	background: #95D3FF;
 	-moz-border-radius: 3px;
 	-webkit-border-radius: 3px;
 	border-radius: 3px;
@@ -4766,7 +4771,7 @@ th .description {
 }
 
 .question-status-message-inner {
-	background: none repeat scroll 0 0 #FFF;
+	background: #FFF;
 	border: 1px solid #DDD;
 	-moz-border-radius: 5px;
 	-webkit-border-radius: 5px;
@@ -4798,7 +4803,7 @@ th .description {
 }
 
 .comment-count:before {
-	background: none repeat scroll 0 0 #EAEAEA;
+	background: #EAEAEA;
 	-moz-border-radius: 50%;
 	-webkit-border-radius: 50%;
 	border-radius: 50%;
@@ -4845,7 +4850,7 @@ th .description {
 }
 
 .qa-part-q-list .ans-count.total-0 {
-	background: none repeat scroll 0 0 #FFF;
+	background: #FFF;
 }
 
 .qa-part-q-list .ans-count span {
@@ -4869,7 +4874,7 @@ th .description {
 }
 
 .qa-nav-main .qa-nav-main-list li a:hover, .qa-nav-main .qa-nav-main-list li a.qa-nav-main-selected {
-	background: none repeat scroll 0 0 rgba(0, 0, 0, 0.2);
+	background: rgba(0, 0, 0, 0.2);
 	color: #FFF;
 }
 
@@ -4901,7 +4906,7 @@ th .description {
 }
 
 .user-buttons > button {
-    background: none repeat scroll 0 0 rgba(0, 0, 0, 0);
+    background: rgba(0, 0, 0, 0);
     border: medium none;
     color: #555555;
     font-size: 13px;
@@ -5047,7 +5052,7 @@ th .description {
 }
 
 .q-tags-list:before {
-	background: none repeat scroll 0 0 #FE9B31;
+	background: #FE9B31;
 	-moz-border-radius: 2px;
 	-webkit-border-radius: 2px;
 	border-radius: 2px;
@@ -5063,7 +5068,7 @@ th .description {
 }
 
 .q-net-votes {
-	background: none repeat scroll 0 0 #6EC3FF;
+	background: #6EC3FF;
 	-moz-border-radius: 2px;
 	-webkit-border-radius: 2px;
 	border-radius: 2px;
@@ -5084,12 +5089,32 @@ th .description {
 }
 
 .cs-ask-widget-form {
-	background: none repeat scroll 0 0 rgba(255, 255, 255, 0.6);
+	background: rgba(255, 255, 255, 0.6);
 	border: 1px solid #EEE;
 	-moz-border-radius: 5px;
 	-webkit-border-radius: 5px;
 	border-radius: 5px;
 	padding: 15px;
+}
+#header-right-position .cs-ask-widget-form {
+    background: none repeat scroll 0 0 rgba(0, 0, 0, 0.7);
+    border: medium none;
+    margin: 30px 0;
+}
+#header-right-position .widget{
+	border:none;
+	background: none;
+}
+#header-right-position .widget .widget-title{
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 17px;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+#header-right-position .cs-ask-widget-form .form-control {
+    background: none repeat scroll 0 0 rgba(255, 255, 255, 0.1);
+    border-color: rgba(0, 0, 0, 0.1);
+    color: #FFFFFF;
 }
 
 .cs-ask-widget-form .checkbox-inline {
@@ -5148,7 +5173,7 @@ th .description {
 }
 
 .install-nav li a {
-	background: none repeat scroll 0 0 #EEE;
+	background: #EEE;
 	-moz-border-radius: 4px;
 	-webkit-border-radius: 4px;
 	border-radius: 4px;
@@ -5196,12 +5221,12 @@ th .description {
     position: relative;
 }
 .user-card .user-info {
-    background: none repeat scroll 0 0 rgba(0, 0, 0, 0.1);
+    background: rgba(0, 0, 0, 0.1);
     min-height: 175px;
     padding: 10px 25px 25px 135px;
 }
 .user-card .btn{
-    background: none repeat scroll 0 0 #333333;
+    background: #333333;
     border: medium none;
     color: #FFFFFF;
     float: left;
@@ -5227,7 +5252,7 @@ th .description {
 }
 
 .user-card .user-info .user-name small{
-    background: none repeat scroll 0 0 rgba(0, 0, 0, 0.2);
+    background: rgba(0, 0, 0, 0.2);
     border-radius: 2px;
     font-size: 12px;
     padding: 3px 10px;
@@ -5236,7 +5261,7 @@ th .description {
 
 
 .user-activity-count {
-    background: none repeat scroll 0 0 rgba(0, 0, 0, 0.5);
+    background: rgba(0, 0, 0, 0.5);
     color: #FFFFFF;
     font-size: 13px;
     font-weight: bold;
@@ -5250,7 +5275,7 @@ th .description {
     padding: 10px 20px;
 }
 .user-activity-count > li:hover{
-	background: none repeat scroll 0 0 rgba(0, 0, 0, 0.6);
+	background: rgba(0, 0, 0, 0.6);
 }
 .user-activity-count > li span {
     font-weight: normal;
@@ -5265,7 +5290,7 @@ th .description {
 }
 
 .user-activity-count > li i{
-    background: none repeat scroll 0 0 #FFFFFF;
+    background: #FFFFFF;
     border-radius: 3px;
     color: #444444;
     font-style: normal;
@@ -5305,7 +5330,7 @@ border-radius: 50%;
 	margin:5px;
 }
 .user-followers > li.total-followers a {
-    background: none repeat scroll 0 0 #F44442;
+    background: #F44442;
     border-radius: 50%;
     color: #FFFFFF;
     display: block;
@@ -5405,7 +5430,7 @@ border-radius: 50%;
 
 
 .about-me > i {
-    background: none repeat scroll 0 0 rgba(0, 0, 0, 0.1);
+    background: rgba(0, 0, 0, 0.1);
     border-radius: 2px;
     bottom: 0;
     box-shadow: 0 0 5px rgba(0, 0, 0, 0.1) inset;
@@ -5442,7 +5467,7 @@ border-radius: 50%;
 }
 
 .q-item-buttons a {
-	background: none repeat scroll 0 0 #EFEFF2;
+	background: #EFEFF2;
 	-moz-border-radius: 3px;
 	-webkit-border-radius: 3px;
 	border-radius: 3px;
@@ -5468,7 +5493,7 @@ border-radius: 50%;
 }
 
 .q-item-buttons > .answer-this {
-	background: none repeat scroll 0 0 #54AFEF;
+	background: #54AFEF;
 	color: #FFF;
 }
 
@@ -5495,7 +5520,7 @@ border-radius: 50%;
 }
 
 .cat-tag-drop .btn {
-    background: none repeat scroll 0 0 #BBBBBB;
+    background: #BBBBBB;
     border: medium none;
     border-radius: 2px;
     color: #FFFFFF;
@@ -5616,7 +5641,7 @@ border-radius: 50%;
 }
 
 .big-answer-btn.disabled {
-	background: none repeat scroll 0 0 #CCC;
+	background: #CCC;
 }
 
 .big-btns .fav-parent .fav-btn {
@@ -5624,7 +5649,7 @@ border-radius: 50%;
 }
 
 .answer-f-wrap {
-	background: none repeat scroll 0 0 #FFF;
+	background: #FFF;
 	-moz-border-radius: 5px;
 	-webkit-border-radius: 5px;
 	border-radius: 5px;
@@ -5678,7 +5703,7 @@ form[name="a_form"] {
     border-width: medium 1px 1px;
 }
 .answer-f-wrap .nav.nav-tabs {
-    background: none repeat scroll 0 0 #FBFBFB;
+    background: #FBFBFB;
     border: 1px solid #DDDDDD;
     border-radius: 5px 5px 0 0;
     padding-left: 10px;
@@ -5696,7 +5721,7 @@ form[name="a_form"] {
 }
 
 .answer-f-wrap .qa-form-tall-data .cke_top {
-	background: none repeat scroll 0 0 rgba(0, 0, 0, 0);
+	background: rgba(0, 0, 0, 0);
 	border: medium none;
 	-moz-box-shadow: none;
 	-webkit-box-shadow: none;
@@ -5705,7 +5730,7 @@ form[name="a_form"] {
 }
 
 .answer-f-wrap .qa-form-tall-data .cke_toolgroup {
-	background: none repeat scroll 0 0 rgba(0, 0, 0, 0);
+	background: rgba(0, 0, 0, 0);
 }
 
 .answer-f-wrap .qa-form-tall-data .cke_contents {
@@ -5739,7 +5764,7 @@ form[name="a_form"] {
 }
 
 .qa-template-admin .left-side ul {
-	background: none repeat scroll 0 0 rgba(0, 0, 0, 0);
+	background: rgba(0, 0, 0, 0);
 	margin: 0;
 }
 
@@ -5758,7 +5783,7 @@ form[name="a_form"] {
 }
 
 .qa-template-admin .left-side ul li a.qa-nav-sub-selected {
-	background: none repeat scroll 0 0 #FAFAFA;
+	background: #FAFAFA;
 	border-color: transparent transparent #EEE;
 	-moz-border-image: none;
 	-ms-border-image: none;
@@ -5795,7 +5820,7 @@ form[name="a_form"] {
 }
 
 .qa-q-view-inner-line {
-	background: none repeat scroll 0 0 #FFF;
+	background: #FFF;
 	border: 1px solid #DDD;
 	-moz-border-radius: 5px;
 	-webkit-border-radius: 5px;
@@ -5840,7 +5865,7 @@ form[name="a_form"] {
 }
 
 .a-item-inner-line {
-	background: none repeat scroll 0 0 #FFF;
+	background: #FFF;
 	border: 1px solid #DDD;
 	-moz-border-radius: 5px;
 	-webkit-border-radius: 5px;
@@ -5910,7 +5935,7 @@ form[name="a_form"] {
 }
 
 .featured-questions .meta {
-	background: none repeat scroll 0 0 #FEFEFE;
+	background: #FEFEFE;
 	-moz-border-radius: 0 0 5px 5px;
 	-webkit-border-radius: 0 0 5px 5px;
 	border-radius: 0 0 5px 5px;
@@ -5938,7 +5963,7 @@ form[name="a_form"] {
 }
 
 .featured-questions .answer-list-item {
-	background: none repeat scroll 0 0 #FDFDFD;
+	background: #FDFDFD;
 	border-bottom: 1px solid #EEE;
 	padding: 10px;
 }
@@ -5948,7 +5973,7 @@ form[name="a_form"] {
 }
 
 .featured-questions .answer-list-title {
-	background: none repeat scroll 0 0 #FCFCFC;
+	background: #FCFCFC;
 	border-bottom: 1px solid #EEE;
 	-moz-box-shadow: 0 0 5px rgba(0, 0, 0, 0.03) inset;
 	-webkit-box-shadow: 0 0 5px rgba(0, 0, 0, 0.03) inset;
@@ -6003,7 +6028,7 @@ form[name="a_form"] {
 }
 
 .qa-q-view-inner-line .user-info, .a-item-inner-line .user-info {
-	background: none repeat scroll 0 0 #FBFBFB;
+	background: #FBFBFB;
 	border-bottom: 1px solid #E7E7E7;
 	-moz-border-radius: 5px 5px 0 0;
 	-webkit-border-radius: 5px 5px 0 0;
@@ -6013,7 +6038,7 @@ form[name="a_form"] {
 }
 
 .nav.nav-tabs.question-tabs {
-	background: none repeat scroll 0 0 rgba(0, 0, 0, 0);
+	background: rgba(0, 0, 0, 0);
 	border-color: rgba(0, 0, 0, 0) rgba(0, 0, 0, 0) #DDD;
 	-moz-border-image: none;
 	-ms-border-image: none;
@@ -6068,7 +6093,7 @@ form[name="a_form"] {
 }
 
 .error-404 .icon-broken {
-	background: none repeat scroll 0 0 #F7F7F7;
+	background: #F7F7F7;
 	-moz-border-radius: 5px;
 	-webkit-border-radius: 5px;
 	border-radius: 5px;
@@ -6270,7 +6295,7 @@ div.oembedall-container {
 	overflow: hidden;
 	padding: 11px 0;
 	line-height: 1;
-	background: none repeat scroll 0 0 #FFF;
+	background: #FFF;
 	color: #000;
 	font-family: Arial, Liberation Sans, DejaVu Sans, sans-serif;
 	font-size: 80%;
@@ -6330,7 +6355,7 @@ div.oembedall-container {
 }
 
 .oembedall-stoqembed .oembedall-stats {
-	background: none repeat scroll 0 0 #EEE;
+	background: #EEE;
 	margin: 0 0 0 7px;
 	padding: 4px 7px 6px;
 }
@@ -6363,7 +6388,7 @@ div.oembedall-container {
 	margin-top: -3px;
 	padding: 4px 0;
 	text-align: center;
-	background: none repeat scroll 0 0 #75845C;
+	background: #75845C;
 	color: #FFF;
 }
 
@@ -6577,14 +6602,6 @@ div.oembedall-lanyard .first {
 }
 
 #theme-option-form .option-tab-content {
-	border-color: rgba(0, 0, 0, 0) #DDD #DDD;
-	-moz-border-image: none;
-	-ms-border-image: none;
-	-o-border-image: none;
-	-webkit-border-image: none;
-	border-image: none;
-	border-style: none solid solid;
-	border-width: 0 1px 1px;
 	padding: 10px 20px;
 }
 
@@ -6621,8 +6638,6 @@ div.oembedall-lanyard .first {
 	font-style: normal;
 }
 .qa-form-tall-label, .qa-form-tall-label {
-    font-weight: bold;
-    padding-bottom: 10px;
     padding-top: 5px;
 }
 .qa-form-tall-data .cke_chrome, .qa-form-tall-data .cke_chrome .cke_bottom, .cke_top{
@@ -6633,7 +6648,7 @@ div.oembedall-lanyard .first {
 }
 
 .user-widget, .widget{
-    background: none repeat scroll 0 0 #FFFFFF;
+    background: #FFFFFF;
     border: 1px solid #D9D9D9;
     border-radius: 5px;
     box-shadow: 0 0 2px rgba(0, 0, 0, 0.05);
@@ -6719,7 +6734,7 @@ div.oembedall-lanyard .first {
 	padding:0;
 }
 .user-right {
-    background: none repeat scroll 0 0 #FFFFFF;
+    background: #FFFFFF;
     border: 1px solid #E7E7E7;
     border-radius: 5px;
     padding: 0 15px;
@@ -6747,7 +6762,7 @@ div.oembedall-lanyard .first {
     text-align: center;
 }
 .white-bg {
-    background: none repeat scroll 0 0 #FFFFFF;
+    background: #FFFFFF;
     border: 1px solid #E7E7E7;
     border-radius: 5px;
 }
