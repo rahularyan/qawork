@@ -606,6 +606,7 @@ function cs_change_cover(elm){
 		success: function (response) {
 			$(response).appendTo('body');
 			$('#upload_cover_modal').modal('show');
+			cs_animate_button(elm, true);
 		},
 	});
 }

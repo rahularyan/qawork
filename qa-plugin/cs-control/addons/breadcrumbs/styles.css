@@ -19,10 +19,13 @@
 	color: #999;
 }
 .breadcrumb > li:last-child > a{
-	color:#999;
+	color:#fff;
 }
 .widget.cs_breadcrumbs{
     background: none repeat scroll 0 0 rgba(0, 0, 0, 0);
     border: medium none;
     box-shadow: none;
+}
+.breadcrumb > li > a {
+    color: #818181;
 }
