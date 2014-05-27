@@ -67,7 +67,7 @@ class cs_fb_likebox_widget {
                                     'label' => qa_lang('cs_fb_like_box/like_box_height_label'),
                                     'type'  => 'text',
                                     'tags'  => 'name="cs_fb_like_box_height"',
-                                    'value' => '0',
+                                    'value' => '320',
                     ),
                      'cs_fb_like_box_width' => array(
 						'label' => qa_lang('cs_fb_like_box/like_box_width_label'),
