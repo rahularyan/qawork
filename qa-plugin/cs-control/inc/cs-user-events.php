@@ -330,7 +330,7 @@
 		function ParamToString($params)
 		{
 			if (isset($params)){
-				$params['parent_uid'] = $params['parent']['userid'];
+				$params['parent_uid'] = isset($params['parent']['userid']) ? $params['parent']['userid'] : $params['userid'];
 				if(isset($params['content']))    unset($params['content']);
 				if(isset($params['question']))   unset($params['question']);
 				if(isset($params['answer']))     unset($params['answer']);
