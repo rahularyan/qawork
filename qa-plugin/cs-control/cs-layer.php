@@ -2041,36 +2041,22 @@ class qa_html_theme_layer extends qa_html_theme_base {
                     
                     $data   = cs_user_data($handle);
 
-                    $avatar = cs_get_avatar($handle, 150, false);
+                    $avatar = cs_get_avatar($handle, 100, false);
                     $this->output('
-							<div class="user-card">
-							<div class="user-card-inner">	
-								<div class="card-container">
-								' . (isset($avatar) ? '
-									<div class="f1_card">
-										<div class="front face">
-											<img class="avatar" height="150" src="' . $avatar . '" />
-										</div>
-										<div class="back face center">
-											<span class="activity q"><i>' . $data['points']['qposts'] . '</i>' . qa_lang_html('cleanstrap/questions') . ' </span>
-											<span class="activity a"><i>' . $data['points']['aposts'] . '</i>' . qa_lang_html('cleanstrap/answers') . ' </span>
-											<span class="activity c"><i>' . $data['points']['cposts'] . '</i>' . qa_lang_html('cleanstrap/comments') . ' </span>
-										</div>
+							<div class="user-box">
+							<div class="user-box-inner">	
+								<div class="box-container">
+									<div class="user-avatar">
+										<a href="' . qa_path_html('user/' . $handle) . '">
+											<img class="avatar" src="' . $avatar . '" />
+										</a>
 									</div>
-									' : '
-									<div class="card-metas center">
-										<span class="activity q"><i>' . $data['points']['qposts'] . '</i>' . qa_lang_html('cleanstrap/questions') . ' </span>
-										<span class="activity a"><i>' . $data['points']['aposts'] . '</i>' . qa_lang_html('cleanstrap/answers') . ' </span>
-										<span class="activity c"><i>' . $data['points']['cposts'] . '</i>' . qa_lang_html('cleanstrap/comments') . ' </span>
-									</div>													
-								') . '
-								</div>	
-								<div class="card-bottom">
-								<a class="user-name" href="' . qa_path_html('user/' . $handle) . '">' . cs_name($handle) . '</a>								
-								<span class="score">' . $data['points'] . qa_lang_html('cleanstrap/points') . ' </span>
-								</div>');
+									
+									<a class="user-name" href="' . qa_path_html('user/' . $handle) . '">' . $handle. '</a>								
+									<span class="score">' .  qa_lang_sub('cleanstrap/x_points', $data['points']['points']) . ' </span>
+							</div>');
                     if (qa_opt('badge_active') && function_exists('qa_get_badge_list'))
-                        $this->output('<td class="badge-list">' . cs_user_badge($handle) . '</td>');
+                        $this->output('<div class="badge-list">' . cs_user_badge($handle) . '</div>');
                     
                     $this->output('</div>');
                     $this->output('</div>');

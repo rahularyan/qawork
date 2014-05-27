@@ -585,22 +585,25 @@ function cs_ajax_user_popover(){
 			$cover = $cover[0];
 		}else{
 			$data = cs_user_data($handle);
+			$profile = cs_user_profile($handle);
 		}
 
 		?>
 		<div id="<?php echo $userid;?>_popover" class="user-popover">
-			<div class="counts clearfix">
-				<div class="points">
-					<?php echo '<span>'.$data['points']['points'] .'</span>Points'; ?>
-				</div>
-				<div class="qcount">
-					<?php echo '<span>'.$data['points']['qposts'] .'</span>Questions'; ?>
-				</div>
-				<div class="acount">
-					<?php echo '<span>'.$data['points']['aposts'] .'</span>Answers'; ?>
-				</div>
-				<div class="ccount">
-					<?php echo '<span>'.$data['points']['cposts'] .'</span>Comments'; ?>
+			<div class="counts clearfix"<?php echo !empty($profile['cover']) ? ' style="background-image:url('.cs_upload_url().'/'.$profile['cover'].')"' : ''; ?>>
+				<div class="bg-opacity clearfix">
+					<div class="points">
+						<?php echo '<span>'.$data['points']['points'] .'</span>Points'; ?>
+					</div>
+					<div class="qcount">
+						<?php echo '<span>'.$data['points']['qposts'] .'</span>Questions'; ?>
+					</div>
+					<div class="acount">
+						<?php echo '<span>'.$data['points']['aposts'] .'</span>Answers'; ?>
+					</div>
+					<div class="ccount">
+						<?php echo '<span>'.$data['points']['cposts'] .'</span>Comments'; ?>
+					</div>
 				</div>
 			</div>
 			<div class="bottom">	
