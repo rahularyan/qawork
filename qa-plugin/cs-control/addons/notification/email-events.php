@@ -274,16 +274,22 @@ function cs_notify_users_by_email($event, $postid, $userid, $effecteduserid, $pa
                   )); 
             } else if($event === "q_post_user_fl" || $event === "q_post_tag_fl" || $event === "q_post_cat_fl" ){
                   $content = (isset($params['text']) && !empty($params['text'])) ? $params['text'] : "";
+                   //shrink the email body content 
+                  if (!!$content && (strlen($content) > 50)) $content = cs_shrink_email_body($content, 50);
+
                   $title = (isset($params['title']) && !empty($params['title'])) ? $params['title'] : "";
                   $url = qa_q_path($params['postid'], $title , true);
+                  
             } else {
                   $content = (isset($params['text']) && !empty($params['text'])) ? $params['text'] : "";
+                   //shrink the email body content 
+                  if (!!$content && (strlen($content) > 50)) $content = cs_shrink_email_body($content, 50);
+                  
                   $title = (isset($params['qtitle']) && !empty($params['qtitle'])) ? $params['qtitle'] : "";
                   $url = qa_q_path($params['qid'], $title , true);
             }
 
-            //shrink the email body content 
-            if (!!$content && (strlen($content) > 50)) $content = cs_shrink_email_body($params['text'], 50);
+           
 
             cs_save_email_notification(null, $notifying_user, $logged_in_handle, $event, array(
                 '^q_handle'  => isset($logged_in_user_name) ? $logged_in_user_name : isset($logged_in_handle) ? $logged_in_handle : qa_lang('main/anonymous'),
