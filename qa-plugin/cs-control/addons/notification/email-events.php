@@ -254,9 +254,9 @@ function cs_notify_users_by_email($event, $postid, $userid, $effecteduserid, $pa
                   $old_level = $params['oldlevel'];
                   $new_level = $params['level'];
                   if ($new_level < $old_level) {
-                        break ; 
+                        return ; 
                   }
-                  
+
                   $approved_only = "" ;
                   if (($new_level == QA_USER_LEVEL_APPROVED) && ($old_level < QA_USER_LEVEL_APPROVED)) {
                         $approved_only = true;

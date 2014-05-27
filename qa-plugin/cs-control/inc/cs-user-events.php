@@ -217,9 +217,14 @@
 					}
 					break;
 				case 'u_level':
-					$effecteduserid = $params['userid'];
-					$this->AddEvent($postid,$userid, $effecteduserid, $params, $event);
-					cs_do_action($event, $postid,$userid, $effecteduserid, $params, $event);
+					$old_level = $params['oldlevel'];
+                    $new_level = $params['level'];
+                    if ( $new_level > $old_level ) {
+                    	//add the event only if the level increases 
+	                    $effecteduserid = $params['userid'];
+						$this->AddEvent($postid,$userid, $effecteduserid, $params, $event);
+						cs_do_action($event, $postid,$userid, $effecteduserid, $params, $event);
+                    }
 					break;
 				default:
 					$dolog=false;
