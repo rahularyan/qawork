@@ -370,7 +370,7 @@ class qa_html_theme_layer extends qa_html_theme_base {
 		else{
 		
 			if($this->cs_position_active('Home Slide') && cs_is_home()){
-				$this->output('<div class="container"><div class="home-slider-outer">');
+				$this->output('<div class="home-slider-outer"><div class="container">');
 				$this->cs_position('Home Slide');
 				$this->output('</div></div>');
 			}
@@ -835,7 +835,7 @@ class qa_html_theme_layer extends qa_html_theme_base {
 	function main_top($content){
 		if (cs_hook_exist(__FUNCTION__)) {$args=func_get_args(); return cs_do_action(__FUNCTION__, $args); }
 		if ($this->cs_position_active('Header') || $this->cs_position_active('Header Right')) {
-			$this->output('<div class="container"><div class="header-position-c clearfix">');	
+			$this->output('<div class="header-position-c clearfix"><div class="container">');	
 				if ($this->cs_position_active('Header')){
 					$this->output('<div class="col-md-6">');
 					$this->cs_position('Header');
@@ -957,8 +957,11 @@ class qa_html_theme_layer extends qa_html_theme_base {
 					'<p class="user-rank">'. $handle .' ' . qa_lang_sub('cleanstrap/ranked_x_among_all_user', $user['rank'] ) . '</p>',
 				'</div>'
 			);
+			if(qa_get_logged_in_handle() != $handle){
 				$this->favorite();
+				
 				$this->output('<a class="btn icon-email" href="'.qa_path_html('message/'.$handle).'">'.qa_lang_html('cleanstrap/message').'</a>');
+			}
 			$this->output('</div>');
 			/* end user info */
 			

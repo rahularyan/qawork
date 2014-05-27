@@ -688,6 +688,38 @@ function cs_followers_list($handle, $size = 40, $limit = 10, $order_by = 'rand')
 	}
 	return;
 }
+function cs_following_list($handle, $size = 40, $limit = 10, $order_by = 'rand'){
+	$userid = qa_handle_to_userid($handle);
+	
+	if( $order_by == 'rand')
+		$order_by = 'ORDER BY RAND()';
+	
+	$followers = qa_db_read_all_values(qa_db_query_sub('SELECT ^users.handle FROM ^userfavorites INNER JOIN ^users ON ^userfavorites.entityid = ^users.userid  WHERE ^userfavorites.userid = # and ^userfavorites.entitytype = "U" ORDER BY RAND() LIMIT #', $userid,  (int)$limit));	
+
+
+	if(count($followers)){
+		$output = '<div class="user-followers-inner">';
+		$output .= '<ul class="user-followers clearfix">';
+		foreach($followers as $user){
+			$id = qa_handle_to_userid($user);
+			$output .= '<li><div class="avatar" data-handle="'.$user.'" data-id="'.$id.'"><a href="'.qa_path_html('user/'.$user).'"><img src="'.cs_get_avatar($user, $size, false).'" /></a></div></li>';
+		}
+		$count = cs_count_following($userid);
+		
+		if(($count - $limit) > 100)
+			$count = '99+';
+		else
+			$count = ($count - $limit);
+		
+		if($count > 0)		
+			$output .= '<li class="total-followers"><a href="'.qa_path_html('followers').'" style="height:'.$size.'px;width:'.$size.'px;"><span>'.$count.'</span></a></li>';
+			
+		$output .= '</ul>';
+		$output .= '</div>';
+		return $output;
+	}
+	return;
+}
 function cs_user_followers_count($userid){
 	$count =  qa_db_read_one_value(qa_db_query_sub('SELECT count(userid) FROM ^userfavorites  WHERE  entityid = # and entitytype = "U"', $userid), true);
 	return $count;
