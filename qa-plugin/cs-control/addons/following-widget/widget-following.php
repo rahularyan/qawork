@@ -89,7 +89,7 @@
 					$themeobject->favorite();
 					$themeobject->output('</div>');
 				}else
-					$themeobject->output(cs_followers_list($handle, $widget_opt['cs_nu_avatar'], $widget_opt['cs_nu_count']));
+					$themeobject->output(cs_following_list($handle, $widget_opt['cs_nu_avatar'], $widget_opt['cs_nu_count']));
 			$themeobject->output('</div>');
 		
 		}
