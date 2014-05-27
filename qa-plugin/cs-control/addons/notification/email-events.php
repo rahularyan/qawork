@@ -253,16 +253,18 @@ function cs_notify_users_by_email($event, $postid, $userid, $effecteduserid, $pa
                   $url       = qa_path_absolute('user/' . $params['handle']);
                   $old_level = $params['oldlevel'];
                   $new_level = $params['level'];
-                  if (($new_level >= QA_USER_LEVEL_APPROVED) && ($old_level < QA_USER_LEVEL_APPROVED)) {
-                        $approved_only = true;
-                  } else if (($new_level >= QA_USER_LEVEL_APPROVED) && ($old_level < $new_level )) {
-                        $approved_only = false;
-                  } else {
-                        //if the designation decreases no need to notify 
-                        return;
+                  if ($new_level < $old_level) {
+                        break ; 
                   }
+                  
+                  $approved_only = "" ;
+                  if (($new_level == QA_USER_LEVEL_APPROVED) && ($old_level < QA_USER_LEVEL_APPROVED)) {
+                        $approved_only = true;
+                  } else  {
+                        $approved_only = false;
+                  } 
 
-                  if (!$approved_only) {
+                  if ($approved_only === false ) {
                         $new_designation = cs_get_user_desg($new_level);
                   }
 
