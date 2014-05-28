@@ -1,6 +1,7 @@
 a, .widget .ra-ticker-widget .widget-title a, .qa-q-view-tag-list li a:hover{
-
+	color:#FA6900;
 }
+
 a:hover{
 	color:#7AAA40;
 }
@@ -9,11 +10,9 @@ a:hover{
 	background:#7AAA40;
 	color:#fff;
 }
-#site-header #header-top {
-    background-color: #171717;
-}
+
 #header-below, .header-position-c {
-	background-color: #222;
+	background-color: #fff;
 }
 .header-position-c {
     background-image: url("../images/members.jpg") ;
@@ -70,8 +69,8 @@ a:hover{
 .on-off-checkbox-container, .pagination, .question-tags .tags-tag-list li a:hover {
 	border-color:#e45840;
 }
-#nav-top #site-header .qa-nav-main .qa-nav-main-list li a{
-	color: #AAAAAA;
+.qa-nav-main .qa-nav-main-list li a{
+	color: rgba(255, 255, 255, 0.8);
 }
 .ra-ask-widget .input-group-btn button, .carousel-control.left, .carousel-control.right, .ajax-file-upload-bar {
     background: none repeat scroll 0 0 #d6313a;

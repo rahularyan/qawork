@@ -429,9 +429,10 @@ class qa_html_theme_layer extends qa_html_theme_base {
         $this->output('<header id="site-header" class="clearfix">');		
 			$this->output('<div id="header-top" class="clearfix">');
 			$this->output('<div class="container">');
-			$this->logo();		
-			$this->main_nav_menu();		
-			$this->user_drop_nav();					
+			$this->logo();
+			$this->search();
+			$this->main_nav_menu();			
+			$this->user_drop_nav();						
 			$this->output('</div>');
 			$this->output('</div>');
 		$this->output('</header>');
@@ -439,7 +440,6 @@ class qa_html_theme_layer extends qa_html_theme_base {
 		
 		$this->output('<div id="header-below" class="clearfix"><div class="container">');		
 		$this->cs_position('Breadcrumbs');		
-		$this->search();
 		$this->nav_ask_btn();		
 		$this->output('</div></div>');
     }
@@ -460,8 +460,7 @@ class qa_html_theme_layer extends qa_html_theme_base {
 		if (cs_hook_exist(__FUNCTION__)) {$args=func_get_args(); return cs_do_action(__FUNCTION__, $args); }
 		
 		if (qa_opt('cs_enable_ask_button')){
-			$this->output('<a id="nav-ask-btn" href="' . qa_path_html('ask') . '" class="btn btn-sm btn-success">' . qa_lang_html('cleanstrap/ask_question') . '</a>');
-			$this->output('<a id="nav-ask-btn" href="' . qa_path_html('ask') . '" class="btn btn-sm header-ask-button icon-question btn-success"></a>');
+			$this->output('<a id="nav-ask-btn" href="' . qa_path_html('ask') . '" class="btn">' . qa_lang_html('cleanstrap/ask_question') . '</a>');
 		}
 	}
 
@@ -517,7 +516,7 @@ class qa_html_theme_layer extends qa_html_theme_base {
             echo qa_path_html('user/' . qa_get_logged_in_handle());
 ?>" class="avatar">
 							<?php
-            $LoggedinUserAvatar = cs_get_avatar(qa_get_logged_in_handle(), 35, false);
+            $LoggedinUserAvatar = cs_get_avatar(qa_get_logged_in_handle(), 25, false);
             if (!empty($LoggedinUserAvatar))
                 echo '<img src="' . $LoggedinUserAvatar . '" />'; // in case there is no Avatar image and theme doesn't use a default avatar
             else
@@ -556,9 +555,9 @@ class qa_html_theme_layer extends qa_html_theme_base {
 			$this->cs_notification_btn();
         } else {
 ?>				
-				<a class="btn login-register icon-key"  href="#" data-toggle="modal" data-target="#login-modal" title="<?php echo qa_lang_html('cleanstrap/login_register'); ?>"><?php echo qa_lang_html('cleanstrap/login'); ?></a>
+				<a class="login-register icon-key"  href="#" data-toggle="modal" data-target="#login-modal" title="<?php echo qa_lang_html('cleanstrap/login_register'); ?>"><?php echo qa_lang_html('cleanstrap/login'); ?></a>
 				
-				<a class="btn login-register icon-user-add"  href="<?php echo qa_path_html('register'); ?>" title="<?php echo qa_lang_html('cleanstrap/register_on_site'); ?>"><?php echo qa_lang_html('cleanstrap/register'); ?></a>
+				<a class="login-register icon-user-add"  href="<?php echo qa_path_html('register'); ?>" title="<?php echo qa_lang_html('cleanstrap/register_on_site'); ?>"><?php echo qa_lang_html('cleanstrap/register'); ?></a>
 				
 				<!-- Modal -->
 				<div class="modal fade" id="login-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -676,7 +675,7 @@ class qa_html_theme_layer extends qa_html_theme_base {
 		if (cs_hook_exist(__FUNCTION__)) {$args=func_get_args(); return cs_do_action(__FUNCTION__, $args); }
         $search = $this->content['search'];
         
-        $this->output('<form ' . $search['form_tags'] . ' class="navbar-form navbar-right form-search" role="search" >', @$search['form_extra']);
+        $this->output('<form ' . $search['form_tags'] . ' class="navbar-form navbar-left form-search" role="search" >', @$search['form_extra']);
         
         $this->search_field($search);
         //$this->search_button($search);
@@ -2076,8 +2075,13 @@ class qa_html_theme_layer extends qa_html_theme_base {
         } elseif (@$ranking['type'] == 'tags') {
             
             if ($rows > 0) {
-                $this->output('<div class="row ' . $class . '">');
-                
+                $this->output('<div id="tags-list" class="row ' . $class . '">');
+				
+				$tags = array();
+				foreach(@$ranking['items'] as $item)
+					$tags[] = strip_tags($item['label']);
+				
+				
                 $columns = ceil(count($ranking['items']) / $rows);
                 
                 for ($column = 0; $column < $columns; $column++) {
@@ -2142,8 +2146,18 @@ class qa_html_theme_layer extends qa_html_theme_base {
     function cs_tags_item($item, $class, $spacer)
     {
 		if (cs_hook_exist(__FUNCTION__)) {$args=func_get_args(); return cs_do_action(__FUNCTION__, $args); }
+        $content = qa_db_read_one_value( qa_db_query_sub("SELECT ^tagmetas.content FROM ^tagmetas WHERE ^tagmetas.tag =$ ", strip_tags($item['label'])), true);
+		
         if (isset($item))
-            $this->output('<li class="list-group-item">' . $item['label'] . '<span>' . $item['count'] . '</span></li>');
+            $this->output(
+				'<li class="tag-item">',
+					'<p class="tag-head">',
+						$item['label'] . '<span>' . $item['count'] . '</span>',
+					 '</p><p class="desc">',
+					 $content,
+					 '</p>',
+				 '</li>'
+			);
     }
     function message_list_form($list)
     {

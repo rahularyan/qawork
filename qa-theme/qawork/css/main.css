@@ -1,12 +1,10 @@
 body {
-	background: #FBFBFB;
+	background: #F8F8F8;
 	color: #5f5f5f;
-	font-size: 14px;
+	font-size: 13px;
 	line-height: 1.7;
 }
-a{
-	color:#0067ca;
-}
+
 a:hover {
 	text-decoration: none;
 }
@@ -38,12 +36,12 @@ label {
     background-color: #FFFFFF;
     background-image: none;
     border: 1px solid #DDDDDD;
-    border-radius: 4px;
-    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.04) inset;
+    border-radius: 2px;
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.03) inset;
     color: #555555;
     display: block;
     font-size: 14px;
-    height: 29px;
+    height: 32px;
     line-height: 1.42857;
     padding: 6px 12px;
     transition: border-color 0.15s ease-in-out 0s, box-shadow 0.15s ease-in-out 0s;
@@ -87,11 +85,12 @@ textarea {
     text-transform: capitalize;
     vertical-align: middle;
     white-space: nowrap;
+	box-shadow:0 1px 0 rgba(255, 255, 255, 0.1) inset;
 }
 
 .btn:hover, .qa-form-light-button:hover, .qa-form-tall-button:hover, .qa-form-wide-button:hover, .qa-a-select-button:hover, .qa-a-unselect-button:hover, .post-button .btn:hover {
     background: none repeat scroll 0 0 #EDEDEF;
-    box-shadow: 0 2px 1px rgba(255, 255, 255, 0.8) inset;
+    box-shadow: 0 1px 1px rgba(255, 255, 255, 0.2) inset;
 }
 
 .btn.icon-answer:before, .btn.icon-user-add:before {
@@ -168,10 +167,8 @@ textarea {
 }
 
 #site-header #header-top {
-	-moz-box-shadow: none;
-	-webkit-box-shadow: none;
-	box-shadow: none;
-	padding: 10px 0;
+    background: none repeat scroll 0 0 #8761A9;
+    padding: 8px 0;
 }
 
 #slide-mobile-menu {
@@ -238,8 +235,9 @@ textarea {
 }
 
 #site-header #profile-link {
-	margin: 0 0 0 15px;
-	padding: 0;
+    border: 1px solid #FFFFFF;
+    margin: 0 0 0 15px;
+    padding: 0;
 }
 
 #site-header .btn.icon-search {
@@ -259,12 +257,14 @@ textarea {
 }
 
 .navbar-form .form-control {
-	border: 1px solid #AAAAAA;
+    border: medium none;
+    height: 28px;
+    margin-top: 2px;
 }
 
-#header-below .navbar-form {
+.navbar-form {
     margin: 0;
-    padding-right: 0;
+    padding: 0;
 }
 
 .qa-nav-main {
@@ -293,21 +293,8 @@ textarea {
 	padding: 0 5px;
 }
 
-#site-header .main-menu li a {
-    /*padding:5px;*/;
-}
-
-#site-header .btn {
-	-moz-border-radius: 2px;
-	-webkit-border-radius: 2px;
-	border-radius: 2px;
-	height: auto;
-	padding: 7px 15px;
-}
-
 #nav-ask-btn {
-	color: #FFF;
-	float: right;
+    float: right;
 }
 
 #nav-ask-btn i {
@@ -389,13 +376,6 @@ textarea {
 	position: relative;
 }
 
-
-.side-c {
-	display: table-cell;
-	padding: 15px;
-	vertical-align: top;
-	width: 350px;
-}
 
 /*styling for the home button - fixed height*/
 .home-anchor {
@@ -1757,22 +1737,20 @@ a.feed-link {
 }
 
 .qa-error {
-	border-color: #FF4F4F rgba(0, 0, 0, 0) #EEE;
-	-moz-border-image: none;
-	-ms-border-image: none;
-	-o-border-image: none;
-	-webkit-border-image: none;
-	border-image: none;
-	-moz-border-radius: 0;
-	-webkit-border-radius: 0;
-	border-radius: 0;
-	border-style: solid none;
-	border-width: 3px medium 19px;
-	color: #777;
-	font-size: 14px;
-	margin-top: 15px;
-	padding: 8px;
-	text-align: center;
+    background: none repeat scroll 0 0 #F57979;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    border-radius: 4px;
+    color: #FFFFFF;
+    font-size: 14px;
+    margin-bottom: 15px;
+    margin-top: 15px;
+    padding: 8px;
+    text-align: center;
+}
+
+.qa-error > a{
+	color:#fff;
+	font-weight:bold;
 }
 
 .acti-indicators ul {
@@ -2493,14 +2471,12 @@ input.qa-form-wide-number {
 }
 
 #site-header .login-register {
-	background: rgba(0, 0, 0, 0.4);
-	-moz-border-radius: 2px;
-	-webkit-border-radius: 2px;
-	border-radius: 2px;
-	float: right;
-	font-size: 12px;
-	margin: 7px 0 0 8px;
-	padding: 3px 8px;
+    color: #AAAAAA;
+    float: right;
+    font-size: 12px;
+    margin-left: 17px;
+    margin-top: 7px;
+    text-shadow: 0 0 1px rgba(0, 0, 0, 0.1);
 }
 
 .navbar-default .login-register i {
@@ -2884,7 +2860,7 @@ th .description {
     background-repeat: repeat-x;
     margin-bottom: 25px;
 
-	animation: animatedBackground 40s linear infinite;
+	animation: animatedBackground 30s linear infinite;
 }
 @keyframes animatedBackground {
 	from { background-position: 0 0; }
@@ -4866,8 +4842,7 @@ th .description {
 }
 
 .qa-nav-main .qa-nav-main-list li a:hover, .qa-nav-main .qa-nav-main-list li a.qa-nav-main-selected {
-	background: rgba(0, 0, 0, 0.2);
-	color: #FFF;
+	color: #FFFFFF;
 }
 
 .qa-nav-main .qa-nav-main-list li a:before {
@@ -5089,7 +5064,7 @@ th .description {
 	padding: 15px;
 }
 #header-right-position .cs-ask-widget-form {
-    background: none repeat scroll 0 0 rgba(0, 0, 0, 0.7);
+    background: none repeat scroll 0 0 #FFFFFF;
     border: medium none;
     margin: 30px 0;
 }
@@ -5101,7 +5076,6 @@ th .description {
 	margin-right: -20px;
 }
 #header-right-position .widget .widget-title{
-    color: rgba(255, 255, 255, 0.6);
     font-size: 17px;
     font-weight: bold;
     margin-bottom: 20px;
@@ -5109,7 +5083,6 @@ th .description {
 #header-right-position .cs-ask-widget-form .form-control {
     background: none repeat scroll 0 0 rgba(255, 255, 255, 0.1);
     border-color: rgba(0, 0, 0, 0.1);
-    color: #FFFFFF;
 }
 
 .cs-ask-widget-form .checkbox-inline {
@@ -5143,8 +5116,8 @@ th .description {
 }
 
 .category-nav .category-toggle:hover {
-	background-color: rgba(0, 0, 0, 0.5);
-	color: #FFF;
+    background: none repeat scroll 0 0 rgba(0, 0, 0, 0);
+    color: #FFFFFF;
 }
 
 #ra-install-page h1 {
@@ -6652,7 +6625,7 @@ div.oembedall-lanyard .first {
 .user-widget > h3, .widget > h3{
     border-bottom: 1px solid #EEEEEE;
     border-radius: 5px 5px 0 0;
-    font-size: 15px;
+    font-size: 13px;
     font-weight: bold;
     margin: 0;
     padding: 12px 15px;
@@ -6822,4 +6795,29 @@ div.oembedall-lanyard .first {
 }
 .widget.cs_related_questions > h3{
 	padding:0;
+}
+#tags-list > ul{
+	list-style:none;
+	padding:0;
+	margin:0;
+}
+#tags-list > ul > li {
+    float: left;
+    padding: 10px;
+    width: 33.33%;
+}
+#tags-list > ul > li .tag-head {
+    margin: 0;
+}
+#tags-list > ul > li .tag-head a, #tags-list > ul > li .tag-head span{
+    color: #AAAAAA;
+    font-size: 15px;
+    font-weight: bold;
+}
+
+#tags-list > ul > li .tag-head span{
+	float:right;
+}
+#tags-list > ul > li .desc {
+    margin: 0;
 }
