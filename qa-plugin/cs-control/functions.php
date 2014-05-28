@@ -1093,9 +1093,24 @@ function cs_array_insert_before($key, array &$array, $new_key, $new_value) {
 }
 
 function cs_order_profile_fields($profile){
-	$keys = cs_apply_filter('order_profile_field', array('name', 'website', 'location', 'about'));
-	$short =  array_flip( $keys );
-	return array_merge($short, $profile);
+	 $keys = cs_apply_filter('order_profile_field', array('name', 'website', 'location', 'about'));
+	 $hide = cs_apply_filter('hide_profile_field', array('cover' , 'cs_facebook_a_post', 'cs_facebook_q_post', 'cs_facebook_c_post', 
+	 													 'cs_twitter_a_post', 'cs_twitter_q_post', 'cs_twitter_c_post', 
+	 													 'aol_hauthSession', 'facebook_hauthSession', 'foursquare_hauthSession', 
+	 													 'google_hauthSession', 'linkedin_hauthSession', 'live_hauthSession',
+	 													 'myspace_hauthSession', 'openid_hauthSession', 'twitter_hauthSession', 
+	 													 'yahoo_hauthSession'));
+	 $hide = array_keys(array_flip( $hide ));
+	 foreach ($profile as $key => $value) {
+	 	if (in_array($key, $hide)) {
+	 		unset($profile[$key]);
+	 	}
+	 }
+
+	 $short = array_flip( $keys );
+	 $short = array_merge($short, $profile);
+
+	 return $short ; 
 }
 
 function cs_request_text($field)

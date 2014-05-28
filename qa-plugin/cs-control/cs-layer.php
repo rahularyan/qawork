@@ -926,7 +926,7 @@ class qa_html_theme_layer extends qa_html_theme_base {
 			
 			$form = @$this->content['form_profile'];
 			
-			if(isset($form)){
+			if(isset($form) && !cs_is_state_edit()){
 				$this->output('<form class="user-buttons" '.$form['tags'].'><div class="btn-group">');
 				foreach($form['buttons'] as $k => $btn)
 					$this->output('<button class="btn '.$k .($k == 'delete' ? ' btn-danger' : '' ).'" ' . $btn['tags'] . ' type="submit">' . $btn['label'] . '</button>');
