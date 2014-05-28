@@ -6813,3 +6813,13 @@ div.oembedall-lanyard .first {
 .qa-part-form-profile, .qa-part-form-password {
     padding: 0 15px;
 }
+.qa-template-question .white-bg {
+    padding: 0 15px;
+}
+.widget.cs_related_questions{
+	border:none;
+	box-shadow:none;
+}
+.widget.cs_related_questions > h3{
+	padding:0;
+}
