@@ -10,21 +10,21 @@
 }
 
 .user-actions .dropdown-toggle {
-    background: none repeat scroll 0 0 rgba(0, 0, 0, 0.1);
     border-radius: 2px;
-    color: #fff;
+    color: #ADADAD;
     display: block;
-    font-size: 18px;
+    font-size: 16px;
     height: 35px;
     margin-left: 8px;
-    padding: 2px 7px;
+    padding: 2px 5px;
     text-align: center;
-    width: 35px;
+    text-shadow: 0 0 1px rgba(255, 255, 255, 0.2);
+    width: 25px;
 }
 
 .user-actions .open .dropdown-toggle {
-    background: none repeat scroll 0 0 #FFF;
-    color: #666;
+    background: none repeat scroll 0 0 rgba(0, 0, 0, 0);
+    color: #FFFFFF;
     position: relative;
     z-index: 9999;
 }
@@ -166,20 +166,18 @@
 
 .user-actions .dropdown-toggle > span {
     background: none repeat scroll 0 0 #FF1815;
-    -moz-border-radius: 50%;
-    -webkit-border-radius: 50%;
     border-radius: 50%;
-    color: #FFF;
+    color: #FFFFFF;
     display: block;
-    font-size: 11px;
+    font-size: 10px;
     font-weight: bold;
-    height: 20px;
-    line-height: 20px;
+    height: 15px;
+    line-height: 15px;
+    min-width: 15px;
     position: absolute;
-    right: -3px;
+    right: -2px;
     text-align: center;
-    top: -4px;
-    width: 20px;
+    top: 0;
 }
 
 .user-actions .dropdown-menu:before {
