@@ -5,6 +5,11 @@ if (!defined('QA_VERSION')) {
       exit;
 }
 
+/*
+Some part of this code was taken from qa-openlogin plugin by alixandru
+https://github.com/alixandru/q2a-open-login
+*/
+
 function cs_social_user_login_find_other($userid, $email) {
       // return all logins with the same email which are not associated with this user
       // super admins will not be included

@@ -4,6 +4,10 @@ if (!defined('QA_VERSION')) {
 		header('Location: /');
 		exit;
 }
+/*
+Some part of this code was taken from qa-openlogin plugin by alixandru
+https://github.com/alixandru/q2a-open-login
+*/
 
 /**
  * Extends the logout functionality by performing some extra clean up for
