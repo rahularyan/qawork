@@ -288,9 +288,6 @@ function cs_notify_users_by_email($event, $postid, $userid, $effecteduserid, $pa
                   $title = (isset($params['qtitle']) && !empty($params['qtitle'])) ? $params['qtitle'] : "";
                   $url = qa_q_path($params['qid'], $title , true);
             }
-
-           
-
             cs_save_email_notification(null, $notifying_user, $logged_in_handle, $event, array(
                 '^q_handle'  => isset($logged_in_user_name) ? $logged_in_user_name : isset($logged_in_handle) ? $logged_in_handle : qa_lang('main/anonymous'),
                 '^q_title'   => $title,
