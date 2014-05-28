@@ -21,8 +21,8 @@ return array(
 	'q_vote_down_body_email' => "^open ^done_by has voted down your question <a href='^url'> ^q_title </a> \n^q_content^close <a href='^url'>Click  here </a> to see the question\n",
 	'a_vote_down_body_email' => "^open ^done_by has voted down your answer <a href='^url'> ^q_title </a> \n^q_content^close <a href='^url'>Click  here </a> to see the question\n",
 	
-	'q_vote_nil_body_email' => "^open ^done_by has voted nill your answer <a href='^url'> ^q_title </a> \n^q_content^close <a href='^url'>Click  here </a> to see the question\n",
-	'a_vote_nil_body_email' => "^open ^done_by has voted nill your answer <a href='^url'> ^q_title </a> \n^q_content^close <a href='^url'>Click  here </a> to see the question\n",
+	'q_vote_nil_body_email' => "^open ^done_by has removed his vote from your question <a href='^url'> ^q_title </a> \n^q_content^close <a href='^url'>Click  here </a> for more info \n",
+	'a_vote_nil_body_email' => "^open ^done_by has removed his vote from your answer <a href='^url'> ^q_title </a> \n^q_content^close <a href='^url'>Click  here </a> for more info \n",
 	'q_approve_body_email'  => "^open ^done_by has approved  your question <a href='^url'> ^q_title </a> \n^q_content^close <a href='^url'>Click  here </a> to see the question\n",
 	'a_approve_body_email'  => "^open ^done_by has approved  your answer <a href='^url'> ^q_title </a> \n^q_content^close <a href='^url'>Click  here </a> to see the question\n",
 	'c_approve_body_email'  => "^open ^done_by has approved  your comment <a href='^url'> ^q_title </a> \n^q_content^close <a href='^url'>Click  here </a> to see the question\n",
