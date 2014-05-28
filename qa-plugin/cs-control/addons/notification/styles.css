@@ -10,16 +10,13 @@
 }
 
 .user-actions .dropdown-toggle {
-    border-radius: 2px;
-    color: #ADADAD;
+    color: #FFFFFF;
     display: block;
-    font-size: 16px;
-    height: 35px;
+    font-size: 19px;
     margin-left: 8px;
-    padding: 2px 5px;
+    padding: 0 5px;
     text-align: center;
-    text-shadow: 0 0 1px rgba(255, 255, 255, 0.2);
-    width: 25px;
+    text-shadow: 0 1px 0 rgba(0, 0, 0, 0.1);
 }
 
 .user-actions .open .dropdown-toggle {
@@ -165,12 +162,11 @@
 }
 
 .user-actions .dropdown-toggle > span {
-    background: none repeat scroll 0 0 #FF1815;
+    background: none repeat scroll 0 0 #FA6900;
     border-radius: 50%;
-    color: #FFFFFF;
+    color: #fff;
     display: block;
-    font-size: 10px;
-    font-weight: bold;
+    font-size: 11px;
     height: 15px;
     line-height: 15px;
     min-width: 15px;
