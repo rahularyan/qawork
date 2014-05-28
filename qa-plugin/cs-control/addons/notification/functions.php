@@ -126,7 +126,7 @@ function cs_activitylist()
                         $title       ='';
                         $link        ='';
                         $vote_status = '';
-                        $handle      = $handles[$event['userid']];
+                        $handle      = isset($handles[$event['userid']]) ? $handles[$event['userid']] : qa_lang('main/anonymous') ;
                         
                         $datetime        = $event['datetime'];
                         $event['date']   = qa_html(qa_time_to_string(qa_opt('db_time')-$datetime));
