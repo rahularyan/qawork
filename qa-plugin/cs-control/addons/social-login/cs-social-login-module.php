@@ -1,5 +1,8 @@
 <?php
-
+/*
+Some part of this code was taken from qa-openlogin plugin by alixandru
+https://github.com/alixandru/q2a-open-login
+*/
 class cs_open_login {
 
       var $directory;
