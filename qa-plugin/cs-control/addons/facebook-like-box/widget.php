@@ -73,7 +73,7 @@ class cs_fb_likebox_widget {
 						'label' => qa_lang('cs_fb_like_box/like_box_width_label'),
 						'type'  => 'text',
 						'tags'  => 'name="cs_fb_like_box_width"',
-						'value' => '320',
+						'value' => '360',
                     ),
 
                 ),
@@ -149,6 +149,9 @@ class cs_fb_likebox_widget {
             $data['width']       = 'data-width="'.$width.'"' ;
             $data_str = implode(' ', $data ) ;
             // widget start 
+            if(@$themeobject->current_widget['param']['locations']['show_title'])
+                        $themeobject->output('<h3 class="widget-title">CS Facebook Like Box</h3>');
+
             $themeobject->output('<div class="fb-like-box clearfix">');
             
             $themeobject->output('<div id="fb-root"></div>');
