@@ -253,38 +253,41 @@ function cs_notify_users_by_email($event, $postid, $userid, $effecteduserid, $pa
                   $url       = qa_path_absolute('user/' . $params['handle']);
                   $old_level = $params['oldlevel'];
                   $new_level = $params['level'];
-                  if (($new_level >= QA_USER_LEVEL_APPROVED) && ($old_level < QA_USER_LEVEL_APPROVED)) {
-                        $approved_only = true;
-                  } else if (($new_level >= QA_USER_LEVEL_APPROVED) && ($old_level < $new_level )) {
-                        $approved_only = false;
-                  } else {
-                        //if the designation decreases no need to notify 
-                        return;
+                  if ($new_level < $old_level) {
+                        return ; 
                   }
 
-                  if (!$approved_only) {
+                  $approved_only = "" ;
+                  if (($new_level == QA_USER_LEVEL_APPROVED) && ($old_level < QA_USER_LEVEL_APPROVED)) {
+                        $approved_only = true;
+                  } else  {
+                        $approved_only = false;
+                  } 
+
+                  if ($approved_only === false ) {
                         $new_designation = cs_get_user_desg($new_level);
                   }
 
                   $content = strtr(qa_lang($approved_only ? 'notification/u_level_approved_body_email' : 'notification/u_level_improved_body_email'), array(
-                      '^f_handle'        => $fromhandle,
                       '^done_by'         => isset($logged_in_user_name) ? $logged_in_user_name : isset($logged_in_handle) ? $logged_in_handle : qa_lang('main/anonymous'),
-                      '^url'             => $url,
-                      '^new_designation' => $new_designation,
+                      '^new_designation' => @$new_designation,
                   )); 
             } else if($event === "q_post_user_fl" || $event === "q_post_tag_fl" || $event === "q_post_cat_fl" ){
                   $content = (isset($params['text']) && !empty($params['text'])) ? $params['text'] : "";
+                   //shrink the email body content 
+                  if (!!$content && (strlen($content) > 50)) $content = cs_shrink_email_body($content, 50);
+
                   $title = (isset($params['title']) && !empty($params['title'])) ? $params['title'] : "";
                   $url = qa_q_path($params['postid'], $title , true);
+                  
             } else {
                   $content = (isset($params['text']) && !empty($params['text'])) ? $params['text'] : "";
+                   //shrink the email body content 
+                  if (!!$content && (strlen($content) > 50)) $content = cs_shrink_email_body($content, 50);
+                  
                   $title = (isset($params['qtitle']) && !empty($params['qtitle'])) ? $params['qtitle'] : "";
                   $url = qa_q_path($params['qid'], $title , true);
             }
-
-            //shrink the email body content 
-            if (!!$content && (strlen($content) > 50)) $content = cs_shrink_email_body($params['text'], 50);
-
             cs_save_email_notification(null, $notifying_user, $logged_in_handle, $event, array(
                 '^q_handle'  => isset($logged_in_user_name) ? $logged_in_user_name : isset($logged_in_handle) ? $logged_in_handle : qa_lang('main/anonymous'),
                 '^q_title'   => $title,

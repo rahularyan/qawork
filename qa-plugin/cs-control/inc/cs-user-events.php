@@ -190,30 +190,41 @@
 					}
 					break;
 				case 'u_favorite':
-					$this->UpdateUserFavorite($postid,$userid, $params, 'u_favorite', 1);
-					$effecteduserid = $params['userid'];
-					cs_do_action($event, $postid,$userid, $effecteduserid, $params, $event);
-					$dolog=false;
+					if ($loggeduserid != $params['userid']){
+						$this->UpdateUserFavorite($postid,$userid, $params, 'u_favorite', 1);
+						$effecteduserid = $params['userid'];
+						cs_do_action($event, $postid,$userid, $effecteduserid, $params, $event);
+						$dolog=false;
+					}
 					break;
 				/* case 'u_unfavorite':
 					$this->UpdateUserFavorite($postid,$userid, $params, 'u_unfavorite', -1);
 					$dolog=false;
 					break; */
 				case 'u_message':
-					$effecteduserid = $params['userid'];
-					$this->AddEvent($postid,$userid, $effecteduserid, $params, $event);
-					cs_do_action($event, $postid,$userid, $effecteduserid, $params, $event);
+					if ($loggeduserid != $params['userid']){
+						$effecteduserid = $params['userid'];
+						$this->AddEvent($postid,$userid, $effecteduserid, $params, $event);
+						cs_do_action($event, $postid,$userid, $effecteduserid, $params, $event);
+					}
 					break;
 				case 'u_wall_post':
-					$effecteduserid    = $params['userid'];
-					$params['message'] =$params['content'];
-					$this->AddEvent($postid,$userid, $effecteduserid, $params, $event);
-					cs_do_action($event, $postid,$userid, $effecteduserid, $params, $event);
+					if ($loggeduserid != $params['userid']){
+						$effecteduserid    = $params['userid'];
+						$params['message'] = $params['content'];
+						$this->AddEvent($postid,$userid, $effecteduserid, $params, $event);
+						cs_do_action($event, $postid,$userid, $effecteduserid, $params, $event);
+					}
 					break;
 				case 'u_level':
-					$effecteduserid = $params['userid'];
-					$this->AddEvent($postid,$userid, $effecteduserid, $params, $event);
-					cs_do_action($event, $postid,$userid, $effecteduserid, $params, $event);
+					$old_level = $params['oldlevel'];
+                    $new_level = $params['level'];
+                    if ( $new_level > $old_level ) {
+                    	//add the event only if the level increases 
+	                    $effecteduserid = $params['userid'];
+						$this->AddEvent($postid,$userid, $effecteduserid, $params, $event);
+						cs_do_action($event, $postid,$userid, $effecteduserid, $params, $event);
+                    }
 					break;
 				default:
 					$dolog=false;
@@ -330,7 +341,7 @@
 		function ParamToString($params)
 		{
 			if (isset($params)){
-				$params['parent_uid'] = $params['parent']['userid'];
+				$params['parent_uid'] = isset($params['parent']['userid']) ? $params['parent']['userid'] : $params['userid'];
 				if(isset($params['content']))    unset($params['content']);
 				if(isset($params['question']))   unset($params['question']);
 				if(isset($params['answer']))     unset($params['answer']);

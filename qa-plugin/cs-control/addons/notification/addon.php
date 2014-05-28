@@ -587,13 +587,35 @@ class Cs_Notification_Addon{
 							</div>';
 						break;
 					case 'u_level':
+						$url       = qa_path_absolute('user/' . $event['params']['handle']);
+                        $old_level = $event['params']['oldlevel'];
+                        $new_level = $event['params']['level'];
+                        if ($new_level < $old_level) {
+                              break ; 
+                        }
+
+                        $approved_only = "" ;
+                        if (($new_level == QA_USER_LEVEL_APPROVED) && ($old_level < QA_USER_LEVEL_APPROVED)) {
+                              $approved_only = true;
+                        } else  {
+                              $approved_only = false;
+                        } 
+
+                        if ($approved_only === false ) {
+                              $new_designation = cs_get_user_desg($new_level);
+                        }
+
+                        $content = strtr(qa_lang($approved_only ? 'notification/u_level_approved_notf' : 'notification/u_level_improved_notf'), array(
+                            '^new_designation' => @$new_designation,
+                        )); 
+                        
 						echo '<div class="event-content clearfix'.$read.'"'.$id.'>
 								<div class="avatar"><a class="icon icon-user" href="'.$url.'"></a></div>
 								<div class="event-right">
 									<a href="'.$url.'">
 										<div class="head">
 											<strong class="user">'.$handle.'</strong>
-											<span class="what">'.qa_lang_html('cleanstrap/your_question_is_rejected').'</span>
+											<span class="what">'.$content.'</span>
 										</div>
 										<div class="footer">
 											<span class="points">'.qa_lang_sub('cleanstrap/you_have_earned_x_points', $event_point['a_vote_up']).'</span>

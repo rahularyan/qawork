@@ -20,7 +20,7 @@ return array(
 	'a_vote_up_body_email'   => "^open ^done_by has voted up your answer <a href='^url'> ^q_title </a> \n^q_content^close <a href='^url'>Click  here </a> to see the question\n",
 	'q_vote_down_body_email' => "^open ^done_by has voted down your question <a href='^url'> ^q_title </a> \n^q_content^close <a href='^url'>Click  here </a> to see the question\n",
 	'a_vote_down_body_email' => "^open ^done_by has voted down your answer <a href='^url'> ^q_title </a> \n^q_content^close <a href='^url'>Click  here </a> to see the question\n",
-	//I am not sure about this message 
+	
 	'q_vote_nil_body_email' => "^open ^done_by has voted nill your answer <a href='^url'> ^q_title </a> \n^q_content^close <a href='^url'>Click  here </a> to see the question\n",
 	'a_vote_nil_body_email' => "^open ^done_by has voted nill your answer <a href='^url'> ^q_title </a> \n^q_content^close <a href='^url'>Click  here </a> to see the question\n",
 	'q_approve_body_email'  => "^open ^done_by has approved  your question <a href='^url'> ^q_title </a> \n^q_content^close <a href='^url'>Click  here </a> to see the question\n",
@@ -31,11 +31,15 @@ return array(
 	'c_reject_body_email'   => "^open ^done_by has rejected  your comment <a href='^url'> ^q_title </a> \n^q_content^close <a href='^url'>Click  here </a> to see the question\n",
 	'q_favorite_body_email' => "^open ^done_by has favorited  your question <a href='^url'> ^q_title </a> \n^q_content^close <a href='^url'>Click  here </a> to see the question\n",
 	'q_post_body_email'     => "^open ^done_by has posted a new question <a href='^url'> ^q_title </a> \n^q_content^close <a href='^url'>Click  here </a> to see the question\n",
-	// these four things have to be tested properly
+
 	'u_favorite_body_email'  => "^open ^done_by is now following you \n",
 	'u_message_body_email'   => "^open ^done_by has sent a private message - ^q_content^close <a href='^url'>Click  here </a> to reply \n",
 	'u_wall_post_body_email' => "^open ^done_by has posted on your wall ^q_content^close <a href='^url'>Click  here </a> to view \n",
-	'u_level_body_email'     => "^open ^done_by has posted on your wall ^q_content^close <a href='^url'>Click  here </a> to view \n",
+	'u_level_body_email'     => "^open ^q_content^close <a href='^url'>Click  here </a> to see your new profile \n",
+	'u_level_approved_body_email'     => "Congratulations . You profile has been approved",
+	'u_level_improved_body_email'     => "Congratulations . ^done_by has selected you as ^new_designation ",
+	'u_level_improved_notf'     => " has selected you as ^new_designation ",
+	'u_level_approved_notf'     => " has approved your profile",
 	'related_body_email'     => "^open ^done_by has posted a related question question <a href='^url'> ^q_title </a> \n^q_content^close <a href='^url'>Click  here </a> to see the question\n",
 	
 	//subject headers
@@ -88,4 +92,12 @@ return array(
 	"twenty_times_a_day_lang"         => "Twenty times a Day",
 	"twenty_four_times_a_day_lang"    => "Twenty four times a Day",
 	"cs_notify_freq_per_day_opt_lang" => "Choose the frequency of sending notification emails ",
+	// user designations
+	"basic_desg"                      => "Basic User" ,
+	"approved_desg"                   => "Approved User" ,
+	"expert_desg"                     => "Expert" ,
+	"editor_desg"                     => "Editor" ,
+	"moderator_desg"                  => "Moderator" ,
+	"admin_desg"                      => "Administrator" ,
+	"super_admin_desg"                => "Super Administrator" ,
 );

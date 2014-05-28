@@ -10,7 +10,7 @@ class cs_fb_likebox_widget {
                                     'label' => qa_lang('cs_fb_like_box/ur_fb_page_url'),
                                     'type'  => 'text',
                                     'tags'  => 'name="cs_fb_page_url"',
-                                    'value' => 'http://',
+                                    'value' => 'https://www.facebook.com/YourPage',
                     ),
                     'cs_fb_like_box_colorscheme' => array(
                                     'label' => qa_lang('cs_fb_like_box/colorscheme_label'),
@@ -26,7 +26,7 @@ class cs_fb_likebox_widget {
                                     'label' => qa_lang('cs_fb_like_box/box_header_label'),
                                     'type'  => 'select',
                                     'tags'  => 'name="cs_fb_like_box_header"',
-                                    'value' => 'light',
+                                    'value' => 'true',
                                     'options' => array(
                                           'true'  => qa_lang('cs_fb_like_box/yes'),
                                           'false' => qa_lang('cs_fb_like_box/no'),
@@ -36,7 +36,7 @@ class cs_fb_likebox_widget {
                                     'label' => qa_lang('cs_fb_like_box/show_border_label'),
                                     'type'  => 'select',
                                     'tags'  => 'name="cs_fb_like_box_show_border"',
-                                    'value' => 'light',
+                                    'value' => 'false',
                                     'options' => array(
                                           'true'  => qa_lang('cs_fb_like_box/yes'),
                                           'false' => qa_lang('cs_fb_like_box/no'),
@@ -46,7 +46,7 @@ class cs_fb_likebox_widget {
                                     'label' => qa_lang('cs_fb_like_box/show_faces_label'),
                                     'type'  => 'select',
                                     'tags'  => 'name="cs_fb_like_box_show_faces"',
-                                    'value' => 'light',
+                                    'value' => 'true',
                                     'options' => array(
                                           'true'  => qa_lang('cs_fb_like_box/yes'),
                                           'false' => qa_lang('cs_fb_like_box/no'),
@@ -56,7 +56,7 @@ class cs_fb_likebox_widget {
 						'label' => qa_lang('cs_fb_like_box/show_stream_label'),
 						'type'  => 'select',
 						'tags'  => 'name="cs_fb_like_box_data_stream"',
-						'value' => 'light',
+						'value' => 'false',
 						'options' => array(
                                           'true'  => qa_lang('cs_fb_like_box/yes'),
                                           'false' => qa_lang('cs_fb_like_box/no'),
@@ -73,7 +73,7 @@ class cs_fb_likebox_widget {
 						'label' => qa_lang('cs_fb_like_box/like_box_width_label'),
 						'type'  => 'text',
 						'tags'  => 'name="cs_fb_like_box_width"',
-						'value' => '320',
+						'value' => '360',
                     ),
 
                 ),
@@ -149,6 +149,9 @@ class cs_fb_likebox_widget {
             $data['width']       = 'data-width="'.$width.'"' ;
             $data_str = implode(' ', $data ) ;
             // widget start 
+            if(@$themeobject->current_widget['param']['locations']['show_title'])
+                        $themeobject->output('<h3 class="widget-title">CS Facebook Like Box</h3>');
+
             $themeobject->output('<div class="fb-like-box clearfix">');
             
             $themeobject->output('<div id="fb-root"></div>');
