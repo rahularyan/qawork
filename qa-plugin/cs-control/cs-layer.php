@@ -395,14 +395,12 @@ class qa_html_theme_layer extends qa_html_theme_base {
 
 			if (isset($this->content['error']) && $this->template != 'not-found')
 				$this->error(@$this->content['error']);
-			if (!cs_is_user())
-			$this->output('<div class="white-bg">');
+
 				if(!cs_is_user() && $this->template != 'admin')
 					$this->nav('sub');
 					
 				$this->main();
-			if (!cs_is_user())
-				$this->output('</div>');
+
 			
 			if ($this->template != 'question')
 				$this->page_links();			
@@ -554,62 +552,39 @@ class qa_html_theme_layer extends qa_html_theme_base {
 			<?php
 			$this->cs_notification_btn();
         } else {
-?>				
-				<a class="login-register icon-key"  href="#" data-toggle="modal" data-target="#login-modal" title="<?php echo qa_lang_html('cleanstrap/login_register'); ?>"><?php echo qa_lang_html('cleanstrap/login'); ?></a>
-				
-				<a class="login-register icon-user-add"  href="<?php echo qa_path_html('register'); ?>" title="<?php echo qa_lang_html('cleanstrap/register_on_site'); ?>"><?php echo qa_lang_html('cleanstrap/register'); ?></a>
-				
-				<!-- Modal -->
-				<div class="modal fade" id="login-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-				  <div class="modal-dialog">
-					<div class="modal-content">	
-					<div class="modal-header">
-						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-					</div>	
-					  <div class="modal-body">
-						<h3><?php
-            echo qa_lang_html('cleanstrap/login_register');
-?></h3>
-						<p class="login-desc"><?php
-            echo qa_lang_html('cleanstrap/access_account');
-?></p>
+?>				<div id="login-drop" class="dropdown pull-right">
+					<a class="icon-key login-register"  href="#" title="<?php echo qa_lang_html('cleanstrap/login_register'); ?>" data-toggle="dropdown"><?php echo qa_lang_html('cleanstrap/login'); ?></a>
+					<div class="dropdown-menu login-drop">
+						<p><span>Login with</span></p>
 						<div class="social-logins">
-						<?php
-            
-            foreach ($this->content['navigation']['user'] as $k => $custom) {
-                if (isset($custom) && (($k != 'login') && ($k != 'register'))) {
-                    preg_match('/class="([^"]+)"/', $custom['label'], $class);
-                    
-                    if ($k == 'facebook')
-                        $icon = 'class="' . $class[1] . ' icon-facebook"';
-                    elseif ($k == 'google')
-                        $icon = 'class="' . $class[1] . ' icon-googleplus"';
-                    elseif ($k == 'twitter')
-                        $icon = 'class="' . $class[1] . ' icon-twitter"';
-                    
-                    $this->output(str_replace($class[0], $icon, $custom['label']));
-                }
-            }
-            
-?>
+							<?php            
+								foreach ($this->content['navigation']['user'] as $k => $custom) {
+									if (isset($custom) && (($k != 'login') && ($k != 'register'))) {
+										preg_match('/class="([^"]+)"/', $custom['label'], $class);
+										
+										if ($k == 'facebook')
+											$icon = 'class="' . $class[1] . ' icon-social-facebook"';
+										elseif ($k == 'google')
+											$icon = 'class="' . $class[1] . ' icon-social-google"';
+										elseif ($k == 'twitter')
+											$icon = 'class="' . $class[1] . ' icon-social-twitter"';
+										
+										$this->output(str_replace($class[0], $icon, $custom['label']));
+									}
+								}	
+							?>
 						</div>
-						<div class="row">
-							<div class="col-sm-6">
-							<form id="loginform" role="form" action="<?php
+						<p><span>OR</span></p>
+						<form role="form" action="<?php
             echo $this->content['navigation']['user']['login']['url'];
 ?>" method="post">
-							<div class="input-group">
-							  <span class="input-group-addon"><i class="icon-at"></i></span>
 							  <input type="text" class="form-control" id="qa-userid" name="emailhandle" placeholder="<?php
             echo trim(qa_lang_html('users/email_handle_label'), ':');
 ?>" />
-							</div>
-							<div class="input-group">
-							  <span class="input-group-addon"><i class="icon-key"></i></span>
+							
 							  <input type="password" class="form-control" id="qa-password" name="password" placeholder="<?php
             echo trim(qa_lang_html('users/password_label'), ':');
 ?>" />
-							</div>
 								
 								<label class="checkbox inline">
 									<input type="checkbox" name="remember" id="qa-rememberme" value="1"> <?php
@@ -621,45 +596,14 @@ class qa_html_theme_layer extends qa_html_theme_base {
 ?>"/>
 								<input type="submit" value="<?php
             echo $this->content['navigation']['user']['login']['label'];
-?>" id="qa-login" name="dologin" class="btn btn-primary btn-large btn-block" />
+?>" id="qa-login" name="dologin" class="btn btn-primary btn-large btn-block btn-success" />
+						<a href="<?php echo qa_path_html('forgot'); ?>">I forgot my password ?</a>
 							</form>
-							</div>
-							<div class="col-sm-6">
-							<form id="loginform" role="form" action="<?php
-            echo $this->content['navigation']['user']['register']['url'];
-?>" method="post">
-								<div class="input-group">
-									<span class="input-group-addon"><i class="icon-user"></i></span>
-									<input type="text" class="form-control" id="qa-userid" name="handle" placeholder="<?php
-            echo trim(qa_lang_html('users/handle_label'), ':');
-?>" />
-								</div>
-								<div class="input-group">
-									<span class="input-group-addon"><i class="icon-key"></i></span>
-									<input type="password" class="form-control" id="qa-password" name="password" placeholder="<?php
-            echo trim(qa_lang_html('users/password_label'), ':');
-?>" />
-								</div>
-								<div class="input-group">
-									<span class="input-group-addon"><i class="icon-at"></i></span>
-									<input type="text" id="email" class="form-control" name="email" 	placeholder="<?php
-            echo trim(qa_lang_html('users/email_label'), ':');
-?>">
-								</div>
-								
-								<input type="hidden" name="code" value="<?php
-            echo qa_html(qa_get_form_security_code('register'));
-?>"/>
-								<input type="submit"  value="Register" value="<?php
-            echo $this->content['navigation']['user']['register']['label'];
-?>" id="qa-register" name="doregister" class="btn btn-primary btn-block" />								
-							</form>
-							</div>
-						</div>							
-					  </div>
 					</div>
-				  </div>
 				</div>
+				
+				<a class="login-register icon-user-add"  href="<?php echo qa_path_html('register'); ?>" title="<?php echo qa_lang_html('cleanstrap/register_on_site'); ?>"><?php echo qa_lang_html('cleanstrap/register'); ?></a>
+				
 			<?php
         }
         unset($this->content['navigation']['user']['login']);
@@ -833,6 +777,7 @@ class qa_html_theme_layer extends qa_html_theme_base {
 	}
 	function main_top($content){
 		if (cs_hook_exist(__FUNCTION__)) {$args=func_get_args(); return cs_do_action(__FUNCTION__, $args); }
+
 		if ($this->cs_position_active('Header') || $this->cs_position_active('Header Right')) {
 			$this->output('<div class="header-position-c clearfix"><div class="container">');	
 				if ($this->cs_position_active('Header')){
@@ -937,8 +882,7 @@ class qa_html_theme_layer extends qa_html_theme_base {
 				'<div class="btn-group pull-right">',				
 					'<a class="btn btn-success" href="#" data-qawork="change-cover">Change cover</a>',
 					'<a class="btn" href="'.qa_path_html('account').'">Account</a>',
-					'<a class="btn" href="'.qa_path_html('user/'. $handle .'/notifications').'">'.qa_lang_html('cleanstrap/notifications').'</a>',
-					'<a class="btn" href="'.qa_path_html('user/'. $handle .'/permission').'">'.qa_lang_html('cleanstrap/permission').'</a>',
+					'<a class="btn" href="'.qa_path_html('notifications').'">'.qa_lang_html('cleanstrap/notifications').'</a>',
 				'</div>'
 			);
 			
@@ -1089,18 +1033,21 @@ class qa_html_theme_layer extends qa_html_theme_base {
     function cs_user_nav($handle)
     {
 		if (cs_hook_exist(__FUNCTION__)) {$args=func_get_args(); return cs_do_action(__FUNCTION__, $args); }
-        $sub = $this->content['navigation']['sub'];
-		unset($sub['account']);
-		unset($sub['favorites']);
 		
-		$sub['profile']['icon'] 		= 'icon-user';		
-		$sub['favorites']['icon'] 		= 'icon-heart';
-		$sub['wall']['icon'] 			= 'icon-pin';
-		$sub['activity']['icon'] 		= 'icon-chart-bar';
-		$sub['answers']['icon'] 		= 'icon-answer';
-		$sub['questions']['icon'] 		= 'icon-question';
-		
-		$this->content['navigation']['sub'] = $sub;
+		if(isset($this->content['navigation']['sub'])){
+			$sub = $this->content['navigation']['sub'];
+			unset($sub['account']);
+			unset($sub['favorites']);
+			
+			$sub['profile']['icon'] 		= 'icon-user';		
+			$sub['favorites']['icon'] 		= 'icon-heart';
+			$sub['wall']['icon'] 			= 'icon-pin';
+			$sub['activity']['icon'] 		= 'icon-chart-bar';
+			$sub['answers']['icon'] 		= 'icon-answer';
+			$sub['questions']['icon'] 		= 'icon-question';
+			
+			$this->content['navigation']['sub'] = $sub;
+		}
 		
         $this->output('	<div class="user-navigation">'); 
 		
@@ -2152,9 +2099,9 @@ class qa_html_theme_layer extends qa_html_theme_base {
             $this->output(
 				'<li class="tag-item">',
 					'<p class="tag-head">',
-						$item['label'] . '<span>' . $item['count'] . '</span>',
+						$item['label'] . '<span> &#215; ' . $item['count'] . '</span>',
 					 '</p><p class="desc">',
-					 $content,
+					 cs_truncate($content, 150),
 					 '</p>',
 				 '</li>'
 			);

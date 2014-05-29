@@ -97,7 +97,7 @@
 				'user-questions' => 'User Questions',
 				'user-answers' 	=> 'User Answers',
 				'custom' 		=> 'Custom',
-				'login' 		=> 'Login',
+				//'login' 		=> 'Login',
 				'feedback' 		=> 'Feedback',
 				'updates' 		=> 'Updates',
 				'search' 		=> 'Search',

@@ -9,7 +9,7 @@
 	Theme Update Check URI: 
 */
 .home-intro h1{
-    color: #FFFFFF;
+    color: #333;
     font-size: 33px;
     font-weight: 600;
     margin-bottom: 20px;
@@ -17,7 +17,7 @@
     padding: 1px;
 }
 .home-intro .desc {
-    color: #CCCCCC;
+    color: #555555;
     font-size: 19px;
     line-height: 30px;
 }
@@ -39,7 +39,7 @@
 
 }
 .home-intro  .intro-icon > * span{
-    color: #FFFFFF;
+    color: #666666;
     display: block;
     font-size: 15px;
     line-height: 20px;

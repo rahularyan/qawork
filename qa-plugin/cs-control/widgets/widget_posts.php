@@ -99,6 +99,16 @@ class cs_widget_posts
             $output .= cs_get_post_avatar($p, 30, true);
             $output .= '<div class="post-content">';
             
+			$output .= '<div class="meta">';
+				$output .= '<span><a href="' . qa_path_html('user/' . $handle) . '">' . $handle . '</a> ' . $what . '</span>';
+				
+				if ($type == 'Q')
+					$output .= '<span>' . qa_lang_sub('cleanstrap/x_answers', $p['acount']) . '</span>';
+				
+				$output .= '<span class="time icon-time">' .  $when . '</span>';
+				$output .= '<span class="vote-count icon-thumbs-up2">' . qa_lang_sub('cleanstrap/x_votes', $p['netvotes']) . '</span>';			
+			$output .= '</div>';
+			
             if ($type == 'Q') {
                 $output .= '<a class="title question" href="' . qa_q_path_html($p['postid'], $p['title']) . '" title="' . $p['title'] . '">' . qa_html($p['title']) . '</a>';
             } elseif ($type == 'A') {
@@ -106,19 +116,6 @@ class cs_widget_posts
             } else {
                 $output .= '<a class="title" href="' . cs_post_link($p['parentid']) . '#c' . $p['postid'] . '">' . cs_truncate(strip_tags($p['content']),100) . '</a>';
             }
-            
-            $output .= '<div class="meta">';
-			//$output .= '<span><a href="' . qa_path_html('user/' . $handle) . '">' . cs_name($handle) . '</a> ' . $what . '</span>';
-            
-			if ($type == 'Q')
-                $output .= '<span>' . qa_lang_sub('cleanstrap/x_answers', $p['acount']) . '</span>';
-            
-            $output .= '<span class="time icon-time">' .  $when . '</span>';
-            $output .= '<span class="vote-count icon-thumbs-up2">' . qa_lang_sub('cleanstrap/x_votes', $p['netvotes']) . '</span>';
-            
-			
-			$output .= '</div>';
-            
             
             $output .= '</div>';
             $output .= '</li>';
