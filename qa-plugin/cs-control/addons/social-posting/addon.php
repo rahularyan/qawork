@@ -17,6 +17,8 @@ require_once CS_CONTROL_DIR.'/addons/social-posting/cs-social-event-post.php';
 
 qa_register_plugin_module('page', 'addons/social-posting/social-posting-settings.php', 'cs_social_posting_page', 'CS Social Posting Page');
 qa_register_plugin_module('page', 'addons/social-posting/invite-friends.php', 'cs_social_invite_friends_page', 'CS Social Invite Friends Page');
+qa_register_plugin_module('widget', 'addons/social-posting/invite-friends-widget.php', 'cs_fb_invite_frnds_widget', 'CS Invite Facebook Friends');
+
 
 class Cs_Social_Posting_Addon {
 
