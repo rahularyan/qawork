@@ -980,6 +980,13 @@ class qa_html_theme_layer extends qa_html_theme_base {
 		
 		if(isset($profile) && !empty($profile)){
 			$profile = cs_order_profile_fields($profile);
+			if (isset($profile['website']) && !empty($profile['website'])) {
+				$new_url = $profile['website'] ;
+				if(!filter_var($new_url, FILTER_VALIDATE_URL)){ 
+				  $new_url = "http://".$new_url ;
+				}
+				$profile['website'] = '<a href="'.$new_url.'" target="_blank">'.$profile['website'].'</a>' ;
+			}
 			$html = '';
 			foreach ($profile as $k => $p)
 				if(!empty($p))
