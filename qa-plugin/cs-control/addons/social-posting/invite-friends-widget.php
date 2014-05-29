@@ -55,6 +55,7 @@ class cs_fb_invite_frnds_widget {
                         $themeobject->output('<h3 class="widget-title">CS Facebook Invite</h3>');
             $themeobject->output('<div class="fb-invite-frnds clearfix">');
             if (!!qa_opt("facebook_app_id")) {
+                  $themeobject->output('<div id="fb-root"></div>');
                   $on_click_event = cs_generate_facebook_invite_script(qa_opt("facebook_app_id"), array('url' => qa_opt("site_url")))  ;
                   $button = '<button class="btn btn-block btn-facebook" onclick="'.$on_click_event.'">'.qa_lang_html('cs_social_posting/send_facebook_invite').'</button>' ;
                   $themeobject->output($button );

@@ -32,8 +32,10 @@ class Cs_Fb_LikeBox_Addon{
 		return  $css_src;
 	}
 	
-	public function script($script_src){		
-		$script_src['cs_fb_like_box'] = CS_CONTROL_URL . '/addons/facebook-like-box/scripts.js';
+	public function script($script_src){	
+        if (!!qa_opt("facebook_app_id")) {
+			$script_src['cs_fb_like_box'] = CS_CONTROL_URL . '/addons/facebook-like-box/scripts.js?applicationId='.qa_opt("facebook_app_id") ;
+		}
 		return  $script_src;
 	}
 	

@@ -1,19 +1,23 @@
 // helper functions to post to facebook wall and share some links 
 
-function cs_init_facebook_api (applicationId) {
+function cs_init_facebook_api (applicationId , ajaxCallback , ajaxCallbackParam ) {
 	// reutrn if applicationId is not set 
 	if (!applicationId) {return false };
-
-	if (!FB.cs_initialized) {
-		FB.init({
-                  appId: applicationId ,
-                  cookie: true,
-                  status: true,
-                  xfbml: true
-   		});
-		//setting my costum marker to make sure init is invoked once and only once for a page load 
-   		FB.cs_initialized = true ; 
-	}
+	if (typeof (FB) == 'undefined') {
+		$.getScript("http://connect.facebook.net/en_US/all.js#xfbml=1", function () {
+            if (!FB.cs_initialized) {
+	            FB.init({
+	                  appId: applicationId ,
+	                  cookie: true,
+	                  status: true,
+	                  xfbml: true
+		   		});
+				//setting my costum marker to make sure init is invoked once and only once for a page load 
+		   		FB.cs_initialized = true ; 
+		   		ajaxCallback(applicationId , ajaxCallbackParam ) ;
+	   		}
+        });
+	} 
 	
 }
 /**
@@ -51,7 +55,7 @@ function cs_share_link_to_facebook(applicationId , param) {
 	if (!applicationId) {return false };
 
 	// first of all initialize facebook api
-	cs_init_facebook_api(applicationId) ;
+	cs_init_facebook_api(applicationId ,'cs_share_link_to_facebook' ) ;
 	param.method = 'send' ;
 	FB.ui(param);
 }
@@ -67,9 +71,11 @@ function cs_invite_facebook_friends(applicationId , param) {
 	if (!applicationId) {return false };
 
 	// first of all initialize facebook api
-	cs_init_facebook_api(applicationId) ; 
-	param.method = 'apprequests' ;
-	FB.ui(param);
+	cs_init_facebook_api(applicationId , cs_invite_facebook_friends , param) ; 
+	if (typeof (FB) != 'undefined') {
+		param.method = 'apprequests' ;
+		FB.ui(param);
+	}
 }
 
 // https://developers.facebook.com/docs/reference/dialogs/feed/
@@ -85,7 +91,7 @@ function cs_post_to_facebook_wall(applicationId , param) {
 	// reutrn if applications id is not set 
 	if (!applicationId) {return false };
 	// first of all initialize facebook api
-	cs_init_facebook_api(applicationId) ; 
+	cs_init_facebook_api(applicationId , 'cs_post_to_facebook_wall' ) ; 
 	param.method = 'feed' ;
 	function callback(response) {
 	// kept empty for future purposes 
