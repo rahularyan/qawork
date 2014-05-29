@@ -180,6 +180,8 @@
 		'message' => 'Message',
 		'permission' => 'Permission',
 		'x_following' => 'following ^ users',
+		'user_following_x' => 'Users following ^',
+		'users_being_followed_by_x' => 'Users being followed by ^',
 	);
 	
 

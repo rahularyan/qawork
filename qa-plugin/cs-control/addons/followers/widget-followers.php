@@ -79,7 +79,7 @@
 
 			
 			if(@$themeobject->current_widget['param']['locations']['show_title'])
-				$themeobject->output('<h3 class="widget-title">'.qa_lang_sub('cleanstrap/x_followers', $account['followers']).' <a href="'.qa_path_html('user/'.$handle.'/followers').'">'. qa_lang_html('cleanstrap/view_more') .'</a></h3>');
+				$themeobject->output('<h3 class="widget-title">'.qa_lang_sub('cleanstrap/x_followers', $account['followers']).' <a href="'.qa_path_html('followers/'.$handle).'">'. qa_lang_html('cleanstrap/view_more') .'</a></h3>');
 			
 	
 			$themeobject->output('<div class="ra-followers-widget">');

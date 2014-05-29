@@ -6635,7 +6635,7 @@ div.oembedall-lanyard .first {
 .ra-post-list-widget {
     padding: 5px 15px;
 }
-.qa-part-form-profile, .qa-part-form-password, .qa-part-form-message, .qa-part-message-list, .qa-part-form > form, .qa-part-custom {
+.qa-part-form-profile, .qa-part-form-password, .qa-part-form-message, .qa-part-message-list, .qa-part-form > form, .qa-part-custom, .qa-part-form-nodata {
     background: none repeat scroll 0 0 #FFFFFF;
     border: 1px solid #E3E3E3;
     border-radius: 5px;

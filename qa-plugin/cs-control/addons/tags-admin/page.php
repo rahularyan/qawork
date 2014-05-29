@@ -33,8 +33,7 @@ class cs_tags_admin_page {
 
 		$tagcount=qa_opt('cache_tagcount');
 		$pagesize=qa_opt('page_size_tags');
-		
-		
+
 		//	Prepare content for theme
 
 		$qa_content=qa_content_prepare();

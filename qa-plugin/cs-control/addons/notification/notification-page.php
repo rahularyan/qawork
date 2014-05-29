@@ -29,6 +29,7 @@ class cs_notification_page {
 		$qa_content['site_title']="Notifications";
 		$qa_content['error']="";
 		$qa_content['suggest_next']="";
+		$qa_content['template']="notifications";
 		
 		$qa_content['custom']= $this->opt_form();
 		
@@ -39,7 +40,7 @@ class cs_notification_page {
 		require_once CS_CONTROL_DIR .'/addons/notification/functions.php';
 		ob_start();
 		?>
-			<div id="notifications-page" class="col-md-6">
+			<div id="notifications-page" class="clearfix">
 				<a class="mark-activity icon-tick" href="#" data-id="<?php echo qa_get_logged_in_userid() ?> "> <?php echo qa_lang('cleanstrap/mark_all_as_read') ?> </a>
 				<?php cs_activitylist(); ?>
 			</div>
@@ -47,13 +48,7 @@ class cs_notification_page {
 		$output = ob_get_clean();
 		return $output;
 	}
-	function cs_install_nav(){
-		?>
-			<ul class="install-nav">
-				<li><a href="#" class="icon-cog">Settings</a></li>
-			</ul>
-		<?php
-	}
+
 	
 	
 }

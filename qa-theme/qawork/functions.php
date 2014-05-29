@@ -101,7 +101,8 @@
 				'feedback' 		=> 'Feedback',
 				'updates' 		=> 'Updates',
 				'search' 		=> 'Search',
-				'not-found' 	=> 'Not Found',
+				///'not-found' 	=> 'Not Found',
+				'plugin' 		=> 'Plugin Pages',
 				//'admin' 		=> 'Admin'
 			);
 		}
