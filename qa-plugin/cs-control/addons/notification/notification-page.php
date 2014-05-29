@@ -17,7 +17,7 @@ class cs_notification_page {
 
 	function match_request($request)
 	{
-		if ($request=='notifications')
+		if (qa_is_logged_in() && $request=='notifications')
 			return true;
 
 		return false;

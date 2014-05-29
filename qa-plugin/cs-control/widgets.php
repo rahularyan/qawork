@@ -17,7 +17,7 @@ class cs_theme_widgets {
 
 	function match_request($request)
 	{
-		if ($request=='themewidgets')
+		if (qa_get_logged_in_level() >= QA_USER_LEVEL_ADMIN && $request=='themewidgets')
 			return true;
 
 		return false;
