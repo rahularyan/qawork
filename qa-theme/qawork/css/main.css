@@ -1,5 +1,5 @@
 body {
-	background: #FBFBFB;
+	background: #EEEEEE;
 	color: #5f5f5f;
 	font-size: 14px;
 	line-height: 1.7;
@@ -389,13 +389,6 @@ textarea {
 	position: relative;
 }
 
-
-.side-c {
-	display: table-cell;
-	padding: 15px;
-	vertical-align: top;
-	width: 350px;
-}
 
 /*styling for the home button - fixed height*/
 .home-anchor {
@@ -5089,7 +5082,7 @@ th .description {
 	padding: 15px;
 }
 #header-right-position .cs-ask-widget-form {
-    background: none repeat scroll 0 0 rgba(0, 0, 0, 0.7);
+    background: none repeat scroll 0 0 #FFFFFF;
     border: medium none;
     margin: 30px 0;
 }
@@ -5101,7 +5094,6 @@ th .description {
 	margin-right: -20px;
 }
 #header-right-position .widget .widget-title{
-    color: rgba(255, 255, 255, 0.6);
     font-size: 17px;
     font-weight: bold;
     margin-bottom: 20px;
@@ -5109,7 +5101,6 @@ th .description {
 #header-right-position .cs-ask-widget-form .form-control {
     background: none repeat scroll 0 0 rgba(255, 255, 255, 0.1);
     border-color: rgba(0, 0, 0, 0.1);
-    color: #FFFFFF;
 }
 
 .cs-ask-widget-form .checkbox-inline {
@@ -6812,4 +6803,14 @@ div.oembedall-lanyard .first {
 }
 .qa-part-form-profile, .qa-part-form-password {
     padding: 0 15px;
+}
+.qa-template-question .white-bg {
+    padding: 0 15px;
+}
+.widget.cs_related_questions{
+	border:none;
+	box-shadow:none;
+}
+.widget.cs_related_questions > h3{
+	padding:0;
 }

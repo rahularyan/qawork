@@ -166,20 +166,18 @@
 
 .user-actions .dropdown-toggle > span {
     background: none repeat scroll 0 0 #FF1815;
-    -moz-border-radius: 50%;
-    -webkit-border-radius: 50%;
     border-radius: 50%;
-    color: #FFF;
+    color: #FFFFFF;
     display: block;
-    font-size: 11px;
+    font-size: 10px;
     font-weight: bold;
-    height: 20px;
-    line-height: 20px;
+    height: 15px;
+    line-height: 15px;
+    min-width: 15px;
     position: absolute;
-    right: -3px;
+    right: -2px;
     text-align: center;
-    top: -4px;
-    width: 20px;
+    top: 0;
 }
 
 .user-actions .dropdown-menu:before {
