@@ -167,9 +167,8 @@ textarea {
 }
 
 #site-header #header-top {
-    background: #FA6900;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
-    padding: 5px 0;
+    background: none repeat scroll 0 0 #8761A9;
+    padding: 8px 0;
 }
 
 #slide-mobile-menu {
@@ -259,6 +258,7 @@ textarea {
 
 .navbar-form .form-control {
     border: medium none;
+    height: 28px;
     margin-top: 2px;
 }
 
@@ -5116,8 +5116,8 @@ th .description {
 }
 
 .category-nav .category-toggle:hover {
-	background-color: rgba(0, 0, 0, 0.5);
-	color: #FFF;
+    background: none repeat scroll 0 0 rgba(0, 0, 0, 0);
+    color: #FFFFFF;
 }
 
 #ra-install-page h1 {
@@ -6795,4 +6795,29 @@ div.oembedall-lanyard .first {
 }
 .widget.cs_related_questions > h3{
 	padding:0;
+}
+#tags-list > ul{
+	list-style:none;
+	padding:0;
+	margin:0;
+}
+#tags-list > ul > li {
+    float: left;
+    padding: 10px;
+    width: 33.33%;
+}
+#tags-list > ul > li .tag-head {
+    margin: 0;
+}
+#tags-list > ul > li .tag-head a, #tags-list > ul > li .tag-head span{
+    color: #AAAAAA;
+    font-size: 15px;
+    font-weight: bold;
+}
+
+#tags-list > ul > li .tag-head span{
+	float:right;
+}
+#tags-list > ul > li .desc {
+    margin: 0;
 }

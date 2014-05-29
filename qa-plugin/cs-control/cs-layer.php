@@ -2075,8 +2075,13 @@ class qa_html_theme_layer extends qa_html_theme_base {
         } elseif (@$ranking['type'] == 'tags') {
             
             if ($rows > 0) {
-                $this->output('<div class="row ' . $class . '">');
-                
+                $this->output('<div id="tags-list" class="row ' . $class . '">');
+				
+				$tags = array();
+				foreach(@$ranking['items'] as $item)
+					$tags[] = strip_tags($item['label']);
+				
+				
                 $columns = ceil(count($ranking['items']) / $rows);
                 
                 for ($column = 0; $column < $columns; $column++) {
@@ -2141,8 +2146,18 @@ class qa_html_theme_layer extends qa_html_theme_base {
     function cs_tags_item($item, $class, $spacer)
     {
 		if (cs_hook_exist(__FUNCTION__)) {$args=func_get_args(); return cs_do_action(__FUNCTION__, $args); }
+        $content = qa_db_read_one_value( qa_db_query_sub("SELECT ^tagmetas.content FROM ^tagmetas WHERE ^tagmetas.tag =$ ", strip_tags($item['label'])), true);
+		
         if (isset($item))
-            $this->output('<li class="list-group-item">' . $item['label'] . '<span>' . $item['count'] . '</span></li>');
+            $this->output(
+				'<li class="tag-item">',
+					'<p class="tag-head">',
+						$item['label'] . '<span>' . $item['count'] . '</span>',
+					 '</p><p class="desc">',
+					 $content,
+					 '</p>',
+				 '</li>'
+			);
     }
     function message_list_form($list)
     {
