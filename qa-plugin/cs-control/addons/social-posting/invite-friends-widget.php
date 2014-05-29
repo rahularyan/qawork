@@ -53,12 +53,15 @@ class cs_fb_invite_frnds_widget {
             // widget start 
             if(@$themeobject->current_widget['param']['locations']['show_title'])
                         $themeobject->output('<h3 class="widget-title">CS Facebook Invite</h3>');
-
             $themeobject->output('<div class="fb-invite-frnds clearfix">');
-
-            $on_click_event = cs_generate_facebook_invite_script(qa_opt("facebook_app_id"), array('url' => qa_opt("site_url")))  ;
-            $button = '<button class="btn btn-block btn-facebook" onclick="'.$on_click_event.'">'.qa_lang_html('cs_social_posting/send_facebook_invite').'</button>' ;
-            $themeobject->output($button );
+            if (!!qa_opt("facebook_app_id")) {
+                  $on_click_event = cs_generate_facebook_invite_script(qa_opt("facebook_app_id"), array('url' => qa_opt("site_url")))  ;
+                  $button = '<button class="btn btn-block btn-facebook" onclick="'.$on_click_event.'">'.qa_lang_html('cs_social_posting/send_facebook_invite').'</button>' ;
+                  $themeobject->output($button );
+            }else {
+                  $themeobject->output("Please provide Facebook application Id to enable this option in Theme Options -> Social Login ");
+            }
+            
             $themeobject->output('</div>');
             // widget end 
        }
