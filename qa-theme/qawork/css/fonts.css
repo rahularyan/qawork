@@ -23,11 +23,11 @@
 	-moz-osx-font-smoothing: grayscale;
 }
 
+.icon-social-google:before {
+	content: "\e65d";
+}
 .icon-zip:before {
 	content: "\e65b";
-}
-.icon-xlsx:before {
-	content: "\e65d";
 }
 .icon-xls:before {
 	content: "\e65e";

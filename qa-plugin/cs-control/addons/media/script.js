@@ -1323,8 +1323,7 @@ function cs_load_media_item_to_edit(ui, modal){
 var selected_media;
 
 $(document).ready(function() {
-    'use strict';
-	
+
 	$('.open-media-modal').click(function(){
 		var postid = $(this).data('args');
 		

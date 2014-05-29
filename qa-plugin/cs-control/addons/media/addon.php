@@ -38,7 +38,7 @@ function cs_upload_file($field, $postid){
 			$upload->file($_FILES[$field]);
 
 			//set max. file size (in mb)
-			$upload->set_max_file_size(1);
+			$upload->set_max_file_size((int)qa_opt('cs_max_image_file'));
 
 			//set allowed mime types
 			$upload->set_allowed_mime_types(array('application/pdf', 'application/zip'));
@@ -67,7 +67,7 @@ function cs_file_name($file){
 
 function cs_upload_image($file, $postid = 0){
 	include_once(CS_CONTROL_DIR.'/inc/class_images.php');
-	
+	var_dump($file);
 	$uploaddir = cs_upload_dir();
 	$name = cs_file_name($file['name']);
 	$temp_name = 'temp_image'.$name['ext'];
