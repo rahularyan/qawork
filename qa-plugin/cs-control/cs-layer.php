@@ -777,6 +777,7 @@ class qa_html_theme_layer extends qa_html_theme_base {
 	}
 	function main_top($content){
 		if (cs_hook_exist(__FUNCTION__)) {$args=func_get_args(); return cs_do_action(__FUNCTION__, $args); }
+
 		if ($this->cs_position_active('Header') || $this->cs_position_active('Header Right')) {
 			$this->output('<div class="header-position-c clearfix"><div class="container">');	
 				if ($this->cs_position_active('Header')){
@@ -881,8 +882,7 @@ class qa_html_theme_layer extends qa_html_theme_base {
 				'<div class="btn-group pull-right">',				
 					'<a class="btn btn-success" href="#" data-qawork="change-cover">Change cover</a>',
 					'<a class="btn" href="'.qa_path_html('account').'">Account</a>',
-					'<a class="btn" href="'.qa_path_html('user/'. $handle .'/notifications').'">'.qa_lang_html('cleanstrap/notifications').'</a>',
-					'<a class="btn" href="'.qa_path_html('user/'. $handle .'/permission').'">'.qa_lang_html('cleanstrap/permission').'</a>',
+					'<a class="btn" href="'.qa_path_html('notifications').'">'.qa_lang_html('cleanstrap/notifications').'</a>',
 				'</div>'
 			);
 			
@@ -1033,18 +1033,21 @@ class qa_html_theme_layer extends qa_html_theme_base {
     function cs_user_nav($handle)
     {
 		if (cs_hook_exist(__FUNCTION__)) {$args=func_get_args(); return cs_do_action(__FUNCTION__, $args); }
-        $sub = $this->content['navigation']['sub'];
-		unset($sub['account']);
-		unset($sub['favorites']);
 		
-		$sub['profile']['icon'] 		= 'icon-user';		
-		$sub['favorites']['icon'] 		= 'icon-heart';
-		$sub['wall']['icon'] 			= 'icon-pin';
-		$sub['activity']['icon'] 		= 'icon-chart-bar';
-		$sub['answers']['icon'] 		= 'icon-answer';
-		$sub['questions']['icon'] 		= 'icon-question';
-		
-		$this->content['navigation']['sub'] = $sub;
+		if(isset($this->content['navigation']['sub'])){
+			$sub = $this->content['navigation']['sub'];
+			unset($sub['account']);
+			unset($sub['favorites']);
+			
+			$sub['profile']['icon'] 		= 'icon-user';		
+			$sub['favorites']['icon'] 		= 'icon-heart';
+			$sub['wall']['icon'] 			= 'icon-pin';
+			$sub['activity']['icon'] 		= 'icon-chart-bar';
+			$sub['answers']['icon'] 		= 'icon-answer';
+			$sub['questions']['icon'] 		= 'icon-question';
+			
+			$this->content['navigation']['sub'] = $sub;
+		}
 		
         $this->output('	<div class="user-navigation">'); 
 		
@@ -2096,9 +2099,9 @@ class qa_html_theme_layer extends qa_html_theme_base {
             $this->output(
 				'<li class="tag-item">',
 					'<p class="tag-head">',
-						$item['label'] . '<span>' . $item['count'] . '</span>',
+						$item['label'] . '<span> &#215; ' . $item['count'] . '</span>',
 					 '</p><p class="desc">',
-					 $content,
+					 cs_truncate($content, 150),
 					 '</p>',
 				 '</li>'
 			);

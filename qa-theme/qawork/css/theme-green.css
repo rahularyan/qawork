@@ -6,8 +6,8 @@ a:hover{
 	color:#db5d02;
 }
 
-.question-list .question-item .big-ans-count.icon-chat{
-	background:#7AAA40;
+.question-list .question-item .big-ans-count.icon-chat, .tag-item .qa-tag-link{
+	background:#FA6900;
 	color:#fff;
 }
 
@@ -17,9 +17,7 @@ a:hover{
 .header-position-c {
     background-image: url("../images/members.jpg") ;
 }
-.on-off-checkbox-container label, #ra-widgets .widget-canvas .widget-save.active, .ra-tags-widget .widget-tag:hover, .t-bg, .face.back, .qa-form-tall-button-login, .qa-form-tall-button-send, .qa-form-tall-button-register, .question-list .question-item .big-ans-count, .pagination > li > .qa-page-selected, .pagination > li:hover > a, .qa-template-tags .qa-part-ranking .list-group-item span,.qa-a-selection .qa-a-select-button, .question-title .fav-parent .fav-btn.active, .post-button #q_doanswer , .navbar-default .category-nav .category-toggle, .featured-questions .answer-list-title span, .bg1{
-	background:#4679BD;
-}
+
 .answer-selected .a-item-wrap {
     border-color:#94E096;
 }
@@ -75,9 +73,7 @@ a:hover{
 .ra-ask-widget .input-group-btn button, .carousel-control.left, .carousel-control.right, .ajax-file-upload-bar {
     background: none repeat scroll 0 0 #d6313a;
 }
-.page-title .fav-btn.icon-heart.active{
-	color:#d6313a;
-}
+
 
 .t-bg-4{
 	background:#FDAB0C;

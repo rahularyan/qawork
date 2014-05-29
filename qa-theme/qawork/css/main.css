@@ -37,7 +37,7 @@ label {
     background-image: none;
     border: 1px solid #DDDDDD;
     border-radius: 2px;
-    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.03) inset;
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.015) inset;
     color: #555555;
     display: block;
     font-size: 14px;
@@ -70,8 +70,8 @@ textarea {
 }
 
 /* Buttons */
-.btn, .qa-form-light-button, .qa-form-tall-button, .qa-form-wide-button, .qa-a-select-button, .qa-a-unselect-button {
-    background: #3FAAB4;
+.btn, .qa-form-light-button, .qa-form-tall-button, .qa-form-wide-button, .qa-a-select-button, .qa-a-unselect-button, #ra-widgets .widget-canvas .widget-save {
+    background: #35b8e8;
     border: none;
     border-radius: 3px;
     box-shadow: none;
@@ -102,8 +102,7 @@ textarea {
 }
 
 .btn-success, .qa-form-tall-button-answer, .qa-form-tall-button-save {
-    background: none repeat scroll 0 0 #45B168;
-    border-color: #5CA941;
+    background: none repeat scroll 0 0 #53b263;
     color: #FFFFFF;
     text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
 }
@@ -936,10 +935,10 @@ ul.qa-nav-cat-list-4 > li.qa-nav-cat-item:first-child {
 }
 
 .qa-main .qa-nav-sub ul {
-	border-bottom: 1px solid #DDD;
-	list-style: none outside none;
-	margin: 0;
-	padding: 0;
+    border-bottom: 1px solid #DDDDDD;
+    list-style: none outside none;
+    margin: 0 0 -2px;
+    padding: 0;
 }
 
 .qa-main .qa-nav-sub ul li {
@@ -1221,11 +1220,17 @@ a.feed-link {
 	margin-right: 10px;
 }
 
-.page-title .fav-btn.icon-heart {
-	background: rgba(0, 0, 0, 0);
-	color: #333;
-	font-size: 17px;
-	padding: 0;
+.page-title .fav-btn.icon-heart, .page-title .feed-link {
+    background: none repeat scroll 0 0 #FFFFFF;
+    border: 1px solid #E7E7E7;
+    border-radius: 4px;
+    color: #808080;
+    display: block;
+    font-size: 17px;
+    height: 30px;
+    line-height: 25px;
+    padding: 2px 7px;
+    width: 32px;
 }
 
 .entry-content blockquote {
@@ -1845,8 +1850,9 @@ a.feed-link {
 }
 
 .qa-part-ranking, .qa-part-ranking-users {
-	background: #FFF;
-	margin-bottom: 10px;
+    background: none repeat scroll 0 0 #FFFFFF;
+    border: 1px solid #E3E3E3;
+    margin-bottom: 10px;
 }
 
 .qa-part-ranking-users h2 {
@@ -2292,11 +2298,10 @@ input.qa-form-wide-number {
 }
 
 .page-cat-list .ra-cat-item h4 span {
-	background: #7A68AE;
+	background: none repeat scroll 0 0 #EEEEEE;
 	-moz-border-radius: 3px;
 	-webkit-border-radius: 3px;
 	border-radius: 3px;
-	color: #FFF;
 	display: block;
 	float: right;
 	font-size: 12px;
@@ -2304,7 +2309,7 @@ input.qa-form-wide-number {
 }
 
 .page-cat-list .ra-cat-item h4 span a {
-	color: #FFF;
+    color: #666666;
 }
 
 .page-cat-list .ra-cat-item h4 .icon-star {
@@ -2638,6 +2643,7 @@ th .description {
 	font-size: 13px;
 	font-weight: bold;
 	padding: 10px;
+	position:relative;
 }
 
 #ra-widgets .position-header span {
@@ -2649,13 +2655,16 @@ th .description {
 }
 
 #ra-widgets .position-toggler {
-	color: #AAA;
-	cursor: pointer;
-	display: block;
-	float: right;
-	font-size: 25px;
-	margin: -10px;
-	padding: 13px 15px;
+    color: #333333;
+    cursor: pointer;
+    display: block;
+    float: right;
+    font-size: 21px;
+    padding: 13px 15px;
+    position: absolute;
+    right: -7px;
+    top: -10px;
+    z-index: 1;
 }
 
 #ra-widgets .position-canvas {
@@ -3075,20 +3084,14 @@ th .description {
 }
 
 .qa-template-login .qa-part-form .qa-form-tall-label, .qa-template-forgot .qa-part-form .qa-form-tall-label, .qa-template-register .qa-part-form .qa-form-tall-label {
-	color: #AAA;
-	font-size: 11px;
+    color: inherit;
+    padding-bottom: 5px;
 }
 
-.qa-template-login .qa-part-form input[type="text"], .qa-template-login .qa-part-form input[type="password"], .qa-template-register .qa-part-form input[type="text"], .qa-template-register .qa-part-form input[type="password"], .qa-template-forgot .qa-part-form input[type="text"] {
-	color: #888;
-	font-size: 15px;
-	height: auto;
-	padding: 10px;
-}
 
 .qa-template-login .qa-part-form input[type="checkbox"] {
-	margin-right: 5px;
-	vertical-align: baseline;
+    margin-right: 5px;
+    vertical-align: top;
 }
 
 .qa-template-login .qa-form-tall-label label, .qa-template-forgot .qa-form-tall-label label, .qa-template-register .qa-form-tall-label label {
@@ -3120,14 +3123,7 @@ th .description {
 }
 
 .qa-template-register .qa-part-form, .qa-template-login .qa-part-form {
-	border: 1px solid #EEE;
-	-moz-border-radius: 3px;
-	-webkit-border-radius: 3px;
-	border-radius: 3px;
-	-moz-box-shadow: 0 0 5px rgba(0, 0, 0, 0.06);
-	-webkit-box-shadow: 0 0 5px rgba(0, 0, 0, 0.06);
-	box-shadow: 0 0 5px rgba(0, 0, 0, 0.06);
-	padding: 20px;
+
 }
 
 .qa-template-register .qa-part-custom h1, .qa-template-login .qa-part-custom h1 {
@@ -3143,7 +3139,6 @@ th .description {
 
 /* Buttons */
 .qa-form-tall-button-login, .qa-form-tall-button-register {
-	background: #333;
 	border: medium none;
 	color: #FFF;
 	display: block;
@@ -3642,7 +3637,7 @@ th .description {
     border-radius: 0 5px 5px;
     box-shadow: 0 3px 2px rgba(0, 0, 0, 0.4);
     margin-top: 0;
-    min-width: 220px;
+    min-width: 265px;
     padding: 0;
 }
 
@@ -3674,7 +3669,6 @@ th .description {
 	-moz-border-radius: 2px;
 	-webkit-border-radius: 2px;
 	border-radius: 2px;
-	color: #FFF;
 	display: block;
 	float: right;
 	font-size: 11px;
@@ -4209,13 +4203,6 @@ th .description {
 	text-transform: capitalize;
 }
 
-.qa-template-ask .qa-part-form {
-	background: #FFF;
-	-moz-border-radius: 4px;
-	-webkit-border-radius: 4px;
-	border-radius: 4px;
-	padding: 15px;
-}
 
 .user-popover {
 	background:#fff;
@@ -4456,7 +4443,13 @@ th .description {
 }
 
 .qa-top-tags ul {
-	padding: 0;
+    list-style: none outside none;
+    margin: 0;
+    padding: 0;
+}
+.qa-top-tags ul > li{
+    border-bottom: 1px dotted #EEEEEE;
+    margin: 10px 10px 25px;
 }
 
 .qa-top-tags .list-group-item {
@@ -4548,8 +4541,8 @@ th .description {
 }
 
 .ra-rq-widget ul {
-	list-style: none outside none;
-	padding: 0;
+    list-style: none outside none;
+    padding: 0 15px;
 }
 
 .ra-rq-widget ul li .avatar {
@@ -5632,51 +5625,7 @@ form[name="a_form"] {
     vertical-align: top;
 }
 
-.qa-template-admin .qa-main .qa-nav-sub {
-	border: 1px solid #DDD;
-	-moz-border-radius: 5px;
-	-webkit-border-radius: 5px;
-	border-radius: 5px;
-}
 
-.qa-template-admin .left-side ul {
-	background: rgba(0, 0, 0, 0);
-	margin: 0;
-}
-
-.qa-template-admin .left-side ul li {
-	float: none;
-	display: block;
-}
-
-.qa-template-admin .left-side ul li a {
-	border-bottom: 1px solid #EEE;
-	display: block;
-	font-family: inherit;
-	font-size: 13px;
-	font-weight: bold;
-	padding: 10px;
-}
-
-.qa-template-admin .left-side ul li a.qa-nav-sub-selected {
-	background: #FAFAFA;
-	border-color: transparent transparent #EEE;
-	-moz-border-image: none;
-	-ms-border-image: none;
-	-o-border-image: none;
-	-webkit-border-image: none;
-	border-image: none;
-	border-style: none none solid;
-	border-width: medium medium 1px;
-}
-
-.qa-part-form > form {
-	border: 1px solid #EEE;
-	-moz-border-radius: 5px;
-	-webkit-border-radius: 5px;
-	border-radius: 5px;
-	padding: 10px;
-}
 
 .btn.btn-loading {
 	background-image: -webkit-gradient(linear, 0 100%, 100% 0, color-stop(0.25, rgba(255, 255, 255, 0.15)), color-stop(0.25, transparent), color-stop(0.5, transparent), color-stop(0.5, rgba(255, 255, 255, 0.15)), color-stop(0.75, rgba(255, 255, 255, 0.15)), color-stop(0.75, transparent), to(transparent));
@@ -6686,44 +6635,14 @@ div.oembedall-lanyard .first {
 .ra-post-list-widget {
     padding: 5px 15px;
 }
-.qa-part-form-profile, .qa-part-form-password {
-    padding: 0 15px;
-}
-.qa-template-question .white-bg {
-    padding: 0 15px;
-}
-.widget.cs_related_questions{
-	border:none;
-	box-shadow:none;
-}
-.widget.cs_related_questions > h3{
-	padding:0;
-}
-#tags-list > ul{
-	list-style:none;
-	padding:0;
-	margin:0;
-}
-#tags-list > ul > li {
-    float: left;
-    padding: 10px;
-    width: 33.33%;
-}
-#tags-list > ul > li .tag-head {
-    margin: 0;
-}
-#tags-list > ul > li .tag-head a, #tags-list > ul > li .tag-head span{
-    color: #AAAAAA;
-    font-size: 15px;
-    font-weight: bold;
+.qa-part-form-profile, .qa-part-form-password, .qa-part-form-message, .qa-part-message-list, .qa-part-form > form, .qa-part-custom {
+    background: none repeat scroll 0 0 #FFFFFF;
+    border: 1px solid #E3E3E3;
+    border-radius: 5px;
+    margin-bottom: 20px;
+    padding: 15px;
 }
 
-#tags-list > ul > li .tag-head span{
-	float:right;
-}
-#tags-list > ul > li .desc {
-    margin: 0;
-}
 .login-register{
     background: none repeat scroll 0 0 rgba(0, 0, 0, 0.3);
     border-radius: 2px;
@@ -6778,4 +6697,32 @@ div.oembedall-lanyard .first {
     font-size: 11px;
     line-height: 36px;
     text-align: center;
+}
+.qa-part-ranking {
+    background: none repeat scroll 0 0 #FFFFFF;
+    border-radius: 5px;
+}
+.tag-item .qa-tag-link{
+    background: none repeat scroll 0 0 #5CA9FF;
+    border-radius: 2px;
+    color: #FFFFFF;
+    display: block;
+    float: left;
+    margin-right: 10px;
+    padding: 1px 10px;
+}
+.tag-item .desc {
+    color: #868686;
+}
+.category-list-page {
+    background: none repeat scroll 0 0 #FFFFFF;
+    border-radius: 5px;
+}
+.ra-cat-item > h4 {
+    font-size: 14px;
+    font-weight: bold;
+}
+.user-right .qa-q-list {
+    border: medium none;
+    padding: 0;
 }
