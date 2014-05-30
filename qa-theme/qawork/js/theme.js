@@ -582,9 +582,11 @@ function cs_toggle_comment(){
 		if($(this).is('.open')){
 			$(this).removeClass('open');
 			c.animate({'height': '24px'}, 200);
+			c.removeClass('open');
 		}else{
 			$(this).addClass('open');
-			c.animate({'height': c.find('.qa-c-wrap-inner-height').height()}, 200);
+			c.animate({'height': c.find('.qa-c-wrap-inner-height').height()+20}, 200);
+			c.addClass('open');
 		}
 	});
 }
