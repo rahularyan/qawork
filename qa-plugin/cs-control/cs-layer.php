@@ -1101,21 +1101,18 @@ class qa_html_theme_layer extends qa_html_theme_base {
 		
 			$q_view = @$content['q_view'];
 			$this->output('<div class="lr-table row"><div class="left-content question-main col-md-8">');
-					$this->main_parts($content);												
+					$this->main_parts($content);
+					$this->cs_position('Content Bottom');					
 				$this->output('</div>');
 			
-				$this->output('<div class="question-side col-md-4">');				
+				$this->output('<div class="question-side col-md-4">');
+					$this->q_social_share();
+					$this->fb_invite();
 					$this->cs_position('Question Right');			
 				$this->output('</div>');
 			$this->output('</div>');
 		
     }
-    
-	function share_box(){
-		$this->q_social_share($q_view);	
-		cs_do_action('question_share', $this);				
-		$this->cs_position('Content Bottom');
-	}
 	
     function q_list_item($q_item)
     {
@@ -2513,21 +2510,36 @@ class qa_html_theme_layer extends qa_html_theme_base {
 			$this->output('</div> <!-- END qa-c-list -->', '');
 		}
 	}
-	function q_social_share($post){
+	function q_social_share(){
 		if (cs_hook_exist(__FUNCTION__)) {$args=func_get_args(); return cs_do_action(__FUNCTION__, $args); }
 		$this->output('
-			<h3 class="share-title">'. qa_lang_html('cleanstrap/share_this_question') .'</h3>
-			<!-- AddThis Button BEGIN -->
-			<div class="addthis_toolbox addthis_default_style">
-			<a class="addthis_button_facebook_like" fb:like:layout="button_count"></a>
-			<a class="addthis_button_facebook_like" fb:like:layout="button_count" fb:like:action="recommend"></a> 
-			<a class="addthis_button_tweet"></a>
-			<a class="addthis_button_pinterest_pinit" pi:pinit:layout="horizontal"  pi:pinit:media="http://www.addthis.com/cms-content/images/features/pinterest-lg.png"></a>
-			<a class="addthis_button_google_plusone" g:plusone:size="medium"></a>
-			<a class="addthis_counter addthis_pill_style"></a>
+			<div class="btn-group social-share-btn">
+				<a class="btn btn-default btn-lg dropdown-toggle share-btn" type="button" data-toggle="dropdown">'. qa_lang_html('cleanstrap/share') .'</a>
+				<div class="dropdown-menu">
+					<!-- AddThis Button BEGIN -->
+					<div class="addthis_toolbox addthis_default_style">
+					<a class="addthis_button_facebook_like" fb:like:layout="button_count"></a>
+					<a class="addthis_button_facebook_like" fb:like:layout="button_count" fb:like:action="recommend"></a> 
+					<a class="addthis_button_tweet"></a>
+					<a class="addthis_button_pinterest_pinit" pi:pinit:layout="horizontal"  pi:pinit:media="http://www.addthis.com/cms-content/images/features/pinterest-lg.png"></a>
+					<a class="addthis_button_google_plusone" g:plusone:size="medium"></a>
+					<a class="addthis_counter addthis_pill_style"></a>
+					</div>
+					<!-- AddThis Button END -->
+				</div>
 			</div>
-			<!-- AddThis Button END -->
 		');
+		cs_do_action('question_share', $this);	
+	}
+	
+	function fb_invite(){
+		if (!!qa_opt("facebook_app_id")) {
+			$on_click_event = cs_generate_facebook_invite_script(qa_opt("facebook_app_id"), array('url' => qa_opt("site_url")))  ;
+			$button = '<button class="btn btn-facebook" onclick="'.$on_click_event.'">'.qa_lang_html('cs_social_posting/invite_friends').'</button>' ;
+			$this->output($button );
+		}else {
+			$this->output("Please provide Facebook application Id to enable this option in Theme Options -> Social Login ");
+		}
 	}
 	function notfound_template($content){
 		if (cs_hook_exist(__FUNCTION__)) {$args=func_get_args(); return cs_do_action(__FUNCTION__, $args); }
