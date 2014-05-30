@@ -30,18 +30,19 @@ function cs_login_to_facebook(applicationId) {
 	if (!applicationId) {return false };
 
 	// first of all initialize facebook api
-	cs_init_facebook_api(applicationId) ;
-
-	FB.login(function(response) {
-	   if (response.authResponse) {
-	     console.log('Welcome!  Fetching your information.... ');
-	     FB.api('/me', function(response) {
-	       console.log('Good to see you, ' + response.name + '.');
-	     });
-	   } else {
-	     console.log('User cancelled login or did not fully authorize.');
-	   }
- 	});
+	cs_init_facebook_api(applicationId , cs_login_to_facebook , param ) ;
+	if (typeof (FB) != 'undefined') {
+		FB.login(function(response) {
+		   if (response.authResponse) {
+		     console.log('Welcome!  Fetching your information.... ');
+		     FB.api('/me', function(response) {
+		       console.log('Good to see you, ' + response.name + '.');
+		     });
+		   } else {
+		     console.log('User cancelled login or did not fully authorize.');
+		   }
+	 	});
+	}
 }
 
 /**
@@ -55,9 +56,11 @@ function cs_share_link_to_facebook(applicationId , param) {
 	if (!applicationId) {return false };
 
 	// first of all initialize facebook api
-	cs_init_facebook_api(applicationId ,'cs_share_link_to_facebook' ) ;
-	param.method = 'send' ;
-	FB.ui(param);
+	cs_init_facebook_api(applicationId ,cs_share_link_to_facebook , param ) ;
+	if (typeof (FB) != 'undefined') {
+		param.method = 'send' ;
+		FB.ui(param);
+	}
 }
 
 /**
@@ -91,10 +94,13 @@ function cs_post_to_facebook_wall(applicationId , param) {
 	// reutrn if applications id is not set 
 	if (!applicationId) {return false };
 	// first of all initialize facebook api
-	cs_init_facebook_api(applicationId , 'cs_post_to_facebook_wall' ) ; 
-	param.method = 'feed' ;
+	cs_init_facebook_api(applicationId , cs_post_to_facebook_wall , param ) ; 
+	
+	if (typeof (FB) != 'undefined') {
+		param.method = 'feed' ;
+		FB.ui(param, callback);
+    }
 	function callback(response) {
 	// kept empty for future purposes 
 	}
-	FB.ui(param, callback);
 }
