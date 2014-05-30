@@ -1101,10 +1101,7 @@ class qa_html_theme_layer extends qa_html_theme_base {
 		
 			$q_view = @$content['q_view'];
 			$this->output('<div class="lr-table row"><div class="left-content question-main col-md-8">');
-					$this->main_parts($content); 
-					$this->q_social_share($q_view);	
-					cs_do_action('question_share', $this);				
-					$this->cs_position('Content Bottom');							
+					$this->main_parts($content);												
 				$this->output('</div>');
 			
 				$this->output('<div class="question-side col-md-4">');				
@@ -1114,6 +1111,12 @@ class qa_html_theme_layer extends qa_html_theme_base {
 		
     }
     
+	function share_box(){
+		$this->q_social_share($q_view);	
+		cs_do_action('question_share', $this);				
+		$this->cs_position('Content Bottom');
+	}
+	
     function q_list_item($q_item)
     {
 		if (cs_hook_exist(__FUNCTION__)) {$args=func_get_args(); return cs_do_action(__FUNCTION__, $args); }
