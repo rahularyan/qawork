@@ -327,7 +327,7 @@ class cs_social_login_page {
 		if(!$has_content) {
 			// no linked logins
 			$qa_content['form_nodata']=array(
-				'title' => '<br>' . qa_lang_html('cs_social_login/no_logins_title'),
+				'title' =>  qa_lang_html('cs_social_login/no_logins_title'),
 				'style' => 'light',
 				'fields' => array(
 					'note' => array(

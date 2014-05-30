@@ -81,23 +81,7 @@ class cs_theme_options {
 			qa_opt('cs_highlight_bg_color', qa_post_text('cs_highlight_bg_color'));
 			qa_opt('cs_ask_btn_bg', qa_post_text('cs_ask_btn_bg'));
 			
-			
-			// Typography
-			$typo_options = $_POST['typo_option'];
-			$google_fonts = array();
-			foreach ($typo_options as $k => $options) {
-				qa_opt('typo_options_family_' . $k, $options['family']);
-				qa_opt('typo_options_style_' . $k, $options['style']);
-				qa_opt('typo_options_size_' . $k, $options['size']);
-				qa_opt('typo_options_linehight_' . $k, $options['linehight']);
-				if ((isset($google_webfonts[$options['family']])) && (!(in_array($options['family'], $google_fonts)))){
-					$google_fonts[] = $options['family'];
-					qa_opt('typo_options_backup_' . $k, $options['backup']);
-				}else{
-					qa_opt('typo_options_backup_' . $k, '');
-				}
-			}
-			qa_opt('typo_googlefonts', json_encode($google_fonts));
+		
 			
 			// Social
 			$SocialCount  = (int) qa_post_text('social_count'); // number of advertisement items

@@ -20,6 +20,7 @@ class Cs_Social_Login_Addon {
 
       function __construct() {
             cs_event_hook('doctype', NULL, array($this, 'navigation'));
+            cs_add_action('dropdown_social_login', array($this, 'dropdown_social_login'));
             cs_event_hook('register_language', NULL, array($this, 'language'));
             cs_event_hook('enqueue_css', NULL, array($this, 'css'));
 			cs_add_filter('init_queries', array($this, 'init_queries'));
@@ -43,7 +44,10 @@ class Cs_Social_Login_Addon {
 			  return $queries;
 		}
 	}
-
+	
+	public function dropdown_social_login(){
+		echo 'dsfsdfs';
+	}
       public function navigation($themeclass) {
 
 		if(cs_is_user())	{

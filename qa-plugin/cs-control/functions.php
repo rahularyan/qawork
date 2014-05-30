@@ -646,14 +646,18 @@ function stripslashes2($string) {
     return $string;
 }
 
-function cs_count_followers($handle){
-	$userid = qa_handle_to_userid($handle);
-	return qa_db_read_one_value(qa_db_query_sub('SELECT count(*) FROM ^userfavorites WHERE ^userfavorites.entityid = # and ^userfavorites.entitytype = "U" ', $userid));	
+function cs_count_followers($identifier, $id = false){
+	if(!$id)
+		$identifier= qa_handle_to_userid($identifier);
+		
+	return qa_db_read_one_value(qa_db_query_sub('SELECT count(*) FROM ^userfavorites WHERE ^userfavorites.entityid = # and ^userfavorites.entitytype = "U" ', $identifier));	
 }
 
-function cs_count_following($handle){
-	$userid = qa_handle_to_userid($handle);
-	return qa_db_read_one_value(qa_db_query_sub('SELECT count(*) FROM ^userfavorites WHERE ^userfavorites.userid = # and ^userfavorites.entitytype = "U" ', $userid));	
+function cs_count_following($identifier, $id = false){
+	if(!$id)
+	 $identifier = qa_handle_to_userid($identifier);
+	 
+	return qa_db_read_one_value(qa_db_query_sub('SELECT count(*) FROM ^userfavorites WHERE ^userfavorites.userid = # and ^userfavorites.entitytype = "U" ', $identifier));	
 }
 
 function cs_followers_list($handle, $size = 40, $limit = 10, $order_by = 'rand'){

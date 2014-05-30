@@ -715,5 +715,14 @@ $(document).ready(function(){
 		if(action == 'change-cover')
 			cs_change_cover(this);
 	});
+	
+	$('.featured-questions').bxSlider({
+		slideWidth: 1400,
+		minSlides: 3,
+		maxSlides: 3,
+		slideMargin: 10,
+		nextText:'<i class="icon-chevron-right"></i>',
+		prevText:'<i class="icon-chevron-left"></i>'
+	});
 
 });
