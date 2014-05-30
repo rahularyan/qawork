@@ -35,7 +35,7 @@ $cs_following = new Cs_Follwing;
 					'icon' => 'icon-group'
 				);
 				
-				if(qa_request_part(0) == 'followers') {
+				if(qa_request_part(0) == 'following') {
 					$themeclass['navigation']['user']['following']['selected'] = true;
 				}
 			
