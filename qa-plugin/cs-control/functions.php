@@ -1040,7 +1040,6 @@ function cs_log($string) {
 function cs_event_log_row_parser( $row ){
             $result = preg_split('/\t/', $row) ;
             $param = array();
-            // cs_log("Data from the database ".print_r($result , true )); //this will pring the data from db 
             $embeded_arrays = array();
 
             foreach ( $result as $value ) {
@@ -1065,7 +1064,6 @@ function cs_event_log_row_parser( $row ){
             foreach ($unset_keys as $key) {
                   unset($param[$key]);
             }
-            // cs_log("Converted array".print_r($param , true ));
             return $param ; 
 }
 //just a helper methos for Testing
