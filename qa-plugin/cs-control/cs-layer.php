@@ -815,9 +815,10 @@ class qa_html_theme_layer extends qa_html_theme_base {
 		if (cs_hook_exist(__FUNCTION__)) {$args=func_get_args(); return cs_do_action(__FUNCTION__, $args); }
 		
 		if ($this->template != 'user-answers' && $this->template != 'user-questions' && $this->template != 'user-activity' && $this->template != 'user-wall' && $this->template != 'user' && (!strlen(qa_request(1)) == 0) && (!empty($this->content['title']))) {
-            $this->output('<div class="page-title"><div class="container"><h1>', $this->content['title'],'</h1>');
+            $this->output('<div class="page-title"><div class="container">');
             $this->feed();
 			$this->favorite();
+			$this->output('<h1>'. $this->content['title'] .'</h1>');
 			$this->cs_question_head();
             $this->output('</div></div>');
         }
@@ -1085,6 +1086,12 @@ class qa_html_theme_layer extends qa_html_theme_base {
 				<span class="icon-folder meta-icon"></span>
 				'.qa_lang_html('cleanstrap/posted_under').' <a class="cat-in" href="' . cs_cat_path($q_view['raw']['categorybackpath']) . '">' . $q_view['raw']['categoryname'] . '</a>
 				</div>');
+				
+				if (!empty($q_view['q_tags'])) {
+					$this->output('<div class="question-tags icon-tags">');
+					$this->post_tag_list($q_view, 'tags');			
+					$this->output('</div>');
+				}
 		}
 	}
 	
@@ -1094,34 +1101,15 @@ class qa_html_theme_layer extends qa_html_theme_base {
 		
 			$q_view = @$content['q_view'];
 			$this->output('<div class="lr-table row"><div class="left-content question-main col-md-8">');
-
-				$this->output('<div class="tab-content question-tab-content">');
-					$this->output('<div class="tab-pane active" id="discussion">');
-						$this->main_parts($content); 
-					$this->output('</div>');
-					$this->output('<div class="tab-pane" id="share">');
-						$this->q_social_share($q_view);	
-						cs_do_action('question_share', $this);
-					$this->output('</div>');
+					$this->main_parts($content); 
+					$this->q_social_share($q_view);	
+					cs_do_action('question_share', $this);				
+					$this->cs_position('Content Bottom');							
 				$this->output('</div>');
-				
-				$this->cs_position('Content Bottom');
-							
-			$this->output('</div>');
 			
-			$this->output('<div class="question-side col-md-4">');
-				
-				$this->output('<div class="qa-post-meta">');
-					if (!empty($q_view['q_tags'])) {
-						$this->output('<div class="question-tags">');
-						$this->output('<h3 class="widget-title ff1">'.qa_lang('cleanstrap/tagged_under').'</h3>');	
-						$this->post_tag_list($q_view, 'tags');			
-						$this->output('</div>');
-					}
-				$this->output('</div>');			
-				$this->cs_position('Question Right');
-			
-			$this->output('</div>');
+				$this->output('<div class="question-side col-md-4">');				
+					$this->cs_position('Question Right');			
+				$this->output('</div>');
 			$this->output('</div>');
 		
     }
@@ -1544,16 +1532,12 @@ class qa_html_theme_layer extends qa_html_theme_base {
             $this->output('<div class="qa-q-view-wrap">');
             $this->output('<div class="qa-q-view-inner"><div class="qa-q-view-inner-line">');
             $this->output('<div class="clearfix">');
-			$this->output('<div class="user-info no-overflow">');
 			
-			$asker = (isset($q_view['raw']['handle']) ? '<a href="'.handle_url($q_view['raw']['handle']).'">' . $q_view['raw']['handle'] . '</a>' : qa_lang_html('cleanstrap/anonymous') );
-				if(isset($this->content['form_q_edit'])){
-					$this->output($asker.' <span>'.qa_lang_html('cleanstrap/asked').'</span>');
-				}else{
+			if(isset($q_view['raw']['handle']) ){
+				$this->output('<div class="user-info no-overflow">');
 					$this->what_1($q_view);
-				}
-			
-			$this->output('</div>');
+				$this->output('</div>');
+			}
 			
 			if(isset($this->content['form_q_edit']))
 				$this->form($this->content['form_q_edit']);

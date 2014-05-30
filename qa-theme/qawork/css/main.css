@@ -93,6 +93,7 @@ textarea {
 .btn:hover, .qa-form-light-button:hover, .qa-form-tall-button:hover, .qa-form-wide-button:hover, .qa-a-select-button:hover, .qa-a-unselect-button:hover, .post-button .btn:hover {
     background: none repeat scroll 0 0 #d54311;
     box-shadow: none;
+	color:#fff;
 }
 
 .btn.icon-answer:before, .btn.icon-user-add:before {
@@ -813,7 +814,8 @@ textarea {
     padding: 10px 0;
 }
 .page-title h1{
-font-size: 25px;
+    font-size: 25px;
+    overflow: hidden;
 }
 
 .ajax-item {
@@ -1264,8 +1266,7 @@ a.feed-link {
 }
 
 .question-metas {
-    margin-bottom: 35px;
-    margin-top: 10px;
+
 }
 
 .big-status .post-status {
@@ -1335,9 +1336,21 @@ a.feed-link {
 	margin-right: 10px;
 	padding: 3px 7px;
 }
-
+.question-tags:before {
+    background: none repeat scroll 0 0 #FFFFFF;
+    border-radius: 50%;
+    color: #AAAAAA;
+    display: block;
+    float: left;
+    font-size: 12px;
+    height: 25px;
+    line-height: 22px;
+    margin-right: 6px;
+    text-align: center;
+    width: 25px;
+}
 .question-tags {
-	margin-bottom: 20px;
+    margin-top: 10px;
 }
 
 .question-tags .tags-label {
@@ -1356,17 +1369,18 @@ a.feed-link {
 }
 
 .question-tags .tags-tag-list li {
-	display: inline-block;
-	margin-bottom: 10px;
+    display: inline-block;
+    margin: 0;
 }
 
 .question-tags .tags-tag-list li a {
-	-moz-border-radius: 2px;
-	-webkit-border-radius: 2px;
-	border-radius: 2px;
-	color: #FFF;
-	margin-right: 5px;
-	padding: 5px 12px;
+    background: none repeat scroll 0 0 #F77F00;
+    border-radius: 2px;
+    color: #FFFFFF;
+    display: block;
+    margin-right: 5px;
+    margin-top: 2px;
+    padding: 0 11px;
 }
 
 .q-cont-right {
@@ -1474,7 +1488,6 @@ a.feed-link {
 }
 
 .qa-q-view-c-list, .qa-a-item-c-list {
-	color: #888;
 	padding-bottom: 15px;
 	padding-left: 5px;
 	padding-top: 1px;
@@ -3402,6 +3415,7 @@ th .description {
 
 .ra-activity .activity-content .title {
     display: block;
+    font-size: 12px;
     font-weight: bold;
     margin-bottom: 5px;
 }
@@ -5538,7 +5552,7 @@ top: 5px;
 width: 15px;
 }
 .qa-c-wrap {
-    height: 24px;
+    height: 22px;
     overflow: hidden;
 }
 .qa-c-wrap.open {
@@ -6360,10 +6374,11 @@ div.oembedall-lanyard .first {
     margin-bottom: 25px;
 }
 .user-widget > h3, .widget > h3, .widget-title{
+    border-bottom: 1px solid #EEEEEE;
     border-top: medium none;
-    font-size: 20px;
+    font-size: 15px;
     margin: 0 0 5px;
-    padding: 0;
+    padding: 10px;
 }
 
 .user-widget > h3:before{
@@ -6820,4 +6835,7 @@ div.oembedall-lanyard .first {
 	display: block;
 	font-size: .85em;
 	padding: 10px;
+}
+.qa-form-tall-label select {
+    margin-bottom: 5px;
 }
