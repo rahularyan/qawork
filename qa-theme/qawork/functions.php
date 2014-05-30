@@ -22,6 +22,7 @@
 			$css_src['cs_responsive'] = Q_THEME_URL . '/css/responsive.css';
 			$css_src['cs_main'] = Q_THEME_URL . '/css/main.css';
 			$css_src['cs_color'] = Q_THEME_URL . '/css/theme-green.css';
+			$css_src['Questrial'] = '//fonts.googleapis.com/css?family=Questrial';
 			
 			if (qa_opt('cs_styling_rtl'))
 				$css_src['cs_rtl'] = Q_THEME_URL . '/css/rtl.css';
@@ -35,7 +36,8 @@
 			$src['bootstrap_js'] = Q_THEME_URL . '/js/bootstrap.js';
 			
 			$src['oembed'] = Q_THEME_URL . '/js/jquery.oembed.js';
-			$src['masonry'] = Q_THEME_URL . '/js/masonry.pkgd.min.js';
+			//$src['masonry'] = Q_THEME_URL . '/js/masonry.pkgd.min.js';
+			$src['bxslider'] = Q_THEME_URL . '/js/jquery.bxslider.min.js';
 			
 			$src['cs_theme'] = Q_THEME_URL . '/js/theme.js';
 
@@ -56,12 +58,8 @@
 				'Right' => 'Right side of content', 
 				'Bottom' => 'Below content and before footer',
 				'Home Slide' => 'Home Top',
-				'Home 1 Left' => 'Home position 1',
-				'Home 1 Center' => 'Home position 1',
-				'Home Recent Tab' => 'For showing activities',
-				'Home Activities Tab' => 'For showing activities',
-				'Home 3 Left' => 'Home position 3',
-				'Home 3 Center' => 'Home position 3',
+				'Home Featured' => 'For featured questions',
+				'Home Count' => 'For showing activity count',
 				'Home Right' => 'Home right side',						
 				'Question Right' => 'Right side of question',
 				'User Content' => 'On user page',
