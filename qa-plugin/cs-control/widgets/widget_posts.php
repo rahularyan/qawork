@@ -106,15 +106,17 @@ class cs_widget_posts
 					$output .= '<span>' . qa_lang_sub('cleanstrap/x_answers', $p['acount']) . '</span>';
 				
 				$output .= '<span class="time icon-time">' .  $when . '</span>';
-				$output .= '<span class="vote-count icon-thumbs-up2">' . qa_lang_sub('cleanstrap/x_votes', $p['netvotes']) . '</span>';			
+				
+				if ($type != 'Q')
+					$output .= '<span class="vote-count icon-thumbs-up">' . qa_lang_sub('cleanstrap/x_votes', $p['netvotes']) . '</span>';			
 			$output .= '</div>';
 			
             if ($type == 'Q') {
                 $output .= '<a class="title question" href="' . qa_q_path_html($p['postid'], $p['title']) . '" title="' . $p['title'] . '">' . qa_html($p['title']) . '</a>';
             } elseif ($type == 'A') {
-                $output .= '<a class="title" href="' . cs_post_link($p['parentid']) . '#a' . $p['postid'] . '">' . cs_truncate(strip_tags($p['content']),100) . '</a>';
+                $output .= '<a class="title" href="' . cs_post_link($p['parentid']) . '#a' . $p['postid'] . '">' . cs_truncate(strip_tags($p['content']),80) . '</a>';
             } else {
-                $output .= '<a class="title" href="' . cs_post_link($p['parentid']) . '#c' . $p['postid'] . '">' . cs_truncate(strip_tags($p['content']),100) . '</a>';
+                $output .= '<a class="title" href="' . cs_post_link($p['parentid']) . '#c' . $p['postid'] . '">' . cs_truncate(strip_tags($p['content']),80) . '</a>';
             }
             
             $output .= '</div>';
