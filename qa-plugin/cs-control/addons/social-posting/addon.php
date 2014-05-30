@@ -42,7 +42,7 @@ class Cs_Social_Posting_Addon {
       
       public function script($script_src) {
             $script_src['cs_social_posting'] = CS_CONTROL_URL . '/addons/social-posting/script.js';
-            $script_src['cs_social_posting_facebook'] = "http://connect.facebook.net/en_US/all.js";
+            // $script_src['cs_social_posting_facebook'] = "http://connect.facebook.net/en_US/all.js";
             return $script_src;
       }
       public function navigation($themeclass) {
