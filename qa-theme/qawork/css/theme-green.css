@@ -1,12 +1,12 @@
 a, .widget .ra-ticker-widget .widget-title a, .qa-q-view-tag-list li a:hover{
-	color:#FA6900;
+	color:#2DB3E9;
 }
 
 a:hover{
-	color:#db5d02;
+	color:#005479;
 }
 
-.question-list .question-item .big-ans-count.icon-chat, .tag-item .qa-tag-link{
+.question-list .question-item .big-ans-count.icon-chat{
 	background:#FA6900;
 	color:#fff;
 }
@@ -15,7 +15,7 @@ a:hover{
 	background-color: #fff;
 }
 .header-position-c {
-    background-image: url("../images/members.jpg") ;
+    background: none repeat scroll 0 0 #CCEAF8;
 }
 
 .answer-selected .a-item-wrap {
@@ -68,7 +68,7 @@ a:hover{
 	border-color:#e45840;
 }
 .qa-nav-main .qa-nav-main-list li a{
-	color: rgba(255, 255, 255, 0.8);
+	color: #586f7a;
 }
 .ra-ask-widget .input-group-btn button, .carousel-control.left, .carousel-control.right, .ajax-file-upload-bar {
     background: none repeat scroll 0 0 #d6313a;

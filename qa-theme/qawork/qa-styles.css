@@ -8,13 +8,17 @@
 	Theme License: GPL 2.0
 	Theme Update Check URI: 
 */
+.featured-questions .title{
+	font-family: 'Questrial', sans-serif;
+}
 .home-intro h1{
-    color: #333;
+    color: #2DB3E9;
     font-size: 33px;
     font-weight: 600;
     margin-bottom: 20px;
-    margin-top: 15px;
+    margin-top: 60px;
     padding: 1px;
+    text-transform: uppercase;
 }
 .home-intro .desc {
     color: #555555;
@@ -45,4 +49,10 @@
     line-height: 20px;
     margin-top: 10px;
     text-align: center;
+}
+.home-join >div > p{
+
+}
+#home-featured-position .widget{
+	border:none;
 }
