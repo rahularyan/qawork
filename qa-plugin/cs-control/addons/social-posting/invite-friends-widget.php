@@ -49,7 +49,6 @@ class cs_fb_invite_frnds_widget {
       function output_widget($region, $place, $themeobject, $template, $request, $qa_content) {
             global $fb_root_initiallized ;
             $widget_opt  = @$themeobject->current_widget['param']['options'];
-            require_once CS_CONTROL_DIR . '/addons/social-posting/cs-social-posting-utils.php';
            
             // widget start 
             if(@$themeobject->current_widget['param']['locations']['show_title'])

@@ -50,7 +50,6 @@ class cs_social_posting_page {
 		$qa_content['title']=qa_lang_html('cs_social_posting/social_posting_title');
 		$qa_content['site_title']=qa_lang_html('cs_social_posting/social_posting_title');
     	
-    	require_once CS_CONTROL_DIR . '/addons/social-posting/cs-social-posting-utils.php';
 		if (qa_clicked('dosave_settings')) {
 			$data_to_save = array(
 					'cs_facebook_q_post' => !!qa_post_text('cs_facebook_q_post') ,
