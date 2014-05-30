@@ -21,7 +21,6 @@
     text-transform: uppercase;
 }
 .home-intro .desc {
-    color: #555555;
     font-size: 19px;
     line-height: 30px;
 }
@@ -49,6 +48,10 @@
     line-height: 20px;
     margin-top: 10px;
     text-align: center;
+}
+.home-join {
+    margin-bottom: 20px;
+    margin-top: 15px;
 }
 .home-join >div > p{
 
