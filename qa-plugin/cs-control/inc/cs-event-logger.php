@@ -6,10 +6,13 @@
 		{
             require_once QA_INCLUDE_DIR.'qa-app-users.php';
             require_once QA_INCLUDE_DIR.'qa-db-maxima.php';
-                                                        
-			if (qa_opt('event_logger_to_database')) {
-				qa_opt('event_logger_to_database', 0);
-			}
+    
+			qa_opt('event_logger_to_database', 1);
+			
+			/* remove evnet logger plugin if exist */
+			if(file_exists(QA_INCLUDE_DIR.'qa-plugin/event-logger'))
+				unlink(QA_INCLUDE_DIR.'qa-plugin/event-logger');
+			
 			$tablename=qa_db_add_table_prefix('eventlog');
 			$quries = array();	
 			if (!in_array($tablename, $tableslc)) {

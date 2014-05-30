@@ -818,6 +818,7 @@ class qa_html_theme_layer extends qa_html_theme_base {
             $this->output('<div class="page-title"><div class="container"><h1>', $this->content['title'],'</h1>');
             $this->feed();
 			$this->favorite();
+			$this->cs_question_head();
             $this->output('</div></div>');
         }
 	}
@@ -1066,39 +1067,34 @@ class qa_html_theme_layer extends qa_html_theme_base {
         $this->output('</div>');
     }
 	
-    function question_view($content)
-    {
+	function cs_question_head(){
 		if (cs_hook_exist(__FUNCTION__)) {$args=func_get_args(); return cs_do_action(__FUNCTION__, $args); }
+		
+		$content = $this->content;
 		$q_view = @$content['q_view'];
 
 		if(isset($q_view)){
-			$this->output('<header class="question-head">');
-				
-				$this->output('<div class="head-butns"><a id="focus_doanswer" class="btn btn-small btn-success icon-answer'. (!isset($this->content['a_form']) ? ' disabled' : '') .'" title="'.(!isset($this->content['a_form']) ? qa_lang_html('cleanstrap/you_cannot_answer') : qa_lang_html('cleanstrap/answer_this_question')).'" href="#" >'.qa_lang_html('cleanstrap/answer').'</a>');
-					$this->favorite();
-				$this->output('</div>');
-				
-				$this->output('<h2 class="question-title">');
-				$this->output( htmlspecialchars ($q_view['raw']['title']));				
-				$this->output('</h2>');
-				$this->output('<div class="question-metas">
-					'.(is_featured($q_view['raw']['postid']) ? '<span class="featured-sticker icon-star ra-tip" title="'.qa_lang_html('cleanstrap/question_is_featured').'">' . qa_lang_html('cleanstrap/featured') . '</span>' : '').'
-					'.cs_post_status($q_view).'				
-					<span class="meta-icon icon-answer"></span>
-					<span class="q-view-a-count">'.qa_lang_sub('cleanstrap/x_answers', $q_view['raw']['acount']).' </span>
-					<span class="icon-eye meta-icon"></span>
-					<span class="q-view-a-count">' . qa_lang_sub('cleanstrap/x_answers', $q_view['raw']['views']) . ' </span>
-					<span class="icon-folder meta-icon"></span>
-					'.qa_lang_html('cleanstrap/posted_under').' <a class="cat-in" href="' . cs_cat_path($q_view['raw']['categorybackpath']) . '">' . $q_view['raw']['categoryname'] . '</a>
-					</div>');
-				
-			$this->output('</header>');
-			
+
+			$this->output('<div class="question-metas">
+				'.(is_featured($q_view['raw']['postid']) ? '<span class="featured-sticker icon-star ra-tip" title="'.qa_lang_html('cleanstrap/question_is_featured').'">' . qa_lang_html('cleanstrap/featured') . '</span>' : '').'
+				'.cs_post_status($q_view).'				
+				<span class="meta-icon icon-answer"></span>
+				<span class="q-view-a-count">'.qa_lang_sub('cleanstrap/x_answers', $q_view['raw']['acount']).' </span>
+				<span class="icon-eye meta-icon"></span>
+				<span class="q-view-a-count">' . qa_lang_sub('cleanstrap/x_answers', $q_view['raw']['views']) . ' </span>
+				<span class="icon-folder meta-icon"></span>
+				'.qa_lang_html('cleanstrap/posted_under').' <a class="cat-in" href="' . cs_cat_path($q_view['raw']['categorybackpath']) . '">' . $q_view['raw']['categoryname'] . '</a>
+				</div>');
+		}
+	}
+	
+    function question_view($content)
+    {
+		if (cs_hook_exist(__FUNCTION__)) {$args=func_get_args(); return cs_do_action(__FUNCTION__, $args); }
+		
+			$q_view = @$content['q_view'];
 			$this->output('<div class="lr-table row"><div class="left-content question-main col-md-8">');
-				$this->output('<ul class="nav nav-tabs question-tabs">
-				  <li class="active"><a href="#discussion" data-toggle="tab" class="icon-flow-children">'.qa_lang_html('cleanstrap/discussion').'</a></li>
-				  <li><a href="#share" data-toggle="tab" class="icon-world load-social-share">'.qa_lang_html('cleanstrap/share').'</a></li>
-				</ul>');
+
 				$this->output('<div class="tab-content question-tab-content">');
 					$this->output('<div class="tab-pane active" id="discussion">');
 						$this->main_parts($content); 
@@ -1127,7 +1123,7 @@ class qa_html_theme_layer extends qa_html_theme_base {
 			
 			$this->output('</div>');
 			$this->output('</div>');
-		}
+		
     }
     
     function q_list_item($q_item)
@@ -1688,7 +1684,7 @@ class qa_html_theme_layer extends qa_html_theme_base {
         }
     }
 
-    function c_list_item($c_item)
+     function c_list_item($c_item)
     {
 		if (cs_hook_exist(__FUNCTION__)) {$args=func_get_args(); return cs_do_action(__FUNCTION__, $args); }
         $extraclass = @$c_item['classes'] . (@$c_item['hidden'] ? ' qa-c-item-hidden' : '');
@@ -1704,7 +1700,7 @@ class qa_html_theme_layer extends qa_html_theme_base {
         $this->output('<div class="qa-c-wrap"><div class="qa-c-wrap-inner-height">');
 		$this->c_item_main($c_item);
 		$this->post_meta($c_item, 'qa-c-item');
-        $this->ra_comment_buttons($c_item);                
+        $this->ra_comment_buttons($c_item);
         $this->output('</div></div>');
         $this->output('</div> <!-- END qa-c-item -->');
     }
@@ -1889,21 +1885,16 @@ class qa_html_theme_layer extends qa_html_theme_base {
         $this->output('<div class="qa-a-form"' . (isset($a_form['id']) ? (' id="' . $a_form['id'] . '"') : '') . '>');
         
         if (isset($a_form)) {
-			$this->output('<h3 class="answers-label">'.$a_form['title'].'</h3>');
+			
 			$this->output('<div class="big-s-avatar avatar">' . cs_get_avatar(qa_get_logged_in_handle(), 40) . '</div>');
-			//$this->output('<div class="your-answer-label">' . $a_form['title'] . '</div>');        
+    
 				$this->output('<div class="q-cont-right">');
          
 				$this->output('<div class="answer-f-wrap">');
-				$this->output('<ul class="nav nav-tabs">
-				  <li class="active"><a href="#write" data-toggle="tab">'.qa_lang_html('cleanstrap/write').'</a></li>
-				  <li><a href="#write" data-toggle="tab">'.qa_lang_html('cleanstrap/help').'</a></li>
-				</ul>');
-				$this->output('<div class="tab-content">');
-					$a_form['title'] = '';
+					///$this->output('<h3 class="answers-label">'.$a_form['title'].'</h3>');
+					//$a_form['title'] = '';
 					$this->form($a_form);
 					$this->c_list(@$a_form['c_list'], 'qa-a-item');
-					$this->output('</div>');
 					$this->output('</div>');
             $this->output('</div>');
         } else {

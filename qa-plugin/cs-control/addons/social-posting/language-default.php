@@ -30,4 +30,5 @@ return array(
 	'send_facebook_invite'   => 'Invite Your Facebook Friends',
 	'update_twitter_status'  => 'Tweet your followers',
 	'status_updated_message' => 'your ^ status is updated successfully',
+	'invite_friends' => 'Invite your friends',
 );
