@@ -69,7 +69,8 @@
 				$events_type = array('q_post', 'a_post', 'c_post', 'a_select', 'badge_awarded');
 			
 			// query last 3 events
-			$posts = cs_get_cache('SELECT datetime,ipaddress,handle,event,params FROM ^eventlog WHERE event IN ("q_post", "a_post", "c_post", "a_select", "u_register", "q_edit", "c_edit", "a_edit") ORDER BY datetime DESC LIMIT #',120, $limit);
+			$posts = qa_db_read_all_assoc(qa_db_query_sub('SELECT datetime,ipaddress,handle,event,params FROM ^eventlog WHERE event IN ("q_post", "a_post", "c_post", "a_select", "u_register", "q_edit", "c_edit", "a_edit") ORDER BY datetime DESC LIMIT #', $limit));
+
 			
 			if(empty($posts))return;
 			$postids = '';
@@ -81,7 +82,8 @@
 				$i++;
 			}
 			
-			$posts = cs_get_cache('SELECT ^posts.* , ^users.handle FROM ^posts, ^users WHERE (^posts.userid=^users.userid AND ^posts.postid IN ('.$postids.')) AND ^posts.type IN ("Q", "A", "C") ORDER BY ^posts.created DESC',120);
+			$posts = qa_db_read_all_assoc(qa_db_query_sub('SELECT UNIX_TIMESTAMP(^posts.created) as unix_created, ^posts.* , ^users.* FROM ^posts, ^users WHERE (^posts.userid=^users.userid AND ^posts.postid IN ('.$postids.')) AND ^posts.type IN ("Q", "A", "C") ORDER BY ^posts.created DESC'));
+			
 			$o = '<ul class="ra-activity">';
 			foreach($posts as $p){
 				$event_name = '';
@@ -96,32 +98,38 @@
 				}
 				else {
 					$event_name = qa_lang('cleanstrap/commented');
-					$event_icon = 'icon-chat';					
+					$event_icon = 'icon-comment';					
 				}
 				
 				$username = (is_null($p['handle'])) ? qa_lang('cleanstrap/anonymous') : htmlspecialchars($p['handle']);
 				$usernameLink = (is_null($p['handle'])) ? qa_lang('cleanstrap/anonymous') : '<a href="'.qa_path_html('user/'.$p['handle']).'">'.$p['handle'].'</a>';
 				
-				$timeCode = qa_when_to_html(  strtotime( $p['created'] ) ,7);
+				$timeCode = qa_when_to_html( $p['unix_created'] ,7);
+
 				$time = @$timeCode['prefix'] . @$timeCode['data'] . @$timeCode['suffix'];
 				
-				$o .= '<li class="event-item">';
-				$o .= '<div class="event-inner">';	
+				$o .= '<li class="activity-item">';
+				$o .= '<div class="activity-inner">';	
 				
-				$o .= '<div class="event-icon pull-left '.$event_icon.'"></div>';
+				$o .= '<div class="activity-icon pull-left '.$event_icon.'"></div>';
 					
 				$o .= '<div class="activity-content">';			
-				$o .= '<p class="title"><strong class="avatar" data-handle="'.$p['handle'].'" data-id="'. $p['userid'].'">'.@$usernameLink.'</strong> <span class="what">'.$event_name.'</span></p>';
+				$o .= '<p class="title"><strong class="avatar" data-handle="'.$p['handle'].'" data-id="'. $p['userid'].'">'.@$usernameLink.'</strong> <span class="what">'.$event_name.'</span> <span class="time">'.$time.'</span></p>';
+				
+				$o .= '<div class="activity-detail">';
+				
+				$o .= '<div class="avatar" data-handle="'.$p['handle'].'" data-id="'. $p['userid'].'">'.cs_get_post_avatar($p, 30, false).'</div>';
 				
 				if ($p['type'] == 'Q') {
-					$o .= '<a class="event-title" href="' . qa_q_path_html($p['postid'], $p['title']) . '" title="' . $p['title'] . '">' . cs_truncate($p['title'],100) . '</a>';
+					$o .= '<a class="activity-title" href="' . qa_q_path_html($p['postid'], $p['title']) . '" title="' . $p['title'] . '">' . cs_truncate($p['title'],100) . '</a>';
 				} elseif ($p['type'] == 'A') {
-					$o .= '<a class="event-title" href="' . cs_post_link($p['parentid']) . '#a' . $p['postid'] . '">' . cs_truncate(strip_tags($p['content']),100) . '</a>';
+					$o .= '<a class="activity-title" href="' . cs_post_link($p['parentid']) . '#a' . $p['postid'] . '">' . cs_truncate(strip_tags($p['content']),100) . '</a>';
 				} else {
-					$o .= '<a class="event-title" href="' . cs_post_link($p['parentid']) . '#c' . $p['postid'] . '">' . cs_truncate(strip_tags($p['content']),100) . '</a>';
+					$o .= '<a class="activity-title" href="' . cs_post_link($p['parentid']) . '#c' . $p['postid'] . '">' . cs_truncate(strip_tags($p['content']),100) . '</a>';
 				}
 			
-				$o .= '<span class="time">'.$time.'</span>';	
+				$o .= '</div>';	
+				
 				$o .= '</div>';	
 				$o .= '</div>';	
 				$o .= '</li>';
@@ -133,7 +141,10 @@
 
 		function output_widget($region, $place, $themeobject, $template, $request, $qa_content)
 		{
-			if(!(qa_opt('event_logger_to_database'))) return;
+
+			if(!(qa_opt('event_logger_to_database'))){
+				$themeobject->output('<p>Eventlogger is disabled</p>');
+			}
 			$widget_opt = @$themeobject->current_widget['param']['options'];
 
 			if(@$themeobject->current_widget['param']['locations']['show_title'])
