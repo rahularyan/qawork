@@ -122,8 +122,6 @@ class cs_fb_likebox_widget {
       }
 
       function output_widget($region, $place, $themeobject, $template, $request, $qa_content) {
-            global $fb_root_initiallized ;
-
             $widget_opt  = @$themeobject->current_widget['param']['options'];
             $fb_page_url = $this->get_fb_settings($widget_opt , 'url') ;	
             
@@ -155,11 +153,7 @@ class cs_fb_likebox_widget {
                         $themeobject->output('<h3 class="widget-title">CS Facebook Like Box</h3>');
 
             $themeobject->output('<div class="fb-like-box clearfix">');
-            if (!isset($fb_root_initiallized) && !$fb_root_initiallized) {
-                  $themeobject->output('<div id="fb-root"></div>');
-                  $fb_root_initiallized = true ;
-            }
-
+            
             $fb_like_box =   '<div class="fb-like-box" '.$data_str.'> </div>'  ;
              $themeobject->output($fb_like_box );
             $themeobject->output('</div>');
