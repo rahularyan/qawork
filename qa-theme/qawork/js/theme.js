@@ -626,7 +626,7 @@ $(document).ready(function(){
 		$(this).closest('.form-group').next().toggle();
 	});
 	
-	$('.load-social-share').click(function(){
+	$('.share-btn').click(function(){
 		if(!$(this).is('loaded')){
 			if (typeof (IN) != 'undefined') {
 				var addthis_config = {"data_track_addressbar":true};

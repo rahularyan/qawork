@@ -6840,3 +6840,7 @@ div.oembedall-lanyard .first {
 .qa-form-tall-label select {
     margin-bottom: 5px;
 }
+
+.social-share-btn .dropdown-menu{
+	padding:10px;
+}
