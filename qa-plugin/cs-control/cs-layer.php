@@ -365,8 +365,9 @@ class qa_html_theme_layer extends qa_html_theme_base {
 		$this->main_top($this->content);
         $this->output('<div class="clearfix qa-main ' .(cs_is_user() ? 'cs-user-template' : ''). (@$this->content['hidden'] ? ' qa-main-hidden' : '') . '">');
 		
-		if($this->request=='cs-install')
-			$this->install_page();
+		if(cs_is_home() && qa_opt('cs_enable_default_home'))			
+			include_once Q_THEME_DIR.'/home.php';
+			
 		else{
 		
 			if($this->cs_position_active('Home Slide') && cs_is_home()){
@@ -388,8 +389,6 @@ class qa_html_theme_layer extends qa_html_theme_base {
 			else
 				$this->output('<div class="left-content '. ($this->cs_position_active('Right') ? 'col-md-8' : 'col-md-12').'">');
 				
-			$this->cs_page_title();
-
 			if ($this->template != 'question')
 				$this->cs_position('Content Top');
 
@@ -434,12 +433,16 @@ class qa_html_theme_layer extends qa_html_theme_base {
 			$this->output('</div>');
 			$this->output('</div>');
 		$this->output('</header>');
-		$this->get_social_links();
 		
-		$this->output('<div id="header-below" class="clearfix"><div class="container">');		
-		$this->cs_position('Breadcrumbs');		
-		$this->nav_ask_btn();		
-		$this->output('</div></div>');
+		$this->get_social_links();
+		$this->cs_page_title();
+		
+		if(!cs_is_home()){
+			$this->output('<div id="header-below" class="clearfix"><div class="container">');		
+			$this->cs_position('Breadcrumbs');		
+			$this->nav_ask_btn();		
+			$this->output('</div></div>');
+		}
     }
 	function main_nav_menu(){
 		if (cs_hook_exist(__FUNCTION__)) {$args=func_get_args(); return cs_do_action(__FUNCTION__, $args); }		
@@ -555,9 +558,10 @@ class qa_html_theme_layer extends qa_html_theme_base {
 ?>				<div id="login-drop" class="dropdown pull-right">
 					<a class="icon-key login-register"  href="#" title="<?php echo qa_lang_html('cleanstrap/login_register'); ?>" data-toggle="dropdown"><?php echo qa_lang_html('cleanstrap/login'); ?></a>
 					<div class="dropdown-menu login-drop">
-						<p><span>Login with</span></p>
 						<div class="social-logins">
-							<?php            
+						
+							<?php      
+
 								foreach ($this->content['navigation']['user'] as $k => $custom) {
 									if (isset($custom) && (($k != 'login') && ($k != 'register'))) {
 										preg_match('/class="([^"]+)"/', $custom['label'], $class);
@@ -810,11 +814,11 @@ class qa_html_theme_layer extends qa_html_theme_base {
 	function cs_page_title(){
 		if (cs_hook_exist(__FUNCTION__)) {$args=func_get_args(); return cs_do_action(__FUNCTION__, $args); }
 		
-		if ($this->template != 'user-answers' && $this->template != 'user-questions' && $this->template != 'user-activity' && $this->template != 'user-wall' && $this->template != 'question' && $this->template != 'user' && (!strlen(qa_request(1)) == 0) && (!empty($this->content['title']))) {
-            $this->output('<h1 class="page-title">', $this->content['title']);
+		if ($this->template != 'user-answers' && $this->template != 'user-questions' && $this->template != 'user-activity' && $this->template != 'user-wall' && $this->template != 'user' && (!strlen(qa_request(1)) == 0) && (!empty($this->content['title']))) {
+            $this->output('<div class="page-title"><div class="container"><h1>', $this->content['title'],'</h1>');
             $this->feed();
 			$this->favorite();
-            $this->output('</h1>');
+            $this->output('</div></div>');
         }
 	}
     function title() // add RSS feed icon after the page title
@@ -1977,36 +1981,42 @@ class qa_html_theme_layer extends qa_html_theme_base {
         $rows  = min($ranking['rows'], count($ranking['items']));
         
         if (@$ranking['type'] == 'users') {
-            $this->output('<div class="page-users-list clearfix">');
+            $this->output('<div class="page-users-list clearfix"><div class="row">');
             
-            /* if($ranking['items'])
-            $columns=ceil(count($ranking['items'])/$rows); */
-            if ($ranking['items'])
+            if(isset($ranking['items']))
+				$columns=ceil(count($ranking['items'])/$rows);
+				
+			
+			
+            if (isset($ranking['items']))
                 foreach ($ranking['items'] as $user) {
+					$this->output('<div class="col-sm-' . ceil(12 / $columns) . '">');
+					
                     if (isset($user['raw']))
                         $handle = $user['raw']['handle'];
                     else
                         $handle = ltrim(strip_tags($user['label']));
                     
                     $data   = cs_user_data($handle);
-
-                    $avatar = cs_get_avatar($handle, 100, false);
+                    $avatar = cs_get_avatar($handle, 50, false);
                     $this->output('
 							<div class="user-box">
 							<div class="user-box-inner">	
 								<div class="box-container">
 									<div class="user-avatar">
-										<a href="' . qa_path_html('user/' . $handle) . '">
+										<a href="' . qa_path_html('user/' . $handle) . '" data-id="'.$data['account']['userid'].'" data-handle="'.$handle.'" class="avatar">
 											<img class="avatar" src="' . $avatar . '" />
 										</a>
 									</div>
-									
-									<a class="user-name" href="' . qa_path_html('user/' . $handle) . '">' . $handle. '</a>								
-									<span class="score">' .  qa_lang_sub('cleanstrap/x_points', $data['points']['points']) . ' </span>
+									<div class="no-overflow">
+										<a class="user-name" href="' . qa_path_html('user/' . $handle) . '">' . $handle. '</a>								
+										<span class="score">' .  qa_lang_sub('cleanstrap/x_points', $data['points']['points']) . ' </span>
+									</div>
 							</div>');
                     if (qa_opt('badge_active') && function_exists('qa_get_badge_list'))
                         $this->output('<div class="badge-list">' . cs_user_badge($handle) . '</div>');
                     
+                    $this->output('</div>');
                     $this->output('</div>');
                     $this->output('</div>');
                 } else
@@ -2017,6 +2027,7 @@ class qa_html_theme_layer extends qa_html_theme_base {
 							</div>');
             
             
+            $this->output('</div>');
             $this->output('</div>');
             
         } elseif (@$ranking['type'] == 'tags') {
@@ -2098,11 +2109,13 @@ class qa_html_theme_layer extends qa_html_theme_base {
         if (isset($item))
             $this->output(
 				'<li class="tag-item">',
-					'<p class="tag-head">',
-						$item['label'] . '<span> &#215; ' . $item['count'] . '</span>',
-					 '</p><p class="desc">',
-					 cs_truncate($content, 150),
-					 '</p>',
+					'<div class="panel">',
+						'<p class="tag-head">',
+							$item['label'] . '<span> &#215; ' . $item['count'] . '</span>',
+						 '</p><p class="desc">',
+						 cs_truncate($content, 150),
+						 '</p>',
+					 '</div>',
 				 '</li>'
 			);
     }

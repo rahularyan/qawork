@@ -67,7 +67,7 @@
 		
 
 		// output the list of selected post type
-		function carousel_item($type, $limit, $col_item = 1){
+		function carousel_item($type, $limit){
 			
 			if (defined('QA_FINAL_WORDPRESS_INTEGRATE_PATH')){
 				$posts = qa_db_read_all_assoc(qa_db_query_sub('SELECT * FROM ^postmetas, ^posts WHERE ^posts.type=$ and ( ^postmetas.postid = ^posts.postid and ^postmetas.title = "featured_question" ) ORDER BY ^posts.created DESC LIMIT #', $type, $limit));
@@ -80,7 +80,7 @@
 			foreach($posts as $p){
 				
 				$when = qa_when_to_html(strtotime($p['created']), 7);
-				$avatar = cs_get_post_avatar($p, 35, true);
+				$avatar = cs_get_post_avatar($p, 35, false);
 				
 				if($p['type']=='Q'){
 					$link_header = qa_q_path_html($p['postid'], $p['title']) .'" title="'. $p['title'];
@@ -89,19 +89,13 @@
 				}else{
 					$link_header = cs_post_link($p['parentid']).'#c'.$p['postid'];
 				}
+				$handle = $p['handle'];
+				$output .='<div class="item slide">';
+				$output .='<div class="item-inner">';
 				
-				$output .='<div class="item">';
-				$output .='<div class="item-inner-line"><div class="item-inner">';
+				if($avatar)	$output .= '<div class="avatar" data-id="'.$p['userid'].'" data-handle="'.$handle.'">'.$avatar.'</div>';	
+				$output .= '<div class="no-overflow">';
 				
-				$output .= '<div class="head">';
-				if($avatar)	$output .= $avatar;	
-				
-				$output .= '</div>';
-				$output .= '<div class="post-meta clearfix">';
-				$output .= '<span class="icon-time">'.implode(' ', $when).'</span>';
-				$output .= '<span class="vote-count icon-answer">'.qa_lang_sub('cleanstrap/x_answers', $p['acount']).'</span>';	
-				$output .= '<span class="vote-count icon-thumb-up">'.qa_lang_sub('cleanstrap/x_votes', $p['netvotes']).'</span>';
-				$output .= '</div>';
 				$output .='<div class="inner-content">';
 				if($p['type']=='Q'){
 					$what = qa_lang('cleanstrap/asked');
@@ -110,13 +104,8 @@
 				}elseif($p['type'] == 'C'){
 					$what = qa_lang('cleanstrap/commented');
 				}
-				if (defined('QA_FINAL_WORDPRESS_INTEGRATE_PATH'))
-					$handle = qa_db_read_one_value(qa_db_query_sub(
-						'SELECT user_nicename FROM '.$wpdb->base_prefix.'users WHERE ID=$',
-						$p['postid']
-					));
-				else
-					$handle = $p['handle'];
+
+				
 				
 				
 		
@@ -128,13 +117,20 @@
 				}elseif($type=='A'){
 					$output .= '<div class="big-ans-count pull-left vote">'.$p['netvotes'].'<span>'.qa_lang('cleanstrap/vote').'</span></div>';
 				} */
-				//$output .= '<p>' . cs_truncate($p['content'], 200).'</p>';
-				$output .= '<a class="title" href="'.$link_header.'">' . cs_truncate(qa_html($p['title']), 100).'</a>';
-				$output .='</div>';
-				$output .='</div>';	
-		
-				$output .='</div>';
+			
 				
+				$output .= '<a class="title" href="'.$link_header.'">' . cs_truncate(strip_tags($p['title']), 100).'</a>';
+				$output .='</div>';
+				$output .='</div>';
+				$output .= '<p class="content" >' . cs_truncate(strip_tags($p['content']), 150).'</p>';
+				
+				$output .= '<div class="post-meta clearfix">';
+				$output .= '<span class="icon-time">'.implode(' ', $when).'</span>';
+				$output .= '<span class="vote-count icon-answer">'.qa_lang_sub('cleanstrap/x_answers', $p['acount']).'</span>';	
+				$output .= '<span class="vote-count icon-thumb-up">'.qa_lang_sub('cleanstrap/x_votes', $p['netvotes']).'</span>';
+				$output .= '</div>';
+				
+				$output .='</div>';
 				$output .='</div>';
 			}
 			
@@ -146,8 +142,7 @@
 			$widget_opt = $themeobject->current_widget['param']['options'];
 
 			$count = (isset($widget_opt['cs_fq_count']) && !empty($widget_opt['cs_fq_count'])) ?(int)$widget_opt['cs_fq_count'] : 10;
-			
-			$col = (int)$widget_opt['cs_fq_boxes'];
+
 	
 			
 			$themeobject->output('<div class="ra-featured-widget">');
@@ -158,7 +153,7 @@
 			$themeobject->output('
 
             <div class="featured-questions clearfix">
-                '.$this->carousel_item('Q', $count, $col).'                
+                '.$this->carousel_item('Q', $count).'                
             </div>
 
 			');
