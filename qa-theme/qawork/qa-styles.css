@@ -8,7 +8,7 @@
 	Theme License: GPL 2.0
 	Theme Update Check URI: 
 */
-.featured-questions .title, .widget-title, .page-title h1{
+.featured-questions .title, .widget-title, .page-title h1, .answers-label{
 	font-family: 'Questrial', sans-serif;
 }
 .home-intro h1{

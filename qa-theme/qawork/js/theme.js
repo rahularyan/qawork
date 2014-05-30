@@ -147,68 +147,6 @@ function cs_alert($mesasge){
 	$(html).appendTo('body');
 	$('#ra-alert').css({left:($(window).width()/2 - $('#ra-alert').width()/2)}).animate({top:'50px'},300);
 }
-function cs_sparkline(elm){
- 	
-  	var isRgbaSupport = function(){
-		var value = 'rgba(1,1,1,0.5)',
-		el = document.createElement('p'),
-		result = false;
-		try {
-			el.style.color = value;
-			result = /^rgba/.test(el.style.color);
-		} catch(e) {}
-		el = null;
-		return result;
-	};
-
-	var toRgba = function(str, alpha){
-		var patt = /^#([\da-fA-F]{2})([\da-fA-F]{2})([\da-fA-F]{2})$/;
-		var matches = patt.exec(str);
-		return "rgba("+parseInt(matches[1], 16)+","+parseInt(matches[2], 16)+","+parseInt(matches[3], 16)+","+alpha+")";
-	};
-
-	// chart js
-	var generateSparkline = function($re){
-		$(elm).each(function(){
-			var $data = $(this).data();
-			if($re && !$data.resize) return;
-			if($data.type == 'bar'){
-				!$data.barColor && ($data.barColor = "#3fcf7f");
-				!$data.barSpacing && ($data.barSpacing = 2);
-				$(this).next('.axis').find('li').css('width',$data.barWidth+'px').css('margin-right',$data.barSpacing+'px');
-			};
-			
-			($data.type == 'pie') && $data.sliceColors && ($data.sliceColors = eval($data.sliceColors));
-			
-			// $data.fillColor && ($data.fillColor.indexOf("#") !== -1) && isRgbaSupport() && ($data.fillColor = toRgba($data.fillColor, 0.5));
-			$data.spotColor = $data.minSpotColor = $data.maxSpotColor = $data.highlightSpotColor = $data.lineColor;
-			$(this).sparkline( $data.data || "html", $data);
-
-			if($(this).data("compositeData")){
-				var $cdata = {};
-				$cdata.composite = true;
-				$cdata.spotRadius = $data.spotRadius;
-				$cdata.lineColor = $data.compositeLineColor || '#a3e2fe';
-				$cdata.fillColor = $data.compositeFillColor || '#e3f6ff';
-				$cdata.highlightLineColor =  $data.highlightLineColor;
-				$cdata.spotColor = $cdata.minSpotColor = $cdata.maxSpotColor = $cdata.highlightSpotColor = $cdata.lineColor;
-				isRgbaSupport() && ($cdata.fillColor = toRgba($cdata.fillColor, 0.5));
-				$(this).sparkline($(this).data("compositeData"),$cdata);
-			};
-			if($data.type == 'line'){
-				$(this).next('.axis').addClass('axis-full');
-			};
-		});
-	};
-
-	var sparkResize;
-	$(window).resize(function(e) {
-		clearTimeout(sparkResize);
-		sparkResize = setTimeout(function(){generateSparkline(true)}, 500);
-	});
-	generateSparkline(false);
-
-  }
 function cs_slide_menu(){
 	$('.slide-mobile-menu').toggle(
 		function() {
@@ -581,7 +519,7 @@ function cs_toggle_comment(){
 		var c = $(this).parent().find('.qa-c-wrap');
 		if($(this).is('.open')){
 			$(this).removeClass('open');
-			c.animate({'height': '24px'}, 200);
+			c.animate({'height': '22px'}, 200);
 			c.removeClass('open');
 		}else{
 			$(this).addClass('open');
@@ -657,7 +595,7 @@ $(document).ready(function(){
 	
 	
 	//uncomment this code if you want to use default editor
-	if ( $('body').hasClass('qa-template-question'))
+	if ( $('body').hasClass('qa-template-question') && typeof (CKEDITOR) != 'undefined')
 		qa_ckeditor_a_content=CKEDITOR.replace('a_content', window.qa_wysiwyg_editor_config);
 	//$('.float-nav').css('min-height', $(window).height());
 	//$('#left-sidebar').css('min-height', $(window).height());
