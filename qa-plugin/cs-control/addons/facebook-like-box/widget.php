@@ -155,7 +155,7 @@ class cs_fb_likebox_widget {
                         $themeobject->output('<h3 class="widget-title">CS Facebook Like Box</h3>');
 
             $themeobject->output('<div class="fb-like-box clearfix">');
-            if (isset($fb_root_initiallized) && !$fb_root_initiallized) {
+            if (!isset($fb_root_initiallized) && !$fb_root_initiallized) {
                   $themeobject->output('<div id="fb-root"></div>');
                   $fb_root_initiallized = true ;
             }

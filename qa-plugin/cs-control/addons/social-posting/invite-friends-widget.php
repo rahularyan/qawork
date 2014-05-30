@@ -56,7 +56,7 @@ class cs_fb_invite_frnds_widget {
                         $themeobject->output('<h3 class="widget-title">CS Facebook Invite</h3>');
             $themeobject->output('<div class="fb-invite-frnds clearfix">');
             if (!!qa_opt("facebook_app_id")) {
-                  if (isset($fb_root_initiallized) && !$fb_root_initiallized) {
+                  if (!isset($fb_root_initiallized) && !$fb_root_initiallized) {
                         $themeobject->output('<div id="fb-root"></div>');
                         $fb_root_initiallized = true ;
                   }
