@@ -15,7 +15,19 @@
 					</div>
 					<div class="col-md-4">
 						<a href="#" class="btn register">Register</a>
-						<a href="#" class="btn register">Register</a>
+						<?php 
+							if (!!qa_opt("facebook_app_id")) {
+								  /* if (!isset($fb_root_initiallized) && !$fb_root_initiallized) {
+										$themeobject->output('<div id="fb-root"></div>');
+										$fb_root_initiallized = true ;
+								  } */
+								  $on_click_event = cs_generate_facebook_invite_script(qa_opt("facebook_app_id"), array('url' => qa_opt("site_url")))  ;
+								  $button = '<button class="btn btn-block btn-facebook" onclick="'.$on_click_event.'">'.qa_lang_html('cs_social_posting/send_facebook_invite').'</button>' ;
+								  $themeobject->output($button );
+							}else {
+								  $themeobject->output("Please provide Facebook application Id to enable this option in Theme Options -> Social Login ");
+							}
+						?>
 					</div>
 				</div>
 			</div>
