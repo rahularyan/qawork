@@ -43,6 +43,18 @@
 						'tags' => 'name="slide_width" class="form-control"',
 						'value' => '1400',
 					),
+					'min_slides' => array(
+						'label' => 'Min. Slide',
+						'type' => 'number',
+						'tags' => 'name="min_slide" class="form-control"',
+						'value' => '10',
+					),
+					'max_slides' => array(
+						'label' => 'Max. Slide',
+						'type' => 'number',
+						'tags' => 'name="max_slide" class="form-control"',
+						'value' => '10',
+					),
 					'slide_margin' => array(
 						'label' => 'Slide margin',
 						'type' => 'number',
@@ -152,9 +164,9 @@
 			$widget_opt = $themeobject->current_widget['param']['options'];
 
 			if(@$themeobject->current_widget['param']['locations']['show_title'])
-				$themeobject->output('<h3 class="widget-title">New Users</h3>');
+				$themeobject->output('<h3 class="widget-title">'.($widget_opt['type'] =='new' ? 'New' : 'Top').' Users</h3>');
 			
-			$opt_array = htmlspecialchars(json_encode(array('slideWidth' => $widget_opt['slide_width'], 'slideMargin' => $widget_opt['slide_margin'], 'auto' => ($widget_opt['slide_width'] ? 'true' : 'false'), 'minSlides' => '3', 'maxSlides' => '3' )), ENT_QUOTES, 'UTF-8');
+			$opt_array = htmlspecialchars(json_encode(array('slideWidth' => $widget_opt['slide_width'], 'slideMargin' => $widget_opt['slide_margin'], 'auto' => ($widget_opt['slide_width'] ? 'true' : 'false'), 'minSlides' => $widget_opt['min_slide'], 'maxSlides' => $widget_opt['max_slide'], 'prevText' => '<i class="icon-chevron-left"></i>', 'nextText' => '<i class="icon-chevron-right"></i>' )), ENT_QUOTES, 'UTF-8');
 			
 			$slider	= ($widget_opt['scroll'] ? 'data-action="slider" data-opt="'.$opt_array.'"' : '');
 			$themeobject->output('<div class="ra-users-list-widget'.($widget_opt['type'] ? ' inline' : '').'" '.$slider.'>');
