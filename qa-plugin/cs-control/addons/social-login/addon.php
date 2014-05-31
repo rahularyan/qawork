@@ -26,6 +26,7 @@ class Cs_Social_Login_Addon {
 			cs_add_filter('init_queries', array($this, 'init_queries'));
             cs_add_action('cs_theme_option_tab', array($this, 'option_tab'));
             cs_add_action('cs_theme_option_tab_content', array($this, 'option_tab_content'));
+            cs_add_action('cs_reset_theme_options', array($this, 'reset_theme_options'));
       }
 
 	public function init_queries($queries, $tableslc){
@@ -72,6 +73,36 @@ class Cs_Social_Login_Addon {
             return $css_src;
       }
 	  
+	  public function reset_theme_options() {
+	  		if (qa_clicked('cs_reset_button')) {
+	  			// loop through all the providers and reset them .
+	  			$allProviders = scandir( CS_CONTROL_DIR . '/inc/hybridauth/Hybrid/Providers' );
+			
+				$activeProviders = array();
+				foreach($allProviders as $providerFile) {
+					if(substr($providerFile,0,1) == '.') {
+						continue;
+					}
+					$provider = str_ireplace('.php', '', $providerFile);
+					$key = strtolower($provider);
+					qa_opt("{$key}_app_enabled", 0  );
+					qa_opt("{$key}_app_shortcut", 0 );
+					qa_opt("{$key}_app_id",'');
+					qa_opt("{$key}_app_secret", '');
+				}
+				
+				// at the end remove the list of all active providers from the file 
+				file_put_contents( CS_CONTROL_DIR . '/inc/hybridauth/providers.php', 
+					'<' . '?' . 'php return ""; ?' . '>'
+				);
+				
+				// also reset other configurations
+				qa_opt('open_login_css', 0 );
+				qa_opt('open_login_zocial', 0 );
+				$saved=true;
+		  	}
+	  }
+
 	  function option_tab(){
 		$saved=false;
 		if(qa_clicked('cs_save_button')){		
