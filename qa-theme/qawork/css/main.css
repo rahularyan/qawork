@@ -6529,16 +6529,16 @@ div.oembedall-lanyard .first {
 }
 
 .login-register{
-    background: none repeat scroll 0 0 rgba(0, 0, 0, 0.3);
+    background: none repeat scroll 0 0 #2DB3E9;
     border-radius: 2px;
-    color: #AAAAAA;
+    color: #FFFFFF;
     display: block;
     float: right;
     margin-left: 5px;
     padding: 5px 15px;
 }
 .login-register:hover{
-	background:#fff;
+	background:#039edd;
 }
 .login-register:before{
 	margin-right:5px;
