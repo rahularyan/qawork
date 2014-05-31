@@ -669,7 +669,7 @@ $(document).ready(function(){
 		var item = $(this);
 		var opts = item.data('opt');
 		if(typeof opts =='object'){
-			$(item.next()).bxSlider(opts);
+			$(item.children()).bxSlider(opts);
 		}
 	});
 
