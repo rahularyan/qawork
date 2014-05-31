@@ -182,6 +182,12 @@
 		'x_following' => 'following ^ users',
 		'user_following_x' => 'Users following ^',
 		'users_being_followed_by_x' => 'Users being followed by ^',
+		'edited_question' => 'updated question',
+		'edited_answer' => 'updated answer',
+		'edited_comment' => 'updated comment',
+		'joined_community' => 'joined community',
+		'x_just_registered_in_our_community' => '^ just registered in our community',
+		'x_awarded_an_answer' => '^ selected an answer',
 		
 	);
 	
