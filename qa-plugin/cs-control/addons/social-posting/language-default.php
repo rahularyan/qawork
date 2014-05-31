@@ -31,4 +31,5 @@ return array(
 	'update_twitter_status'  => 'Tweet your followers',
 	'status_updated_message' => 'your ^ status is updated successfully',
 	'invite_friends' => 'Invite your friends',
+	'cs_fb_invite_message_label' => 'Your costum message while inviting friends (^name will be replaced by users name , and ^site_url will be replaced by website URL) ',
 );

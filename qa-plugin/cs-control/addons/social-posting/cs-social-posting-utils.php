@@ -77,7 +77,14 @@ function cs_generate_facebook_invite_script($app_id, $data , $no_script = true )
       }
       $name    = cs_extract_parameter_val($data , 'name') ;
       $url     = cs_extract_parameter_val($data , 'url') ;
-      $message = strtr(qa_lang("cs_social_posting/facebook_invite_msg") , array('^name'=> $name , '^site_url' => $url ));
+      $message = cs_extract_parameter_val($data , 'message') ;
+
+      if (!$message) {
+        // if message is not set then set it with a default value 
+        $message = qa_lang("cs_social_posting/facebook_invite_msg") ;
+      }
+
+      $message = strtr( $message , array('^name'=> $name , '^site_url' => $url ));
       $object  = "message:'$message' ," ;
       ob_start();
       if (!$no_script) echo "<script>" ;
