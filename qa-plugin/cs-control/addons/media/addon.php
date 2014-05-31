@@ -131,7 +131,7 @@ function cs_upload_cover($file){
 	$image->save($name['name'], $uploaddir);
 
 	$image = new Image($uploaddir.$temp_name);
-	$image->resize(300, 53, 'crop');
+	$image->resize(300, 80, 'crop');
 	$image->save($name['name'].'_s', $uploaddir);	
 	
 	cs_add_action('after_uploading_cover', $image);

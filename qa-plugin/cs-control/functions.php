@@ -1125,3 +1125,20 @@ function cs_request_text($field)
 		
 		return isset($_REQUEST[$field]) ? preg_replace('/\r\n?/', "\n", trim(qa_gpc_to_string($_REQUEST[$field]))) : null;
 	}
+
+function cs_get_user_cover($profile, $small = false, $css = false){
+	if(empty($profile['cover']))
+		return false;
+	
+	$url = cs_upload_url().'/';
+	$file = explode('.', $profile['cover']);
+	
+	if(!$small && !$css)
+		return $url.$profile['cover'];
+		
+	elseif($small && !$css)
+		return $url.$file[0].'_s.'.$file[1];
+	
+	elseif($small && $css)
+		return ' style="background-image:url('. $url.$file[0].'_s.'.$file[1].')"';
+}
