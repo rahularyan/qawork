@@ -97,36 +97,46 @@
 					
 					$params = cs_event_log_row_parser($p['params']);
 					
-					if($p['event'] == 'q_post' ) {
-						$event_name = qa_lang('cleanstrap/asked');
-						$event_icon = 'icon-question';
+					switch ($p['event']) {
+						case 'q_post':
+							$event_name = qa_lang('cleanstrap/asked');
+							$event_icon = 'icon-question';
+							break;
+						case 'a_post':
+							$event_name = qa_lang('cleanstrap/answered');
+							$event_icon = 'icon-answer';
+							break;
+						case 'c_post':
+							$event_name = qa_lang('cleanstrap/commented');
+							$event_icon = 'icon-comment';	
+							break;
+						case 'u_register':
+							$event_name = qa_lang('cleanstrap/joined_community');
+							$event_icon = 'icon-user-add';					
+							$title = qa_lang_sub('cleanstrap/x_just_registered_in_our_community', $p['handle']);					
+							break;
+						case 'q_edit':
+							$event_name = qa_lang('cleanstrap/edited_comment');
+							$event_icon = 'icon-question';					
+							break;
+						case 'a_edit':
+							$event_name = qa_lang('cleanstrap/edited_answer');
+							$event_icon = 'icon-answer';						
+							break;
+						case 'c_edit':
+							$event_name = qa_lang('cleanstrap/edited_comment');
+							$event_icon = 'icon-comment';							
+							break;
+						case 'a_select':
+							$event_name = qa_lang('cleanstrap/selected_an_answer');
+							$event_icon = 'icon-tick';
+							$title = qa_lang_sub('cleanstrap/x_awarded_an_answer', $p['handle']);						
+							break;
+						
+						default:
+							break;
 					}
-					elseif($p['event'] == 'a_post') {
-						$event_name = qa_lang('cleanstrap/answered');
-						$event_icon = 'icon-answer';
-					}
-					elseif($p['event'] == 'c_post') {
-						$event_name = qa_lang('cleanstrap/commented');
-						$event_icon = 'icon-comment';					
-					}elseif($p['event'] == 'u_register') {
-						$event_name = qa_lang('cleanstrap/joined_community');
-						$event_icon = 'icon-user-add';					
-						$title = qa_lang_sub('cleanstrap/x_just_registered_in_our_community', $p['handle']);					
-					}elseif($p['event'] == 'q_edit') {
-						$event_name = qa_lang('cleanstrap/edited_comment');
-						$event_icon = 'icon-question';					
-					}elseif($p['event'] == 'a_edit') {
-						$event_name = qa_lang('cleanstrap/edited_answer');
-						$event_icon = 'icon-answer';					
-					}elseif($p['event'] == 'c_edit') {
-						$event_name = qa_lang('cleanstrap/edited_comment');
-						$event_icon = 'icon-comment';					
-					}elseif($p['event'] == 'a_select') {
-						$event_name = qa_lang('cleanstrap/selected_an_answer');
-						$event_icon = 'icon-tick';
-						$title = qa_lang_sub('cleanstrap/x_awarded_an_answer', $p['handle']);
-					}
-					
+
 					$username = (is_null($p['handle'])) ? qa_lang('cleanstrap/anonymous') : htmlspecialchars($p['handle']);
 					
 					$usernameLink = (is_null($p['handle'])) ? qa_lang('cleanstrap/anonymous') : '<a href="'.qa_path_html('user/'.$p['handle']).'">'.$p['handle'].'</a>';
