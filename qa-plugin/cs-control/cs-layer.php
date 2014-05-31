@@ -484,7 +484,7 @@ class qa_html_theme_layer extends qa_html_theme_base {
 		if (cs_hook_exist(__FUNCTION__)) {$args=func_get_args(); return cs_do_action(__FUNCTION__, $args); }
 		
         $logo = qa_opt('logo_url');
-        $this->output('<div class="site-logo">', '<a class="navbar-brand icon-qawork" title="' . strip_tags($this->content['logo']) . '" href="' . get_base_url() . '">
+        $this->output('<div class="site-logo">', '<a class="navbar-brand'.($logo ? ' icon-qawork' :'').'" title="' . strip_tags($this->content['logo']) . '" href="' . get_base_url() . '">
 						'.($logo ? '<img class="navbar-site-logo" src="' . $logo . '">' : '').'
 					</a>', '</div>');
     }
