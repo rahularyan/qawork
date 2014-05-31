@@ -1106,10 +1106,9 @@ class qa_html_theme_layer extends qa_html_theme_base {
 				$this->output('</div>');
 			
 				$this->output('<div class="question-side col-md-4">');
-					$this->output('<div class="question-share-invite"><i class="icon-group">Ask your friends for help</i>');
-						$this->q_social_share();
-						$this->fb_invite();
-					$this->output('</div>');
+					$this->q_social_share();
+					$link = qa_q_path(@$q_view['raw']['postid'], @$q_view['raw']['title'] , true);
+					$this->fb_ask_your_friend($link);
 					$this->cs_position('Question Right');			
 				$this->output('</div>');
 			$this->output('</div>');
@@ -2534,13 +2533,11 @@ class qa_html_theme_layer extends qa_html_theme_base {
 		cs_do_action('question_share', $this);	
 	}
 	
-	function fb_invite(){
-		if (!!qa_opt("facebook_app_id")) {
-			$on_click_event = cs_generate_facebook_invite_script(qa_opt("facebook_app_id"), array('url' => qa_opt("site_url")))  ;
-			$button = '<button class="btn btn-facebook" onclick="'.$on_click_event.'">'.qa_lang_html('cs_social_posting/invite_friends').'</button>' ;
-			$this->output($button );
-		}else {
-			$this->output("Please provide Facebook application Id to enable this option in Theme Options -> Social Login ");
+	function fb_ask_your_friend($link){
+		if (!!qa_opt("facebook_app_id") && !!$link) { /*generate this only if the facebook appid and link is set*/
+			$on_click_event = cs_generate_facebook_link_share_script(qa_opt("facebook_app_id"), array('link' => $link))  ;
+			$button = '<button class="btn btn-facebook" onclick="'.$on_click_event.'">'.qa_lang_html('cs_social_posting/ask_your_friends').'</button>' ;
+			$this->output($button);
 		}
 	}
 	function notfound_template($content){

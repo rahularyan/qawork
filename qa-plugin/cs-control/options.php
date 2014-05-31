@@ -27,7 +27,7 @@ class cs_theme_options {
 	
 		$saved = false;
 		if (qa_clicked('cs_reset_button')) {
-			reset_theme_options();
+			$this->reset_theme_options();
 			$saved = 'Settings saved';
 		}
 		if (qa_clicked('cs_save_button')) {
@@ -821,6 +821,53 @@ class cs_theme_options {
         return $style_options;
     }
 
+    function reset_theme_options()
+    {
+    	// General 
+    	qa_opt('logo_url', ''); /*Needs to be changed */
+		qa_opt('cs_favicon_url', ''); /*Needs to be changed */
+		qa_opt('cs_enable_gzip', 0 );
+		qa_opt('cs_featured_image_width', 250);
+		qa_opt('cs_featured_image_height', 250);
+		qa_opt('cs_featured_thumbnail_width', 250);
+		qa_opt('cs_featured_thumbnail_height', 250);
+		qa_opt('cs_crop_x', 0);
+		qa_opt('cs_crop_y', 0);
+	 
+		// Layout
+		qa_opt('cs_nav_position', 'top');
+		qa_opt('cs_nav_fixed', 1 );
+		qa_opt('cs_show_icon', 1 );
+		qa_opt('cs_enable_ask_button', 1 );
+		qa_opt('cs_enable_category_nav', 1 );
+		qa_opt('cs_enable_clean_qlist', 1 );
+		qa_opt('cs_enable_default_home', false );
+		qa_opt('cs_enable_except', 1 );
+		qa_opt('cs_except_len', 120 );
+		qa_opt('cs_enable_avatar_lists', 1 );
+		if (qa_opt('cs_enable_avatar_lists'))
+			qa_opt('avatar_q_list_size', 35);
+		else
+			qa_opt('avatar_q_list_size', 0); // set avatar size to zero so Q2A won't load them
+		qa_opt('show_view_counts', 1 );
+		qa_opt('cs_show_tags_list', 1 );
+		qa_opt('cs_horizontal_voting_btns', 0 );
+		qa_opt('cs_enble_back_to_top', 0 );
+		qa_opt('cs_back_to_top_location', 'right');
+	 
+		// Styling
+		// these color combinations needs to be changed 
+		qa_opt('cs_styling_rtl', 0 );
+		// social 
+		qa_opt('cs_social_enable', 0 );
+		// Advertisement
+		qa_opt('cs_enable_adv_list', 0 );
+		// footer							
+		qa_opt('cs_footer_copyright', "© ".date('Y').qa_opt('site_name'));
+		
+		// now add the hook for other addons for reseting their settings 
+		cs_do_action('cs_reset_theme_options') ;
+    }
 	
 }
 
