@@ -15,7 +15,7 @@
 					</div>
 					<div class="col-md-4">
 						<div class="big-btns">
-							<a href="#" class="btn register">Register</a>
+							<a href="<?php echo qa_path_html('register'); ?>" class="btn register">Register</a>
 							<?php 
 								if (!!qa_opt("facebook_app_id")) {
 									$on_click_event = cs_generate_facebook_invite_script(qa_opt("facebook_app_id"), array('url' => qa_opt("site_url")))  ;

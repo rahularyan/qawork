@@ -70,7 +70,9 @@
     padding: 10px 5px;
     width: 47%;
 }
-#home-featured-position .widget-title, #home-happening .widget-title{
+#home-featured-position .widget-title, .home-happening .widget-title{
+    border-bottom: medium none;
+    font-size: 20px;
     margin-bottom: 10px;
     margin-left: 3px;
 }
