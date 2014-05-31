@@ -72,9 +72,6 @@
 		}
 
 		function process_event($event, $userid, $handle, $cookieid, $params){
-			/*//This is just to test - to be removed in prod 
-			cs_event_log_row_parser(cs_event_log_reader());
-			return ;*/
 			if (qa_opt('event_logger_to_database')) {
 				$paramstring='';
 				foreach ($params as $key => $value){

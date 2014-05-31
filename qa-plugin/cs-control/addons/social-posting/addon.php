@@ -30,6 +30,7 @@ class Cs_Social_Posting_Addon {
             cs_event_hook('enqueue_scripts', NULL, array($this, 'script'));
             cs_add_action('cs_theme_option_tab', array($this, 'option_tab'));
             cs_add_action('cs_theme_option_tab_content', array($this, 'option_tab_content'));
+            cs_add_action('cs_reset_theme_options', array($this, 'reset_theme_options'));
       }
 
       public function language($lang_arr) {
@@ -48,17 +49,26 @@ class Cs_Social_Posting_Addon {
       }
       public function navigation($themeclass) {
         if(cs_is_user())  {
-          if (isset($themeclass['raw']['userid']) && $themeclass['raw']['userid'] == qa_get_logged_in_userid() ) {
-              if ((qa_opt('cs_enable_fb_posting') || qa_opt('cs_enable_twitter_posting')))
-            
-                       $themeclass['navigation']['sub']['posting'] = array(
-                                          'label' => qa_lang('cs_social_posting/my_social_posting_nav'),
-                                          'url'   => qa_path_html('social-posting') ,
-                                          );
+              if (isset($themeclass['raw']['userid']) && $themeclass['raw']['userid'] == qa_get_logged_in_userid() ) {
+                  if ((qa_opt('cs_enable_fb_posting') || qa_opt('cs_enable_twitter_posting')))
+                
+                           $themeclass['navigation']['sub']['posting'] = array(
+                                              'label' => qa_lang('cs_social_posting/my_social_posting_nav'),
+                                              'url'   => qa_path_html('social-posting') ,
+                                              );
+              }
         }
-    }
         return $themeclass ; 
       }
+
+      public function reset_theme_options() {
+            if (qa_clicked('cs_reset_button')) {
+              qa_opt("cs_enable_fb_posting", 0 );
+              qa_opt("cs_enable_twitter_posting", 0 );
+              $saved=true;
+            }
+      }
+
       function option_tab(){
           $saved=false;
           if(qa_clicked('cs_save_button')){   
