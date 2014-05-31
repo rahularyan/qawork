@@ -118,7 +118,7 @@
 				
 				$o .= '<div class="activity-detail">';
 				
-				$o .= '<div class="avatar" data-handle="'.$p['handle'].'" data-id="'. $p['userid'].'">'.cs_get_post_avatar($p, 30, false).'</div>';
+				$o .= '<div class="avatar" data-handle="'.$p['handle'].'" data-id="'. $p['userid'].'">'.cs_get_post_avatar($p, 20, false).'</div>';
 				
 				if ($p['type'] == 'Q') {
 					$o .= '<a class="activity-title" href="' . qa_q_path_html($p['postid'], $p['title']) . '" title="' . $p['title'] . '">' . cs_truncate($p['title'],100) . '</a>';

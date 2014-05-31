@@ -661,8 +661,17 @@ $(document).ready(function(){
 		minSlides: 3,
 		maxSlides: 3,
 		slideMargin: 10,
+		auto:true,
 		nextText:'<i class="icon-chevron-right"></i>',
 		prevText:'<i class="icon-chevron-left"></i>'
+	});
+	$('*[data-action="slider"]').each(function(){
+		var item = $(this);
+		var opts = item.data('opt');
+		alert(typeof opts =='object');
+		if(typeof opts =='object'){
+			$(item.next()).bxSlider(opts);
+		}
 	});
 
 });

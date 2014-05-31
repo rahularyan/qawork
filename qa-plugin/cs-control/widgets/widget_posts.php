@@ -75,7 +75,7 @@ class cs_widget_posts
 			global $wpdb;
 			$posts = cs_get_cache('SELECT ^posts.* , '.$wpdb->base_prefix.'users.* FROM ^posts, '.$wpdb->base_prefix.'users WHERE ^posts.userid='.$wpdb->base_prefix.'users.ID AND ^posts.type=$ ORDER BY ^posts.created DESC LIMIT #',60, $type, $limit);
 		}else
-			$posts = cs_get_cache('SELECT ^posts.* , ^users.* FROM ^posts, ^users WHERE ^posts.userid=^users.userid AND ^posts.type=$ ORDER BY ^posts.created DESC LIMIT #',60, $type, $limit);
+			$posts = qa_db_read_all_assoc(qa_db_query_sub('SELECT ^posts.* , ^users.* FROM ^posts, ^users WHERE ^posts.userid=^users.userid AND ^posts.type=$ ORDER BY ^posts.created DESC LIMIT #', $type, $limit));
         
         $output = '<ul class="posts-list">';
         foreach($posts as $p) {
