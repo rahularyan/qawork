@@ -1106,8 +1106,10 @@ class qa_html_theme_layer extends qa_html_theme_base {
 				$this->output('</div>');
 			
 				$this->output('<div class="question-side col-md-4">');
-					$this->q_social_share();
-					$this->fb_invite();
+					$this->output('<div class="question-share-invite"><i class="icon-group">Ask your friends for help</i>');
+						$this->q_social_share();
+						$this->fb_invite();
+					$this->output('</div>');
 					$this->cs_position('Question Right');			
 				$this->output('</div>');
 			$this->output('</div>');

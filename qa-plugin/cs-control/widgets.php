@@ -49,6 +49,7 @@ class cs_theme_widgets {
 		
 		$qa_content=qa_content_prepare();		
 		$qa_content['site_title']="Theme Widgets";
+		$qa_content['title']="Theme Widgets";
 		$qa_content['error']="";
 		$qa_content['suggest_next']="";
 		
