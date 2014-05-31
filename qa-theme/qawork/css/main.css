@@ -2577,8 +2577,10 @@ th .description {
 }
 
 #ra-widgets .draggable-widget .widget-title {
-	font-size: 12px;
-	font-weight: bold;
+    border: medium none;
+    font-size: 12px;
+    font-weight: normal;
+    padding: 0;
 }
 
 #ra-widgets .draggable-widget:hover {
@@ -5625,6 +5627,13 @@ width: 15px;
     margin: 5px;
     padding: 10px;
 }
+.featured-questions .featured-image {
+    display: block;
+    margin-bottom: 15px;
+}
+.featured-questions .featured-image > img {
+    border-radius: 3px;
+}
 
 .featured-questions .head {
 	margin-bottom: 12px;
@@ -5636,6 +5645,7 @@ width: 15px;
     font-size: 16px;
     line-height: 22px;
     margin-bottom: 10px;
+    min-height: 44px;
 }
 
 .featured-questions .post-meta {
@@ -6634,7 +6644,7 @@ div.oembedall-lanyard .first {
     text-align: center;
 }
 .activity_count .qa-activity-count-item span{
-    border: 1px dotted #DDDDDD;
+    border: 1px solid #DDDDDD;
     border-radius: 8px;
     display: inline-block;
     padding: 0 10px;
