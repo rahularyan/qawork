@@ -73,9 +73,8 @@
 				$posts = qa_db_read_all_assoc(qa_db_query_sub('SELECT * FROM ^postmetas, ^posts WHERE ^posts.type=$ and ( ^postmetas.postid = ^posts.postid and ^postmetas.title = "featured_question" ) ORDER BY ^posts.created DESC LIMIT #', $type, $limit));
 				global $wpdb;
 			}else
-				$posts = qa_db_read_all_assoc(qa_db_query_sub('SELECT * FROM ^postmetas, ^posts INNER JOIN ^users ON ^posts.userid=^users.userid WHERE ^posts.type=$ and ( ^postmetas.postid = ^posts.postid and ^postmetas.title = "featured_question" ) ORDER BY ^posts.created DESC LIMIT #', $type, $limit));
-			
-			
+				$posts = qa_db_read_all_assoc(qa_db_query_sub('SELECT ^posts.*, ^users.*, ^ra_media.id as media_id, ^ra_media.type as media_type, ^ra_media.name as media_name, ^ra_media.title as media_title, ^ra_media.description as media_description FROM ^posts LEFT JOIN ^users ON  ^posts.userid=^users.userid LEFT JOIN ^ra_media ON ^ra_media.parent_post = ^posts.postid WHERE ^posts.type=$ ORDER BY ^posts.created DESC LIMIT #', $type, $limit));
+	
 			$output ='';
 			foreach($posts as $p){
 				
@@ -93,6 +92,9 @@
 				$output .='<div class="item slide">';
 				$output .='<div class="item-inner">';
 				
+				if (!empty($p['media_name']))
+					$output .= '<a class="featured-image" href="'.$link_header.'"><img src="'.cs_media_filename(array('name' => $p['media_name'], 'type' =>$p['media_type']), 'large').'" /></a>';
+					
 				if($avatar)	$output .= '<div class="avatar" data-id="'.$p['userid'].'" data-handle="'.$handle.'">'.$avatar.'</div>';	
 				$output .= '<div class="no-overflow">';
 				
@@ -104,24 +106,11 @@
 				}elseif($p['type'] == 'C'){
 					$what = qa_lang('cleanstrap/commented');
 				}
-
-				
-				
-				
-		
-				/* $featured_img = get_featured_thumb($p['postid']);
-				if ($featured_img)
-					$output .= '<a class="featured-image" href="'.$link_header.'"><div class="featured-image">'.$featured_img.'</div></a>';
-				if ($type=='Q'){
-					$output .= '<div class="big-ans-count pull-left">'.$p['acount'].'<span> ans</span></div>';
-				}elseif($type=='A'){
-					$output .= '<div class="big-ans-count pull-left vote">'.$p['netvotes'].'<span>'.qa_lang('cleanstrap/vote').'</span></div>';
-				} */
-			
 				
 				$output .= '<a class="title" href="'.$link_header.'">' . cs_truncate(strip_tags($p['title']), 100).'</a>';
 				$output .='</div>';
 				$output .='</div>';
+					
 				$output .= '<p class="content" >' . cs_truncate(strip_tags($p['content']), 150).'</p>';
 				
 				$output .= '<div class="post-meta clearfix">';

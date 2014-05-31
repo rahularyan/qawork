@@ -92,7 +92,7 @@ function cs_upload_image($file, $postid = 0){
 			if($k =='thumb')
 				$image->resize($s[0], $s[1], 'crop', $crop_x, $crop_y, 90);
 			else
-				$image->resize($s[0], $s[1], 'fit', $crop_x, $crop_y, 90);
+				$image->resize($s[0], $s[1], 'crop', $crop_x, $crop_y, 90);
 			
 			$file_name = $name['name'].'_'.$s[0].'x'. $s[1];
 			$image->save($file_name, $uploaddir);
