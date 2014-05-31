@@ -668,7 +668,6 @@ $(document).ready(function(){
 	$('*[data-action="slider"]').each(function(){
 		var item = $(this);
 		var opts = item.data('opt');
-		alert(typeof opts =='object');
 		if(typeof opts =='object'){
 			$(item.next()).bxSlider(opts);
 		}
