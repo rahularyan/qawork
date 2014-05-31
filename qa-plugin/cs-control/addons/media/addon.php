@@ -67,7 +67,7 @@ function cs_file_name($file){
 
 function cs_upload_image($file, $postid = 0){
 	include_once(CS_CONTROL_DIR.'/inc/class_images.php');
-	var_dump($file);
+
 	$uploaddir = cs_upload_dir();
 	$name = cs_file_name($file['name']);
 	$temp_name = 'temp_image'.$name['ext'];

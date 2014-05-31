@@ -1308,7 +1308,7 @@ function cs_load_media_item_to_edit(ui, modal){
 					}else{
 						$(modal+' .modal-body').prepend(data[1]);
 						$(modal+' #editmedia-tab form').remove();
-						$(modal+' .editable-media > .ui-selected').remove();
+						$(modal+' .editable-media > .ui-selectee').remove();
 					}
 				},
 				complete: function(xhr) {
