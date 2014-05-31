@@ -15,7 +15,7 @@ function reset_all_notification_options() {
 
 function reset_all_notification_points_options() {
       qa_opt('cs_notify_min_points_opt', false);
-      qa_opt('cs_notify_min_points_opt', false);
+      qa_opt('cs_notify_min_points_val', false);
 }
 
 function set_all_notification_options() {

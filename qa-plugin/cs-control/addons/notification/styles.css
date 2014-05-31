@@ -218,7 +218,9 @@
 .event-right .what {
     font-weight: bold;
 }
-.qa-part-form-tc-notify tbody > tr > th.qa-form-tall-label {width: 400px}
+.qa-part-form-tc-notify tbody > tr > th.qa-form-tall-label {width: 400px; padding-top: 10px;}
+.qa-part-form-tc-notify tbody > tr > td.qa-form-tall-data {padding-top: 10px;}
+
 #notifications-page .mark-activity {
     float: right;
     margin-right: 10px;
