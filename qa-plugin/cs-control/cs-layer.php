@@ -437,7 +437,7 @@ class qa_html_theme_layer extends qa_html_theme_base {
 		$this->get_social_links();
 		$this->cs_page_title();
 		
-		if(!cs_is_home()){
+		if(!cs_is_home() && !cs_is_user()){
 			$this->output('<div id="header-below" class="clearfix"><div class="container">');		
 			$this->cs_position('Breadcrumbs');		
 			$this->nav_ask_btn();		
@@ -814,7 +814,10 @@ class qa_html_theme_layer extends qa_html_theme_base {
 	function cs_page_title(){
 		if (cs_hook_exist(__FUNCTION__)) {$args=func_get_args(); return cs_do_action(__FUNCTION__, $args); }
 		
-		if ($this->template != 'user-answers' && $this->template != 'user-questions' && $this->template != 'user-activity' && $this->template != 'user-wall' && $this->template != 'user' && (!strlen(qa_request(1)) == 0) && (!empty($this->content['title']))) {
+		if(cs_is_user()){
+			$handle = qa_request_part(1);
+			$this->profile_user_card($handle);	
+		}elseif (!cs_is_home() && (!empty($this->content['title']))) {
             $this->output('<div class="page-title"><div class="container">');
             $this->feed();
 			$this->favorite();
@@ -856,8 +859,6 @@ class qa_html_theme_layer extends qa_html_theme_base {
 		}else{
 			$handle = qa_request_part(1);
 		}
-		
-		$this->profile_user_card($handle);	
 		$this->output('<div class="user-right">');
 	
 		$this->cs_user_nav($handle);
@@ -865,9 +866,38 @@ class qa_html_theme_layer extends qa_html_theme_base {
 		$this->output('</div>');		
 			
 	}
+	
 	function profile_user_card($handle){
 		if (cs_hook_exist(__FUNCTION__)) {$args=func_get_args(); return cs_do_action(__FUNCTION__, $args); }
 		
+		$user = $this->content['active_user'];
+		$profile = $this->content['active_user_profile'];	
+
+		$this->output('<div class="user-card"'. (!empty($profile['cover']) ? ' style="background-image:url('.cs_upload_url().'/'.$profile['cover'].')"' : '').'><div class="cover-overlay"><div class="container">');
+			/* start user info */
+			$this->output(
+				'<div class="user-info">',
+				'<div class="user-thumb">' . cs_get_avatar($handle, 150) . '</div>',
+				'<div class="user-name">',
+					'<span>'.$handle.'</span>',
+					'<small class="block">' . qa_user_level_string($user['account']['level']) . '</small>',
+					'<p class="user-rank">'. $handle .' ' . qa_lang_sub('cleanstrap/ranked_x_among_all_user', $user['rank'] ) . '</p>',
+				'</div>'
+			);
+			if(qa_get_logged_in_handle() != $handle){
+				$this->favorite();
+				
+				$this->output('<a class="btn icon-email" href="'.qa_path_html('message/'.$handle).'">'.qa_lang_html('cleanstrap/message').'</a>');
+			}
+			$this->output('</div>');
+			/* end user info */
+			
+			//$this->cs_user_activity_count($handle);			
+		$this->output('</div></div></div>');
+
+	}
+	
+	function cs_user_profile_button($handle){
 		$user = $this->content['active_user'];
 		$profile = $this->content['active_user_profile'];	
 		
@@ -893,31 +923,8 @@ class qa_html_theme_layer extends qa_html_theme_base {
 			);
 			
 		$this->output('</div>');
-		
-		$profile = $this->content['active_user_profile'];
-		$this->output('<div class="user-card"'. (!empty($profile['cover']) ? ' style="background-image:url('.cs_upload_url().'/'.$profile['cover'].')"' : '').'>');
-			/* start user info */
-			$this->output(
-				'<div class="user-info">',
-				'<div class="user-thumb">' . cs_get_avatar($handle, 100) . '</div>',
-				'<div class="user-name">',
-					'<span>'.$handle.'</span>',
-					'<small class="block">' . qa_user_level_string($user['account']['level']) . '</small>',
-					'<p class="user-rank">'. $handle .' ' . qa_lang_sub('cleanstrap/ranked_x_among_all_user', $user['rank'] ) . '</p>',
-				'</div>'
-			);
-			if(qa_get_logged_in_handle() != $handle){
-				$this->favorite();
-				
-				$this->output('<a class="btn icon-email" href="'.qa_path_html('message/'.$handle).'">'.qa_lang_html('cleanstrap/message').'</a>');
-			}
-			$this->output('</div>');
-			/* end user info */
-			
-			$this->cs_user_activity_count($handle);			
-		$this->output('</div>');
-
 	}
+	
 	function cs_user_activity_count($handle)
     {
 		if (cs_hook_exist(__FUNCTION__)) {$args=func_get_args(); return cs_do_action(__FUNCTION__, $args); }
@@ -963,7 +970,10 @@ class qa_html_theme_layer extends qa_html_theme_base {
 		if (cs_hook_exist(__FUNCTION__)) {$args=func_get_args(); return cs_do_action(__FUNCTION__, $args); }
 		$user = $this->content['active_user'];
 		$profile = $this->content['active_user_profile'];
-
+		
+		$this->output('<div class="user-main-content">');
+		$this->cs_user_profile_button($handle);	
+		
 		if($this->template == 'user' && !cs_is_state_edit()){
 			$this->output('<div class="user-widgets row">');
 				$this->output('<div class="col-sm-4">');
@@ -980,6 +990,7 @@ class qa_html_theme_layer extends qa_html_theme_base {
 		}else{
 			$this->main_parts($content);
 		}
+		$this->output('</div>');
 		
     }
 	function cs_user_about($user, $profile){
@@ -1983,19 +1994,26 @@ class qa_html_theme_layer extends qa_html_theme_base {
                         $handle = ltrim(strip_tags($user['label']));
                     
                     $data   = cs_user_data($handle);
+                    $profile  = cs_user_profile($handle);
                     $avatar = cs_get_avatar($handle, 50, false);
+					
                     $this->output('
 							<div class="user-box">
-							<div class="user-box-inner">	
-								<div class="box-container">
+							<div class="user-box-inner">
+								<div class="cover"'.cs_get_user_cover($profile, true, true).'>
 									<div class="user-avatar">
-										<a href="' . qa_path_html('user/' . $handle) . '" data-id="'.$data['account']['userid'].'" data-handle="'.$handle.'" class="avatar">
+										<a href="' . qa_path_html('user/' . $handle) . '" class="avatar">
 											<img class="avatar" src="' . $avatar . '" />
 										</a>
 									</div>
-									<div class="no-overflow">
-										<a class="user-name" href="' . qa_path_html('user/' . $handle) . '">' . $handle. '</a>								
-										<span class="score">' .  qa_lang_sub('cleanstrap/x_points', $data['points']['points']) . ' </span>
+								</div>
+								
+								<div class="box-container">
+									<a class="user-name" href="' . qa_path_html('user/' . $handle) . '">' . $handle. '</a>
+									<span class="user-level">'.qa_user_level_string($data['account']['level']).'</span>
+									<div class="counts clearfix">
+										<p class="score"><strong>'.$data['points']['points'].'</strong>'. qa_lang('cleanstrap/points') . ' </p>
+										<p class="followers"><strong>'.$data['followers'].'</strong>' .  qa_lang('cleanstrap/followers') . ' </p>
 									</div>
 							</div>');
                     if (qa_opt('badge_active') && function_exists('qa_get_badge_list'))

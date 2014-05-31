@@ -628,8 +628,7 @@ textarea {
 }
 
 .qa-q-list .qa-q-list-item .qa-q-item-title {
-	font-size: 15px;
-	font-weight: bold;
+	font-size: 16px;
 }
 
 .q-item-head .time {
@@ -815,7 +814,7 @@ textarea {
 }
 .page-title h1{
     font-size: 25px;
-    margin-top: 0;
+    margin: 0;
     overflow: hidden;
 }
 
@@ -1198,15 +1197,14 @@ a.feed-link {
 }
 
 .page-title .fav-btn.icon-heart, .page-title .feed-link {
-    background: none repeat scroll 0 0 #FFFFFF;
-    border: 1px solid #E7E7E7;
+    border: none;
     border-radius: 4px;
-    color: #808080;
+    color: #FFFFFF;
     display: block;
     font-size: 17px;
     height: 30px;
     line-height: 25px;
-    margin-top: 18px;
+    margin: 0;
     padding: 2px 7px;
     width: 32px;
 }
@@ -2766,7 +2764,7 @@ th .description {
     animation: 30s linear 0s normal none infinite animatedBackground;
     background-position: 0 0;
     background-repeat: repeat-x;
-    margin-bottom: 25px;
+    margin-bottom: 10px;
     margin-top: 0;
 
 	animation: animatedBackground 30s linear infinite;
@@ -4247,8 +4245,8 @@ th .description {
 }
 
 .ra-post-list-widget .posts-list li {
-    border-bottom: 1px solid #F7F7F7;
-    padding: 10px 0;
+    border-bottom: 1px solid #eee;
+    padding: 8px 0;
 }
 
 .ra-post-list-widget .posts-list li:last-child{
@@ -4268,9 +4266,11 @@ th .description {
     color: inherit;
 }
 .ra-post-list-widget .posts-list .meta {
+   color: #333333;
     display: block;
-    font-size: 12px;
+    font-size: 11px;
     font-weight: bold;
+    margin-bottom: 4px;
 }
 
 .ra-post-list-widget .posts-list .meta span:before {
@@ -4990,16 +4990,19 @@ th .description {
 .user-card {
     background-image: url("../images/default.jpg");
     background-size: cover;
-    border-radius: 5px;
-    margin-bottom: 30px;
-    overflow: hidden;
     position: relative;
 }
-.user-card .user-info {
-    background: rgba(0, 0, 0, 0.1);
-    min-height: 175px;
-    padding: 10px 25px 25px 135px;
+.user-card .cover-overlay {
+    background: url("../images/overlay.png") repeat scroll 0 0 rgba(0, 0, 0, 0);
 }
+.user-card .cover-overlay >.container{
+	position:relative;
+}
+.user-card .user-info {
+    height: 175px;
+    padding-top: 9px;
+}
+
 .user-card .btn{
     background: #333333;
     border: medium none;
@@ -5012,9 +5015,17 @@ th .description {
 	margin-right:5px;
 }
 .user-card .user-info .user-thumb {
-    left: 20px;
-    position: absolute;
-    top: 20px;
+    background: none repeat scroll 0 0 #FFFFFF;
+    border-radius: 3px 3px 0 0;
+    box-shadow: 0 -5px 3px rgba(0, 0, 0, 0.4);
+    display: block;
+    float: left;
+    margin-right: 15px;
+    padding: 8px;
+}
+
+.user-card .user-info .user-thumb img{
+
 }
 
 .user-card .user-name > span{
@@ -5295,7 +5306,6 @@ border-radius: 50%;
 }
 
 .cat-tag-drop .btn {
-    background: #BBBBBB;
     border: medium none;
     border-radius: 2px;
     color: #FFFFFF;
@@ -5604,6 +5614,7 @@ width: 15px;
 }
 
 .featured-questions .item-inner {
+    background: none repeat scroll 0 0 #FFFFFF;
     border: 2px solid #F3F3F3;
     border-radius: 4px;
     margin: 5px;
@@ -5843,10 +5854,6 @@ width: 15px;
 
 .user-left {
 	margin-bottom: 20px;
-}
-
-.user-navigation {
-    margin: 0 -15px 20px;
 }
 
 .options-table > tbody > .cshide {
@@ -6444,10 +6451,18 @@ div.oembedall-lanyard .first {
 	padding:0;
 }
 .user-right {
-    background: #FFFFFF;
-    border: 1px solid #E7E7E7;
-    border-radius: 5px;
-    padding: 0 15px;
+    display: table;
+    width: 100%;
+}
+.user-navigation {
+    display: table-cell;
+    width: 165px;
+	vertical-align:top;
+}
+.user-main-content{
+    display: table-cell;
+    padding-left: 20px;
+    vertical-align: top;
 }
 #profile-right-position{
 	margin:0 -15px;
@@ -6490,29 +6505,71 @@ div.oembedall-lanyard .first {
 }
 
 .user-box-inner {
+    border: 1px solid #EEEEEE;
+    border-radius: 5px;
     margin-bottom: 30px;
+    overflow: hidden;
 }
-.user-box-inner .user-avatar{
+.user-box-inner .cover {
+	background-image: url('../images/default_s.jpg');
+    background-size: cover;
+    height: 80px;
+    padding-top: 55px;
+}
+.user-box-inner .box-container{
+    margin-top: 27px;
+    text-align: center;
+}
+.user-box-inner .box-container .user-level{
+    color: #929292;
+    font-size: 11px;
+}
+.user-box-inner .counts{
+    border-top: 1px solid #EEEEEE;
+    margin-top: 10px;
+    padding: 4px 5px;
+}
+.user-box-inner .counts > p {
+    color: #AAAAAA;
     display: block;
     float: left;
-    margin-right: 10px;
+    font-size: 11px;
+    margin: 0;
+    overflow: hidden;
+    position: relative;
+    text-align: center;
+    width: 50%;
+}
+.user-box-inner .counts > p:first-child:before{
+    border-right: 1px solid #EEEEEE;
+    content: "";
+    height: 100%;
+    position: absolute;
+    right: 0;	
+}
+.user-box-inner .counts > p strong {
+    color: #747474;
+    font-size: 13px;
+    font-weight: 700;
+	margin-right:5px;
 }
 .user-box-inner .user-avatar, .user-box-inner .user-name, .user-box-inner .score {
     display: block;
 }
 .user-box-inner .user-avatar{
+    border-radius: 50%;
+    display: table;
+    margin-bottom: 0;
+    margin-left: auto;
+    margin-right: auto;
     overflow: hidden;
 }
 .user-box-inner .user-name{
-    font-size: 13px;
-    font-weight: bold;
+    font-size: 18px;
     overflow: hidden;
     white-space: nowrap;
 }
-.user-box-inner .score{
-    color: #777777;
-    font-size: 12px;
-}
+
 .user-box-inner:hover img {
     transform: scale(1.15);
     transition: all 1s ease 0s;
@@ -6648,9 +6705,9 @@ div.oembedall-lanyard .first {
 ===================================*/
 
 .bx-wrapper {
-	position: relative;
-	margin: 0 auto 60px;
-	padding: 0;
+    margin: 0 auto 20px;
+    padding: 0;
+    position: relative;
 	*zoom: 1;
 }
 
@@ -6865,4 +6922,7 @@ div.oembedall-lanyard .first {
 .ra-users-list-widget.inline ul li{
 	float:left;
 	padding:5px;
+}
+.ra-sa-widget{
+	padding:0 10px;
 }
