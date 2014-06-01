@@ -157,7 +157,8 @@ class cs_widget_posts
     function output_widget($region, $place, $themeobject, $template, $request, $qa_content)
     {
         $widget_opt = @$themeobject->current_widget['param']['options'];
-
+		
+		
 		if ($widget_opt['post_type'] == 'Q') {
 			$what = qa_lang_html('cleanstrap/questions');
 		} elseif ($widget_opt['post_type'] == 'A') {

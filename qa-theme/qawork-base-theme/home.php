@@ -31,11 +31,7 @@
 				</div>
 			</div>
 		</div>
-		<div class="home-featured">			
-			<div class="container">
-				<?php $this->cs_position('Home Featured'); ?>
-			</div>
-		</div>
+
 		<div class="home-top-users">			
 			<div class="container">
 				<?php $this->cs_position('Home Top Users'); ?>
@@ -48,17 +44,7 @@
 						<?php $this->cs_position('Home Activity'); ?>
 					</div>
 					<div class="col-md-8">
-						<div class="row">
-							<div class="col-md-12">
-								<?php $this->cs_position('Home Users'); ?>
-							</div>
-							<div class="col-md-6">
-								<?php $this->cs_position('Home Questions'); ?>
-							</div>
-							<div class="col-md-6">
-								<?php $this->cs_position('Home Answers'); ?>
-							</div>
-						</div>
+						<?php $this->cs_position('Home Users'); ?>							
 					</div>
 				</div>
 			</div>

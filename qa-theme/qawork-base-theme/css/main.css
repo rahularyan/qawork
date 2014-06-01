@@ -1,5 +1,5 @@
 body {
-	color: #8D8D8D;
+	color: #555;
 	font-size: 13px;
 	line-height: 1.6;
 }
@@ -34,9 +34,9 @@ label {
 .form-control, textarea, input[type="text"], input[type="password"], select {
     background-color: #FFFFFF;
     background-image: none;
-    border: 2px solid #D2E8DC;
-    border-radius: 2px;
-    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.015) inset;
+    border: 1px solid #ddd;
+    border-radius: 3px;
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.016) inset;
     color: #555555;
     display: block;
     font-size: 14px;
@@ -254,13 +254,23 @@ textarea {
 
 
 .form-search {
+    float: right;
     margin: 0;
     padding: 0;
+    position: relative;
 }
 .form-search .form-control {
     display: inline-block;
+    padding-left: 30px;
     vertical-align: middle;
     width: auto;
+}
+.form-search i {
+    color: #AAAAAA;
+    display: block;
+    font-size: 20px;
+    left: 6px;
+    position: absolute;
 }
 
 .qa-nav-main {
@@ -5601,7 +5611,6 @@ width: 15px;
 
 .featured-questions .item {
     float: left;
-    width: 33.33%;
 }
 
 .featured-questions .item-inner {
