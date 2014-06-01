@@ -25,10 +25,10 @@
     font-size: 19px;
     line-height: 30px;
 }
-.home-intro .intro-icon {
+.home-intro-icon {
     margin-top: 30px;
 }
-.home-intro  .intro-icon > *:before{
+.home-intro-icon > *:before{
     background: none repeat scroll 0 0 #45b168;
     border-radius: 50%;
     color: #FFFFFF;
@@ -45,7 +45,7 @@
 .home-intro  .intro-icon > *{
 
 }
-.home-intro  .intro-icon > * span{
+.home-intro-icon > * span{
     color: #666666;
     display: block;
     font-size: 15px;
