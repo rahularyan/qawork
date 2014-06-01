@@ -1044,8 +1044,10 @@ function cs_event_log_row_parser( $row ){
 
             foreach ( $result as $value ) {
                   $arr_elem = explode("=", $value ) ;
-                  $param[$arr_elem[0]] = $arr_elem[1] ;
-                  if (preg_match("/array(.)/", $arr_elem[1])) {
+                  cs_log(print_r($arr_elem , true));
+                  $arr_elem_1 = (isset($arr_elem[1])) ? $arr_elem[1] : "" ;
+                  $param[$arr_elem[0]] = $arr_elem_1 ;
+                  if (preg_match("/array(.)/", $arr_elem_1)) {
                        $embeded_arrays[] = $arr_elem[0]; 
                   }
             }
