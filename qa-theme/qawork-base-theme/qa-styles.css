@@ -1,0 +1,89 @@
+/*
+	Theme Name: qawork base theme
+	Theme URI: rahularyan.com/qawork
+	Theme Version: 1.0 
+	Theme Date: 2014-04-05
+	Theme Author: rahularyan.com
+	Theme Author URI: http://www.rahularyan.com/
+	Theme License: GPL 2.0
+	Theme Update Check URI: 
+*/
+.featured-questions .title, .widget-title, .page-title h1, .answers-label, .user-box-inner .user-name, .total-site-count, .qa-q-item-title > a{
+	font-family: 'Questrial', sans-serif;
+}
+
+.home-intro h1{
+    color: #2DB3E9;
+    font-size: 33px;
+    font-weight: 600;
+    margin-bottom: 20px;
+    margin-top: 60px;
+    padding: 1px;
+    text-transform: uppercase;
+}
+.home-intro .desc {
+    font-size: 19px;
+    line-height: 30px;
+}
+.home-intro .intro-icon {
+    margin-top: 30px;
+}
+.home-intro  .intro-icon > *:before{
+    background: none repeat scroll 0 0 #45b168;
+    border-radius: 50%;
+    color: #FFFFFF;
+    display: table;
+    font-size: 55px;
+    margin: 0 auto;
+    padding: 15px;
+    text-align: center;
+}
+.total-site-count{
+    font-size: 22px;
+    margin: 0;
+}
+.home-intro  .intro-icon > *{
+
+}
+.home-intro  .intro-icon > * span{
+    color: #666666;
+    display: block;
+    font-size: 15px;
+    line-height: 20px;
+    margin-top: 10px;
+    text-align: center;
+}
+.home-join {
+    margin-bottom: 20px;
+    margin-top: 15px;
+}
+.home-join >div > p{
+
+}
+.home-featured {
+    background: none repeat scroll 0 0 #F7F7F7;
+    padding: 25px 0;
+}
+#home-featured-position .widget {
+    margin-bottom: 0;
+}
+#home-featured-position .widget, #home-activity-position .cs_site_activity, .home-happening .widget{
+    background: none repeat scroll 0 0 rgba(0, 0, 0, 0);
+    border: medium none;
+}
+
+.big-btns .btn{
+    float: left;
+    margin: 0 1%;
+    padding: 10px 5px;
+    width: 47%;
+}
+#home-featured-position .widget-title, .home-happening .widget-title{
+    font-size: 17px;
+    margin-bottom: 10px;
+    margin-left: 3px;
+    padding: 10px 0;
+}
+.home-happening .ra-post-list-widget {
+    padding: 0;
+}
