@@ -8,7 +8,7 @@
 	Theme License: GPL 2.0
 	Theme Update Check URI: 
 */
-.featured-questions .title, .widget-title, .page-title h1, .answers-label, .user-box-inner .user-name, .total-site-count, .qa-q-item-title > a, .home-intro h1, .home-top-users h2{
+.featured-questions .title, .widget-title, .page-title h1, .answers-label, .user-box-inner .user-name, .total-site-count, .qa-q-item-title > a, .home-intro h1, .home-top-users h2, .ra-post-list-widget.widget-big-post-lists .posts-list .title{
 	font-family: 'Questrial', sans-serif;
 }
 
@@ -60,8 +60,13 @@
 }
 
 .home-join {
+    border-bottom: 1px solid #EEEEEE;
     margin-bottom: 20px;
     margin-top: 15px;
+    padding-bottom: 15px;
+}
+.home-join .form-search {
+    float: left;
 }
 .home-join >div > p{
 
@@ -69,6 +74,9 @@
 .home-featured {
     background: none repeat scroll 0 0 #F7F7F7;
     padding: 25px 0;
+}
+.home-featured .featured-questions .item {
+    width:25%;
 }
 #home-featured-position .widget {
     margin-bottom: 0;

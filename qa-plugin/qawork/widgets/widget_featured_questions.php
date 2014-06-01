@@ -12,7 +12,44 @@
 						'type' => 'number',
 						'tags' => 'name="cs_fq_count"',
 						'value' => '10',
-					)
+					),
+
+				'scroll' => array(
+					'label' => 'Scroll',
+					'type' => 'checkbox',
+					'tags' => 'name="scroll"',
+					'value' => '1',
+				),
+				'slide_width' => array(
+					'label' => 'Slide width',
+					'type' => 'number',
+					'tags' => 'name="slide_width" class="form-control"',
+					'value' => '1400',
+				),
+				'min_slides' => array(
+					'label' => 'Min. Slide',
+					'type' => 'number',
+					'tags' => 'name="min_slide" class="form-control"',
+					'value' => '10',
+				),
+				'max_slides' => array(
+					'label' => 'Max. Slide',
+					'type' => 'number',
+					'tags' => 'name="max_slide" class="form-control"',
+					'value' => '10',
+				),
+				'slide_margin' => array(
+					'label' => 'Slide margin',
+					'type' => 'number',
+					'tags' => 'name="slide_margin" class="form-control"',
+					'value' => '10',
+				),
+				'auto' => array(
+					'label' => 'Auto transition',
+					'type' => 'checkbox',
+					'tags' => 'name="auto"',
+					'value' => '1',
+				)
 	
 				),
 
@@ -132,9 +169,10 @@
 
 			$count = (isset($widget_opt['cs_fq_count']) && !empty($widget_opt['cs_fq_count'])) ?(int)$widget_opt['cs_fq_count'] : 10;
 
-	
+			$opt_array = htmlspecialchars(json_encode(array('slideWidth' => $widget_opt['slide_width'], 'slideMargin' => $widget_opt['slide_margin'], 'auto' => ($widget_opt['slide_width'] ? 'true' : 'false'), 'minSlides' => $widget_opt['min_slide'], 'maxSlides' => $widget_opt['max_slide'], 'prevText' => '<i class="icon-chevron-left"></i>', 'nextText' => '<i class="icon-chevron-right"></i>' )), ENT_QUOTES, 'UTF-8');
+			$slider	= ($widget_opt['scroll'] ? 'data-action="slider" data-opt="'.$opt_array.'"' : '');
 			
-			$themeobject->output('<div class="ra-featured-widget">');
+			$themeobject->output('<div class="ra-featured-widget" '.$slider.'>');
 			
 			if(@$themeobject->current_widget['param']['locations']['show_title'])
 				$themeobject->output('<h3 class="widget-title">'.qa_lang('cleanstrap/featured_question').'</h3>');
