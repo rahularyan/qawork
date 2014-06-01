@@ -8,35 +8,40 @@
 	Theme License: GPL 2.0
 	Theme Update Check URI: 
 */
-.featured-questions .title, .widget-title, .page-title h1, .answers-label, .user-box-inner .user-name, .total-site-count, .qa-q-item-title > a{
+.featured-questions .title, .widget-title, .page-title h1, .answers-label, .user-box-inner .user-name, .total-site-count, .qa-q-item-title > a, .home-intro h1, .home-top-users h2{
 	font-family: 'Questrial', sans-serif;
 }
 
 .home-intro h1{
-    color: #2DB3E9;
-    font-size: 33px;
-    font-weight: 600;
+    color: #FFFFFF;
+    font-size: 41px;
     margin-bottom: 20px;
-    margin-top: 60px;
+    margin-top: 0;
     padding: 1px;
-    text-transform: uppercase;
 }
 .home-intro .desc {
-    font-size: 19px;
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 18px;
     line-height: 30px;
 }
-.home-intro-icon {
-    margin-top: 30px;
+
+.home-intro-icon  .shadow-drop{
+ box-shadow: 1px 1px rgb(30, 149, 86), 2px 2px rgb(30, 149, 86), 3px 3px rgb(30, 149, 86), 4px 4px rgb(30, 149, 86), 5px 5px rgb(30, 149, 86), 6px 6px rgb(30, 149, 86), 7px 7px rgb(30, 149, 86), 8px 8px rgb(30, 149, 86), 9px 9px rgb(30, 149, 86), 10px 10px rgb(30, 149, 86), 11px 11px rgb(30, 149, 86), 12px 12px rgb(30, 149, 86), 13px 13px rgb(30, 149, 86), 14px 14px rgb(30, 149, 86), 15px 15px rgb(30, 149, 86), 16px 16px rgb(30, 149, 86), 17px 17px rgb(30, 149, 86), 18px 18px rgb(30, 149, 86), 19px 19px rgb(30, 149, 86), 20px 20px rgb(30, 149, 86), 21px 21px rgb(30, 149, 86), 22px 22px rgb(30, 149, 86), 23px 23px rgb(30, 149, 86), 24px 24px rgb(30, 149, 86), 25px 25px rgb(30, 149, 86), 26px 26px rgb(30, 149, 86), 27px 27px rgb(30, 149, 86), 28px 28px rgb(30, 149, 86), 29px 29px rgb(30, 149, 86), 30px 30px rgb(30, 149, 86), 31px 31px rgb(30, 149, 86), 32px 32px rgb(30, 149, 86), 33px 33px rgb(30, 149, 86), 34px 34px rgb(30, 149, 86), 35px 35px rgb(30, 149, 86), 36px 36px rgb(30, 149, 86), 37px 37px rgb(30, 149, 86), 38px 38px rgb(30, 149, 86), 39px 39px rgb(30, 149, 86), 40px 40px rgb(30, 149, 86), 41px 41px rgb(30, 149, 86), 42px 42px rgb(30, 149, 86), 43px 43px rgb(30, 149, 86), 44px 44px rgb(30, 150, 86), 45px 45px rgb(30, 150, 86), 46px 46px rgb(30, 150, 86), 47px 47px rgb(30, 150, 87), 48px 48px rgb(30, 151, 87), 49px 49px rgb(30, 151, 87), 50px 50px rgb(30, 151, 87), 51px 51px rgb(30, 152, 87), 52px 52px rgb(30, 152, 87), 53px 53px rgb(30, 152, 87), 54px 54px rgb(30, 152, 88), 55px 55px rgb(30, 153, 88), 56px 56px rgb(30, 153, 88), 57px 57px rgb(30, 153, 88), 58px 58px rgb(30, 154, 88), 59px 59px rgb(30, 154, 88), 60px 60px rgb(31, 154, 89), 61px 61px rgb(31, 154, 89), 62px 62px rgb(31, 155, 89), 63px 63px rgb(31, 155, 89), 64px 64px rgb(31, 155, 89), 65px 65px rgb(31, 156, 89), 66px 66px rgb(31, 156, 89), 67px 67px rgb(31, 156, 90), 68px 68px rgb(31, 156, 90), 69px 69px rgb(31, 157, 90), 70px 70px rgb(31, 157, 90), 71px 71px rgb(31, 157, 90), 72px 72px rgb(31, 158, 90), 73px 73px rgb(31, 158, 90), 74px 74px rgb(31, 158, 91), 75px 75px rgb(31, 158, 91), 76px 76px rgb(31, 159, 91), 77px 77px rgb(31, 159, 91), 78px 78px rgb(31, 159, 91), 79px 79px rgb(31, 160, 91), 80px 80px rgb(32, 160, 92), 81px 81px rgb(32, 160, 92), 82px 82px rgb(32, 160, 92), 83px 83px rgb(32, 161, 92), 84px 84px rgb(32, 161, 92), 85px 85px rgb(32, 161, 92), 86px 86px rgb(32, 162, 92), 87px 87px rgb(32, 162, 93), 88px 88px rgb(32, 162, 93), 89px 89px rgb(32, 162, 93), 90px 90px rgb(32, 163, 93), 91px 91px rgb(32, 163, 93), 92px 92px rgb(32, 163, 93), 93px 93px rgb(32, 164, 93), 94px 94px rgb(32, 164, 94), 95px 95px rgb(32, 164, 94), 96px 96px rgb(32, 164, 94), 97px 97px rgb(32, 165, 94), 98px 98px rgb(32, 165, 94), 99px 99px rgb(32, 165, 94), 100px 100px rgb(33, 166, 95);
+   background-color: rgb(255, 255, 255);
+   text-shadow: 1px 1px rgb(235, 235, 235), 2px 2px rgb(235, 235, 235), 3px 3px rgb(235, 235, 235), 4px 4px rgb(235, 235, 235), 5px 5px rgb(235, 235, 235), 6px 6px rgb(235, 235, 235), 7px 7px rgb(235, 235, 235), 8px 8px rgb(235, 235, 235), 9px 9px rgb(235, 235, 235), 10px 10px rgb(235, 235, 235), 11px 11px rgb(235, 235, 235), 12px 12px rgb(235, 235, 235), 13px 13px rgb(235, 235, 235), 14px 14px rgb(235, 235, 235), 15px 15px rgb(235, 235, 235), 16px 16px rgb(235, 235, 235), 17px 17px rgb(235, 235, 235), 18px 18px rgb(235, 235, 235), 19px 19px rgb(235, 235, 235), 20px 20px rgb(235, 235, 235), 21px 21px rgb(235, 235, 235), 22px 22px rgb(235, 235, 235), 23px 23px rgb(235, 235, 235), 24px 24px rgb(235, 235, 235), 25px 25px rgb(235, 235, 235), 26px 26px rgb(235, 235, 235), 27px 27px rgb(235, 235, 235), 28px 28px rgb(235, 235, 235), 29px 29px rgb(235, 235, 235), 30px 30px rgb(235, 235, 235), 31px 31px rgb(235, 235, 235), 32px 32px rgb(235, 235, 235), 33px 33px rgb(235, 235, 235), 34px 34px rgb(235, 235, 235), 35px 35px rgb(235, 235, 235), 36px 36px rgb(235, 235, 235), 37px 37px rgb(235, 235, 235), 38px 38px rgb(235, 235, 235), 39px 39px rgb(235, 235, 235), 40px 40px rgb(235, 235, 235), 41px 41px rgb(235, 235, 235), 42px 42px rgb(235, 235, 235), 43px 43px rgb(235, 235, 235), 44px 44px rgb(235, 235, 235), 45px 45px rgb(235, 235, 235), 46px 46px rgb(235, 235, 235), 47px 47px rgb(235, 235, 235), 48px 48px rgb(235, 235, 235), 49px 49px rgb(235, 235, 235), 50px 50px rgb(235, 235, 235), 51px 51px rgb(236, 236, 236), 52px 52px rgb(236, 236, 236), 53px 53px rgb(236, 236, 236), 54px 54px rgb(236, 236, 236), 55px 55px rgb(237, 237, 237), 56px 56px rgb(237, 237, 237), 57px 57px rgb(237, 237, 237), 58px 58px rgb(238, 238, 238), 59px 59px rgb(238, 238, 238), 60px 60px rgb(238, 238, 238), 61px 61px rgb(238, 238, 238), 62px 62px rgb(239, 239, 239), 63px 63px rgb(239, 239, 239), 64px 64px rgb(239, 239, 239), 65px 65px rgb(240, 240, 240), 66px 66px rgb(240, 240, 240), 67px 67px rgb(240, 240, 240), 68px 68px rgb(240, 240, 240), 69px 69px rgb(241, 241, 241), 70px 70px rgb(241, 241, 241), 71px 71px rgb(241, 241, 241), 72px 72px rgb(242, 242, 242), 73px 73px rgb(242, 242, 242), 74px 74px rgb(242, 242, 242), 75px 75px rgb(242, 242, 242), 76px 76px rgb(243, 243, 243), 77px 77px rgb(243, 243, 243), 78px 78px rgb(243, 243, 243), 79px 79px rgb(244, 244, 244), 80px 80px rgb(244, 244, 244), 81px 81px rgb(244, 244, 244), 82px 82px rgb(244, 244, 244), 83px 83px rgb(245, 245, 245), 84px 84px rgb(245, 245, 245), 85px 85px rgb(245, 245, 245), 86px 86px rgb(245, 245, 245), 87px 87px rgb(246, 246, 246), 88px 88px rgb(246, 246, 246), 89px 89px rgb(246, 246, 246), 90px 90px rgb(247, 247, 247), 91px 91px rgb(247, 247, 247), 92px 92px rgb(247, 247, 247), 93px 93px rgb(247, 247, 247), 94px 94px rgb(248, 248, 248), 95px 95px rgb(248, 248, 248), 96px 96px rgb(248, 248, 248), 97px 97px rgb(249, 249, 249), 98px 98px rgb(249, 249, 249), 99px 99px rgb(249, 249, 249), 100px 100px rgb(249, 249, 249), 101px 101px rgb(250, 250, 250), 102px 102px rgb(250, 250, 250), 103px 103px rgb(250, 250, 250), 104px 104px rgb(251, 251, 251), 105px 105px rgb(251, 251, 251), 106px 106px rgb(251, 251, 251), 107px 107px rgb(251, 251, 251), 108px 108px rgb(252, 252, 252), 109px 109px rgb(252, 252, 252), 110px 110px rgb(252, 252, 252), 111px 111px rgb(253, 253, 253), 112px 112px rgb(253, 253, 253), 113px 113px rgb(253, 253, 253), 114px 114px rgb(253, 253, 253), 115px 115px rgb(254, 254, 254), 116px 116px rgb(254, 254, 254), 117px 117px rgb(254, 254, 254), 118px 118px rgb(255, 255, 255);
+   
+  height: 120px;
+  width: 120px;
+  font-size: 75px;
+  line-height: 120px;
+  text-align: center;
+  display:table;
+  margin:0 auto;
+  border-radius:5px;
 }
-.home-intro-icon > *:before{
-    background: none repeat scroll 0 0 #45b168;
-    border-radius: 50%;
-    color: #FFFFFF;
-    display: table;
-    font-size: 55px;
-    margin: 0 auto;
-    padding: 15px;
-    text-align: center;
+.home-intro-icon .shadow-drop i {
+    display: block;
+    overflow: hidden;
 }
 .total-site-count{
     font-size: 22px;
@@ -46,13 +51,14 @@
 
 }
 .home-intro-icon > * span{
-    color: #666666;
+    color: rgba(255, 255, 255, 0.5);
     display: block;
-    font-size: 15px;
+    font-size: 13px;
     line-height: 20px;
     margin-top: 10px;
     text-align: center;
 }
+
 .home-join {
     margin-bottom: 20px;
     margin-top: 15px;
@@ -67,7 +73,7 @@
 #home-featured-position .widget {
     margin-bottom: 0;
 }
-#home-featured-position .widget, #home-activity-position .cs_site_activity, .home-happening .widget{
+#home-featured-position .widget, #home-activity-position .cs_site_activity, .home-happening .widget, #home-top-users-position .widget{
     background: none repeat scroll 0 0 rgba(0, 0, 0, 0);
     border: medium none;
 }
@@ -86,4 +92,47 @@
 }
 .home-happening .ra-post-list-widget {
     padding: 0;
+}
+.home-happening .ra-sa-widget {
+    margin-top: 5px;
+}
+.home-top-users {
+    border-bottom: 2px solid #EEEEEE;
+}
+#home-top-users-position .widget{
+    margin: 0;
+    padding: 30px 0;
+}
+#home-top-users-position .qa-avatar-image {
+    border-radius: 50%;
+}
+#home-top-users-position .qa-avatar-link{
+    display: table;
+    margin: 0 auto;
+}
+
+.home-happening {
+    padding: 20px 0;
+}
+.ra-post-list-widget.widget-big-post-lists .posts-list .avatar{
+	margin-top:0;
+}
+.widget-big-post-lists .avatar img{
+	border-radius:50%;
+}
+.ra-post-list-widget.widget-big-post-lists  .posts-list li{
+	border-bottom:none;
+}
+.ra-post-list-widget.widget-big-post-lists  .posts-list .post-content {
+    border: 1px solid #EEEEEE;
+    border-radius: 5px;
+    overflow: hidden;
+    padding: 5px;
+}
+.ra-post-list-widget.widget-big-post-lists .posts-list .title {
+    color: inherit;
+    font-size: 18px;
+}
+.ra-post-list-widget.widget-big-post-lists .posts-list .content{
+	font-size:16px;
 }

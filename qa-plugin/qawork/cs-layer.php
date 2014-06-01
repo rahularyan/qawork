@@ -431,7 +431,7 @@ class qa_html_theme_layer extends qa_html_theme_base {
 			$this->output('<div id="header-top" class="clearfix">');
 			$this->output('<div class="container">');
 			$this->logo();
-			$this->search();
+			
 			$this->main_nav_menu();			
 			$this->user_drop_nav();						
 			$this->output('</div>');
@@ -444,7 +444,8 @@ class qa_html_theme_layer extends qa_html_theme_base {
 		if(!cs_is_home() && !cs_is_user()){
 			$this->output('<div id="header-below" class="clearfix"><div class="container">');		
 			$this->cs_position('Breadcrumbs');		
-			$this->nav_ask_btn();		
+			//$this->nav_ask_btn();	
+			$this->search();			
 			$this->output('</div></div>');
 		}
     }
@@ -627,7 +628,7 @@ class qa_html_theme_layer extends qa_html_theme_base {
 		if (cs_hook_exist(__FUNCTION__)) {$args=func_get_args(); return cs_do_action(__FUNCTION__, $args); }
         $search = $this->content['search'];
         
-        $this->output('<form ' . $search['form_tags'] . ' class="navbar-form navbar-left form-search" role="search" >', @$search['form_extra']);
+        $this->output('<form ' . $search['form_tags'] . ' class="navbar-form navbar-right form-search" role="search" >', @$search['form_extra']);
         
         $this->search_field($search);
         //$this->search_button($search);

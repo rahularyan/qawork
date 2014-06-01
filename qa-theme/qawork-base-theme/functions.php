@@ -53,6 +53,7 @@
 				'Home Slide' => 'Home Top',
 				'Home Featured' => 'For featured questions',
 				'Home Count' => 'For showing activity count',
+				'Home Top Users' => 'For showing top users',
 				'Home Activity' => 'For showing activity',
 				'Home Users' => 'For showing users',
 				'Home Questions' => 'For showing questions',

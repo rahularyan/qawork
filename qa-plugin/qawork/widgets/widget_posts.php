@@ -19,6 +19,24 @@ class cs_widget_posts
                     'type' 		=> 'select',
                     'tags' 		=> 'name="post_type" class="form-control"',
                     'options' 	=> array('Q' => 'Questions','A' => 'Answers','C' => 'Comments')
+                ),
+				'avatar_size' => array(
+                    'label' 	=> 'Avatar size',
+                    'type' 		=> 'number',
+                    'tags' 		=> 'name="avatar_size" class="form-control"',
+                    'value' 	=> '40'
+                ),
+				'class' => array(
+                    'label' 	=> 'CSS class',
+                    'type' 		=> 'text',
+                    'tags' 		=> 'name="class" class="form-control"',
+                    'value' 	=> 'custom'
+                ),
+				'content_size' => array(
+                    'label' 	=> 'Content length',
+                    'type' 		=> 'number',
+                    'tags' 		=> 'name="content_size" class="form-control"',
+                    'value' 	=> '80'
                 )
             )
             
@@ -68,7 +86,7 @@ class cs_widget_posts
         
         return $allow;
     }
-    function cs_post_list($type, $limit, $return = false)
+    function cs_post_list($type, $limit, $size = 40, $content_limt = 80, $return = false)
     {
 
         if(defined('QA_WORDPRESS_INTEGRATE_PATH')){
@@ -96,7 +114,7 @@ class cs_widget_posts
 			$when = @$timeCode['prefix'] . @$timeCode['data'] . @$timeCode['suffix'];
 
             $output .= '<li>';
-            $output .= cs_get_post_avatar($p, 30, true);
+            $output .= cs_get_post_avatar($p, $size, true);
             $output .= '<div class="post-content">';
             
 			$output .= '<div class="meta">';
@@ -113,10 +131,11 @@ class cs_widget_posts
 			
             if ($type == 'Q') {
                 $output .= '<a class="title question" href="' . qa_q_path_html($p['postid'], $p['title']) . '" title="' . $p['title'] . '">' . qa_html($p['title']) . '</a>';
+                $output .= '<p class="content question">' . cs_truncate(strip_tags($p['content']), $content_limt) . '</p>';
             } elseif ($type == 'A') {
-                $output .= '<a class="title" href="' . cs_post_link($p['parentid']) . '#a' . $p['postid'] . '">' . cs_truncate(strip_tags($p['content']),80) . '</a>';
+                $output .= '<a class="title" href="' . cs_post_link($p['parentid']) . '#a' . $p['postid'] . '">' . cs_truncate(strip_tags($p['content']), $content_limt) . '</a>';
             } else {
-                $output .= '<a class="title" href="' . cs_post_link($p['parentid']) . '#c' . $p['postid'] . '">' . cs_truncate(strip_tags($p['content']),80) . '</a>';
+                $output .= '<a class="title" href="' . cs_post_link($p['parentid']) . '#c' . $p['postid'] . '">' . cs_truncate(strip_tags($p['content']), $content_limt) . '</a>';
             }
             
             $output .= '</div>';
@@ -141,8 +160,8 @@ class cs_widget_posts
         if (@$themeobject->current_widget['param']['locations']['show_title'])
             $themeobject->output('<h3 class="widget-title">' . qa_lang_sub('cleanstrap/recent_posts', $what) . '</h3>');
         
-        $themeobject->output('<div class="ra-post-list-widget">');
-        $themeobject->output($this->cs_post_list($widget_opt['post_type'], (int)$widget_opt['cs_qa_count']));
+        $themeobject->output('<div class="ra-post-list-widget widget-'.@$widget_opt['class'].'">');
+        $themeobject->output($this->cs_post_list($widget_opt['post_type'], (int)$widget_opt['cs_qa_count'], (int)$widget_opt['avatar_size'], (int)$widget_opt['content_size']));
         $themeobject->output('</div>');
     }
 }

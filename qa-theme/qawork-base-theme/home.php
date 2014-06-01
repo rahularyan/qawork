@@ -35,6 +35,11 @@
 				<?php $this->cs_position('Home Featured'); ?>
 			</div>
 		</div>
+		<div class="home-top-users">			
+			<div class="container">
+				<?php $this->cs_position('Home Top Users'); ?>
+			</div>
+		</div>
 		<div class="home-happening">			
 			<div class="container">
 				<div class="row">
