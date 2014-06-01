@@ -1,5 +1,5 @@
 body {
-	color: #586f7a;
+	color: #8D8D8D;
 	font-size: 13px;
 	line-height: 1.6;
 }
@@ -34,7 +34,7 @@ label {
 .form-control, textarea, input[type="text"], input[type="password"], select {
     background-color: #FFFFFF;
     background-image: none;
-    border: 1px solid #B7D2DF;
+    border: 2px solid #D2E8DC;
     border-radius: 2px;
     box-shadow: 0 1px 1px rgba(0, 0, 0, 0.015) inset;
     color: #555555;
@@ -226,7 +226,7 @@ textarea {
     float: none;
     font-size: 25px;
     height: auto;
-    padding: 2px 0 0;
+    padding: 4px 0 0;
 }
 
 #site-header .navbar {
@@ -253,12 +253,11 @@ textarea {
 }
 
 
-.navbar-form {
+.form-search {
     margin: 0;
     padding: 0;
 }
-.navbar-form .form-control {
-    border: medium none;
+.form-search .form-control {
     display: inline-block;
     vertical-align: middle;
     width: auto;
@@ -291,7 +290,9 @@ textarea {
 }
 
 #nav-ask-btn {
-    float: right;
+    background: none repeat scroll 0 0 rgba(0, 0, 0, 0.3);
+    color: #FFFFFF;
+    float: left;
 }
 
 #nav-ask-btn i {
@@ -579,13 +580,6 @@ textarea {
 }
 
 /*for login and logout button */
-.navbar-form.navbar-right {
-    border-left: 2px solid #CCCCCC;
-    height: 37px;
-    margin-bottom: -6px;
-    margin-right: 0;
-    margin-top: -7px;
-}
 
 .navbar-form.navbar-right > a:nth-child(2) {
 	margin-right: 50px;
@@ -3416,11 +3410,11 @@ th .description {
     border-radius: 50%;
     color: #FFFFFF;
     display: block;
-    font-size: 20px;
-    height: 30px;
-    line-height: 34px;
+    font-size: 16px;
+    height: 25px;
+    line-height: 25px;
     text-align: center;
-    width: 30px;
+    width: 25px;
 }
 
 .ra-activity .activity-inner {
@@ -3429,14 +3423,14 @@ th .description {
 }
 
 .ra-activity .activity-inner:before {
-	background: #F5F5F5;
-	content: "";
-	display: block;
-	height: 100%;
-	left: 14px;
-	position: absolute;
-	top: 18px;
-	width: 2px;
+    background: none repeat scroll 0 0 #E1E1E1;
+    content: "";
+    display: block;
+    height: 100%;
+    left: 12px;
+    position: absolute;
+    top: 18px;
+    width: 1px;
 }
 
 .ra-activity .activity-item:last-child .activity-inner:before {
@@ -3462,7 +3456,7 @@ th .description {
 }
 
 .ra-activity .activity-title {
-    color: inherit;
+    color: #8A8A8A;
     display: block;
     font-size: 12px;
     overflow: hidden;
@@ -5686,9 +5680,6 @@ width: 15px;
 	margin-right: 5px;
 }
 
-.featured-questions .content{
-    font-size: 12px;
-}
 .featured-questions .answer-list {
 	border-top: 1px solid #EEE;
 	font-size: 12px;
