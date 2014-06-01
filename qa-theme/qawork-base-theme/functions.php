@@ -51,8 +51,6 @@
 				'Right' => 'Right side of content', 
 				'Bottom' => 'Below content and before footer',
 				'Home Slide' => 'Home Top',
-				'Home Featured' => 'For featured questions',
-				'Home Count' => 'For showing activity count',
 				'Home Top Users' => 'For showing top users',
 				'Home Activity' => 'For showing activity',
 				'Home Right' => 'Home right side',						
