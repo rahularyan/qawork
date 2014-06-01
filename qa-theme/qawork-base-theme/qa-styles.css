@@ -44,8 +44,10 @@
     overflow: hidden;
 }
 .total-site-count{
+    float: right;
     font-size: 22px;
-    margin: 0;
+    margin: 0 15px 0 0;
+    text-align: right;
 }
 .home-intro  .intro-icon > *{
 
@@ -68,6 +70,12 @@
 .home-join .form-search {
     float: left;
 }
+.home-join .form-search .form-control {
+    height: 38px;
+}
+.home-join .form-search i {
+    top:5px;
+}
 .home-join >div > p{
 
 }
@@ -86,11 +94,8 @@
     border: medium none;
 }
 
-.big-btns .btn{
-    float: left;
-    margin: 0 1%;
-    padding: 10px 5px;
-    width: 47%;
+.big-btns{
+	float:right;
 }
 #home-featured-position .widget-title, .home-happening .widget-title{
     font-size: 17px;
@@ -105,7 +110,7 @@
     margin-top: 5px;
 }
 .home-top-users {
-    border-bottom: 2px solid #EEEEEE;
+    border-bottom: 1px solid #EEEEEE;
 }
 #home-top-users-position .widget{
     margin: 0;

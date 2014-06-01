@@ -8,27 +8,14 @@
 	ob_start();
 	?>
 		<div class="home-join">			
-			<div class="container">
-				<div class="row">
-					<div class="col-md-8">
-						<?php $this->search(); ?>
-						<!--<p class="total-site-count"><?php echo qa_opt('cache_qcount'); ?> questions asked and <?php echo qa_opt('cache_acount'); ?> solutions posted yet.</p>-->
-					</div>
-					<div class="col-md-4">
-						<div class="big-btns">
-							<a href="<?php echo qa_path_html('register'); ?>" class="btn register">Register</a>
-							<?php 
-								if (!!qa_opt("facebook_app_id")) {
-									$on_click_event = cs_generate_facebook_invite_script(qa_opt("facebook_app_id"), array('url' => qa_opt("site_url")))  ;
-									$button = '<button class="btn btn-facebook" onclick="'.$on_click_event.'">'.qa_lang_html('cs_social_posting/invite_friends').'</button>' ;
-									$this->output($button );
-								}else {
-									$this->output("Please provide Facebook application Id to enable this option in Theme Options -> Social Login ");
-								}
-							?>
-						</div>
-					</div>
+			<div class="container">				
+				<?php $this->search(); ?>			
+				<div class="big-btns">					
+					<?php 
+						echo cs_get_fb_invite_button();
+					?>
 				</div>
+				<p class="total-site-count align-right">Tell your friends about this site</p>
 			</div>
 		</div>
 
