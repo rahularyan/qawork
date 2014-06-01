@@ -1,0 +1,157 @@
+
+
+.file-preview {
+    border: 1px solid #EEEEEE;
+    border-radius: 5px;
+    margin: 5px 0;
+    padding: 5px;
+}
+.file-preview > img{
+	height:60px;
+	width:60px;
+	padding: 5px;
+}
+
+.file-preview .preview {
+    color: #AAAAAA;
+    float: left;
+    font-size: 40px;
+    height: 60px;
+    margin-right: 10px;
+    text-align: center;
+    width: 60px;
+}
+.file-preview .file-info {
+    overflow: hidden;
+}
+.file-preview .file-info > p {
+    color: #AAAAAA;
+    font-size: 12px;
+    margin: 10px 0;
+    white-space: nowrap;
+}
+.file-preview .progress {
+    margin-bottom:0;
+}
+.post-attachments, .editable-media{
+	padding:0;
+}
+.post-attachments .attachments, .editable-media .attachments{
+    background: none repeat scroll 0 0 #F9F9F9;
+    border: 1px solid #EEEEEE;
+    border-radius: 4px;
+    display: block;
+    float: left;
+    margin: 5px;
+    padding: 4px;	
+}
+.post-attachments .attachments.ui-selected, .editable-media .attachments.ui-selected{
+	background:#aaa;
+}
+
+#upload-tab > form {
+    margin-top: 20px;
+}
+
+#upload-tab > form  input[type="file"]{
+	color: transparent;
+}
+#upload-tab > form  button[type="submit"]{
+	display:none;
+}
+.modal .editable-media .attachments {
+    cursor: pointer;
+    position: relative;
+}
+.file-input-wrapper {
+    height: 40px;
+    margin-bottom: 15px;
+    overflow: hidden;
+    position: relative;
+    width: 100%;
+}
+.file-input-wrapper > input[type="file"] {
+    font-size: 200px;
+    position: absolute;
+    top: 0;
+    right: 0;
+    opacity: 0;
+}
+.file-input-wrapper > .btn-file-input {
+    display: inline-block;
+    width: 100%;
+    height: 40px;
+}
+.file-input-wrapper:hover > .btn{
+	background:linear-gradient(#FFFFFF, #EAEAEA) repeat scroll 0 0 #FDFDFF;
+}
+
+.media-item-form{
+	margin-top:10px;
+}
+
+.media-item-form img {
+    border-radius: 5px;
+    margin-bottom: 10px;
+    max-width: 100%;
+}
+.media-item-form .form-control{
+	margin-bottom:10px;
+}
+.post-attachments .attachments .file-icon {
+    height: 150px;
+    line-height: 155px;
+    width: 200px;
+}
+.file-icon {
+    background: none repeat scroll 0 0 #FFFFFF;
+    display: block;
+    font-size: 60px;
+    height: 80px;
+    line-height: 90px;
+    text-align: center;
+    width: 80px;
+}
+.media-popup strong{
+	display:block;
+}
+.media-popup .file-preview {
+    margin-bottom: 10px;
+    max-width: 100%;
+}
+.media-popup .file-preview {
+    display: table;
+    font-size: 130px;
+    line-height: 100%;
+}
+.attachments .insert-media-to-editor {
+    background: none repeat scroll 0 0 #222222;
+    border-radius: 2px;
+    color: #FFFFFF;
+    display: none;
+    font-size: 12px;
+    left: 12px;
+    margin: 0 auto;
+    padding: 1px 10px;
+    position: absolute;
+    text-align: center;
+    top: 20px;
+    width: 65px;
+}
+.attachments .handle {
+    background: none repeat scroll 0 0 #222222;
+    border-radius: 2px;
+    color: #FFFFFF;
+    display: none;
+    font-size: 12px;
+    left: 12px;
+    margin: 0 auto;
+    padding: 1px 10px;
+    position: absolute;
+    text-align: center;
+    top: 48px;
+    width: 65px;
+}
+.attachments:hover .insert-media-to-editor, .attachments:hover .handle{
+	display:block;
+}

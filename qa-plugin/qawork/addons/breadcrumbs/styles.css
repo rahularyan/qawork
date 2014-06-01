@@ -1,0 +1,31 @@
+#breadcrumbs-position {
+    float: left;
+    margin-left: 0;
+}
+.widget.cs_breadcrumbs {
+    margin-bottom: 0;
+    margin-left: 0;
+    margin-right: 0;
+    padding: 0;
+}
+.breadcrumb {
+    background: none repeat scroll 0 0 rgba(0, 0, 0, 0);
+    display: block;
+    list-style: none outside none;
+    margin: 0;
+    padding: 4px 0 0;
+}
+.breadcrumb > .active > a {
+	color: #999;
+}
+.breadcrumb > li:last-child > a{
+
+}
+.widget.cs_breadcrumbs{
+    background: none repeat scroll 0 0 rgba(0, 0, 0, 0);
+    border: medium none;
+    box-shadow: none;
+}
+.breadcrumb > li > a {
+    color: #818181;
+}
