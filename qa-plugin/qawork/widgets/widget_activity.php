@@ -143,6 +143,11 @@
 					
 					$params = cs_event_log_row_parser($p['params']);
 					
+					if (!isset($posts[$params['postid']]))  {
+						// some times the posts get deleted , then it should not show an error 
+						continue ;
+					}
+
 					switch ($p['event']) {
 						case 'q_post':
 							$event_name = qa_lang('cleanstrap/asked');
