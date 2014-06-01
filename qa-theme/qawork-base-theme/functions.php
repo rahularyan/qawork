@@ -16,8 +16,6 @@
 		}
 		
 		function cs_enqueue_css($css_src){
-		
-			$css_src['bootstrap'] = Q_THEME_URL . '/css/bootstrap.css';		
 			$css_src['icon'] = Q_THEME_URL . '/css/fonts.css';		
 			$css_src['cs_responsive'] = Q_THEME_URL . '/css/responsive.css';
 			$css_src['cs_main'] = Q_THEME_URL . '/css/main.css';
@@ -33,14 +31,9 @@
 		
 		function cs_enqueue_scripts($src){		
 			$src['jquery-ui'] = Q_THEME_URL . '/js/jquery-ui.min.js';
-			$src['bootstrap_js'] = Q_THEME_URL . '/js/bootstrap.js';
-			
 			$src['oembed'] = Q_THEME_URL . '/js/jquery.oembed.js';
-			//$src['masonry'] = Q_THEME_URL . '/js/masonry.pkgd.min.js';
-			$src['bxslider'] = Q_THEME_URL . '/js/jquery.bxslider.min.js';
-			
+			$src['bxslider'] = Q_THEME_URL . '/js/jquery.bxslider.min.js';			
 			$src['cs_theme'] = Q_THEME_URL . '/js/theme.js';
-
 
 			return  $src;
 		}

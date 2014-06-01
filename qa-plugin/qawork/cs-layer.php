@@ -29,11 +29,15 @@ class qa_html_theme_layer extends qa_html_theme_base {
 				unset($this->content['navigation']['main']['categories']);
         
 		
-			$this->content['css_src']['cs_admin'] = Q_THEME_URL . '/css/admin.css';
+			$this->content['css_src']['cs_admin'] = CS_CONTROL_URL . '/css/admin.css';
 			$this->content['css_src']['cs_style'] = Q_THEME_URL .'/'. $this->css_name();
+			$this->content['css_src']['bootstrap'] = CS_CONTROL_URL. '/css/bootstrap.css';
+
+			$this->content['script_src']['jquery'] = CS_CONTROL_URL. '/js/jquery-1.11.0.min.js';			
+			$this->content['script_src']['bootstrap'] = CS_CONTROL_URL. '/js/bootstrap.js';			
 		
 			//enqueue script and style in content
-			$hooked_script	= cs_apply_filter('enqueue_scripts', array());
+			$hooked_script	= cs_apply_filter('enqueue_scripts', $this->content['script_src']);
 			$hooked_css 	= cs_apply_filter('enqueue_css', $this->content['css_src']);
 
 			if(is_array($hooked_script))
@@ -93,7 +97,7 @@ class qa_html_theme_layer extends qa_html_theme_base {
 			unset($this->content['script_rel'][$key]);
 		}
 		
-		$this->output('<script src="'.Q_THEME_URL.'/js/jquery-1.11.0.min.js"></script>');
+		$this->output('<script src="'.CS_CONTROL_URL.'/js/jquery-1.11.0.min.js"></script>');
 		
 		$this->output('<script> ajax_url = "' . CS_CONTROL_URL . '/ajax.php";</script>');
 	
