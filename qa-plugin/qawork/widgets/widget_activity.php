@@ -122,18 +122,18 @@
 					$prefix =  ($new_registered_users > 1) ? qa_lang('cleanstrap/have') : qa_lang('cleanstrap/has') ;
 					$event_name = $prefix . qa_lang('cleanstrap/joined_community');
 					$event_icon = 'icon-user-add';					
-					$o .= '<li class="activity-item">';
-					$o .= '<div class="activity-inner">';	
-					$o .= '<div class="activity-icon pull-left '.$event_icon.'"></div>';
-					$o .= '<div class="activity-content">';			
-					$o .= $user_handles . ' <span class="what">'.$event_name.'</span> <span class="time">'.@$time.'</span></p>';
-					$o .= '<div class="activity-detail">';
-					$o .= $profile_pics;
-					$o .= '<span class="activity-title" href="#">'.'</span>';
-					$o .= '</div>';	
-					$o .= '</div>';	
-					$o .= '</div>';	
-					$o .= '</li>';
+					$registered_users  = '<li class="activity-item">';
+					$registered_users .= '<div class="activity-inner">';	
+					$registered_users .= '<div class="activity-icon pull-left '.$event_icon.'"></div>';
+					$registered_users .= '<div class="activity-content">';			
+					$registered_users .= $user_handles . ' <span class="what">'.$event_name.'</span> <span class="time">'.@$time.'</span></p>';
+					$registered_users .= '<div class="activity-detail">';
+					$registered_users .= $profile_pics;
+					$registered_users .= '<span class="activity-title" href="#">'.'</span>';
+					$registered_users .= '</div>';	
+					$registered_users .= '</div>';	
+					$registered_users .= '</div>';	
+					$registered_users .= '</li>';
 				}
 
 				foreach($events as $p){
@@ -190,7 +190,13 @@
 					$timeCode = qa_when_to_html( $p['unix_time'] , 7);
 
 					$time = @$timeCode['prefix'] . @$timeCode['data'] . @$timeCode['suffix'];
-					
+					$current = date_create_from_format($date_format, $p['datetime'] );
+					if (isset($latest) && $current < $latest) {
+						if (!!$registered_users) {
+							$o .= $registered_users ;
+						}
+						unset($latest);
+					}
 					$o .= '<li class="activity-item">';
 					$o .= '<div class="activity-inner">';	
 					
