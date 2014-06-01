@@ -11,7 +11,8 @@
 			<div class="container">
 				<div class="row">
 					<div class="col-md-8">
-						<p class="total-site-count"><?php echo qa_opt('cache_qcount'); ?> questions asked and <?php echo qa_opt('cache_acount'); ?> solutions posted yet.</p>
+						<?php $this->search(); ?>
+						<!--<p class="total-site-count"><?php echo qa_opt('cache_qcount'); ?> questions asked and <?php echo qa_opt('cache_acount'); ?> solutions posted yet.</p>-->
 					</div>
 					<div class="col-md-4">
 						<div class="big-btns">

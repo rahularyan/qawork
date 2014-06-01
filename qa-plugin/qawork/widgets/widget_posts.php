@@ -32,6 +32,12 @@ class cs_widget_posts
                     'tags' 		=> 'name="class" class="form-control"',
                     'value' 	=> 'custom'
                 ),
+				'show_content' => array(
+                    'label' 	=> 'Show content',
+                    'type' 		=> 'checkbox',
+                    'tags' 		=> 'name="show_content"',
+                    'value' 	=> '0'
+                ),
 				'content_size' => array(
                     'label' 	=> 'Content length',
                     'type' 		=> 'number',
@@ -86,7 +92,7 @@ class cs_widget_posts
         
         return $allow;
     }
-    function cs_post_list($type, $limit, $size = 40, $content_limt = 80, $return = false)
+    function cs_post_list($type, $limit, $size = 40, $show_content, $content_limt = 80, $return = false)
     {
 
         if(defined('QA_WORDPRESS_INTEGRATE_PATH')){
@@ -131,7 +137,9 @@ class cs_widget_posts
 			
             if ($type == 'Q') {
                 $output .= '<a class="title question" href="' . qa_q_path_html($p['postid'], $p['title']) . '" title="' . $p['title'] . '">' . qa_html($p['title']) . '</a>';
-                $output .= '<p class="content question">' . cs_truncate(strip_tags($p['content']), $content_limt) . '</p>';
+				
+				if(!!$show_content)
+					$output .= '<p class="content question">' . cs_truncate(strip_tags($p['content']), $content_limt) . '</p>';
             } elseif ($type == 'A') {
                 $output .= '<a class="title" href="' . cs_post_link($p['parentid']) . '#a' . $p['postid'] . '">' . cs_truncate(strip_tags($p['content']), $content_limt) . '</a>';
             } else {
@@ -161,7 +169,7 @@ class cs_widget_posts
             $themeobject->output('<h3 class="widget-title">' . qa_lang_sub('cleanstrap/recent_posts', $what) . '</h3>');
         
         $themeobject->output('<div class="ra-post-list-widget widget-'.@$widget_opt['class'].'">');
-        $themeobject->output($this->cs_post_list($widget_opt['post_type'], (int)$widget_opt['cs_qa_count'], (int)$widget_opt['avatar_size'], (int)$widget_opt['content_size']));
+        $themeobject->output($this->cs_post_list($widget_opt['post_type'], (int)$widget_opt['cs_qa_count'], (int)$widget_opt['avatar_size'], (int)$widget_opt['show_content'], (int)$widget_opt['content_size']));
         $themeobject->output('</div>');
     }
 }
