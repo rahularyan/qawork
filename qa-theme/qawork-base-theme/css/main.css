@@ -3408,6 +3408,10 @@ th .description {
     margin-bottom: 5px;
 }
 
+.ra-activity .activity-content .title.inline {
+    display: inline;
+}
+
 .ra-activity .activity-icon {
     border-radius: 50%;
     color: #FFFFFF;
@@ -3442,6 +3446,10 @@ th .description {
 .ra-activity .activity-item:last-child .activity-inner {
 	border: medium none;
 	padding: 0;
+}
+
+.ra-activity li.activity-item:last-child {
+	margin-bottom: 10px;	
 }
 
 .ra-activity .activity-content {

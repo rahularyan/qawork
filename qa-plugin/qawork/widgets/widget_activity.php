@@ -69,7 +69,7 @@
 				$events_type = array('q_post', 'a_post', 'c_post', 'a_select', 'badge_awarded');
 			
 			// query last 3 events
-			$events = qa_db_read_all_assoc(qa_db_query_sub('SELECT UNIX_TIMESTAMP(datetime) as unix_time, ^eventlog.*, ^users.* FROM ^eventlog, ^users WHERE ^eventlog.handle=^users.handle AND ^eventlog.event IN ("q_post", "a_post", "c_post", "a_select", "u_register", "q_edit", "c_edit", "a_edit") ORDER BY ^eventlog.datetime DESC LIMIT #', $limit));
+			$events = qa_db_read_all_assoc(qa_db_query_sub('SELECT UNIX_TIMESTAMP(datetime) as unix_time , datetime , ^eventlog.*, ^users.* FROM ^eventlog, ^users WHERE ^eventlog.handle=^users.handle AND ^eventlog.event IN ("q_post", "a_post", "c_post", "a_select", "u_register", "q_edit", "c_edit", "a_edit") ORDER BY ^eventlog.datetime DESC LIMIT #', $limit));
 			
 	
 			if(empty($events))return;
@@ -87,9 +87,55 @@
 				$posts = qa_db_read_all_assoc(qa_db_query_sub('SELECT UNIX_TIMESTAMP(^posts.created) as unix_created, ^posts.* FROM ^posts, ^users WHERE  ^posts.postid IN ('.$postids.') AND ^posts.type IN ("Q", "A", "C") ORDER BY ^posts.created DESC'), 'postid');
 			
 			$o ='';
-			
+			$user_handles = '' ; 
+			$profile_pics = '' ;
+			$new_registered_users = 0 ;
+			$date_format = "Y-m-d H:i:s"; 
+			$latest = date_create_from_format($date_format, "1800-01-01 01:00:00" ); /*very low value */
 			if(isset($events)){
 				$o .= '<ul class="ra-activity">';
+				// first deal with all the newly joined users 
+				$count = 0 ;
+				foreach ($events as $p) {
+					switch ($p['event']) {
+						case 'u_register':
+							
+							$username      = (is_null($p['handle'])) ? qa_lang('cleanstrap/anonymous') : htmlspecialchars($p['handle']);
+							$usernameLink  = (is_null($p['handle'])) ? qa_lang('cleanstrap/anonymous') : '<a href="'.qa_path_html('user/'.$p['handle']).'">'.$p['handle'].'</a>';
+							$timeCode      = qa_when_to_html( $p['unix_time'] , 7);
+							// $time          = @$timeCode['prefix'] . @$timeCode['data'] . @$timeCode['suffix'];
+							$user_handles .= ((!$user_handles) ? "" : ", " ).'<p class="title inline"><strong class="avatar" data-handle="'.$p['handle'].'" data-id="'. $p['userid'].'">'.@$usernameLink.'</strong>';
+							$profile_pics .= '<div class="avatar" data-handle="'.$p['handle'].'" data-id="'. $p['userid'].'">'.cs_get_post_avatar($p, 20, false).'</div>';
+							unset($events[$count]) ;
+							$new_registered_users++ ;
+							
+							$current = date_create_from_format($date_format, $p['datetime'] );
+							if ($current > $latest) {
+								$time= @$timeCode['prefix'] . @$timeCode['data'] . @$timeCode['suffix'];
+								$latest = $current ;
+							}
+							break;
+					}
+					$count++ ;
+				}
+				if ($new_registered_users > 0 && !!$user_handles && !!$profile_pics ) {
+					$prefix =  ($new_registered_users > 1) ? qa_lang('cleanstrap/have') : qa_lang('cleanstrap/has') ;
+					$event_name = $prefix . qa_lang('cleanstrap/joined_community');
+					$event_icon = 'icon-user-add';					
+					$o .= '<li class="activity-item">';
+					$o .= '<div class="activity-inner">';	
+					$o .= '<div class="activity-icon pull-left '.$event_icon.'"></div>';
+					$o .= '<div class="activity-content">';			
+					$o .= $user_handles . ' <span class="what">'.$event_name.'</span> <span class="time">'.@$time.'</span></p>';
+					$o .= '<div class="activity-detail">';
+					$o .= $profile_pics;
+					$o .= '<span class="activity-title" href="#">'.'</span>';
+					$o .= '</div>';	
+					$o .= '</div>';	
+					$o .= '</div>';	
+					$o .= '</li>';
+				}
+
 				foreach($events as $p){
 					$event_name = '';
 					$event_icon = '';
@@ -97,36 +143,46 @@
 					
 					$params = cs_event_log_row_parser($p['params']);
 					
-					if($p['event'] == 'q_post' ) {
-						$event_name = qa_lang('cleanstrap/asked');
-						$event_icon = 'icon-question';
+					switch ($p['event']) {
+						case 'q_post':
+							$event_name = qa_lang('cleanstrap/asked');
+							$event_icon = 'icon-question';
+							break;
+						case 'a_post':
+							$event_name = qa_lang('cleanstrap/answered');
+							$event_icon = 'icon-answer';
+							break;
+						case 'c_post':
+							$event_name = qa_lang('cleanstrap/commented');
+							$event_icon = 'icon-comment';	
+							break;
+						case 'u_register':
+							$event_name = qa_lang('cleanstrap/joined_community');
+							$event_icon = 'icon-user-add';					
+							$title = qa_lang_sub('cleanstrap/x_just_registered_in_our_community', $p['handle']);					
+							break;
+						case 'q_edit':
+							$event_name = qa_lang('cleanstrap/edited_comment');
+							$event_icon = 'icon-question';					
+							break;
+						case 'a_edit':
+							$event_name = qa_lang('cleanstrap/edited_answer');
+							$event_icon = 'icon-answer';						
+							break;
+						case 'c_edit':
+							$event_name = qa_lang('cleanstrap/edited_comment');
+							$event_icon = 'icon-comment';							
+							break;
+						case 'a_select':
+							$event_name = qa_lang('cleanstrap/selected_an_answer');
+							$event_icon = 'icon-tick';
+							$title = qa_lang_sub('cleanstrap/x_awarded_an_answer', $p['handle']);						
+							break;
+						
+						default:
+							break;
 					}
-					elseif($p['event'] == 'a_post') {
-						$event_name = qa_lang('cleanstrap/answered');
-						$event_icon = 'icon-answer';
-					}
-					elseif($p['event'] == 'c_post') {
-						$event_name = qa_lang('cleanstrap/commented');
-						$event_icon = 'icon-comment';					
-					}elseif($p['event'] == 'u_register') {
-						$event_name = qa_lang('cleanstrap/joined_community');
-						$event_icon = 'icon-user-add';					
-						$title = qa_lang_sub('cleanstrap/x_just_registered_in_our_community', $p['handle']);					
-					}elseif($p['event'] == 'q_edit') {
-						$event_name = qa_lang('cleanstrap/edited_comment');
-						$event_icon = 'icon-question';					
-					}elseif($p['event'] == 'a_edit') {
-						$event_name = qa_lang('cleanstrap/edited_answer');
-						$event_icon = 'icon-answer';					
-					}elseif($p['event'] == 'c_edit') {
-						$event_name = qa_lang('cleanstrap/edited_comment');
-						$event_icon = 'icon-comment';					
-					}elseif($p['event'] == 'a_select') {
-						$event_name = qa_lang('cleanstrap/selected_an_answer');
-						$event_icon = 'icon-tick';
-						$title = qa_lang_sub('cleanstrap/x_awarded_an_answer', $p['handle']);
-					}
-					
+
 					$username = (is_null($p['handle'])) ? qa_lang('cleanstrap/anonymous') : htmlspecialchars($p['handle']);
 					
 					$usernameLink = (is_null($p['handle'])) ? qa_lang('cleanstrap/anonymous') : '<a href="'.qa_path_html('user/'.$p['handle']).'">'.$p['handle'].'</a>';
