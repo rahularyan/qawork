@@ -55,6 +55,7 @@ class Cs_Social_Posting_Addon {
                            $themeclass['navigation']['sub']['posting'] = array(
                                               'label' => qa_lang('cs_social_posting/my_social_posting_nav'),
                                               'url'   => qa_path_html('social-posting') ,
+                                              'icon' => 'icon-group' ,
                                               );
               }
         }

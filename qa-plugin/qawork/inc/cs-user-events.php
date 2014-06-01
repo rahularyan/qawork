@@ -27,11 +27,13 @@
 					$params['qtitle'] = $question['title'];
 					$params['qid']    = $question['postid'];
 					$thread           = $params['thread'];
+					$already_notified = "" ;
 					unset($params['thread']);
 					if ($loggeduserid != $params['parent']['userid']){
 						$effecteduserid = $params['parent']['userid'];
 						$this->AddEvent($postid, $userid, $params['parent']['userid'], $params, $event);
 						cs_do_action('c_post', $postid , $userid, $effecteduserid, $params, $event);
+						$already_notified = $effecteduserid ;
 					}
 					
 					if(count($thread) > 0){
@@ -41,7 +43,9 @@
 								$user_array[] = $t['userid'];
 						}
 						$user_array = array_unique($user_array, SORT_REGULAR);
-						foreach ($user_array as $user){		
+						foreach ($user_array as $user){	
+							if ($user == $already_notified) continue ;
+							
 							$this->AddEvent($postid, $userid, $user, $params, $event);	
 							$effecteduserid = $user ; //for this scenario the $user_array contains all user ids in the current commented thread 
 							cs_do_action('c_post', $postid,$userid, $effecteduserid, $params, $event);							

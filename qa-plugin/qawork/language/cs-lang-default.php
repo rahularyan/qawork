@@ -188,7 +188,8 @@
 		'joined_community' => 'joined community',
 		'x_just_registered_in_our_community' => '^ just registered in our community',
 		'x_awarded_an_answer' => '^ selected an answer',
-		
+		'has' => 'has ',
+		'have' => 'have ',
 	);
 	
 
