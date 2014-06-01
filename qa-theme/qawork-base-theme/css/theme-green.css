@@ -1,9 +1,9 @@
 a, .widget .ra-ticker-widget .widget-title a, .qa-q-view-tag-list li a:hover, .page-title .fav-btn{
-	color:#0f8fc3;
+	color:#21a65f;
 }
 
 a:hover{
-	color:#1d86b0;
+	color:#069449;
 }
 
 .question-list .question-item .big-ans-count.icon-chat, .page-title .fav-btn.active{
@@ -13,11 +13,9 @@ a:hover{
 .question-list .question-item .big-ans-count{
 	background:#2DB3E9;
 }
-#header-below, .header-position-c {
-	background-color: #fff;
-}
-.header-position-c {
-    background: none repeat scroll 0 0 #CCEAF8;
+
+#site-header #header-top, .header-position-c,.page-title, .category-nav .category-list-drop li a span, .pagination > li > .qa-page-selected, .pagination > li:hover > a, .btn-success, #ra-widgets .widget-canvas .widget-save {
+    background-color: #21a65f;
 }
 
 .answer-selected .a-item-wrap {
@@ -72,9 +70,7 @@ a:hover{
 .on-off-checkbox-container, .pagination, .question-tags .tags-tag-list li a:hover {
 	border-color:#e45840;
 }
-.qa-nav-main .qa-nav-main-list li a{
-	color: #586f7a;
-}
+
 .ra-ask-widget .input-group-btn button, .carousel-control.left, .carousel-control.right, .ajax-file-upload-bar {
     background: none repeat scroll 0 0 #d6313a;
 }

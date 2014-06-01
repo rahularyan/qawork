@@ -139,7 +139,8 @@ class cs_theme_options {
 		$qa_content=qa_content_prepare();
 
 		
-		$qa_content['site_title']="Theme Options";
+		$qa_content['site_title']="Options for qawork";
+		$qa_content['title']="QAWork Options";
 		$qa_content['error']="";
 		$qa_content['suggest_next']="";
 		
@@ -264,31 +265,7 @@ class cs_theme_options {
 				</tr>
 			</tbody>
 			<tbody>
-				<tr>
-					<th class="qa-form-tall-label">
-						Navigation Position
-						<span class="description">Where to show navigation</span>
-					</th>
-					<td class="qa-form-tall-label">
-						<input class="theme-option-radio" type="radio"' . (qa_opt('cs_nav_position') == 'left' ? ' checked=""' : '') . ' id="cs_nav_position" name="cs_nav_position" value="left">
-						   <label for="cs_nav_position">Left</label>
-						<input class="theme-option-radio" type="radio"' . (qa_opt('cs_nav_position') == 'top' ? ' checked=""' : '') . ' id="cs_nav_position_top" name="cs_nav_position" value="top">
-						   <label for="cs_nav_position_top">Top</label> 
-					</td>
-				</tr>
-			</tbody>
-			<tbody>
-				<tr>
-					<th class="qa-form-tall-label">
-						Fixed Navigation
-					</th>
-					<td class="qa-form-tall-label">
-						<div class="on-off-checkbox-container">
-								<input type="checkbox" class="on-off-checkbox" value="1"' . (qa_opt('cs_nav_fixed') ? ' checked=""' : '') . ' id="cs_nav_fixed" name="cs_nav_fixed">
-								<label for="cs_nav_fixed"></label>
-						</div>
-					</td>
-				</tr>
+
 				<tr>
 					<th class="qa-form-tall-label">
 						Show menu Icon
