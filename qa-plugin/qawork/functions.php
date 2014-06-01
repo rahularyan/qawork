@@ -1147,3 +1147,13 @@ function cs_get_user_cover($profile, $small = false, $css = false){
 	elseif($small && $css)
 		return ' style="background-image:url('. $url.$file[0].'_s.'.$file[1].')"';
 }
+
+function starts_with($haystack, $needle)
+{
+    return $needle === "" || strpos($haystack, $needle) === 0;
+}
+
+function ends_with($haystack, $needle)
+{
+    return $needle === "" || substr($haystack, -strlen($needle)) === $needle;
+}
