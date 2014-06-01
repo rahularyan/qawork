@@ -129,8 +129,10 @@
 				$user_info = get_userdata( $userid );
 				$handle = $user_info->user_login;
 			}else
-				$handle = $qa_content['raw']['account']['handle'];
-				
+				$handle = @$qa_content['raw']['account']['handle'];
+				if (!$handle) {
+					return 0 ;
+				}
 			
 			if(@$themeobject->current_widget['param']['locations']['show_title'])
 				$themeobject->output('<h3 class="widget-title">'.qa_lang_sub('cleanstrap/x_activities', $handle).'</h3>');
