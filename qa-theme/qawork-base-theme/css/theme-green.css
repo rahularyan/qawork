@@ -14,7 +14,7 @@ a:hover{
 	background:#2DB3E9;
 }
 
-#site-header #header-top, .header-position-c,.page-title, .category-nav .category-list-drop li a span, .pagination > li > .qa-page-selected, .pagination > li:hover > a, .btn-success, #ra-widgets .widget-canvas .widget-save, .ra-activity .activity-icon{
+#site-header #header-top, .header-position-c,.page-title, .category-nav .category-list-drop li a span, .pagination > li > .qa-page-selected, .pagination > li:hover > a, .btn-success, #ra-widgets .widget-canvas .widget-save, .ra-activity .activity-icon, .ra-tags-widget .widget-tag span{
     background-color: #21a65f;
 }
 .qa-q-list .qa-q-list-item .qa-q-item-main > .ans-count {
@@ -48,10 +48,6 @@ a:hover{
 	color:#6E973C;
 }
 
-
-.t-bg2, .ra-ask-widget .ui-helper-hidden-accessible, .ra-tags-widget .widget-tag, .t-bg:hover, .top-users-list .top-user-data .points, #left-position .ra-tags-widget .widget-tag span, .navbar-default .navbar-nav.category-nav .category-list-drop li a span, .carousel .slider-item .big-ans-count, .featured-sticker, .cs-category-widget-list li a span, .question-side .qa-tag-link{
-    background: none repeat scroll 0 0 #FDAB0C;
-}
 
 #site-header .navbar-form ::-webkit-input-placeholder { /* WebKit browsers */
     color:    #aaa;
