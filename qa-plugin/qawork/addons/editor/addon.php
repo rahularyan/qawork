@@ -17,6 +17,8 @@ class QW_Editor_Addon{
 		cs_event_hook('enqueue_script', NULL, array($this, 'script'));
 		cs_add_action('cs_theme_option_tab', array($this, 'option_tab'));
     cs_add_action('cs_theme_option_tab_content', array($this, 'option_tab_content'));
+    cs_add_action('cs_reset_theme_options', array($this, 'reset_theme_options'));
+
 	}
 		
 	public function language($lang_arr){
@@ -57,9 +59,9 @@ class QW_Editor_Addon{
           $saved=false;
           if(qa_clicked('cs_save_button')){   
               qa_opt("cs_qa_editor_code_theme", qa_post_text("cs_qa_editor_code_theme"));
-              qa_opt("cs_qa_editor_theme_use_minified", qa_post_text("cs_qa_editor_theme_use_minified"));
+              qa_opt("cs_qa_editor_theme_use_minified", !!qa_post_text("cs_qa_editor_theme_use_minified"));
               $saved=true;
-            }
+          }
           
           echo '<li>
               <a href="#" data-toggle=".qa-part-form-qa-editor-settings">QA Editor Settings</a>
@@ -115,6 +117,13 @@ class QW_Editor_Addon{
               ';
             $output .= '</table></div>';
             echo $output;
+    }
+    public function reset_theme_options() {
+        if (qa_clicked('cs_reset_button')) {
+          qa_opt("cs_qa_editor_code_theme", "github.css");
+          qa_opt("cs_qa_editor_theme_use_minified", 1);
+          $saved=true;
+        }
     }
 }
 
