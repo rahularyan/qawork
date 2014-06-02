@@ -87,8 +87,6 @@ class QW_Editor_Addon{
         	$select_options .= '<option value="'.$theme.'" '.$selected.'>'.$theme_name.'</option>';
         }
 
-        cs_log(print_r($select_options , true )) ;
-
         $output = '<div class="qa-part-form-qa-editor-settings">
             <h3>Choose Your QA Editor Settings</h3>
             <table class="qa-form-tall-table options-table">';
