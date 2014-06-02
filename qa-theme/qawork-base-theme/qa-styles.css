@@ -89,7 +89,7 @@
 #home-featured-position .widget {
     margin-bottom: 0;
 }
-#home-featured-position .widget, #home-right-position .widget, #home-top-users-position .widget, #home-bottom-position .widget{
+#home-featured-position .widget, #home-right-position .widget, #home-top-users-position .widget, #home-bottom-position .widget, #home-activity-position .cs_site_activity, #home-activity-position .cs_text_widget{
     background: none repeat scroll 0 0 rgba(0, 0, 0, 0);
     border: medium none;
 }
@@ -114,7 +114,6 @@
     margin-top: 20px;
 }
 #home-activity-position .ra-text-widget {
-    padding: 10px;
     text-align: center;
 }
 .home-top-users {
