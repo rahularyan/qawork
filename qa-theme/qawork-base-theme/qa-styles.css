@@ -70,6 +70,9 @@
 .home-join .form-search {
     float: left;
 }
+.home-join .form-search .btn {
+    padding: 9px 15px;
+}
 .home-join .form-search .form-control {
     height: 38px;
 }
@@ -158,4 +161,10 @@
 }
 #home-bottom-position .featured-questions .item{
 	width:25%;
+}
+.footer-positions .widget{
+    background: none repeat scroll 0 0 rgba(0, 0, 0, 0);
+    border: medium none;
+    border-radius: 0;
+    margin: 0;
 }
