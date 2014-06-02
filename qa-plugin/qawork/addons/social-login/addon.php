@@ -19,8 +19,8 @@ qa_register_plugin_module('page', 'addons/social-login/page.php', 'cs_social_log
 class Cs_Social_Login_Addon {
 
       function __construct() {
-            cs_event_hook('doctype', NULL, array($this, 'navigation'));
-            cs_add_action('dropdown_social_login', array($this, 'dropdown_social_login'));
+			cs_add_action('user_profile_btn', array($this, 'navigation'));
+
             cs_event_hook('register_language', NULL, array($this, 'language'));
             cs_event_hook('enqueue_css', NULL, array($this, 'css'));
 			cs_add_filter('init_queries', array($this, 'init_queries'));
@@ -47,17 +47,10 @@ class Cs_Social_Login_Addon {
 	}
 	
 	public function dropdown_social_login(){
-		echo 'dsfsdfs';
+		//echo 'dsfsdfs';
 	}
-      public function navigation($themeclass) {
-
-		if(cs_is_user())	{
-			if (isset($themeclass['raw']['userid']) && $themeclass['raw']['userid'] == qa_get_logged_in_userid() ) {
-				$themeclass['navigation']['sub']['logins'] = array('label' => qa_lang_html('cs_social_login/my_logins_nav'), 'url'   => qa_path_html('logins'), 'icon' => 'icon-key');
-			}
-		}
-			
-        return $themeclass;
+      public function navigation($handle, $user) {		
+		echo '<a class="btn'.(qa_request() == 'logins' ? ' active' : ''.'" href="'.qa_path_html('logins')).'">Logins</a>';        
       }
 
       public function language($lang_arr) {
