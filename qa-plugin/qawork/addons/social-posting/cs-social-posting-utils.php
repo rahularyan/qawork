@@ -228,10 +228,10 @@ function cs_get_fb_invite_button(){
 	}
 }
 
-function cs_get_fb_msg_button($link){
+function cs_get_fb_msg_button($link, $label){
 	if (!!qa_opt("facebook_app_id") && !!$link) { /*generate this only if the facebook appid and link is set*/
 		$on_click_event = cs_generate_facebook_link_share_script(qa_opt("facebook_app_id"), array('link' => $link))  ;
-		$button = '<button class="btn btn-facebook" onclick="'.$on_click_event.'">'.qa_lang_html('cs_social_posting/ask_your_friends').'</button>' ;
+		$button = '<button class="btn btn-facebook" onclick="'.$on_click_event.'">'.$label.'</button>' ;
 		return $button;
 	}else {
 		return "Please provide Facebook application Id to enable this option in Theme Options -> Social Login ";

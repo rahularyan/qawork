@@ -1157,3 +1157,25 @@ function ends_with($haystack, $needle)
 {
     return $needle === "" || substr($haystack, -strlen($needle)) === $needle;
 }
+
+function cs_format_num($num, $precision = 2) {
+	if ($num >= 1000 && $num < 1000000)
+	$n_format = number_format($num/1000,$precision).'K';
+
+	else if ($num >= 1000000 && $num < 1000000000)
+	$n_format = number_format($num/1000000,$precision).'M';
+
+	else if ($num >= 1000000000)
+	$n_format=number_format($num/1000000000,$precision).'B';
+
+	else
+	$n_format = $num;
+
+	return $n_format;
+} 
+function cs_current_url() {
+	$url  = @( $_SERVER["HTTPS"] != 'on' ) ? 'http://'.$_SERVER["SERVER_NAME"] :  'https://'.$_SERVER["SERVER_NAME"];
+	$url .= ( $_SERVER["SERVER_PORT"] !== 80 ) ? ":".$_SERVER["SERVER_PORT"] : "";
+	$url .= $_SERVER["REQUEST_URI"];
+	return $url;
+}

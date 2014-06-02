@@ -13,6 +13,7 @@
 				<div class="big-btns">					
 					<?php 
 						echo cs_get_fb_invite_button();
+						echo $this->fb_ask_your_friend(cs_current_url(), 'Message your friend');
 					?>
 				</div>
 				<p class="total-site-count align-right">Tell your friends about this site</p>
@@ -34,6 +35,7 @@
 						<?php $this->cs_position('Home Activity'); ?>
 					</div>
 				</div>
+				<?php $this->cs_position('Home Bottom'); ?>	
 			</div>
 		</div>
 	<?php
