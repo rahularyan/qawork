@@ -62,7 +62,8 @@
 				'Profile Left Top' => 'Left side of user page',
 				'Profile Right' => 'Right side of user page',
 				'Profile Bottom' => 'Profile bottom',
-				'Footer 1' => 'footer position'
+				'Footer 1' => 'footer position',
+				'Footer 2' => 'footer position'
 			);
 			return array_merge($positions, $new_positions); 
 		}
