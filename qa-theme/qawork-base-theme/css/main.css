@@ -634,13 +634,25 @@ textarea {
 	display: table-cell;
 	vertical-align: top;
 }
+.qa-q-list .qa-q-list-item .qa-q-item-main > .ans-count{
+    background: none repeat scroll 0 0 #EEEEEE;
+    border-radius: 50%;
+    color: #FFFFFF;
+    display: block;
+    float: right;
+    font-size: 20px;
+    height: 60px;
+    line-height: 60px;
+    text-align: center;
+    width: 60px;
+}
 
 .q-item-body {
 	font-size: 12px;
 }
 
 .qa-q-list .qa-q-list-item .qa-q-item-title {
-	font-size: 16px;
+	font-size: 18px;
 }
 
 .q-item-head .time {
@@ -6960,4 +6972,14 @@ div.oembedall-lanyard .first {
 }
 .qa-template-login .qa-part-custom br{
 	display:none;
+}
+.q-item-status .q-item-tag-list {
+	display: inline;
+    list-style: none outside none;
+    margin: 0;
+    padding: 0;
+}
+.q-item-status .q-item-tag-list li{
+    display: inline;
+    padding: 2px;
 }

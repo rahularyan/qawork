@@ -14,7 +14,7 @@ a:hover{
 	background:#2DB3E9;
 }
 
-#site-header #header-top, .header-position-c,.page-title, .category-nav .category-list-drop li a span, .pagination > li > .qa-page-selected, .pagination > li:hover > a, .btn-success, #ra-widgets .widget-canvas .widget-save, .ra-activity .activity-icon {
+#site-header #header-top, .header-position-c,.page-title, .category-nav .category-list-drop li a span, .pagination > li > .qa-page-selected, .pagination > li:hover > a, .btn-success, #ra-widgets .widget-canvas .widget-save, .ra-activity .activity-icon, .qa-q-list .qa-q-list-item .qa-q-item-main > .ans-count {
     background-color: #21a65f;
 }
 

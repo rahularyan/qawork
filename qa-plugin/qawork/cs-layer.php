@@ -1152,7 +1152,11 @@ class qa_html_theme_layer extends qa_html_theme_base {
             $this->output(cs_get_post_avatar($q_item, $avatar_size, true));		
             $this->output('</div>');
        // }
-        $this->output('<div class="qa-q-item-main"><div class="qa-q-item-main-line">');
+        $this->output(
+			'<div class="qa-q-item-main">',
+			'<div class="ans-count" title="'.qa_lang_sub('cleanstrap/x_answers', $q_item['raw']['acount']).'">'. cs_format_num($q_item['raw']['acount']) .'</div>',
+			'<div class="qa-q-item-main-line">'
+		);
 		
         $this->output('<div class="q-item-head">');
 		
@@ -1160,22 +1164,8 @@ class qa_html_theme_layer extends qa_html_theme_base {
 			
 			if ((qa_opt('cs_show_tags_list') && !empty($q_item['q_tags'])) || isset($q_item['raw']['categoryname']) ) {
 				$this->output('<div class="cat-tag-drop">');
-				if (qa_opt('cs_show_tags_list') && !empty($q_item['q_tags'])) {
-					$this->output('<div class="btn-group">');
-					$this->output('<button type="button" class="btn btn-default dropdown-toggle icon-tag" data-toggle="dropdown">'.count($q_item['q_tags']).'</button>');
-					$this->output('<div class="dropdown-menu pull-right" role="menu">');
-					$this->post_tag_list($q_item, 'list-tag');
-					$this->output('</div>');
-					$this->output('</div>');
-				}
-				if (isset($q_item['raw']['categoryname']) && !empty($q_item['raw']['categoryname'])) {
-					$this->output('<div class="btn-group">');
-					$this->output('<button type="button" class="btn btn-default dropdown-toggle icon-folder" data-toggle="dropdown"></button>');
-					$this->output('<div class="dropdown-menu pull-right" role="menu">');
-					$this->output('<a class="cat-in" href="' . cs_cat_path($q_item['raw']['categorybackpath']) . '">' . $q_item['raw']['categoryname'] . '</a>');
-					$this->output('</div>');
-					$this->output('</div>');
-				}
+				
+				
 				$this->output('</div>');
 			}
 			
@@ -1248,15 +1238,21 @@ class qa_html_theme_layer extends qa_html_theme_base {
     
 	function q_item_main_stats($q_item){
 		if (cs_hook_exist(__FUNCTION__)) {$args=func_get_args(); return cs_do_action(__FUNCTION__, $args); }
-		$this->output(			
-			'<div class="q-item-footer clearfix">',
+		
+		if (isset($q_item['raw']['categoryname']) && !empty($q_item['raw']['categoryname'])) {
+			$cat = '<a class="cat-in icon-folder" href="' . cs_cat_path($q_item['raw']['categorybackpath']) . '">' . $q_item['raw']['categoryname'] . '</a>	';
+		}
+
 				
+		$this->output(			
+			'<div class="q-item-footer clearfix">',				
 				'<div class="q-item-status">',
 					'<span class="status-c">' . cs_post_status($q_item) . '</span>',
 					'<span class="icon-thumb-up">'.qa_lang_sub('cleanstrap/x_votes', $q_item['raw']['netvotes']).'</span>',
-					'<span class="icon-answer">'.qa_lang_sub('cleanstrap/x_answers', $q_item['raw']['acount']).'</span>',
-					'<span class="icon-eye">'.qa_lang_sub('cleanstrap/x_views', $q_item['raw']['views']).'</span>',				
-				'</div>',
+					'<span class="icon-eye">'.qa_lang_sub('cleanstrap/x_views', cs_format_num($q_item['raw']['views'])).'</span>',
+					@$cat);
+					$this->post_tag_list($q_item, 'q-item');
+				$this->output('</div>',
 			'</div>'
 		);
 	}
@@ -2540,11 +2536,7 @@ class qa_html_theme_layer extends qa_html_theme_base {
 	}
 	
 	function fb_ask_your_friend($link){
-		if (!!qa_opt("facebook_app_id") && !!$link) { /*generate this only if the facebook appid and link is set*/
-			$on_click_event = cs_generate_facebook_link_share_script(qa_opt("facebook_app_id"), array('link' => $link))  ;
-			$button = '<button class="btn btn-facebook" onclick="'.$on_click_event.'">'.qa_lang_html('cs_social_posting/ask_your_friends').'</button>' ;
-			$this->output($button);
-		}
+		$this->output(cs_get_fb_msg_button($link));
 	}
 	function notfound_template($content){
 		if (cs_hook_exist(__FUNCTION__)) {$args=func_get_args(); return cs_do_action(__FUNCTION__, $args); }
