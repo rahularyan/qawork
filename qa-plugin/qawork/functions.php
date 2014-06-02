@@ -695,15 +695,14 @@ function cs_following_list($handle, $size = 40, $limit = 10, $order_by = 'rand')
 	if( $order_by == 'rand')
 		$order_by = 'ORDER BY RAND()';
 	
-	$followers = qa_db_read_all_values(qa_db_query_sub('SELECT * FROM ^userfavorites INNER JOIN ^users ON ^userfavorites.entityid = ^users.userid  WHERE ^userfavorites.userid = # and ^userfavorites.entitytype = "U" ORDER BY RAND() LIMIT #', $userid,  (int)$limit));	
+	$followers = qa_db_read_all_assoc(qa_db_query_sub('SELECT * FROM ^userfavorites, ^users WHERE ^userfavorites.entityid = ^users.userid  AND ^userfavorites.userid = # and ^userfavorites.entitytype = "U" ORDER BY RAND() LIMIT #', $userid,  (int)$limit));	
 
 
 	if(count($followers)){
 		$output = '<div class="user-followers-inner">';
 		$output .= '<ul class="user-followers clearfix">';
 		foreach($followers as $user){
-			$id = qa_handle_to_userid($user);
-			$output .= '<li><div class="avatar" data-handle="'.$user.'" data-id="'.$id.'">'.cs_get_post_avatar($user, $size, false).'</div></li>';
+			$output .= '<li><div class="avatar" data-handle="'.$user['handle'].'" data-id="'.$user['userid'].'">'.cs_get_post_avatar($user, $size, false).'</div></li>';
 		}
 		$count = cs_count_following($userid);
 		

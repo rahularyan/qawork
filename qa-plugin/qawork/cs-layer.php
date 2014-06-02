@@ -1290,7 +1290,7 @@ class qa_html_theme_layer extends qa_html_theme_base {
 			$this->output('<div class="qa-attribution-right">');
 				if ((bool) qa_opt('cs_footer_copyright'))
 					$this->output(qa_opt('cs_footer_copyright'));
-				$this->output('<span class="developer">Crafted by <a href="http://rahularyan.com">Rahul Aryan</a> & Team</span>');
+				$this->output('<span class="developer">Crafted by <a href="http://rahularyan.com">RA Team</a></span>');
 			$this->output('</div>');
 		$this->output('</div>');        
         $this->output('</footer>');

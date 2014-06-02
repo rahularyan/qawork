@@ -8,7 +8,7 @@
 	Theme License: GPL 2.0
 	Theme Update Check URI: 
 */
-.featured-questions .title, .widget-title, .page-title h1, .answers-label, .user-box-inner .user-name, .total-site-count, .qa-q-item-title > a, .home-intro h1, .home-top-users h2, .ra-post-list-widget.widget-big-post-lists .posts-list .title{
+.featured-questions .title, .widget-title, .page-title h1, .answers-label, .user-box-inner .user-name, .total-site-count, .qa-q-item-title > a, .home-intro h1, .home-top-users h2, .ra-post-list-widget.widget-big-post-lists .posts-list .title, .qawork-intro h2, .qawork-intro p{
 	font-family: 'Questrial', sans-serif;
 }
 
@@ -165,6 +165,15 @@
 .footer-positions .widget{
     background: none repeat scroll 0 0 rgba(0, 0, 0, 0);
     border: medium none;
-    border-radius: 0;
     margin: 0;
+}
+.qawork-intro {
+	text-align:center;
+}
+.qawork-intro .shadow-drop i {
+    color: #E75353;
+    font-size: 50px;
+}
+.qawork-intro p{
+
 }
