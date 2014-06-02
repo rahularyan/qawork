@@ -14,10 +14,12 @@ a:hover{
 	background:#2DB3E9;
 }
 
-#site-header #header-top, .header-position-c,.page-title, .category-nav .category-list-drop li a span, .pagination > li > .qa-page-selected, .pagination > li:hover > a, .btn-success, #ra-widgets .widget-canvas .widget-save, .ra-activity .activity-icon, .qa-q-list .qa-q-list-item .qa-q-item-main > .ans-count {
+#site-header #header-top, .header-position-c,.page-title, .category-nav .category-list-drop li a span, .pagination > li > .qa-page-selected, .pagination > li:hover > a, .btn-success, #ra-widgets .widget-canvas .widget-save, .ra-activity .activity-icon{
     background-color: #21a65f;
 }
-
+.qa-q-list .qa-q-list-item .qa-q-item-main > .ans-count {
+	background:#59bb87;
+}
 .answer-selected .a-item-wrap {
     border-color:#94E096;
 }

@@ -54,13 +54,15 @@
 				'Home Top Users' => 'For showing top users',
 				'Home Activity' => 'For showing activity',
 				'Home Right' => 'Home right side',						
+				'Home Bottom' => 'Home below activity',						
 				'Question Right' => 'Right side of question',
 				'User Content' => 'On user page',
 				'User Right' => 'Right side of user page',
 				'Profile Left Bottom' => 'Left side of user page',
 				'Profile Left Top' => 'Left side of user page',
 				'Profile Right' => 'Right side of user page',
-				'Profile Bottom' => 'Profile bottom'
+				'Profile Bottom' => 'Profile bottom',
+				'Footer 1' => 'footer position'
 			);
 			return array_merge($positions, $new_positions); 
 		}
