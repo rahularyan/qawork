@@ -34,7 +34,7 @@ function cs_is_home(){
 
 function cs_is_user(){
 	$request = qa_request_parts(0);
-	if( $request[0] == 'user')
+	if( $request[0] == 'user' || $request[0] == 'followers' || $request[0] == 'following')
 		return true;
 		
 	return false;
@@ -220,9 +220,8 @@ function cs_get_avatar($handle, $size = 40, $html =true){
 		$img_html = qa_get_external_avatar_html($userid, $size, false);
 	}else{
 		if (!isset($handle)){
-			if (qa_opt('avatar_allow_gravatar'))
-				$img_html = qa_get_gravatar_html(qa_get_user_email($userid), $size);
-			else if ( qa_opt('avatar_allow_upload') && qa_opt('avatar_default_show') && strlen(qa_opt('avatar_default_blobid')) )
+
+			if ( qa_opt('avatar_allow_upload') && qa_opt('avatar_default_show') && strlen(qa_opt('avatar_default_blobid')) )
 				$img_html = qa_get_avatar_blob_html(qa_opt('avatar_default_blobid'), qa_opt('avatar_default_width'), qa_opt('avatar_default_height'), $size);
 			else
 				$img_html = '';
@@ -666,15 +665,13 @@ function cs_followers_list($handle, $size = 40, $limit = 10, $order_by = 'rand')
 	if( $order_by == 'rand')
 		$order_by = 'ORDER BY RAND()';
 	
-	$followers = qa_db_read_all_values(qa_db_query_sub('SELECT ^users.handle FROM ^userfavorites, ^users  WHERE (^userfavorites.userid = ^users.userid and ^userfavorites.entityid = #) and ^userfavorites.entitytype = "U" ORDER BY RAND() LIMIT #', $userid,  (int)$limit));	
+	$followers = qa_db_read_all_assoc(qa_db_query_sub('SELECT ^users.* FROM ^userfavorites, ^users  WHERE (^userfavorites.userid = ^users.userid and ^userfavorites.entityid = #) and ^userfavorites.entitytype = "U" ORDER BY RAND() LIMIT #', $userid,  (int)$limit));	
 
-	
 	if(count($followers)){
 		$output = '<div class="user-followers-inner">';
 		$output .= '<ul class="user-followers clearfix">';
 		foreach($followers as $user){
-			$id = qa_handle_to_userid($user);
-			$output .= '<li><div class="avatar" data-handle="'.$user.'" data-id="'.$id.'"><a href="'.qa_path_html('user/'.$user).'"><img src="'.cs_get_avatar($user, $size, false).'" /></a></div></li>';
+			$output .= '<li><div class="avatar" data-handle="'.$user['handle'].'" data-id="'.$user['userid'].'">'.cs_get_post_avatar($user, $size, false).'</div></li>';
 		}
 		$count = cs_user_followers_count($userid);
 		
@@ -698,7 +695,7 @@ function cs_following_list($handle, $size = 40, $limit = 10, $order_by = 'rand')
 	if( $order_by == 'rand')
 		$order_by = 'ORDER BY RAND()';
 	
-	$followers = qa_db_read_all_values(qa_db_query_sub('SELECT ^users.handle FROM ^userfavorites INNER JOIN ^users ON ^userfavorites.entityid = ^users.userid  WHERE ^userfavorites.userid = # and ^userfavorites.entitytype = "U" ORDER BY RAND() LIMIT #', $userid,  (int)$limit));	
+	$followers = qa_db_read_all_values(qa_db_query_sub('SELECT * FROM ^userfavorites INNER JOIN ^users ON ^userfavorites.entityid = ^users.userid  WHERE ^userfavorites.userid = # and ^userfavorites.entitytype = "U" ORDER BY RAND() LIMIT #', $userid,  (int)$limit));	
 
 
 	if(count($followers)){
@@ -706,7 +703,7 @@ function cs_following_list($handle, $size = 40, $limit = 10, $order_by = 'rand')
 		$output .= '<ul class="user-followers clearfix">';
 		foreach($followers as $user){
 			$id = qa_handle_to_userid($user);
-			$output .= '<li><div class="avatar" data-handle="'.$user.'" data-id="'.$id.'"><a href="'.qa_path_html('user/'.$user).'"><img src="'.cs_get_avatar($user, $size, false).'" /></a></div></li>';
+			$output .= '<li><div class="avatar" data-handle="'.$user.'" data-id="'.$id.'">'.cs_get_post_avatar($user, $size, false).'</div></li>';
 		}
 		$count = cs_count_following($userid);
 		
@@ -1178,4 +1175,10 @@ function cs_current_url() {
 	$url .= ( $_SERVER["SERVER_PORT"] !== 80 ) ? ":".$_SERVER["SERVER_PORT"] : "";
 	$url .= $_SERVER["REQUEST_URI"];
 	return $url;
+}
+function cs_array_search_partial($arr, $keyword) {
+    foreach($arr as $index => $string) {
+        if (strpos($string, $keyword) !== FALSE)
+            return $index;
+    }
 }
