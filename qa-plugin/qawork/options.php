@@ -49,7 +49,6 @@ class cs_theme_options {
 			qa_opt('cs_enable_ask_button', (bool) qa_post_text('cs_enable_ask_button'));
 			qa_opt('cs_enable_category_nav', (bool) qa_post_text('cs_enable_category_nav'));
 			qa_opt('cs_enable_clean_qlist', (bool) qa_post_text('cs_enable_clean_qlist'));
-			qa_opt('cs_enable_default_home', (bool) qa_post_text('cs_enable_default_home'));
 			qa_opt('cs_enable_except', (bool) qa_post_text('cs_enable_except'));
 			qa_opt('cs_except_len', (int) qa_post_text('cs_except_len'));
 			qa_opt('cs_enable_avatar_lists', (bool) qa_post_text('cs_enable_avatar_lists'));
@@ -304,18 +303,6 @@ class cs_theme_options {
 			</tbody>
 			<tbody>
 				<tr><td><h3>Home Page</h3></td></tr>
-				<tr>
-					<th class="qa-form-tall-label">
-						Toggle question list in home
-						<span class="description">Toggle if you want to show default question list in home page</span>
-					</th>
-					<td class="qa-form-tall-label">
-						<div class="on-off-checkbox-container">
-								<input type="checkbox" class="on-off-checkbox" value="1"' . (qa_opt('cs_enable_default_home') ? ' checked=""' : '') . ' id="cs_enable_default_home" name="cs_enable_default_home">
-								<label for="cs_enable_default_home"></label>
-						</div>
-					</td>
-				</tr>
 				<tr>
 					<th class="qa-form-tall-label">
 						Clean Question List
@@ -818,7 +805,6 @@ class cs_theme_options {
 		qa_opt('cs_enable_ask_button', 1 );
 		qa_opt('cs_enable_category_nav', 1 );
 		qa_opt('cs_enable_clean_qlist', 1 );
-		qa_opt('cs_enable_default_home', false );
 		qa_opt('cs_enable_except', 1 );
 		qa_opt('cs_except_len', 120 );
 		qa_opt('cs_enable_avatar_lists', 1 );
