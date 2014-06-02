@@ -2559,7 +2559,9 @@ class qa_html_theme_layer extends qa_html_theme_base {
 	}
 	
 	function fb_ask_your_friend($link, $label = 'Ask your friends'){
-		$this->output(cs_get_fb_msg_button($link, $label));
+		if (function_exists('cs_get_fb_msg_button')) { /*make sure the social plugin is enabled */
+			$this->output(cs_get_fb_msg_button($link, $label));
+		}
 	}
 	function notfound_template($content){
 		if (cs_hook_exist(__FUNCTION__)) {$args=func_get_args(); return cs_do_action(__FUNCTION__, $args); }

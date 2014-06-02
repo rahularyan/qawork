@@ -34,7 +34,7 @@ function cs_is_home(){
 
 function cs_is_user(){
 	$request = qa_request_parts(0);
-	if( $request[0] == 'user' || $request[0] == 'followers' || $request[0] == 'following'|| $request[0] == 'favorites'|| $request[0] == 'account'|| $request[0] == 'logins')
+	if( $request[0] == 'user' || $request[0] == 'followers' || $request[0] == 'following'|| $request[0] == 'favorites'|| $request[0] == 'account'|| $request[0] == 'logins'|| $request[0] == 'social-posting')
 		return true;
 		
 	return false;

@@ -24,7 +24,7 @@ qa_register_plugin_module('widget', 'addons/social-posting/invite-friends-widget
 class Cs_Social_Posting_Addon {
 
       function __construct() {
-            cs_event_hook('doctype', NULL, array($this, 'navigation'));
+            cs_add_action('user_profile_btn', array($this, 'navigation'));
             cs_event_hook('register_language', NULL, array($this, 'language'));
             cs_event_hook('enqueue_css', NULL, array($this, 'css'));
             cs_event_hook('enqueue_scripts', NULL, array($this, 'script'));
@@ -48,18 +48,7 @@ class Cs_Social_Posting_Addon {
             return $script_src;
       }
       public function navigation($themeclass) {
-        if(cs_is_user())  {
-              if (isset($themeclass['raw']['userid']) && $themeclass['raw']['userid'] == qa_get_logged_in_userid() ) {
-                  if ((qa_opt('cs_enable_fb_posting') || qa_opt('cs_enable_twitter_posting')))
-                
-                           $themeclass['navigation']['sub']['posting'] = array(
-                                              'label' => qa_lang('cs_social_posting/my_social_posting_nav'),
-                                              'url'   => qa_path_html('social-posting') ,
-                                              'icon' => 'icon-group' ,
-                                              );
-              }
-        }
-        return $themeclass ; 
+        echo '<a class="btn'.(qa_request() == 'social-posting' ? ' active' : ''.'" href="'.qa_path_html('social-posting')).'">'.qa_lang('cs_social_posting/my_social_posting_nav').'</a>';        
       }
 
       public function reset_theme_options() {

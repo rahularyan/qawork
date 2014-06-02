@@ -223,8 +223,6 @@ function cs_get_fb_invite_button(){
 		$on_click_event = cs_generate_facebook_invite_script(qa_opt("facebook_app_id"), array('url' => qa_opt("site_url")))  ;
 		$button = '<button class="btn btn-facebook" onclick="'.$on_click_event.'">'.qa_lang_html('cs_social_posting/invite_friends').'</button>' ;
 		return $button ;
-	}else {
-		return "Please provide Facebook application Id to enable this option in Theme Options -> Social Login ";
 	}
 }
 
@@ -233,7 +231,5 @@ function cs_get_fb_msg_button($link, $label){
 		$on_click_event = cs_generate_facebook_link_share_script(qa_opt("facebook_app_id"), array('link' => $link))  ;
 		$button = '<button class="btn btn-facebook" onclick="'.$on_click_event.'">'.$label.'</button>' ;
 		return $button;
-	}else {
-		return "Please provide Facebook application Id to enable this option in Theme Options -> Social Login ";
 	}
 }
