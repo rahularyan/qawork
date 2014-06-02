@@ -12,6 +12,12 @@
 						'type' => 'number',
 						'tags' => 'name="cs_tags_count" class="form-control"',
 						'value' => '10',
+					),
+					'inline' => array(
+						'label' => 'Inline',
+						'type' => 'checkbox',
+						'tags' => 'name="inline"',
+						'value' => '1',
 					)
 				),
 
@@ -76,7 +82,7 @@
 			$populartags = cs_get_cache_popular_tags($to_show);
 			
 			reset($populartags);
-			$themeobject->output('<div class="ra-tags-widget clearfix">');
+			$themeobject->output('<div class="ra-tags-widget clearfix '.(!!$widget_opt['inline'] ? 'inline' : 'block').'">');
 	
 			$blockwordspreg=qa_get_block_words_preg();			
 			foreach ($populartags as $tag => $count) {
