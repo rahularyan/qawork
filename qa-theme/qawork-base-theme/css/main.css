@@ -1,5 +1,5 @@
 body {
-	color: #555;
+	color: #444;
 	font-size: 13px;
 	line-height: 1.6;
 }
@@ -34,7 +34,7 @@ label {
 .form-control, textarea, input[type="text"], input[type="password"], select {
     background-color: #FFFFFF;
     background-image: none;
-    border: 1px solid #ddd;
+    border: 1px solid #D3D6DB;
     border-radius: 3px;
     box-shadow: 0 1px 1px rgba(0, 0, 0, 0.016) inset;
     color: #555555;
@@ -700,7 +700,7 @@ textarea {
 }
 
 .qa-q-item-title > a {
-	color: #4E5C67;
+	color: inherit;
 	display: block;
 }
 
@@ -965,7 +965,8 @@ ul.qa-nav-cat-list-4 > li.qa-nav-cat-item:first-child {
 }
 
 .qa-nav-sub ul li [class^="icon-"]:before {
-	margin-right: 10px;
+    color: #AAAAAA;
+    margin-right: 10px;
 }
 
 .qa-nav-sub-link:hover {
@@ -4211,10 +4212,8 @@ a.open-login-button.twitter {
 }
 
 .qa-form-tall-data .cke_chrome {
-	border: 1px solid #DDD;
-	-moz-box-shadow: none;
-	-webkit-box-shadow: none;
-	box-shadow: none;
+    border: medium none;
+    box-shadow: none;
 }
 
 .qa-form-tall-data .cke_toolgroup {
@@ -6398,7 +6397,8 @@ div.oembedall-lanyard .first {
 .user-widget > h3, .widget > h3, .widget-title{
     border-bottom: 1px solid #EEEEEE;
     border-top: medium none;
-    font-size: 15px;
+    color: #979797;
+    font-size: 12px;
     margin: 0 0 5px;
     padding: 10px;
 }
@@ -6412,13 +6412,13 @@ div.oembedall-lanyard .first {
 	padding:0;
 }
 .user-widget .widget-inner{
-	padding: 15px;
+	padding: 0;
 }
 .user-widget.user-profile li, .user-widget.user-activities li{
     border-bottom: 1px solid #F6F6F6;
     color: #666666;
-    font-size: 13px;
-    padding: 5px 4px;
+    font-size: 12px;
+    padding: 6px 15px;
 }
 .user-widget.user-profile .about strong{
 	display:block;
@@ -6429,6 +6429,7 @@ div.oembedall-lanyard .first {
 .user-widget.user-profile li strong, .user-widget.user-activities li strong{
     color: #333333;
     display: inline-block;
+    font-size: 11px;
     min-width: 70px;
     text-transform: capitalize;
 }
@@ -6482,12 +6483,11 @@ div.oembedall-lanyard .first {
     width: 169px;
 }
 .user-navigation .qa-nav-sub {
-    border-color: transparent #EEEEEE #EEEEEE;
+    border-color: rgba(0, 0, 0, 0) #EEEEEE #EEEEEE;
     border-image: none;
     border-radius: 0 0 5px 5px;
-    border-right: 2px solid #EEEEEE;
     border-style: none solid solid;
-    border-width: medium 2px 2px;
+    border-width: medium 1px 1px;
 }
 .qa-main .user-navigation .qa-nav-sub ul {
     padding: 0;
@@ -6497,13 +6497,18 @@ div.oembedall-lanyard .first {
 }
 .qa-main .user-navigation .qa-nav-sub ul li a{
     border-radius: 0;
-    color: inherit;
-    font-size: 11px;
-    font-weight: bold;
-    padding: 5px 10px;
+    border-top: 1px solid #EEEEEE;
+    color: #777777;
+    padding: 8px 10px;
 }
 .qa-main .user-navigation .qa-nav-sub ul li a.qa-nav-sub-selected{
-	border: medium none;
+    border-left: medium none;
+    border-right: medium none;
+    color: #333333;
+    font-weight: bold;
+}
+.qa-main .user-navigation .qa-nav-sub ul li a.qa-nav-sub-selected:before{
+	color: #333333;
 }
 .user-main-content{
     display: table-cell;

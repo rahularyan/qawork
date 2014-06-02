@@ -4,7 +4,7 @@
 	Name:Following
 	Version:1.0
 	Author: Rahul Aryan
-	Description:User followers list and widgets
+	Description:User following list and widgets
 */	
 
 if (!defined('QA_VERSION')) {
@@ -34,12 +34,34 @@ $cs_following = new Cs_Follwing;
 					'url' => qa_path_html('following'),
 					'icon' => 'icon-group'
 				);
+					
+				if(qa_request_part(0) == 'following') {					
+					$themeclass['navigation']['user']['following']['selected'] = true;
+				}
 				
-				if(qa_request_part(0) == 'following') {
+				if(cs_is_user())
+					$themeclass['navigation']['sub']['following'] = array(
+						'label' => qa_lang('cleanstrap/following'),
+						'url' => qa_path_html('following'),
+						'icon' => 'icon-group'
+					);
+			}
+			if(qa_request_part(0) == 'following') {					
+					$themeclass['navigation']['sub']['following']['selected'] = true;
 					$themeclass['navigation']['user']['following']['selected'] = true;
 				}
 			
+			$handle = qa_request_part(1) ;
+			if(empty($handle)) {
+				$handle = qa_get_logged_in_handle();
 			}	
+			
+			if(cs_is_user())
+				$themeclass['navigation']['sub']['following'] = array(
+					'label' => qa_lang('cleanstrap/following'),
+					'url' => qa_path_html('following/'.$handle),
+					'icon' => 'icon-group'
+				);			
 		
 			return $themeclass;
 		}

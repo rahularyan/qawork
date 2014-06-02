@@ -34,12 +34,26 @@ $cs_followers = new Cs_Follwers;
 					'url' => qa_path_html('followers'),
 					'icon' => 'icon-group'
 				);
-				
 				if(qa_request_part(0) == 'followers') {
 					$themeclass['navigation']['user']['followers']['selected'] = true;
 				}
+			}
+			if(qa_request_part(0) == 'followers') {
+				$themeclass['navigation']['sub']['followers']['selected'] = true;
+				$themeclass['navigation']['user']['followers']['selected'] = true;
+			}
 			
-			}	
+			$handle = qa_request_part(1) ;
+			if(empty($handle)) {
+				$handle = qa_get_logged_in_handle();
+			}
+			
+			if(cs_is_user())
+				$themeclass['navigation']['sub']['followers'] = array(
+					'label' => qa_lang('cleanstrap/followers'),
+					'url' => qa_path_html('followers/'.$handle),
+					'icon' => 'icon-group'
+				);			
 		
 			return $themeclass;
 		}

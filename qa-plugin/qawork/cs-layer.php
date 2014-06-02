@@ -81,10 +81,13 @@ class qa_html_theme_layer extends qa_html_theme_base {
 			
 			}
 		}
-		
+		if(cs_is_user() && empty($this->content['navigation']['sub']['profile'])){
+			$userid=qa_get_logged_in_userid();
+			$handle=qa_get_logged_in_handle();
+			$this->content['navigation']['sub']=qa_user_sub_navigation($handle, 'profile',	$userid );
+		}
 		if(cs_hook_exist('doctype'))
 			$this->content = cs_apply_filter('doctype', $this->content);
-
 	}
 	
 	function head_script()
@@ -96,11 +99,16 @@ class qa_html_theme_layer extends qa_html_theme_base {
 		if($this->content['script_rel'] && ($key = array_search('qa-content/jquery-1.7.2.min.js', $this->content['script_rel'])) !== false) {
 			unset($this->content['script_rel'][$key]);
 		}
+
+		if($this->content['script_src'] && ($key = cs_array_search_partial($this->content['script_src'], 'ckeditor.js')) !== false)
+			unset($this->content['script_src'][$key]);
 		
 		$this->output('<script src="'.CS_CONTROL_URL.'/js/jquery-1.11.0.min.js"></script>');
 		
 		$this->output('<script> ajax_url = "' . CS_CONTROL_URL . '/ajax.php";</script>');
-	
+
+		$this->content['script'] = array_unique($this->content['script']);
+		$this->content['script_src'] = array_unique($this->content['script_src']);
 		qa_html_theme_base::head_script();
 		
 		$this->output('<script> theme_url = "' . Q_THEME_URL . '";</script>');
@@ -119,6 +127,7 @@ class qa_html_theme_layer extends qa_html_theme_base {
 				foreach ($this->content['script_src'] as $script_src)
 					$this->output('<script type="text/javascript" src="'.$script_src.'"></script>');
 		}
+
 		
 		//register a hook
 		if(cs_hook_exist('head_script'))
@@ -533,6 +542,7 @@ class qa_html_theme_layer extends qa_html_theme_base {
 							<?php
 			if(qa_get_logged_in_level() >= QA_USER_LEVEL_ADMIN)	
 				$this->content['navigation']['user']['admin'] = array('label' => qa_lang_html('cleanstrap/admin'), 'url' => qa_path_html('admin'), 'icon'=> 'icon-spanner');
+				
 			$this->content['navigation']['user']['profile'] = array('label' => qa_lang_html('cleanstrap/profile'), 'url' => qa_path_html('user/' . qa_get_logged_in_handle()), 'icon'=> 'icon-user');
 			$this->content['navigation']['user']['updates']['icon'] = 'icon-rss';
 			$this->content['navigation']['user']['account'] = array('label' => qa_lang('cleanstrap/account'), 'url' => qa_path_html('account'), 'icon' => 'icon-cog');
@@ -565,19 +575,19 @@ class qa_html_theme_layer extends qa_html_theme_base {
 						<div class="social-logins">
 						
 							<?php      
-
+								if(!empty($this->content['navigation']['user']))
 								foreach ($this->content['navigation']['user'] as $k => $custom) {
 									if (isset($custom) && (($k != 'login') && ($k != 'register'))) {
-										preg_match('/class="([^"]+)"/', $custom['label'], $class);
+										preg_match('/class="([^"]+)"/', @$custom['label'], $class);
 										
 										if ($k == 'facebook')
-											$icon = 'class="' . $class[1] . ' icon-social-facebook"';
+											$icon = 'class="' . @$class[1] . ' icon-social-facebook"';
 										elseif ($k == 'google')
-											$icon = 'class="' . $class[1] . ' icon-social-google"';
+											$icon = 'class="' . @$class[1] . ' icon-social-google"';
 										elseif ($k == 'twitter')
-											$icon = 'class="' . $class[1] . ' icon-social-twitter"';
+											$icon = 'class="' . @$class[1] . ' icon-social-twitter"';
 										
-										$this->output(str_replace($class[0], $icon, $custom['label']));
+										$this->output(str_replace(@$class[0], @$icon, @$custom['label']));
 									}
 								}	
 							?>
@@ -757,8 +767,10 @@ class qa_html_theme_layer extends qa_html_theme_base {
     {
 		if (cs_hook_exist(__FUNCTION__)) {$args=func_get_args(); return cs_do_action(__FUNCTION__, $args); }
        $content = $this->content;
-		
-		if(cs_is_user()){
+
+		if($this->template == 'not-found'){
+				$this->notfound_template($content);				
+		}elseif(cs_is_user()){			
 			$this->user_template($content);				
 		}elseif($this->template == 'question'){
 			$this->question_view($content);
@@ -771,8 +783,6 @@ class qa_html_theme_layer extends qa_html_theme_base {
 			$this->output('</div></section>');
 		}elseif($this->template == 'admin'){
 			$this->admin_template($content);				
-		}elseif($this->template == 'not-found'){
-				$this->notfound_template($content);				
 		}else{
 			if(cs_hook_exist('main_'.$this->template))
 				cs_do_action('main_'.$this->template, $this);
@@ -860,6 +870,7 @@ class qa_html_theme_layer extends qa_html_theme_base {
 			$about  = cs_name($handle);
 		}else{
 			$handle = qa_request_part(1);
+			if(empty($handle)) $handle = qa_get_logged_in_handle();
 		}
 		$this->output('<div class="user-right">');
 	
@@ -871,7 +882,7 @@ class qa_html_theme_layer extends qa_html_theme_base {
 	
 	function profile_user_card($handle){
 		if (cs_hook_exist(__FUNCTION__)) {$args=func_get_args(); return cs_do_action(__FUNCTION__, $args); }
-		
+
 		$user = $this->content['active_user'];
 		$profile = $this->content['active_user_profile'];	
 
@@ -879,7 +890,7 @@ class qa_html_theme_layer extends qa_html_theme_base {
 			/* start user info */
 			$this->output(
 				'<div class="user-info">',
-				'<div class="user-thumb">' . cs_get_avatar($handle, 150) . '</div>',
+				'<div class="user-thumb">' . cs_get_post_avatar($user['account'], 150) . '</div>',
 				'<div class="user-name">',
 					'<span>'.$handle.'</span>',
 					'<small class="block">' . qa_user_level_string($user['account']['level']) . '</small>',
