@@ -104,7 +104,10 @@ textarea {
 .btn:hover, .qa-form-light-button:hover, .qa-form-tall-button:hover, .qa-form-wide-button:hover, .qa-a-select-button:hover, .qa-a-unselect-button:hover {
 	color: #fff;
 }
-
+.btn.active, .fav-parent .fav-btn.active {
+    background: none repeat scroll 0 0 #FFFFFF;
+    box-shadow: 0 0 2px rgba(0, 0, 0, 0.2);
+}
 .btn-success, .qa-form-tall-button-answer, .qa-form-tall-button-save {
     background: none repeat scroll 0 0 #53b263;
     color: #FFFFFF;
@@ -121,14 +124,6 @@ textarea {
     border-color: #D43F3A;
     color: #FFFFFF;
     text-shadow: 0 1px 0 rgba(0, 0, 0, 0.2);
-}
-.btn.active, .fav-parent .fav-btn.active {
-	background: #FFF;
-	border-color: #D3D3D3;
-	-moz-box-shadow: 0 0 5px rgba(0, 0, 0, 0.2) inset;
-	-webkit-box-shadow: 0 0 5px rgba(0, 0, 0, 0.2) inset;
-	box-shadow: 0 0 5px rgba(0, 0, 0, 0.2) inset;
-	color: #777;
 }
 
 .qa-c-item-buttons .qa-form-light-button {
@@ -271,6 +266,7 @@ textarea {
     font-size: 17px;
     left: 6px;
     position: absolute;
+    top: 3px;
 }
 
 .qa-nav-main {
@@ -2379,7 +2375,6 @@ input.qa-form-wide-number {
 
 #site-footer {
     background: none repeat scroll 0 0 #586F7A;
-    margin-top: 30px;
     padding: 15px 0;
 }
 
@@ -2918,16 +2913,20 @@ th .description {
 
 /* RA Tags Widget */
 .ra-tags-widget .widget-tag {
-	-moz-border-radius: 2px;
-	-webkit-border-radius: 2px;
-	border-radius: 2px;
-	color: #FFF;
-	display: block;
-	float: left;
-	font-size: 12px;
-	line-height: 16px;
-	margin: 5px 10px;
-	padding: 3px 10px;
+	background: none repeat scroll 0 0 #FFFFFF;
+    border: 1px solid #AAAAAA;
+    border-radius: 2px;
+    color: inherit;
+    display: block;
+    float: left;
+    font-size: 12px;
+    line-height: 16px;
+    margin: 5px 10px;
+    padding: 5px 10px;
+}
+.ra-tags-widget .widget-tag:hover{
+    background: none repeat scroll 0 0 #F3F3F3;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
 }
 
 .ra-tags-widget .widget-tag span {
@@ -4884,12 +4883,14 @@ a.open-login-button.twitter {
 .cs-ask-widget-form .form-control {
 	margin-bottom: 15px;
 }
-
 .cs-ask-widget-form {
-	-moz-border-radius: 5px;
-	-webkit-border-radius: 5px;
-	border-radius: 5px;
-	padding: 15px;
+    background: none repeat scroll 0 0 #FFFFFF;
+    border-radius: 5px;
+    padding: 15px;
+}
+.cs-ask-widget-form .widget-title{
+	border-bottom:none;
+	padding-left:0;
 }
 #header-right-position .cs-ask-widget-form {
     background: none repeat scroll 0 0 #FFFFFF;
@@ -6382,6 +6383,7 @@ div.oembedall-lanyard .first {
 	font-style: normal;
 }
 .qa-form-tall-label, .qa-form-tall-label {
+    padding-bottom: 5px;
     padding-top: 5px;
 }
 .qa-form-tall-data .cke_chrome, .qa-form-tall-data .cke_chrome .cke_bottom, .cke_top{
@@ -6628,13 +6630,7 @@ div.oembedall-lanyard .first {
 .ra-post-list-widget {
     padding: 5px 15px;
 }
-.qa-part-form-profile, .qa-part-form-password, .qa-part-form-message, .qa-part-message-list, .qa-part-form > form, .qa-part-form-nodata {
-    background: none repeat scroll 0 0 #FFFFFF;
-    border: 1px solid #E3E3E3;
-    border-radius: 5px;
-    margin-bottom: 20px;
-    padding: 15px;
-}
+
 
 .login-register{
     background: none repeat scroll 0 0 rgba(255, 255, 255, 0.1);
@@ -7003,4 +6999,9 @@ div.oembedall-lanyard .first {
 }
 .q-item-status .q-item-tag-list li a{
 	color:#9A9A9A;
+}
+.footer-positions {
+    background: none repeat scroll 0 0 #EEEEEE;
+    margin-top: 30px;
+    padding: 20px 0;
 }

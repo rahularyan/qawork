@@ -11,6 +11,7 @@ class qa_html_theme_layer extends qa_html_theme_base {
         
 		if(cs_is_user()){
 			$handle = qa_request_part(1);
+			if(empty($handle)) $handle = qa_get_logged_in_handle();
 			$this->content['active_user'] = cs_user_data($handle);
 			$this->content['active_user_profile'] = cs_user_profile($handle);
 		}
@@ -640,7 +641,7 @@ class qa_html_theme_layer extends qa_html_theme_base {
         $this->output('<form ' . $search['form_tags'] . ' class="form-search" role="search" >', @$search['form_extra']);
         
         $this->search_field($search);
-        //$this->search_button($search);
+        $this->search_button($search);
         
         $this->output('</form>');
     }
@@ -653,7 +654,7 @@ class qa_html_theme_layer extends qa_html_theme_base {
     function search_button($search)
     {
 		if (cs_hook_exist(__FUNCTION__)) {$args=func_get_args(); return cs_do_action(__FUNCTION__, $args); }
-        $this->output('<button type="submit" value="' . $search['button_label'] . '" class="icon-search btn btn-default"></button>');
+        $this->output('<button type="submit" value="' . $search['button_label'] . '" class="btn btn-default">Search</button>');
     }
     
     function sidepanel()
@@ -828,6 +829,7 @@ class qa_html_theme_layer extends qa_html_theme_base {
 		
 		if(cs_is_user()){
 			$handle = qa_request_part(1);
+			if(empty($handle)) $handle = qa_get_logged_in_handle();
 			$this->profile_user_card($handle);	
 		}elseif (!cs_is_home() && (!empty($this->content['title']))) {
             $this->output('<div class="page-title"><div class="container">');
@@ -932,6 +934,7 @@ class qa_html_theme_layer extends qa_html_theme_base {
 					'<a class="btn btn-success" href="#" data-qawork="change-cover">Change cover</a>',
 					'<a class="btn" href="'.qa_path_html('account').'">Account</a>',
 					'<a class="btn" href="'.qa_path_html('notifications').'">'.qa_lang_html('cleanstrap/notifications').'</a>',
+					cs_do_action('user_profile_btn', $handle, $user),
 				'</div>'
 			);
 			
@@ -1274,17 +1277,20 @@ class qa_html_theme_layer extends qa_html_theme_base {
     function footer()
     {
 		if (cs_hook_exist(__FUNCTION__)) {$args=func_get_args(); return cs_do_action(__FUNCTION__, $args); }
-        $this->output('<footer id="site-footer">');
-			$this->output('<div class="footer-positions">');
-				$this->output('<div class="container">');
-					$this->output('<div class="row">');
-						$this->output('<div class="col-md-6">');
-							$this->cs_position('Footer 1');
-						$this->output('</div>');
+		$this->output('<div class="footer-positions">');
+			$this->output('<div class="container">');
+				$this->output('<div class="row">');
+					$this->output('<div class="col-md-6">');
+						$this->cs_position('Footer 1');
+					$this->output('</div>');
+					$this->output('<div class="col-md-6">');
+						$this->cs_position('Footer 2');
 					$this->output('</div>');
 				$this->output('</div>');
 			$this->output('</div>');
+		$this->output('</div>');
 			
+        $this->output('<footer id="site-footer">');
         $this->output('<div class="container">');
 			$this->nav('footer');
         
