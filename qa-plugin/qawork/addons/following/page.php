@@ -18,7 +18,7 @@ class cs_following_page {
 	function match_request($request)
 	{
 		$parts=explode('/', $request);
-		if (qa_is_logged_in() && $parts[0]=='following')
+		if ($parts[0]=='following')
 			return true;
 			
 
