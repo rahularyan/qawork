@@ -1143,7 +1143,7 @@ class qa_html_theme_layer extends qa_html_theme_base {
     function q_item_main($q_item)
     {
 		if (cs_hook_exist(__FUNCTION__)) {$args=func_get_args(); return cs_do_action(__FUNCTION__, $args); }
-        $avatar_size =  40;
+        $avatar_size =  35;
         $timeCode    = $q_item['when'];
         $when        = @$timeCode['prefix'] . @$timeCode['data'] . @$timeCode['suffix'];
         
@@ -1154,7 +1154,7 @@ class qa_html_theme_layer extends qa_html_theme_base {
        // }
         $this->output(
 			'<div class="qa-q-item-main">',
-			'<div class="ans-count" title="'.qa_lang_sub('cleanstrap/x_answers', $q_item['raw']['acount']).'">'. cs_format_num($q_item['raw']['acount']) .'</div>',
+			'<div class="ans-count ra-tip" title="'.qa_lang_sub('cleanstrap/x_answers', $q_item['raw']['acount']).'">'. cs_format_num($q_item['raw']['acount']) .'</div>',
 			'<div class="qa-q-item-main-line">'
 		);
 		
@@ -1251,7 +1251,10 @@ class qa_html_theme_layer extends qa_html_theme_base {
 					'<span class="icon-thumb-up">'.qa_lang_sub('cleanstrap/x_votes', $q_item['raw']['netvotes']).'</span>',
 					'<span class="icon-eye">'.qa_lang_sub('cleanstrap/x_views', cs_format_num($q_item['raw']['views'])).'</span>',
 					@$cat);
-					$this->post_tag_list($q_item, 'q-item');
+					if (!empty($q_item['q_tags'])){
+						$this->output('<span class="icon-tags"></span>');
+						$this->post_tag_list($q_item, 'q-item');
+					}
 				$this->output('</div>',
 			'</div>'
 		);
@@ -1261,6 +1264,16 @@ class qa_html_theme_layer extends qa_html_theme_base {
     {
 		if (cs_hook_exist(__FUNCTION__)) {$args=func_get_args(); return cs_do_action(__FUNCTION__, $args); }
         $this->output('<footer id="site-footer">');
+			$this->output('<div class="footer-positions">');
+				$this->output('<div class="container">');
+					$this->output('<div class="row">');
+						$this->output('<div class="col-md-6">');
+							$this->cs_position('Footer 1');
+						$this->output('</div>');
+					$this->output('</div>');
+				$this->output('</div>');
+			$this->output('</div>');
+			
         $this->output('<div class="container">');
 			$this->nav('footer');
         
@@ -2535,8 +2548,8 @@ class qa_html_theme_layer extends qa_html_theme_base {
 		cs_do_action('question_share', $this);	
 	}
 	
-	function fb_ask_your_friend($link){
-		$this->output(cs_get_fb_msg_button($link));
+	function fb_ask_your_friend($link, $label = 'Ask your friends'){
+		$this->output(cs_get_fb_msg_button($link, $label));
 	}
 	function notfound_template($content){
 		if (cs_hook_exist(__FUNCTION__)) {$args=func_get_args(); return cs_do_action(__FUNCTION__, $args); }

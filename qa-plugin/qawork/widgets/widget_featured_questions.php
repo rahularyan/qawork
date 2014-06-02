@@ -172,11 +172,10 @@
 			$opt_array = htmlspecialchars(json_encode(array('slideWidth' => $widget_opt['slide_width'], 'slideMargin' => $widget_opt['slide_margin'], 'auto' => ($widget_opt['slide_width'] ? 'true' : 'false'), 'minSlides' => $widget_opt['min_slide'], 'maxSlides' => $widget_opt['max_slide'], 'prevText' => '<i class="icon-chevron-left"></i>', 'nextText' => '<i class="icon-chevron-right"></i>' )), ENT_QUOTES, 'UTF-8');
 			$slider	= ($widget_opt['scroll'] ? 'data-action="slider" data-opt="'.$opt_array.'"' : '');
 			
-			$themeobject->output('<div class="ra-featured-widget" '.$slider.'>');
-			
 			if(@$themeobject->current_widget['param']['locations']['show_title'])
 				$themeobject->output('<h3 class="widget-title">'.qa_lang('cleanstrap/featured_question').'</h3>');
 				
+			$themeobject->output('<div class="ra-featured-widget" '.$slider.'>');
 			$themeobject->output('
 
             <div class="featured-questions clearfix">
