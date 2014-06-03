@@ -37,8 +37,8 @@ class qa_html_theme_layer extends qa_html_theme_base {
 			$this->content['script_src']['bootstrap'] = CS_CONTROL_URL. '/js/bootstrap.js';			
 		
 			//enqueue script and style in content
-			$hooked_script	= cs_apply_filter('enqueue_scripts', $this->content['script_src'], $this>template);
-			$hooked_css 	= cs_apply_filter('enqueue_css', $this->content['css_src'], $this>template);
+			$hooked_script	= cs_apply_filter('enqueue_scripts', $this->content['script_src'], $this->template);
+			$hooked_css 	= cs_apply_filter('enqueue_css', $this->content['css_src'], $this->template);
 
 			if(is_array($hooked_script))
 				$this->content['script_src'] =  $hooked_script;
