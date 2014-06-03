@@ -1277,11 +1277,28 @@ class qa_html_theme_layer extends qa_html_theme_base {
     function footer()
     {
 		if (cs_hook_exist(__FUNCTION__)) {$args=func_get_args(); return cs_do_action(__FUNCTION__, $args); }
-		$this->output('<div class="footer-positions">');
-			$this->output('<div class="container">');
-				$this->cs_position('Footer 1');
+		
+		if($this->cs_position_active('Site Counts')){
+			$this->output('<div class="site-counts-positions">');
+				$this->output('<div class="container">');
+					$this->cs_position('Site Counts');
+				$this->output('</div>');
 			$this->output('</div>');
-		$this->output('</div>');
+		}
+		if($this->cs_position_active('Footer 1') || $this->cs_position_active('Footer 1 Right')){
+			$this->output('<div class="footer-positions">');
+				$this->output('<div class="container">');
+					$this->output('<div class="row">');
+						$this->output('<div class="col-md-8">');					
+							$this->cs_position('Footer 1');
+						$this->output('</div>');
+						$this->output('<div class="col-md-4">');					
+							$this->cs_position('Footer 1 Right');
+						$this->output('</div>');
+					$this->output('</div>');
+				$this->output('</div>');
+			$this->output('</div>');
+		}
 			
         $this->output('<footer id="site-footer">');
         $this->output('<div class="container">');
@@ -1302,16 +1319,18 @@ class qa_html_theme_layer extends qa_html_theme_base {
     {
 		if (cs_hook_exist(__FUNCTION__)) {$args=func_get_args(); return cs_do_action(__FUNCTION__, $args); }
 		
-        if ((bool) qa_opt('cs_social_enable')) {
+        if (!! qa_opt('cs_social_enable')) {
             $links = json_decode(qa_opt('cs_social_list'));
             
-            $this->output('<ul class="ra-social-links">');
-            foreach ($links as $link) {
-                $icon  = ($link->social_icon != '1' ? ' ' . $link->social_icon . '' : '');
-                $image = ($link->social_icon == '1' ? '<img src="' . $link->social_icon_file . '" />' : '');
-                $this->output('<li><a class="' . @$icon . '" href="' . $link->social_link . '" title="Link to ' . $link->social_title . '" >' . @$image . '</a></li>');
-            }
-            $this->output('</ul>');
+			if(!empty($links)){
+				$this->output('<ul class="ra-social-links">');
+				foreach ($links as $link) {
+					$icon  = ($link->social_icon != '1' ? ' ' . $link->social_icon . '' : '');
+					$image = ($link->social_icon == '1' ? '<img src="' . $link->social_icon_file . '" />' : '');
+					$this->output('<li><a class="' . @$icon . '" href="' . $link->social_link . '" title="Link to ' . $link->social_title . '" >' . @$image . '</a></li>');
+				}
+				$this->output('</ul>');
+			}
         }
     }
     
