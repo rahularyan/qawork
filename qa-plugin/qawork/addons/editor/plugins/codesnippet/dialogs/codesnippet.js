@@ -59,7 +59,7 @@
 							commit: function( widget ) {widget.setData( 'code', this.getValue() ); },
 							required: true,
 							validate: CKEDITOR.dialog.validate.notEmpty( lang.emptySnippetError ),
-							inputStyle: 'cursor:auto;' + 'width:' + width + 'px;' + 'height:' + height + 'px;' + 'tab-size:4;' + 'text-align:left;', 'class': 'cke_source'
+							inputStyle: 'cursor:auto;' + 'width:' + width + 'px;' + 'height:' + height + 'px;' + 'tab-size:4;' + 'text-align:left;padding:15px;', 'class': 'cke_source'
 						},
 						{
 							type: 'html', id: 'hotkeyMsg', html: '<div>' + lang.hotkeyMsg + '</div>'}
