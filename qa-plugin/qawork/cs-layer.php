@@ -1279,14 +1279,7 @@ class qa_html_theme_layer extends qa_html_theme_base {
 		if (cs_hook_exist(__FUNCTION__)) {$args=func_get_args(); return cs_do_action(__FUNCTION__, $args); }
 		$this->output('<div class="footer-positions">');
 			$this->output('<div class="container">');
-				$this->output('<div class="row">');
-					$this->output('<div class="col-md-6">');
-						$this->cs_position('Footer 1');
-					$this->output('</div>');
-					$this->output('<div class="col-md-6">');
-						$this->cs_position('Footer 2');
-					$this->output('</div>');
-				$this->output('</div>');
+				$this->cs_position('Footer 1');
 			$this->output('</div>');
 		$this->output('</div>');
 			
@@ -1297,7 +1290,7 @@ class qa_html_theme_layer extends qa_html_theme_base {
 			$this->output('<div class="qa-attribution-right">');
 				if ((bool) qa_opt('cs_footer_copyright'))
 					$this->output(qa_opt('cs_footer_copyright'));
-				$this->output('<span class="developer">Crafted by <a href="http://rahularyan.com">Rahul Aryan</a> & Team</span>');
+				$this->output('<span class="developer">Crafted by <a href="http://rahularyan.com">RA Team</a></span>');
 			$this->output('</div>');
 		$this->output('</div>');        
         $this->output('</footer>');

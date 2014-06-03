@@ -8,6 +8,7 @@ CKEDITOR.editorConfig = function( config ) {
 	config.removePlugins = 'specialchar, spellchecker, tabletools, contextmenu, pastetext, pastefromword';
 	config.disableNativeSpellChecker = false;
 	config.extraPlugins = 'oEmbed';
+	config.tabSpaces = 4; 
 	// Define changes to default configuration here.
 	// For complete reference see:
 	// http://docs.ckeditor.com/#!/api/CKEDITOR.config
