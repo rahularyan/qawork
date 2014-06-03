@@ -1147,3 +1147,19 @@ function cs_get_user_cover($profile, $small = false, $css = false){
 	elseif($small && $css)
 		return ' style="background-image:url('. $url.$file[0].'_s.'.$file[1].')"';
 }
+
+function cs_format_num($num, $precision = 2) {
+	if ($num >= 1000 && $num < 1000000) 
+		$n_format = number_format($num/1000,$precision).'K';
+		
+	else if ($num >= 1000000 && $num < 1000000000) 
+		$n_format = number_format($num/1000000,$precision).'M';
+		
+	else if ($num >= 1000000000) 
+		$n_format=number_format($num/1000000000,$precision).'B';
+		
+	else
+		$n_format = $num;
+	
+	return $n_format;
+} 
