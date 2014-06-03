@@ -8,7 +8,7 @@
 	Theme License: GPL 2.0
 	Theme Update Check URI: 
 */
-.featured-questions .title, .widget-title, .page-title h1, .answers-label, .user-box-inner .user-name, .total-site-count, .qa-q-item-title > a, .home-intro h1, .home-top-users h2, .ra-post-list-widget.widget-big-post-lists .posts-list .title, .qawork-intro h2, .qawork-intro p{
+.featured-questions .title, .widget-title, .page-title h1, .answers-label, .user-box-inner .user-name, .total-site-count, .qa-q-item-title > a, .home-intro h1, .home-top-users h2, .ra-post-list-widget.widget-big-post-lists .posts-list .title, .qawork-intro h2, .qawork-intro p, .activity_count .qa-activity-count-item{
 	font-family: 'Questrial', sans-serif;
 }
 
@@ -83,7 +83,7 @@
 
 }
 .home-featured {
-    background: none repeat scroll 0 0 #F7F7F7;
+    background: #F7F7F7;
     padding: 25px 0;
 }
 .home-featured .featured-questions .item {
@@ -93,7 +93,7 @@
     margin-bottom: 0;
 }
 #home-featured-position .widget, #home-right-position .widget, #home-top-users-position .widget, #home-bottom-position .widget, #home-activity-position .cs_site_activity, #home-activity-position .cs_text_widget{
-    background: none repeat scroll 0 0 rgba(0, 0, 0, 0);
+    background: rgba(0, 0, 0, 0);
     border: medium none;
 }
 
@@ -163,7 +163,7 @@
 	width:25%;
 }
 .footer-positions .widget{
-    background: none repeat scroll 0 0 rgba(0, 0, 0, 0);
+    background: rgba(0, 0, 0, 0);
     border: medium none;
     margin: 0;
 }
@@ -176,4 +176,31 @@
 }
 .qawork-intro p{
 
+}
+.footer-intro{
+    color: #6F7E81;
+}
+.footer-intro i{
+    color: #FFFFFF;
+    display: block;
+    font-size: 30px;	
+}
+.footer-intro strong {
+    display: block;
+    font-size: 14px;
+    margin-bottom: 6px;
+}
+.footer-intro ul{
+    float: left;
+    list-style: none outside none;
+    margin: 0;
+    padding: 0;
+    width: 50%;
+}
+.footer-intro ul li a{
+	color:inherit;
+}
+.footer-positions .ra-social-widget {
+    float: right;
+    margin-top: 30px;
 }
