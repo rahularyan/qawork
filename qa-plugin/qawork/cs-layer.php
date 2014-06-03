@@ -369,7 +369,7 @@ class qa_html_theme_layer extends qa_html_theme_base {
 		$this->main_top($this->content);
         $this->output('<div class="clearfix qa-main ' .(cs_is_user() ? 'cs-user-template' : ''). (@$this->content['hidden'] ? ' qa-main-hidden' : '') . '">');
 		
-		if(cs_is_home() && qa_opt('cs_enable_default_home'))			
+		if(cs_is_home())			
 			include_once Q_THEME_DIR.'/home.php';
 			
 		else{
@@ -430,9 +430,9 @@ class qa_html_theme_layer extends qa_html_theme_base {
         $this->output('<header id="site-header" class="clearfix">');		
 			$this->output('<div id="header-top" class="clearfix">');
 			$this->output('<div class="container">');
-			$this->logo();
+			$this->logo();			
+			$this->main_nav_menu();
 			$this->nav_ask_btn();
-			$this->main_nav_menu();			
 			$this->user_drop_nav();						
 			$this->output('</div>');
 			$this->output('</div>');
@@ -627,7 +627,7 @@ class qa_html_theme_layer extends qa_html_theme_base {
 		if (cs_hook_exist(__FUNCTION__)) {$args=func_get_args(); return cs_do_action(__FUNCTION__, $args); }
         $search = $this->content['search'];
         
-        $this->output('<form ' . $search['form_tags'] . ' class="form-search pull-right" role="search" >', @$search['form_extra']);
+        $this->output('<form ' . $search['form_tags'] . ' class="form-search" role="search" >', @$search['form_extra']);
         
         $this->search_field($search);
         //$this->search_button($search);
@@ -637,7 +637,7 @@ class qa_html_theme_layer extends qa_html_theme_base {
     function search_field($search)
     {
 		if (cs_hook_exist(__FUNCTION__)) {$args=func_get_args(); return cs_do_action(__FUNCTION__, $args); }
-        $this->output('<input type="text" ' . $search['field_tags'] . ' value="' . @$search['value'] . '" class="form-control search-query" placeholder="' . qa_lang_html('cleanstrap/search') . '" autocomplete="off" />', '');
+        $this->output('<i class="icon-search"></i><input type="text" ' . $search['field_tags'] . ' value="' . @$search['value'] . '" class="form-control search-query" placeholder="' . qa_lang_html('cleanstrap/search') . '" autocomplete="off" />', '');
     }
     
     function search_button($search)
@@ -758,9 +758,7 @@ class qa_html_theme_layer extends qa_html_theme_base {
 		if (cs_hook_exist(__FUNCTION__)) {$args=func_get_args(); return cs_do_action(__FUNCTION__, $args); }
        $content = $this->content;
 		
-		if(cs_is_home()){
-			$this->home($content);
-		}elseif(cs_is_user()){
+		if(cs_is_user()){
 			$this->user_template($content);				
 		}elseif($this->template == 'question'){
 			$this->question_view($content);
