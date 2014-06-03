@@ -65,10 +65,11 @@ qa_register_plugin_module('widget', 'widgets/widget_users_list.php', 'cs_users_l
 
 qa_register_plugin_module('widget', 'widgets/widget_posts.php', 'cs_widget_posts', 'CS Posts');
 qa_register_plugin_module('widget', 'widgets/widget_user_activity.php', 'cs_user_activity_widget', 'CS User Activity');
+qa_register_plugin_module('widget', 'widgets/widget_social.php', 'cs_social_widget', 'CS Social Widget');
 
 qa_register_plugin_module('page', 'options.php', 'cs_theme_options', 'Theme Options');
 qa_register_plugin_module('page', 'widgets.php', 'cs_theme_widgets', 'Theme Widgets');
-qa_register_plugin_module('page', 'install.php', 'cs_theme_install_page', 'Theme Install Page');
+
 
 
 qa_register_plugin_layer('cs-layer.php', 'CS Control Layer');
