@@ -522,7 +522,7 @@ function cs_shrink_email_body($email_body, $max_body_length = 50) {
 function cs_save_email_notification($bcclist, $notifying_user, $handle, $event, $subs) {
       require_once QA_INCLUDE_DIR . 'qa-db-selects.php';
       require_once QA_INCLUDE_DIR . 'qa-util-string.php';
-
+      $handle = isset($handle) ? $handle : qa_lang('main/anonymous') ;
       $subs['^site_title'] = qa_opt('site_title');
       $subs['^handle']     = $handle;
       $subs['^open']       = "\n";
