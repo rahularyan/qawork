@@ -39,12 +39,12 @@
 		</div>
 		<div class="home-happening">			
 			<div class="container">
-				<div class="row">
-					<div class="col-md-4">
-						<?php $this->cs_position('Home Activity'); ?>
-					</div>
+				<div class="row">					
 					<div class="col-md-8">
 						<?php $this->cs_position('Home Right'); ?>							
+					</div>
+					<div class="col-md-4">
+						<?php $this->cs_position('Home Activity'); ?>
 					</div>
 				</div>
 			</div>
