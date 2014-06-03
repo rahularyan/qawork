@@ -446,11 +446,12 @@ function cs_social_icons(){
 	$icon =  array(
 		'icon-social-facebook' 		=> 'Facebook',
 		'icon-social-twitter' 		=> 'Twitter',
-		'icon-social-googleplus' 	=> 'Google',
+		'icon-social-google' 	=> 'Google',
 		'icon-social-pinterest' 	=> 'Pinterest',
 		'icon-social-linkedin' 		=> 'Linkedin',
 		'icon-social-github' 		=> 'Github',
 		'icon-social-stumbleupon' 	=> 'Stumbleupon',
+		'icon-email' 				=> 'Email',
 	);
 	
 	return cs_apply_filter('social_icon', $icon);

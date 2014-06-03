@@ -70,7 +70,7 @@ textarea {
 
 /* Buttons */
 .btn, .qa-form-light-button, .qa-form-tall-button, .qa-form-wide-button, .qa-a-select-button, .qa-a-unselect-button, #ra-widgets .widget-canvas .widget-save{
-    background: none repeat scroll 0 0 #ececec;
+    background: #ececec;
     border-color: transparent transparent rgba(0, 0, 0, 0.2);
     border-image: none;
     border-radius: 3px;
@@ -91,7 +91,7 @@ textarea {
 }
 
 .btn:hover, .qa-form-light-button:hover, .qa-form-tall-button:hover, .qa-form-wide-button:hover, .qa-a-select-button:hover, .qa-a-unselect-button:hover, .post-button .btn:hover {
-    background: none repeat scroll 0 0 #1298CE;
+    background: #1298CE;
     box-shadow: none;
 	border-color:transparent;
 	color:#fff;
@@ -105,11 +105,12 @@ textarea {
 	color: #fff;
 }
 .btn.active, .fav-parent .fav-btn.active {
-    background: none repeat scroll 0 0 #FFFFFF;
+    background: #FFFFFF;
     box-shadow: 0 0 2px rgba(0, 0, 0, 0.2);
+    color: inherit;
 }
 .btn-success, .qa-form-tall-button-answer, .qa-form-tall-button-save {
-    background: none repeat scroll 0 0 #53b263;
+    background: #53b263;
     color: #FFFFFF;
     text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
 }
@@ -296,7 +297,7 @@ textarea {
 }
 
 #nav-ask-btn {
-    background: none repeat scroll 0 0 rgba(0, 0, 0, 0.3);
+    background: rgba(0, 0, 0, 0.3);
     color: #FFFFFF;
     float: left;
 }
@@ -632,7 +633,7 @@ textarea {
 	vertical-align: top;
 }
 .qa-q-list .qa-q-list-item .qa-q-item-main > .ans-count{
-    background: none repeat scroll 0 0 #EEEEEE;
+    background: #EEEEEE;
     border-radius: 50%;
     color: #FFFFFF;
     display: block;
@@ -1360,7 +1361,7 @@ a.feed-link {
 	padding: 3px 7px;
 }
 .question-tags:before {
-    background: none repeat scroll 0 0 rgba(0, 0, 0, 0.2);
+    background: rgba(0, 0, 0, 0.2);
     border-radius: 50%;
     color: #FFFFFF;
     display: block;
@@ -1397,7 +1398,7 @@ a.feed-link {
 }
 
 .question-tags .tags-tag-list li a {
-    background: none repeat scroll 0 0 rgba(0, 0, 0, 0.1);
+    background: rgba(0, 0, 0, 0.1);
     border-radius: 2px;
     color: #FFFFFF;
     display: block;
@@ -1716,7 +1717,7 @@ a.feed-link {
 }
 
 .qa-error {
-    background: none repeat scroll 0 0 #F57979;
+    background: #F57979;
     border: 1px solid rgba(0, 0, 0, 0.1);
     border-radius: 4px;
     color: #FFFFFF;
@@ -2290,7 +2291,7 @@ input.qa-form-wide-number {
 }
 
 .page-cat-list .ra-cat-item h4 span {
-	background: none repeat scroll 0 0 #EEEEEE;
+	background: #EEEEEE;
 	-moz-border-radius: 3px;
 	-webkit-border-radius: 3px;
 	border-radius: 3px;
@@ -2376,12 +2377,12 @@ input.qa-form-wide-number {
 }
 
 #site-footer {
-    background: none repeat scroll 0 0 #586F7A;
+    background: #3c4043;
     padding: 15px 0;
 }
 
 .qa-attribution-right {
-    color: #8599A2;
+    color: #aaa;
     float: right;
     font-size: 12px;
     padding: 5px 0;
@@ -2422,7 +2423,7 @@ input.qa-form-wide-number {
 }
 
 #site-footer .qa-nav-footer a {
-    color: #8599A2;
+    color: #AAAAAA;
     font-weight: bold;
     text-transform: uppercase;
 	display: block;
@@ -2915,7 +2916,7 @@ th .description {
 
 /* RA Tags Widget */
 .ra-tags-widget.inline .widget-tag {
-	background: none repeat scroll 0 0 #FFFFFF;
+	background: #FFFFFF;
     border: 1px solid #AAAAAA;
     border-radius: 2px;
     color: inherit;
@@ -2927,7 +2928,7 @@ th .description {
     padding: 5px 10px;
 }
 .ra-tags-widget.inline .widget-tag:hover{
-    background: none repeat scroll 0 0 #F3F3F3;
+    background: #F3F3F3;
     box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
 }
 
@@ -3450,7 +3451,7 @@ th .description {
 }
 
 .ra-activity .activity-inner:before {
-    background: none repeat scroll 0 0 #E1E1E1;
+    background: #E1E1E1;
     content: "";
     display: block;
     height: 100%;
@@ -3603,13 +3604,13 @@ th .description {
 }
 
 .category-nav .open .category-toggle, .category-nav .open .category-toggle:hover {
-    background: none repeat scroll 0 0 #FFFFFF;
+    background: #FFFFFF;
     color: #696969;
 }
 
 
 .navbar-nav.category-nav .dropdown-menu {
-    background: none repeat scroll 0 0 #FFFFFF;
+    background: #FFFFFF;
     border: medium none;
     border-radius: 4px;
     box-shadow: 0 6px 5px rgba(0, 0, 0, 0.3);
@@ -3780,7 +3781,7 @@ th .description {
 }
 
 .social-logins a {
-    background: none repeat scroll 0 0 #A7B2BE;
+    background: #A7B2BE;
     border-radius: 2px;
     border-width: 0;
     color: #FFFFFF;
@@ -4214,7 +4215,7 @@ a.open-login-button.twitter {
 }
 
 .pagination > li > a, .pagination > li > span {
-    background: none repeat scroll 0 0 #EAEAEA;
+    background: #EAEAEA;
     border: medium none;
     color: #777777;
     font-size: 13px;
@@ -4864,7 +4865,7 @@ a.open-login-button.twitter {
 	margin-bottom: 15px;
 }
 .cs-ask-widget-form {
-    background: none repeat scroll 0 0 #FFFFFF;
+    background: #FFFFFF;
     border-radius: 5px;
     padding: 15px;
 }
@@ -4873,11 +4874,11 @@ a.open-login-button.twitter {
 	padding-left:0;
 }
 #header-right-position .cs-ask-widget-form {
-    background: none repeat scroll 0 0 #FFFFFF;
+    background: #FFFFFF;
     margin: 30px 0;
 }
 #header-right-position .widget{
-    background: none repeat scroll 0 0 rgba(0, 0, 0, 0);
+    background: rgba(0, 0, 0, 0);
     border: medium none;    
 }
 #header-right-position .cs_ask_form{
@@ -5010,7 +5011,7 @@ a.open-login-button.twitter {
 	margin-right:5px;
 }
 .user-card .user-info .user-thumb {
-    background: none repeat scroll 0 0 #FFFFFF;
+    background: #FFFFFF;
     border-color: #EEEEEE #EEEEEE transparent;
     border-image: none;
     border-radius: 3px 3px 0 0;
@@ -5529,7 +5530,7 @@ form[name="a_form"] {
 }
 
 .qa-q-view-inner-line {
-    background: none repeat scroll 0 0 #FFFFFF;
+    background: #FFFFFF;
     border: 2px solid #EEEEEE;
     border-radius: 5px;
     padding: 15px;
@@ -5615,7 +5616,7 @@ width: 15px;
 }
 
 .featured-questions .item-inner {
-    background: none repeat scroll 0 0 #FFFFFF;
+    background: #FFFFFF;
     border: 2px solid #F3F3F3;
     border-radius: 4px;
     margin: 5px;
@@ -5640,10 +5641,6 @@ width: 15px;
     line-height: 22px;
     margin-bottom: 10px;
     min-height: 44px;
-}
-.featured-questions .content {
-    color: #888888;
-    font-size: 12px;
 }
 
 .featured-questions .post-meta {
@@ -6371,7 +6368,7 @@ div.oembedall-lanyard .first {
 }
 
 .user-widget, .widget{
-    background: none repeat scroll 0 0 #FFFFFF;
+    background: #FFFFFF;
     border: 1px solid #E3E3E3;
     border-radius: 5px;
     margin-bottom: 25px;
@@ -6613,7 +6610,7 @@ div.oembedall-lanyard .first {
 
 
 .login-register{
-    background: none repeat scroll 0 0 rgba(255, 255, 255, 0.1);
+    background: rgba(255, 255, 255, 0.1);
     border-radius: 2px;
     box-shadow: 0 1px 0 rgba(0, 0, 0, 0.1);
     color: rgba(255, 255, 255, 0.7);
@@ -6630,7 +6627,7 @@ div.oembedall-lanyard .first {
 	margin-right:5px;
 }
 #login-drop.open > a{
-    background: none repeat scroll 0 0 #FFFFFF;
+    background: #FFFFFF;
     color: #696969;    
 }
 .dropdown-menu.login-drop {
@@ -6659,7 +6656,7 @@ div.oembedall-lanyard .first {
     width: 100%;
 }
 #login-drop p span {
-    background: none repeat scroll 0 0 #FFFFFF;
+    background: #FFFFFF;
     padding: 0 10px;
     position: relative;
 }
@@ -6670,7 +6667,7 @@ div.oembedall-lanyard .first {
     text-align: center;
 }
 .qa-part-ranking {
-    background: none repeat scroll 0 0 #FFFFFF;
+    background: #FFFFFF;
     border-radius: 5px;
 }
 .tag-item .qa-tag-link{
@@ -6684,7 +6681,7 @@ div.oembedall-lanyard .first {
 }
 
 .category-list-page {
-    background: none repeat scroll 0 0 #FFFFFF;
+    background: #FFFFFF;
     border-radius: 5px;
 }
 .ra-cat-item > h4 {
@@ -6704,7 +6701,7 @@ div.oembedall-lanyard .first {
     margin: 0 auto;
 }
 .activity_count .qa-activity-count-item{
-    color: #AAAAAA;
+    color: rgba(255, 255, 255, 0.8);
     display: block;
     float: left;
     font-size: 20px;
@@ -6713,12 +6710,14 @@ div.oembedall-lanyard .first {
     min-width: 80px;
     padding: 5px;
     text-align: center;
+    text-transform: capitalize;
 }
 .activity_count .qa-activity-count-item span{
-    background: none repeat scroll 0 0 #FFFFFF;
-    border: 1px solid #DDDDDD;
-    border-radius: 8px;
+    background: none repeat scroll 0 0 rgba(0, 0, 0, 0.2);
+    border-radius: 5px;
+    color: #FFFFFF;
     display: inline-block;
+    margin-right: 6px;
     padding: 0 10px;
 }
 /**
@@ -6960,7 +6959,7 @@ div.oembedall-lanyard .first {
 	padding:0 10px;
 }
 .qa-part-custom .open-login-button {
-    background: none repeat scroll 0 0 #EEEEEE;
+    background: #EEEEEE;
     border-radius: 5px;
     color: #FFFFFF;
     display: table;
@@ -6986,13 +6985,12 @@ div.oembedall-lanyard .first {
 	color:#9A9A9A;
 }
 .footer-positions {
-    background: none repeat scroll 0 0 #EEEEEE;
-    margin-top: 30px;
+    background: #3c4043;    
     overflow: hidden;
     padding: 40px 0;
 }
 .cs_tags .block a, .cs-category-widget-list li a {
-    background: none repeat scroll 0 0 rgba(0, 0, 0, 0);
+    background: rgba(0, 0, 0, 0);
     border-color: rgba(0, 0, 0, 0) rgba(0, 0, 0, 0) #EEEEEE;
     border-image: none;
     border-radius: 0;
@@ -7007,4 +7005,36 @@ div.oembedall-lanyard .first {
 }
 .ra-tags-widget.block .widget-tag span, .cs-category-widget-list li a span {
     float: right;
+}
+.site-counts-positions{
+    background: #EE7E67;
+    padding: 12px 0;
+	margin-top: 30px;
+}
+.site-counts-positions .widget{
+	background:none;
+}
+.ra-social-widget ul{
+    list-style: none outside none;
+    margin: 0;
+    padding: 0;
+}
+.ra-social-widget ul li{
+	margin-bottom:5px;
+}
+.ra-social-widget ul a{
+    background: none repeat scroll 0 0 rgba(0, 0, 0, 0.1);
+    border-radius: 50%;
+    color: #FFFFFF;
+    display: table;
+    font-size: 20px;
+    padding: 4px 10px;
+}
+.ra-social-widget.inline ul li {
+    float: left;
+    margin: 0 10px 0 0;
+}
+.ra-social-widget ul a:hover{
+	background:#fff;
+	color:inherit;
 }
