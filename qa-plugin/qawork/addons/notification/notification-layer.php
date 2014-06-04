@@ -1,9 +1,9 @@
 <?php
 
 /*
-	Name:CS Notification
+	Name:QW Notification
 	Type:layer
-	Class:cs_notification_layer
+	Class:qw_notification_layer
 	Version:1.0
 	Author: Rahul Aryan
 	Description:For showing ajax users notification
@@ -17,12 +17,12 @@ if (!defined('QA_VERSION')) {
 class qa_html_theme_layer extends qa_html_theme_base {
 	function doctype(){
 		qa_html_theme_base::doctype();
-		$cs_notification_id = qa_get('ra_notification');
+		$qw_notification_id = qa_get('ra_notification');
 		
-		if(isset($cs_notification_id))
-			cs_set_notification_as_read($cs_notification_id);
+		if(isset($qw_notification_id))
+			qw_set_notification_as_read($qw_notification_id);
 	}
-	function cs_notification_btn(){
+	function qw_notification_btn(){
 		//if (true){ // check options
 			$userid = qa_get_logged_in_userid();
 			if (isset( $userid )){

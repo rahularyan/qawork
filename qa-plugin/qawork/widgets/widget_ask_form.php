@@ -1,7 +1,7 @@
 <?php
 
 
-	class cs_ask_form_widget {
+	class qw_ask_form_widget {
 		
 		function allow_template($template)
 		{

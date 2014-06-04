@@ -1,16 +1,16 @@
 $(document).ready(function(){
 
 	// Styling
-	$( "#cs_bg_select" ).change(function() {
-		if ($( "#cs_bg_select" ).val()=='bg_color')
+	$( "#qw_bg_select" ).change(function() {
+		if ($( "#qw_bg_select" ).val()=='bg_color')
 			$( "#bg-color-container" ).show(500);
 		else
 			$( "#bg-color-container" ).hide(500);
 	});
-	$( "#cs_enble_back_to_top" ).change(function() {
+	$( "#qw_enble_back_to_top" ).change(function() {
 		$( "#back_to_top_location_container" ).toggle(500);
 	});
-	$( "#cs_enable_adv_list" ).change(function() {
+	$( "#qw_enable_adv_list" ).change(function() {
 		$( "#ads_container" ).toggle(500);
 	});
 	

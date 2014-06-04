@@ -5,12 +5,12 @@ if (!defined('QA_VERSION')) {
       exit;
 }
 
-function cs_social_get_saved_hauth_session($hauthSession , $userid)
+function qw_social_get_saved_hauth_session($hauthSession , $userid)
 {
    return qa_db_read_one_value(qa_db_query_sub("SELECT ^userprofile.content AS name from  ^userprofile WHERE ^userprofile.title =$ AND ^userprofile.userid = # " , $hauthSession , $userid ), true);
 }
 
-function cs_save_social_posting_settings($data , $userid)
+function qw_save_social_posting_settings($data , $userid)
 {
 	require_once QA_INCLUDE_DIR.'qa-db-users.php';
     foreach ($data as $key => $value) {
@@ -18,7 +18,7 @@ function cs_save_social_posting_settings($data , $userid)
     }
 }
 
-function cs_get_social_posting_settings($all_keys , $userid)
+function qw_get_social_posting_settings($all_keys , $userid)
 {
    $values = qa_db_read_all_assoc(qa_db_query_sub("SELECT ^userprofile.title , ^userprofile.content from  ^userprofile WHERE ^userprofile.title in (#) AND ^userprofile.userid = # " , $all_keys , $userid ));
    $result_arr = array();
@@ -28,32 +28,32 @@ function cs_get_social_posting_settings($all_keys , $userid)
    return $result_arr;
 }
 
-function cs_get_user_social_post_status_for_event($preferences , $event )
+function qw_get_user_social_post_status_for_event($preferences , $event )
 {
     $post_to = array() ; 
 
     switch ($event) {
         case 'q_post':
-            if (isset($preferences['cs_facebook_q_post']) && !!$preferences['cs_facebook_q_post'] && !!qa_opt('cs_enable_fb_posting') ) {
+            if (isset($preferences['qw_facebook_q_post']) && !!$preferences['qw_facebook_q_post'] && !!qa_opt('qw_enable_fb_posting') ) {
                $post_to[] = "Facebook" ;
             }
-            if (isset($preferences['cs_twitter_q_post']) && !!$preferences['cs_twitter_q_post'] && !!qa_opt('cs_enable_twitter_posting') ) {
+            if (isset($preferences['qw_twitter_q_post']) && !!$preferences['qw_twitter_q_post'] && !!qa_opt('qw_enable_twitter_posting') ) {
                $post_to[] = "Twitter" ;
             }
             break;
         case 'a_post':
-            if (isset($preferences['cs_facebook_a_post']) && !!$preferences['cs_facebook_a_post'] && !!qa_opt('cs_enable_fb_posting') ) {
+            if (isset($preferences['qw_facebook_a_post']) && !!$preferences['qw_facebook_a_post'] && !!qa_opt('qw_enable_fb_posting') ) {
                $post_to[] = "Facebook" ;
             }
-            if (isset($preferences['cs_twitter_a_post']) && !!$preferences['cs_twitter_a_post'] && !!qa_opt('cs_enable_twitter_posting') ) {
+            if (isset($preferences['qw_twitter_a_post']) && !!$preferences['qw_twitter_a_post'] && !!qa_opt('qw_enable_twitter_posting') ) {
                $post_to[] = "Twitter" ;
             }
             break;
         case 'c_post':
-            if (isset($preferences['cs_facebook_c_post']) && !!$preferences['cs_facebook_c_post'] && !!qa_opt('cs_enable_fb_posting') ) {
+            if (isset($preferences['qw_facebook_c_post']) && !!$preferences['qw_facebook_c_post'] && !!qa_opt('qw_enable_fb_posting') ) {
                $post_to[] = "Facebook" ;
             }
-            if (isset($preferences['cs_twitter_c_post']) && !!$preferences['cs_twitter_c_post'] && !!qa_opt('cs_enable_twitter_posting') ) {
+            if (isset($preferences['qw_twitter_c_post']) && !!$preferences['qw_twitter_c_post'] && !!qa_opt('qw_enable_twitter_posting') ) {
                $post_to[] = "Twitter" ;
             }
             break;
@@ -71,17 +71,17 @@ function cs_get_user_social_post_status_for_event($preferences , $event )
  * @param  string $url    [url to be used for message ]
  * @return string         [script to be printed below the button]
  */
-function cs_generate_facebook_invite_script($app_id, $data , $no_script = true ) {
+function qw_generate_facebook_invite_script($app_id, $data , $no_script = true ) {
       if (!$app_id || !is_array($data)) {
             return "";
       }
-      $name    = cs_extract_parameter_val($data , 'name') ;
-      $url     = cs_extract_parameter_val($data , 'url') ;
-      $message = cs_extract_parameter_val($data , 'message') ;
+      $name    = qw_extract_parameter_val($data , 'name') ;
+      $url     = qw_extract_parameter_val($data , 'url') ;
+      $message = qw_extract_parameter_val($data , 'message') ;
 
       if (!$message) {
         // if message is not set then set it with a default value 
-        $message = qa_lang("cs_social_posting/facebook_invite_msg") ;
+        $message = qa_lang("qw_social_posting/facebook_invite_msg") ;
       }
 
       $message = strtr( $message , array('^name'=> $name , '^site_url' => $url ));
@@ -89,12 +89,12 @@ function cs_generate_facebook_invite_script($app_id, $data , $no_script = true )
       ob_start();
       if (!$no_script) echo "<script>" ;
       ?>
-     cs_invite_facebook_friends(<?php echo $app_id ?> , {<?php echo $object ?>})
+     qw_invite_facebook_friends(<?php echo $app_id ?> , {<?php echo $object ?>})
       <?php
       if (!$no_script) echo "</script>" ;
       $output = ob_get_clean();
       return $output;
-} //end of cs_generate_facebook_invite_script
+} //end of qw_generate_facebook_invite_script
 
 
 
@@ -102,16 +102,16 @@ function cs_generate_facebook_invite_script($app_id, $data , $no_script = true )
  * generate wall post for a user 
  * @return [string] [script to be printed below the button for posting to wall ]
  */
-function cs_generate_facebook_wall_post_script($app_id , $data , $no_script = true ){
+function qw_generate_facebook_wall_post_script($app_id , $data , $no_script = true ){
      if (!$app_id || !is_array($data)) {
             return "";
       }
-      $link        = cs_extract_parameter_val($data , 'link');
-      $picture     = cs_extract_parameter_val($data , 'picture');
-      $name        = cs_extract_parameter_val($data , 'name');
-      $caption     = cs_extract_parameter_val($data , 'caption');
-      $description = cs_extract_parameter_val($data , 'description');
-      $message = cs_extract_parameter_val($data , 'message');
+      $link        = qw_extract_parameter_val($data , 'link');
+      $picture     = qw_extract_parameter_val($data , 'picture');
+      $name        = qw_extract_parameter_val($data , 'name');
+      $caption     = qw_extract_parameter_val($data , 'caption');
+      $description = qw_extract_parameter_val($data , 'description');
+      $message = qw_extract_parameter_val($data , 'message');
       $object      = "" ;
 
       if (!!$link) {
@@ -137,12 +137,12 @@ function cs_generate_facebook_wall_post_script($app_id , $data , $no_script = tr
       ob_start();
       if (!$no_script) echo "<script>" ;
       ?>
-            cs_post_to_facebook_wall(<?php echo $app_id ?> , {<?php echo $object ?>}); 
+            qw_post_to_facebook_wall(<?php echo $app_id ?> , {<?php echo $object ?>}); 
       <?php
       if (!$no_script) echo "</script>" ;
       $output = ob_get_clean();
       return $output;
-}//cs_generate_facebook_wall_post_script
+}//qw_generate_facebook_wall_post_script
 
 /**
  * Generate facebok link share button with the given parameters 
@@ -151,13 +151,13 @@ function cs_generate_facebook_wall_post_script($app_id , $data , $no_script = tr
  * @param  boolean $no_script  pass false if the script tag is needed 
  * @return string              reutrns the function calling signature 
  */
-function cs_generate_facebook_link_share_script($app_id , $data , $no_script = true){
+function qw_generate_facebook_link_share_script($app_id , $data , $no_script = true){
      if (!$app_id) {
             return "";
       }
 
-      $to   = cs_extract_parameter_val($data , 'to');
-      $link   = cs_extract_parameter_val($data , 'link');
+      $to   = qw_extract_parameter_val($data , 'to');
+      $link   = qw_extract_parameter_val($data , 'link');
 
       $object = "" ;
 
@@ -171,12 +171,12 @@ function cs_generate_facebook_link_share_script($app_id , $data , $no_script = t
       ob_start();
       if (!$no_script) echo "<script>" ;
       ?>
-            cs_share_link_to_facebook(<?php echo $app_id ?> ,{<?php echo $object ?>});
+            qw_share_link_to_facebook(<?php echo $app_id ?> ,{<?php echo $object ?>});
       <?php
       if (!$no_script) echo "</script>" ;
       $output = ob_get_clean();
       return $output;
-}//cs_generate_facebook_link_share_script
+}//qw_generate_facebook_link_share_script
 
 /**
  * Generate facebok login button with the given parameters 
@@ -185,7 +185,7 @@ function cs_generate_facebook_link_share_script($app_id , $data , $no_script = t
  * @param  boolean $no_script  pass false if the script tag is needed 
  * @return string              reutrns the function calling signature 
  */
-function cs_generate_facebook_login_script($app_id , $data = array() , $no_script = true)
+function qw_generate_facebook_login_script($app_id , $data = array() , $no_script = true)
 {
     if (!$app_id) {
         return "";
@@ -194,7 +194,7 @@ function cs_generate_facebook_login_script($app_id , $data = array() , $no_scrip
     ob_start();
     if (!$no_script) echo "<script>" ;
     ?>
-          cs_login_to_facebook(<?php echo $app_id ?>);
+          qw_login_to_facebook(<?php echo $app_id ?>);
     <?php
     if (!$no_script) echo "</script>" ;
     $output = ob_get_clean();
@@ -208,27 +208,27 @@ function cs_generate_facebook_login_script($app_id , $data = array() , $no_scrip
  * @param  [string] $name  
  * @return [type]   $value 
  */
-function cs_extract_parameter_val($param , $name )
+function qw_extract_parameter_val($param , $name )
 {
   return isset($param[$name]) ? $param[$name] : "" ;
 }
 
-function cs_update_facebook_status($app_id , $data = array() , $no_script = true)
+function qw_update_facebook_status($app_id , $data = array() , $no_script = true)
 {
   
 }
 
-function cs_get_fb_invite_button(){
+function qw_get_fb_invite_button(){
 	if (!!qa_opt("facebook_app_id")) {
-		$on_click_event = cs_generate_facebook_invite_script(qa_opt("facebook_app_id"), array('url' => qa_opt("site_url")))  ;
-		$button = '<button class="btn btn-facebook" onclick="'.$on_click_event.'">'.qa_lang_html('cs_social_posting/invite_friends').'</button>' ;
+		$on_click_event = qw_generate_facebook_invite_script(qa_opt("facebook_app_id"), array('url' => qa_opt("site_url")))  ;
+		$button = '<button class="btn btn-facebook" onclick="'.$on_click_event.'">'.qa_lang_html('qw_social_posting/invite_friends').'</button>' ;
 		return $button ;
 	}
 }
 
-function cs_get_fb_msg_button($link, $label){
+function qw_get_fb_msg_button($link, $label){
 	if (!!qa_opt("facebook_app_id") && !!$link) { /*generate this only if the facebook appid and link is set*/
-		$on_click_event = cs_generate_facebook_link_share_script(qa_opt("facebook_app_id"), array('link' => $link))  ;
+		$on_click_event = qw_generate_facebook_link_share_script(qa_opt("facebook_app_id"), array('link' => $link))  ;
 		$button = '<button class="btn btn-facebook" onclick="'.$on_click_event.'">'.$label.'</button>' ;
 		return $button;
 	}

@@ -1,22 +1,22 @@
 <?php
-	class cs_followers_widget {
+	class qw_followers_widget {
 
-		function cs_widget_form()
+		function qw_widget_form()
 		{
 			
 			return array(
 				'style' => 'wide',
 				'fields' => array(
-					'cs_nu_count' => array(
+					'qw_nu_count' => array(
 						'label' => 'Numbers of user',
 						'type' => 'number',
-						'tags' => 'name="cs_nu_count" class="form-control"',
+						'tags' => 'name="qw_nu_count" class="form-control"',
 						'value' => '10',
 					),
-					'cs_nu_avatar' => array(
+					'qw_nu_avatar' => array(
 						'label' => 'Avatar Size',
 						'type' => 'number',
-						'tags' => 'name="cs_nu_avatar" class="form-control"',
+						'tags' => 'name="qw_nu_avatar" class="form-control"',
 						'value' => '30',
 					)	
 				),
@@ -89,7 +89,7 @@
 					$themeobject->favorite();
 					$themeobject->output('</div>');
 				}else
-					$themeobject->output(cs_followers_list($handle, $widget_opt['cs_nu_avatar'], $widget_opt['cs_nu_count']));
+					$themeobject->output(qw_followers_list($handle, $widget_opt['qw_nu_avatar'], $widget_opt['qw_nu_count']));
 			$themeobject->output('</div>');
 		
 		}

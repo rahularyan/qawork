@@ -1,9 +1,9 @@
 <?php
-	class Cs_Minify_class{
+	class Qw_Minify_class{
 		
 		var $src;
 		
-		public function cs_compress_css($content, $css_url) {
+		public function qw_compress_css($content, $css_url) {
 			$this->src = $css_url;			
 			
 			// Normalize whitespace
@@ -34,16 +34,16 @@
 			// Shortern 6-character hex color codes to 3-character where possible
 			$content = preg_replace( '/#([a-f0-9])\\1([a-f0-9])\\2([a-f0-9])\\3/i', '#\1\2\3', $content );
 			
-			$content = preg_replace_callback('/url\(\s*[\'"]?\/?(.+?)[\'"]?\s*\)/i', array($this, 'cs_replace_url_in_css'), $content);
+			$content = preg_replace_callback('/url\(\s*[\'"]?\/?(.+?)[\'"]?\s*\)/i', array($this, 'qw_replace_url_in_css'), $content);
 
 			return trim( $content );
 		}
 
-		function cs_replace_url_in_css($matches){
+		function qw_replace_url_in_css($matches){
 			return 'url('.$this->url_to_absolute($this->src, $matches[1]).')';
 		}
 
-		public function cs_compress_js( $content ) {
+		public function qw_compress_js( $content ) {
 			// remove comments
 			$content = php_strip_whitespace (  $content);
 			

@@ -13,11 +13,11 @@
 	qa_set_request(qa_post_text('qa_request'), qa_post_text('qa_root'));
 
 	require_once QA_INCLUDE_DIR.'qa-app-options.php';
-	require_once CS_CONTROL_DIR.'/inc/minify.php';
+	require_once QW_CONTROL_DIR.'/inc/minify.php';
 	
-	$cs_minify = new Cs_Minify_class;
+	$qw_minify = new Qw_Minify_class;
 	
-	if(cs_request_text('type') == 'css'){
+	if(qw_request_text('type') == 'css'){
 		header("content-type: text/css; charset: utf-8");
 		header("cache-control: must-revalidate");
 		$offset = 365 * 24 * 60 * 60;
@@ -26,20 +26,20 @@
 		
 		if(!ob_start("ob_gzhandler")) ob_start();
 		
-		$hooked_css 	= cs_get_all_styles('gzip');
+		$hooked_css 	= qw_get_all_styles('gzip');
 		
 		if (isset($hooked_css))
 		foreach ($hooked_css as $css_src){
 			$base = preg_replace('/\?.*/', '', substr(strrchr($css_src, '.'), 1));
-			if(cs_is_internal_link($css_src) && $base == 'css'){
+			if(qw_is_internal_link($css_src) && $base == 'css'){
 				$path =parse_url($css_src, PHP_URL_PATH);
 				if(file_exists($_SERVER['DOCUMENT_ROOT'].$path))
-					echo $cs_minify->cs_compress_css(file_get_contents($_SERVER['DOCUMENT_ROOT'].$path), $css_src);
+					echo $qw_minify->qw_compress_css(file_get_contents($_SERVER['DOCUMENT_ROOT'].$path), $css_src);
 			}
 		}
 		ob_flush();
 		
-	}elseif(cs_request_text('type') == 'js'){
+	}elseif(qw_request_text('type') == 'js'){
 		header("content-type: text/javascript; charset: UTF-8");
 		header("cache-control: must-revalidate");
 		$offset = 365 * 24 * 60 * 60;
@@ -47,15 +47,15 @@
 		header($expire);
 		if(!ob_start("ob_gzhandler")) ob_start();
 		
-		$hooked_script 	= cs_get_all_scripts('gzip');
+		$hooked_script 	= qw_get_all_scripts('gzip');
 
 		if (isset($hooked_script))
 		foreach ($hooked_script as $src){
 			$base = preg_replace('/\?.*/', '', substr(strrchr($src, '.'), 1));
-			if(cs_is_internal_link($src) && $base == 'js'){
+			if(qw_is_internal_link($src) && $base == 'js'){
 				$path =parse_url($src, PHP_URL_PATH);
 				if(file_exists($_SERVER['DOCUMENT_ROOT'].$path))
-					echo $cs_minify->cs_compress_js($_SERVER['DOCUMENT_ROOT'].$path);
+					echo $qw_minify->qw_compress_js($_SERVER['DOCUMENT_ROOT'].$path);
 			}
 		}
 		

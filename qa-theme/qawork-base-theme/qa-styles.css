@@ -92,7 +92,7 @@
 #home-featured-position .widget {
     margin-bottom: 0;
 }
-#home-featured-position .widget, #home-right-position .widget, #home-top-users-position .widget, #home-bottom-position .widget, #home-activity-position .cs_site_activity, #home-activity-position .cs_text_widget{
+#home-featured-position .widget, #home-right-position .widget, #home-top-users-position .widget, #home-bottom-position .widget, #home-activity-position .qw_site_activity, #home-activity-position .qw_text_widget{
     background: rgba(0, 0, 0, 0);
     border: medium none;
 }

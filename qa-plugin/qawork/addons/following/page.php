@@ -6,7 +6,7 @@ if (!defined('QA_VERSION')) {
 }
 
 
-class cs_following_page {
+class qw_following_page {
 	var $directory;
 	var $urltoroot;
 
@@ -32,7 +32,7 @@ class cs_following_page {
 			
 		$userid = qa_handle_to_userid($handle);
 		$start=qa_get_start();
-		$count=cs_count_following($userid, true);
+		$count=qw_count_following($userid, true);
 		$pagesize= 10; //qa_opt('page_size_tags');
 			
 		$qa_content=qa_content_prepare();		
@@ -56,7 +56,7 @@ class cs_following_page {
 			
 			echo '<div class="page-users-list clearfix ">';
 			foreach($followers as $f){
-				$avatar = cs_get_post_avatar($f, 100, false);
+				$avatar = qw_get_post_avatar($f, 100, false);
 
 				echo '
 					<div class="user-box">
@@ -70,7 +70,7 @@ class cs_following_page {
 							<span class="score">' .  qa_lang_sub('cleanstrap/x_points', $f['points']) . ' </span>
 					</div>';
 					if (qa_opt('badge_active') && function_exists('qa_get_badge_list'))
-						echo '<div class="badge-list">' . cs_user_badge($handle) . '</div>';
+						echo '<div class="badge-list">' . qw_user_badge($handle) . '</div>';
 					
 				echo '</div>';
 				echo '</div>';

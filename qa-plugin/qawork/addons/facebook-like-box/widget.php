@@ -1,78 +1,78 @@
 <?php
 
-class cs_fb_likebox_widget {
+class qw_fb_likebox_widget {
 
-      function cs_widget_form() {
+      function qw_widget_form() {
 
             return array(
                 'fields' => array(
-                    'cs_fb_page_url' => array(
-                                    'label' => qa_lang('cs_fb_like_box/ur_fb_page_url'),
+                    'qw_fb_page_url' => array(
+                                    'label' => qa_lang('qw_fb_like_box/ur_fb_page_url'),
                                     'type'  => 'text',
-                                    'tags'  => 'name="cs_fb_page_url"',
+                                    'tags'  => 'name="qw_fb_page_url"',
                                     'value' => 'https://www.facebook.com/YourPage',
                     ),
-                    'cs_fb_like_box_colorscheme' => array(
-                                    'label' => qa_lang('cs_fb_like_box/colorscheme_label'),
+                    'qw_fb_like_box_colorscheme' => array(
+                                    'label' => qa_lang('qw_fb_like_box/colorscheme_label'),
                                     'type'  => 'select',
-                                    'tags'  => 'name="cs_fb_like_box_colorscheme"',
+                                    'tags'  => 'name="qw_fb_like_box_colorscheme"',
                                     'value' => 'light',
                                     'options' => array(
-                                          'light' => qa_lang('cs_fb_like_box/light'),
-                                          'dark'  => qa_lang('cs_fb_like_box/dark'),
+                                          'light' => qa_lang('qw_fb_like_box/light'),
+                                          'dark'  => qa_lang('qw_fb_like_box/dark'),
                                     ),
                     ),
-                   'cs_fb_like_box_header' => array(
-                                    'label' => qa_lang('cs_fb_like_box/box_header_label'),
+                   'qw_fb_like_box_header' => array(
+                                    'label' => qa_lang('qw_fb_like_box/box_header_label'),
                                     'type'  => 'select',
-                                    'tags'  => 'name="cs_fb_like_box_header"',
+                                    'tags'  => 'name="qw_fb_like_box_header"',
                                     'value' => 'true',
                                     'options' => array(
-                                          'true'  => qa_lang('cs_fb_like_box/yes'),
-                                          'false' => qa_lang('cs_fb_like_box/no'),
+                                          'true'  => qa_lang('qw_fb_like_box/yes'),
+                                          'false' => qa_lang('qw_fb_like_box/no'),
                                     ),
                     ),
-                   'cs_fb_like_box_show_border' => array(
-                                    'label' => qa_lang('cs_fb_like_box/show_border_label'),
+                   'qw_fb_like_box_show_border' => array(
+                                    'label' => qa_lang('qw_fb_like_box/show_border_label'),
                                     'type'  => 'select',
-                                    'tags'  => 'name="cs_fb_like_box_show_border"',
+                                    'tags'  => 'name="qw_fb_like_box_show_border"',
                                     'value' => 'false',
                                     'options' => array(
-                                          'true'  => qa_lang('cs_fb_like_box/yes'),
-                                          'false' => qa_lang('cs_fb_like_box/no'),
+                                          'true'  => qa_lang('qw_fb_like_box/yes'),
+                                          'false' => qa_lang('qw_fb_like_box/no'),
                                     ),
                     ),
-                    'cs_fb_like_box_show_faces' => array(
-                                    'label' => qa_lang('cs_fb_like_box/show_faces_label'),
+                    'qw_fb_like_box_show_faces' => array(
+                                    'label' => qa_lang('qw_fb_like_box/show_faces_label'),
                                     'type'  => 'select',
-                                    'tags'  => 'name="cs_fb_like_box_show_faces"',
+                                    'tags'  => 'name="qw_fb_like_box_show_faces"',
                                     'value' => 'true',
                                     'options' => array(
-                                          'true'  => qa_lang('cs_fb_like_box/yes'),
-                                          'false' => qa_lang('cs_fb_like_box/no'),
+                                          'true'  => qa_lang('qw_fb_like_box/yes'),
+                                          'false' => qa_lang('qw_fb_like_box/no'),
                                     ),
                     ),
-                   'cs_fb_like_box_data_stream' => array(
-						'label' => qa_lang('cs_fb_like_box/show_stream_label'),
+                   'qw_fb_like_box_data_stream' => array(
+						'label' => qa_lang('qw_fb_like_box/show_stream_label'),
 						'type'  => 'select',
-						'tags'  => 'name="cs_fb_like_box_data_stream"',
+						'tags'  => 'name="qw_fb_like_box_data_stream"',
 						'value' => 'false',
 						'options' => array(
-                                          'true'  => qa_lang('cs_fb_like_box/yes'),
-                                          'false' => qa_lang('cs_fb_like_box/no'),
+                                          'true'  => qa_lang('qw_fb_like_box/yes'),
+                                          'false' => qa_lang('qw_fb_like_box/no'),
 						),
                     ),
 
-                    'cs_fb_like_box_height' => array(
-                                    'label' => qa_lang('cs_fb_like_box/like_box_height_label'),
+                    'qw_fb_like_box_height' => array(
+                                    'label' => qa_lang('qw_fb_like_box/like_box_height_label'),
                                     'type'  => 'text',
-                                    'tags'  => 'name="cs_fb_like_box_height"',
+                                    'tags'  => 'name="qw_fb_like_box_height"',
                                     'value' => '320',
                     ),
-                     'cs_fb_like_box_width' => array(
-						'label' => qa_lang('cs_fb_like_box/like_box_width_label'),
+                     'qw_fb_like_box_width' => array(
+						'label' => qa_lang('qw_fb_like_box/like_box_width_label'),
 						'type'  => 'text',
-						'tags'  => 'name="cs_fb_like_box_width"',
+						'tags'  => 'name="qw_fb_like_box_width"',
 						'value' => '360',
                     ),
 
@@ -150,7 +150,7 @@ class cs_fb_likebox_widget {
             $data_str = implode(' ', $data ) ;
             // widget start 
             if(@$themeobject->current_widget['param']['locations']['show_title'])
-                        $themeobject->output('<h3 class="widget-title">CS Facebook Like Box</h3>');
+                        $themeobject->output('<h3 class="widget-title">QW Facebook Like Box</h3>');
 
             $themeobject->output('<div class="fb-like-box clearfix">');
             
@@ -165,45 +165,45 @@ class cs_fb_likebox_widget {
              switch ($opt) {
                    case 'url':
                    case 'href':
-                         $value = isset($widget_opt['cs_fb_page_url']) ? $widget_opt['cs_fb_page_url'] : "" ;
+                         $value = isset($widget_opt['qw_fb_page_url']) ? $widget_opt['qw_fb_page_url'] : "" ;
                          break;
                    case 'colorscheme':
-                         $value         = isset($widget_opt['cs_fb_like_box_colorscheme']) ? $widget_opt['cs_fb_like_box_colorscheme'] : "" ;
+                         $value         = isset($widget_opt['qw_fb_like_box_colorscheme']) ? $widget_opt['qw_fb_like_box_colorscheme'] : "" ;
                          $allowed_value = array('light' , 'dark'); /*allow only these values*/
                          if (!$value || !in_array($value , $allowed_value )) {
                                $value = "light" ;
                          }
                          break;
                    case 'header':
-                         $value         = isset($widget_opt['cs_fb_like_box_header']) ? $widget_opt['cs_fb_like_box_header'] : "" ;
+                         $value         = isset($widget_opt['qw_fb_like_box_header']) ? $widget_opt['qw_fb_like_box_header'] : "" ;
                          $allowed_value = array('true' , 'false'); /*allow only these values*/
                          if (!$value || !in_array($value , $allowed_value )) {
                                $value = "true" ;
                          }
                          break;
                    case 'show_border':
-                         $value         = isset($widget_opt['cs_fb_like_box_show_border']) ? $widget_opt['cs_fb_like_box_show_border'] : "" ;
+                         $value         = isset($widget_opt['qw_fb_like_box_show_border']) ? $widget_opt['qw_fb_like_box_show_border'] : "" ;
                          $allowed_value = array('true' , 'false'); /*allow only these values*/
                          if (!$value || !in_array($value , $allowed_value )) {
                                $value = "true" ;
                          }
                          break;
                    case 'show_faces':
-                         $value         = isset($widget_opt['cs_fb_like_box_show_faces']) ? $widget_opt['cs_fb_like_box_show_faces'] : "" ;
+                         $value         = isset($widget_opt['qw_fb_like_box_show_faces']) ? $widget_opt['qw_fb_like_box_show_faces'] : "" ;
                          $allowed_value = array('true' , 'false'); /*allow only these values*/
                          if (!$value || !in_array($value , $allowed_value )) {
                                $value = "true" ;
                          }
                          break;
                    case 'stream':
-                         $value         = isset($widget_opt['cs_fb_like_box_data_stream']) ? $widget_opt['cs_fb_like_box_data_stream'] : "" ;
+                         $value         = isset($widget_opt['qw_fb_like_box_data_stream']) ? $widget_opt['qw_fb_like_box_data_stream'] : "" ;
                          $allowed_value = array('true' , 'false'); /*allow only these values*/
                          if (!$value || !in_array($value , $allowed_value )) {
                                $value = "false" ;
                          }
                          break;
                    case 'height':
-                         $value = isset($widget_opt['cs_fb_like_box_height']) ? $widget_opt['cs_fb_like_box_height'] : "" ;
+                         $value = isset($widget_opt['qw_fb_like_box_height']) ? $widget_opt['qw_fb_like_box_height'] : "" ;
                          if ($this->get_fb_settings($widget_opt , "data_stream") && $this->get_fb_settings($widget_opt , "show_faces")   ) {
                                // if both are true min height is 556px
                                $min_height = 556 ;
@@ -220,7 +220,7 @@ class cs_fb_likebox_widget {
                          }
                          break;
                    case 'width':
-                         $value     = isset($widget_opt['cs_fb_like_box_width']) ? $widget_opt['cs_fb_like_box_width'] : "" ;
+                         $value     = isset($widget_opt['qw_fb_like_box_width']) ? $widget_opt['qw_fb_like_box_width'] : "" ;
                          $min_width = 292 ; /*allow only these values*/
                          if (!$value || $value < $min_width) {
                                $value = $min_width ;

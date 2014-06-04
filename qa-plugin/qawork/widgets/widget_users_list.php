@@ -1,7 +1,7 @@
 <?php
-	class cs_users_list_widget {
+	class qw_users_list_widget {
 
-		function cs_widget_form()
+		function qw_widget_form()
 		{
 			
 			return array(
@@ -117,7 +117,7 @@
 			
 			return $allow;
 		}
-		function cs_new_users($limit, $size){
+		function qw_new_users($limit, $size){
 			$output = '<div class="users-list clearfix">';			
 			
 			$users = qa_db_read_all_assoc(qa_db_query_sub("SELECT * FROM ^users ORDER BY created DESC LIMIT #", $limit));
@@ -125,7 +125,7 @@
 			foreach($users as $u){
 				if (isset($u['handle'])){
 					$handle = $u['handle'];
-					$avatar = cs_get_post_avatar($u, $size, false);
+					$avatar = qw_get_post_avatar($u, $size, false);
 					if (isset($u['useid']))	$id = $u['useid']; else $id = qa_handle_to_userid($handle);
 					$output .= '<div class="item slide user">';
 					if (!empty($avatar))
@@ -138,7 +138,7 @@
 			echo $output;
 		}
 		
-		function cs_top_users($limit, $size){
+		function qw_top_users($limit, $size){
 			$output = '<div class="users-list clearfix">';			
 			
 			$users = qa_db_read_all_assoc(qa_db_query_sub("SELECT * FROM ^users JOIN ^userpoints ON ^users.userid=^userpoints.userid ORDER BY ^userpoints.points DESC LIMIT #", $limit));
@@ -146,7 +146,7 @@
 			foreach($users as $u){
 				if (isset($u['handle'])){
 					$handle = $u['handle'];
-					$avatar = cs_get_post_avatar($u, $size, false);
+					$avatar = qw_get_post_avatar($u, $size, false);
 					if (isset($u['useid']))	$id = $u['useid']; else $id = qa_handle_to_userid($handle);
 					$output .= '<div class="item slide user">';
 					if (!empty($avatar))
@@ -172,10 +172,10 @@
 			$themeobject->output('<div class="ra-users-list-widget'.($widget_opt['type'] ? ' inline' : '').'" '.$slider.'>');
 			
 			if($widget_opt['type'] == 'new')
-				$themeobject->output($this->cs_new_users((int)@$widget_opt['count'], (int)@$widget_opt['avatar_size']));
+				$themeobject->output($this->qw_new_users((int)@$widget_opt['count'], (int)@$widget_opt['avatar_size']));
 			
 			elseif($widget_opt['type'] == 'top_users')
-				$themeobject->output($this->cs_top_users((int)@$widget_opt['count'], (int)@$widget_opt['avatar_size']));
+				$themeobject->output($this->qw_top_users((int)@$widget_opt['count'], (int)@$widget_opt['avatar_size']));
 				
 			$themeobject->output('</div>');
 		}

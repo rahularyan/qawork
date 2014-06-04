@@ -62,7 +62,7 @@ function qa_log_in_external_user($source, $identifier, $fields)
 	 * 'yahoo-xyt' when logging in with the other.
 	 */
 	
-	$aggsource = cs_social_login_get_new_source($source, $identifier);
+	$aggsource = qw_social_login_get_new_source($source, $identifier);
 	
 	if ($countusers>1)
 		qa_fatal_error('External login mapped to more than one user'); // should never happen
@@ -89,7 +89,7 @@ function qa_log_in_external_user($source, $identifier, $fields)
 			$emailusers = array();
 			if (strlen(@$fields['email']) && $fields['confirmed']) { // only if email is confirmed
 				$oemail = $fields['email'];
-				$emailusers=cs_social_user_find_by_email_or_oemail($fields['email']);
+				$emailusers=qw_social_user_find_by_email_or_oemail($fields['email']);
 				
 				if (count($emailusers)) {
 					// unset regular email to prevent duplicates
@@ -102,7 +102,7 @@ function qa_log_in_external_user($source, $identifier, $fields)
 			
 			qa_db_user_set($userid, 'oemail', $oemail);
 			qa_db_user_login_add($userid, $source, $identifier);
-			cs_social_user_login_set($source, $identifier, 'oemail', $oemail);
+			qw_social_user_login_set($source, $identifier, 'oemail', $oemail);
 			qa_db_user_login_sync(false);
 			
 			$profilefields=array('name', 'location', 'website', 'about');

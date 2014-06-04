@@ -65,7 +65,7 @@
 		
 		function get_field(&$qa_content, $content, $format, $fieldname, $rows /* $autofocus parameter deprecated */)
 		{
-			$scriptsrc=CS_CONTROL_URL.'/addons/editor/ckeditor.js?'.QA_VERSION;			
+			$scriptsrc=QW_CONTROL_URL.'/addons/editor/ckeditor.js?'.QA_VERSION;			
 			$alreadyadded=false;
 
 			if (isset($qa_content['script_src']))

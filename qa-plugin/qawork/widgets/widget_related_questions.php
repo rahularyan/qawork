@@ -1,7 +1,7 @@
 <?php
-	class cs_related_questions {
+	class qw_related_questions {
 
-		function cs_widget_form()
+		function qw_widget_form()
 		{
 			
 			return array(
@@ -93,7 +93,7 @@
 					$themeobject->output('<li>');
 					
 					if($widget_opt['show_avatar'])
-						$themeobject->output(cs_get_post_avatar($p, 30, true));
+						$themeobject->output(qw_get_post_avatar($p, 30, true));
 					
 					$themeobject->output('<div class="post-content">');
 					$themeobject->output('<a class="title" href="'.qa_q_path_html($p['postid'], $p['title']).'">'.qa_html($p['title']).'</a>');

@@ -1,7 +1,7 @@
 <?php
-	class cs_widget_text {
+	class qw_widget_text {
 
-		function cs_widget_form()
+		function qw_widget_form()
 		{
 			
 			return array(
@@ -14,9 +14,9 @@
 						'rows' => '5',
 						'value' => 'Title of the widget',
 					),
-					'cs_t_text' => array(
+					'qw_t_text' => array(
 						'label' => 'Text',
-						'tags' => 'name="cs_t_text" class="form-control"',
+						'tags' => 'name="qw_t_text" class="form-control"',
 						'type' => 'textarea',
 						'rows' => '5',
 						'value' => '',
@@ -79,7 +79,7 @@
 				$themeobject->output('<h3 class="widget-title">'.$widget_opt['title'].'</h3>');
 				
 			$themeobject->output('<div class="ra-text-widget clearfix">');
-			$themeobject->output(@utf8_decode(urldecode($widget_opt['cs_t_text'])));
+			$themeobject->output(@utf8_decode(urldecode($widget_opt['qw_t_text'])));
 			$themeobject->output('</div>');
 		}
 	

@@ -5,41 +5,41 @@
 			exit;
 	}
 	
-	$cs_custom_hooks = new Cs_Custom_Hooks;
+	$qw_custom_hooks = new Qw_Custom_Hooks;
 	
-	class Cs_Custom_Hooks{
+	class Qw_Custom_Hooks{
 		function __construct(){
-			cs_event_hook('enqueue_css', NULL, array($this, 'cs_enqueue_css'));
-			cs_event_hook('enqueue_scripts', NULL, array($this, 'cs_enqueue_scripts'));
-			cs_event_hook('widget_positions', NULL, array($this, 'cs_register_widget_positions'));
-			cs_event_hook('template_array', NULL, array($this, 'cs_default_page_templates'));
+			qw_event_hook('enqueue_css', NULL, array($this, 'qw_enqueue_css'));
+			qw_event_hook('enqueue_scripts', NULL, array($this, 'qw_enqueue_scripts'));
+			qw_event_hook('widget_positions', NULL, array($this, 'qw_register_widget_positions'));
+			qw_event_hook('template_array', NULL, array($this, 'qw_default_page_templates'));
 		}
 		
-		function cs_enqueue_css($css_src){
+		function qw_enqueue_css($css_src){
 			$css_src['icon'] = Q_THEME_URL . '/css/fonts.css';		
-			$css_src['cs_responsive'] = Q_THEME_URL . '/css/responsive.css';
-			$css_src['cs_main'] = Q_THEME_URL . '/css/main.css';
-			$css_src['cs_color'] = Q_THEME_URL . '/css/theme-green.css';
+			$css_src['qw_responsive'] = Q_THEME_URL . '/css/responsive.css';
+			$css_src['qw_main'] = Q_THEME_URL . '/css/main.css';
+			$css_src['qw_color'] = Q_THEME_URL . '/css/theme-green.css';
 			$css_src['Questrial'] = '//fonts.googleapis.com/css?family=Questrial';
 			
-			if (qa_opt('cs_styling_rtl'))
-				$css_src['cs_rtl'] = Q_THEME_URL . '/css/rtl.css';
+			if (qa_opt('qw_styling_rtl'))
+				$css_src['qw_rtl'] = Q_THEME_URL . '/css/rtl.css';
 
 			return  $css_src;
 		}
 		
 		
-		function cs_enqueue_scripts($src){		
+		function qw_enqueue_scripts($src){		
 			$src['jquery-ui'] = Q_THEME_URL . '/js/jquery-ui.min.js';
 			$src['oembed'] = Q_THEME_URL . '/js/jquery.oembed.js';
 			$src['bxslider'] = Q_THEME_URL . '/js/jquery.bxslider.min.js';			
-			$src['cs_theme'] = Q_THEME_URL . '/js/theme.js';
+			$src['qw_theme'] = Q_THEME_URL . '/js/theme.js';
 
 			return  $src;
 		}
 		
 		
-		function cs_register_widget_positions($positions){
+		function qw_register_widget_positions($positions){
 			$new_positions = array(
 				'Top' => 'Before navbar', 
 				'Header' => 'After navbar', 
@@ -70,7 +70,7 @@
 		}
 			
 			
-		function cs_default_page_templates(){
+		function qw_default_page_templates(){
 				return array(
 				'qa' 			=> 'QA',
 				'home' 			=> 'Home',

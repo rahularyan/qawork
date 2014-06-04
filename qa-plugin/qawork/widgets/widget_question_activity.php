@@ -1,16 +1,16 @@
 <?php
-	class cs_question_activity_widget {
+	class qw_question_activity_widget {
 
-		function cs_widget_form()
+		function qw_widget_form()
 		{
 			
 			return array(
 				'style' => 'wide',
 				'fields' => array(
-					'cs_qa_count' => array(
+					'qw_qa_count' => array(
 						'label' => 'Numbers of questions',
 						'type' => 'number',
-						'tags' => 'name="cs_qa_count" class="form-control"',
+						'tags' => 'name="qw_qa_count" class="form-control"',
 						'value' => '10',
 					)
 				),
@@ -74,7 +74,7 @@
 		//	Get lists of recent activity in all its forms, plus category information
 			
 			list($questions1, $questions2, $questions3, $questions4)=qa_db_select_with_pending(
-				qa_db_qs_selectspec($userid, 'created', 0, $categoryslugs, null, false, false, (int) $widget_opt['cs_qa_count'] ),
+				qa_db_qs_selectspec($userid, 'created', 0, $categoryslugs, null, false, false, (int) $widget_opt['qw_qa_count'] ),
 				qa_db_recent_a_qs_selectspec($userid, 0, $categoryslugs),
 				qa_db_recent_c_qs_selectspec($userid, 0, $categoryslugs),
 				qa_db_recent_edit_qs_selectspec($userid, 0, $categoryslugs)
@@ -83,7 +83,7 @@
 		//	Prepare and return content for theme
 			$content =  qa_q_list_page_content(
 				qa_any_sort_and_dedupe(array_merge($questions1, $questions2, $questions3, $questions4)), // questions
-				(int) $widget_opt['cs_qa_count'], // questions per page
+				(int) $widget_opt['qw_qa_count'], // questions per page
 				0, // start offset
 				null, // total count (null to hide page links)
 				null, // title if some questions

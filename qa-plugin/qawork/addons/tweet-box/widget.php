@@ -1,45 +1,45 @@
 <?php
   class qw_tweet_box_widget {
 
-    function cs_widget_form() {
+    function qw_widget_form() {
       
       return array(
         'fields' => array(
-          'cs_twitter_id' => array(
-                  'label' => qa_lang('qw_tweet_box/cs_twitter_id_label'),
+          'qw_twitter_id' => array(
+                  'label' => qa_lang('qw_tweet_box/qw_twitter_id_label'),
                   'type'  => 'text',
-                  'tags'  => 'name="cs_twitter_id"',
+                  'tags'  => 'name="qw_twitter_id"',
                   'value' => '',
            ),
           
-           'cs_twitter_t_count' => array(
-                  'label' => qa_lang('qw_tweet_box/cs_twitter_t_count_label'),
+           'qw_twitter_t_count' => array(
+                  'label' => qa_lang('qw_tweet_box/qw_twitter_t_count_label'),
                   'type'  => 'text',
-                  'tags'  => 'name="cs_twitter_t_count"',
+                  'tags'  => 'name="qw_twitter_t_count"',
                   'value' => '',
            ),
-          'cs_twitter_ck' => array(
-                  'label' => qa_lang('qw_tweet_box/cs_twitter_ck_label'),
+          'qw_twitter_ck' => array(
+                  'label' => qa_lang('qw_tweet_box/qw_twitter_ck_label'),
                   'type'  => 'text',
-                  'tags'  => 'name="cs_twitter_ck"',
+                  'tags'  => 'name="qw_twitter_ck"',
                   'value' => '',
            ),
-            'cs_twitter_cs' => array(
-                  'label' => qa_lang('qw_tweet_box/cs_twitter_cs_label'),
+            'qw_twitter_cs' => array(
+                  'label' => qa_lang('qw_tweet_box/qw_twitter_qw_label'),
                   'type'  => 'text',
-                  'tags'  => 'name="cs_twitter_cs"',
+                  'tags'  => 'name="qw_twitter_cs"',
                   'value' => '',
            ),
-            'cs_twitter_at' => array(
-                  'label' => qa_lang('qw_tweet_box/cs_twitter_at_label'),
+            'qw_twitter_at' => array(
+                  'label' => qa_lang('qw_tweet_box/qw_twitter_at_label'),
                   'type'  => 'text',
-                  'tags'  => 'name="cs_twitter_at"',
+                  'tags'  => 'name="qw_twitter_at"',
                   'value' => '',
            ),
-            'cs_twitter_ts' => array(
-                  'label' => qa_lang('qw_tweet_box/cs_twitter_ts_label'),
+            'qw_twitter_ts' => array(
+                  'label' => qa_lang('qw_tweet_box/qw_twitter_ts_label'),
                   'type'  => 'text',
-                  'tags'  => 'name="cs_twitter_ts"',
+                  'tags'  => 'name="qw_twitter_ts"',
                   'value' => '',
            ),
           
@@ -105,16 +105,16 @@
         }
       }
 
-      $user = $this->get_tw_settings($widget_opt ,'cs_twitter_id');
-      $count=(int)$this->get_tw_settings($widget_opt ,'cs_twitter_t_count');
-      $title=$this->get_tw_settings($widget_opt ,'cs_twitter_title');
+      $user = $this->get_tw_settings($widget_opt ,'qw_twitter_id');
+      $count=(int)$this->get_tw_settings($widget_opt ,'qw_twitter_t_count');
+      $title=$this->get_tw_settings($widget_opt ,'qw_twitter_title');
       
       // Setting our Authentication Variables that we got after creating an application
       $settings = array(
-        'oauth_access_token' => $this->get_tw_settings($widget_opt ,'cs_twitter_at'),
-        'oauth_access_token_secret' => $this->get_tw_settings($widget_opt ,'cs_twitter_ts'),
-        'consumer_key' => $this->get_tw_settings($widget_opt ,'cs_twitter_ck'),
-        'consumer_secret' => $this->get_tw_settings($widget_opt ,'cs_twitter_cs')
+        'oauth_access_token' => $this->get_tw_settings($widget_opt ,'qw_twitter_at'),
+        'oauth_access_token_secret' => $this->get_tw_settings($widget_opt ,'qw_twitter_ts'),
+        'consumer_key' => $this->get_tw_settings($widget_opt ,'qw_twitter_ck'),
+        'consumer_secret' => $this->get_tw_settings($widget_opt ,'qw_twitter_cs')
       );
 
       $url = "https://api.twitter.com/1.1/statuses/user_timeline.json";
@@ -180,7 +180,7 @@
        $themeobject->output('</div>');
     }
     function get_tw_settings($widget_opt , $opt ) {
-            return isset($widget_opt['cs_fb_page_url']) ? $widget_opt['cs_fb_page_url'] : "" ;
+            return isset($widget_opt['qw_fb_page_url']) ? $widget_opt['qw_fb_page_url'] : "" ;
     }
   }
 

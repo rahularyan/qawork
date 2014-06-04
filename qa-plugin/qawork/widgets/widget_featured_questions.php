@@ -1,16 +1,16 @@
 <?php
-	class cs_featured_questions_widget {
+	class qw_featured_questions_widget {
 		
-		function cs_widget_form()
+		function qw_widget_form()
 		{
 			
 			return array(
 				'style' => 'wide',
 				'fields' => array(
-					'cs_fq_count' => array(
+					'qw_fq_count' => array(
 						'label' => 'Questions to show',
 						'type' => 'number',
-						'tags' => 'name="cs_fq_count"',
+						'tags' => 'name="qw_fq_count"',
 						'value' => '10',
 					),
 
@@ -116,21 +116,21 @@
 			foreach($posts as $p){
 				
 				$when = qa_when_to_html(strtotime($p['created']), 7);
-				$avatar = cs_get_post_avatar($p, 35, false);
+				$avatar = qw_get_post_avatar($p, 35, false);
 				
 				if($p['type']=='Q'){
 					$link_header = qa_q_path_html($p['postid'], $p['title']) .'" title="'. $p['title'];
 				}elseif($p['type']=='A'){
-					$link_header = cs_post_link($p['parentid']).'#a'.$p['postid'];
+					$link_header = qw_post_link($p['parentid']).'#a'.$p['postid'];
 				}else{
-					$link_header = cs_post_link($p['parentid']).'#c'.$p['postid'];
+					$link_header = qw_post_link($p['parentid']).'#c'.$p['postid'];
 				}
 				$handle = $p['handle'];
 				$output .='<div class="item slide">';
 				$output .='<div class="item-inner">';
 				
 				if (!empty($p['media_name']))
-					$output .= '<a class="featured-image" href="'.$link_header.'"><img src="'.cs_media_filename(array('name' => $p['media_name'], 'type' =>$p['media_type']), 'large').'" /></a>';
+					$output .= '<a class="featured-image" href="'.$link_header.'"><img src="'.qw_media_filename(array('name' => $p['media_name'], 'type' =>$p['media_type']), 'large').'" /></a>';
 					
 				if($avatar)	$output .= '<div class="avatar" data-id="'.$p['userid'].'" data-handle="'.$handle.'">'.$avatar.'</div>';	
 				$output .= '<div class="no-overflow">';
@@ -144,11 +144,11 @@
 					$what = qa_lang('cleanstrap/commented');
 				}
 				
-				$output .= '<a class="title" href="'.$link_header.'">' . cs_truncate(strip_tags($p['title']), 100).'</a>';
+				$output .= '<a class="title" href="'.$link_header.'">' . qw_truncate(strip_tags($p['title']), 100).'</a>';
 				$output .='</div>';
 				$output .='</div>';
 					
-				$output .= '<p class="content" >' . cs_truncate(strip_tags($p['content']), 150).'</p>';
+				$output .= '<p class="content" >' . qw_truncate(strip_tags($p['content']), 150).'</p>';
 				
 				$output .= '<div class="post-meta clearfix">';
 				$output .= '<span class="icon-time">'.implode(' ', $when).'</span>';
@@ -167,7 +167,7 @@
 		{
 			$widget_opt = $themeobject->current_widget['param']['options'];
 
-			$count = (isset($widget_opt['cs_fq_count']) && !empty($widget_opt['cs_fq_count'])) ?(int)$widget_opt['cs_fq_count'] : 10;
+			$count = (isset($widget_opt['qw_fq_count']) && !empty($widget_opt['qw_fq_count'])) ?(int)$widget_opt['qw_fq_count'] : 10;
 
 			$opt_array = htmlspecialchars(json_encode(array('slideWidth' => $widget_opt['slide_width'], 'slideMargin' => $widget_opt['slide_margin'], 'auto' => ($widget_opt['slide_width'] ? 'true' : 'false'), 'minSlides' => $widget_opt['min_slide'], 'maxSlides' => $widget_opt['max_slide'], 'prevText' => '<i class="icon-chevron-left"></i>', 'nextText' => '<i class="icon-chevron-right"></i>' )), ENT_QUOTES, 'UTF-8');
 			$slider	= ($widget_opt['scroll'] ? 'data-action="slider" data-opt="'.$opt_array.'"' : '');

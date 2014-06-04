@@ -8,18 +8,18 @@
 			header('Location: /');
 			exit;
 	}
-	$cs_error ='';
+	$qw_error ='';
 	
 	
 	//first check if cs-control in installed
-	if (!defined('CS_CONTROL_DIR'))
-		qa_fatal_error('CS Control plugin is not installed !  please make sure you have installed CS Control plugin. Contact us from http://rahularyan.com/support');
+	if (!defined('QW_CONTROL_DIR'))
+		qa_fatal_error('Qawork plugin is not installed !  please make sure you have installed qawork plugin. Contact us from http://rahularyan.com/support');
 	
 	
 	
-	if(isset($_REQUEST['cs_ajax'])){	
-		if(isset($_REQUEST['cs_ajax'])){
-			$action = 'cs_ajax_'.$_REQUEST['action'];
+	if(isset($_REQUEST['qw_ajax'])){	
+		if(isset($_REQUEST['qw_ajax'])){
+			$action = 'qw_ajax_'.$_REQUEST['action'];
 			if(function_exists($action))
 				$action();
 		}

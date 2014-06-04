@@ -10,7 +10,7 @@ Some part of this code was taken from qa-openlogin plugin by alixandru
 https://github.com/alixandru/q2a-open-login
 */
 
-function cs_social_user_login_find_other($userid, $email) {
+function qw_social_user_login_find_other($userid, $email) {
       // return all logins with the same email which are not associated with this user
       // super admins will not be included
 
@@ -24,7 +24,7 @@ function cs_social_user_login_find_other($userid, $email) {
       ));
 }
 
-function cs_social_user_login_find_mine($userid, $srcexcl) {
+function qw_social_user_login_find_mine($userid, $srcexcl) {
       // return all logins associated with this user, with a different session source than the one specified
       // if no source is specified, simply return all logins associated with this user
 
@@ -43,21 +43,21 @@ function cs_social_user_login_find_mine($userid, $srcexcl) {
       }
 }
 
-function cs_social_user_login_set($source, $identifier, $field, $value) {
+function qw_social_user_login_set($source, $identifier, $field, $value) {
       // update an arbitrary field on userlogins table
       qa_db_query_sub(
               'UPDATE ^userlogins SET ' . qa_db_escape_string($field) . '=$ WHERE source=$ and identifier=$', $value, $source, $identifier
       );
 }
 
-function cs_social_user_login_delete($source, $identifier, $userid) {
+function qw_social_user_login_delete($source, $identifier, $userid) {
       // delete an user login
       qa_db_query_sub(
               'DELETE FROM ^userlogins WHERE source=$ and identifier=$ and userid=$', $source, $identifier, $userid
       );
 }
 
-function cs_social_user_find_by_email_or_oemail($email) {
+function qw_social_user_find_by_email_or_oemail($email) {
       // Return the ids of all users in the database which match $email (should be one or none)
       if (empty($email)) {
             return array();
@@ -68,7 +68,7 @@ function cs_social_user_find_by_email_or_oemail($email) {
       ));
 }
 
-function cs_social_user_find_by_id($userid) {
+function qw_social_user_find_by_id($userid) {
       // Return the user with the specified userid (should return one user or null)
       $users = qa_db_read_all_assoc(qa_db_query_sub(
                       'SELECT * FROM ^users WHERE userid=$', $userid
@@ -80,7 +80,7 @@ function cs_social_user_find_by_id($userid) {
       }
 }
 
-function cs_social_login_get_new_source($source, $identifier) {
+function qw_social_login_get_new_source($source, $identifier) {
       // return a new session source containing the actual open id provider and the 
       // user identifier. This string represents a unique combination of userid and 
       // openid-provider, allowing for more than one account from the same openid
@@ -89,7 +89,7 @@ function cs_social_login_get_new_source($source, $identifier) {
       return substr($source, 0, 9) . '-' . substr(md5($identifier), 0, 6);
 }
 
-function cs_social_get_config_common($url, $provider) {
+function qw_social_get_config_common($url, $provider) {
       $key = strtolower($provider);
       $app_id = qa_opt("{$key}_app_id");
       $app_secret = qa_opt("{$key}_app_secret");

@@ -1,25 +1,25 @@
 <?php
 
-class cs_breadcrumbs_widget {
+class qw_breadcrumbs_widget {
 
-      function cs_widget_form() {
+      function qw_widget_form() {
 
             return array(
                 'fields' => array(
-                    'cs_breadcrumb_show_home' => array(
+                    'qw_breadcrumb_show_home' => array(
 						'label' => 'Show the home link ',
 						'type'  => 'select',
-						'tags'  => 'name="cs_breadcrumb_show_home"',
+						'tags'  => 'name="qw_breadcrumb_show_home"',
 						'value' => '1',
 						'options' => array(
-							'1'  => qa_lang('cs_breadcrumbs/opt_yes'),
-							'0'  => qa_lang('cs_breadcrumbs/opt_no'),
+							'1'  => qa_lang('qw_breadcrumbs/opt_yes'),
+							'0'  => qa_lang('qw_breadcrumbs/opt_no'),
 						),
                     ),
-                    'cs_breadcrumb_trunc_len' => array(
-						'label' => qa_lang('cs_breadcrumbs/opt_truncate'),
+                    'qw_breadcrumb_trunc_len' => array(
+						'label' => qa_lang('qw_breadcrumbs/opt_truncate'),
 						'type'  => 'text',
-						'tags'  => 'name="cs_breadcrumb_trunc_len"',
+						'tags'  => 'name="qw_breadcrumb_trunc_len"',
 						'value' => '0',
                     ),
                 ),
@@ -72,7 +72,7 @@ class cs_breadcrumbs_widget {
 			
             // breadcrumb start
             $themeobject->output('<ul class="breadcrumb clearfix">');
-            if ($widget_opt['cs_breadcrumb_show_home']) {
+            if ($widget_opt['qw_breadcrumb_show_home']) {
                   $themeobject->output($this->breadcrumb_part(array('type' => 'home')));
             }
             $themeobject->output($this->create_breadcrumbs($this->navigation(), $qa_content , $widget_opt, $template) );
@@ -87,7 +87,7 @@ class cs_breadcrumbs_widget {
 				$br .=$this->breadcrumb_part(array(
 						  'type' => 'not-found',
 						  'url' => '/',
-						  'text' => qa_lang('cs_breadcrumbs/not_found'),
+						  'text' => qa_lang('qw_breadcrumbs/not_found'),
 					  ));
             elseif (!!$question_page) {     //if it is a question page 
                   // category is the first priority 
@@ -101,7 +101,7 @@ class cs_breadcrumbs_widget {
                                     if (is_array($category_details) && !empty($category_details)) {
 											$backpath = $category_details['backpath'];
 											$text     = $category_details['title'];
-											$url      = cs_cat_path($backpath);
+											$url      = qw_cat_path($backpath);
                                           $data = array(
 												'type' => 'cat',
 												'text' => $text,
@@ -115,13 +115,13 @@ class cs_breadcrumbs_widget {
                               $br .=$this->breadcrumb_part(array(
                                   'type' => 'questions',
                                   'url' => qa_opt('site_url')."questions",
-                                  'text' => qa_lang('cs_breadcrumbs/questions'),
+                                  'text' => qa_lang('qw_breadcrumbs/questions'),
                               ));
                   }
 
                   $q_title = $qa_content['q_view']['raw']['title'] ;
                   $q_id = $qa_content['q_view']['raw']['postid'] ; 
-                  $trunc_len = $widget_opt['cs_breadcrumb_trunc_len'];
+                  $trunc_len = $widget_opt['qw_breadcrumb_trunc_len'];
                   if ($trunc_len <= 0 ) {
                        //defaults to the length of the title 
                        $trunc_len = strlen($q_title) ;
@@ -129,7 +129,7 @@ class cs_breadcrumbs_widget {
                   $br .=$this->breadcrumb_part(array(
                       'type' => 'questions',
                       'url' =>  qa_q_path($q_id, $q_title, true) ,
-                      'text' => cs_truncate($q_title, $trunc_len ),
+                      'text' => qw_truncate($q_title, $trunc_len ),
                   ));
             } else {  //means non questions page 
                   if (count($navs) > 0) {
@@ -146,7 +146,7 @@ class cs_breadcrumbs_widget {
                               $prev_link =  $link ;
                               $link = ($link === "user") ? "users" : $link ;
                               $link = ($link === "tag")  ? "tags"  : $link ;
-                              $text = (in_array($nav, $translate_this_arr)) ? qa_lang("cs_breadcrumbs/".$nav) : ucwords($nav) ;
+                              $text = (in_array($nav, $translate_this_arr)) ? qa_lang("qw_breadcrumbs/".$nav) : ucwords($nav) ;
 					$br   .= $this->breadcrumb_part(array(
 						'type' => $type,
 						'url'  => qa_path($link),
@@ -163,19 +163,19 @@ class cs_breadcrumbs_widget {
                                           $br .= $this->breadcrumb_part(array(
 												'type' => 'no-ans',
 												'url'  => qa_path($link),
-												'text' => qa_lang('cs_breadcrumbs/no_ans'),
+												'text' => qa_lang('qw_breadcrumbs/no_ans'),
                                           ));
                                     } else if ($by === 'selected') {
                                           $br .= $this->breadcrumb_part(array(
 												'type' => 'no-selected',
 												'url'  => qa_path($link) . '?by=selected',
-												'text' => qa_lang('cs_breadcrumbs/no_selected_ans'),
+												'text' => qa_lang('qw_breadcrumbs/no_selected_ans'),
                                           ));
                                     } else if ($by === 'upvotes') {
                                           $br .= $this->breadcrumb_part(array(
 												'type' => 'no-upvots',
 												'url'  => qa_path($link) . '?by=upvotes',
-												'text' => qa_lang('cs_breadcrumbs/no_upvoted_ans'),
+												'text' => qa_lang('qw_breadcrumbs/no_upvoted_ans'),
                                           ));
                                     }
 
@@ -186,31 +186,31 @@ class cs_breadcrumbs_widget {
                                           $br .= $this->breadcrumb_part(array(
 												'type' => 'q-sort-recent',
 												'url'  => qa_path($link),
-												'text' => qa_lang('cs_breadcrumbs/recent_que'),
+												'text' => qa_lang('qw_breadcrumbs/recent_que'),
                                           ));
                                     } else if ($sort === 'hot') {
                                           $br .= $this->breadcrumb_part(array(
 												'type' => 'q-sort-hot',
 												'url'  => qa_path($link) . '?sort=hot',
-												'text' => qa_lang('cs_breadcrumbs/hot'),
+												'text' => qa_lang('qw_breadcrumbs/hot'),
                                           ));
                                     } else if ($sort === 'votes') {
                                           $br .= $this->breadcrumb_part(array(
 												'type' => 'q-sort-votes',
 												'url'  => qa_path($link) . '?sort=votes',
-												'text' => qa_lang('cs_breadcrumbs/most_votes'),
+												'text' => qa_lang('qw_breadcrumbs/most_votes'),
                                           ));
                                     } else if ($sort === 'answers') {
                                           $br .= $this->breadcrumb_part(array(
 												'type' => 'q-sort-answers',
 												'url'  => qa_path($link) . '?sort=answers',
-												'text' => qa_lang('cs_breadcrumbs/most_answers'),
+												'text' => qa_lang('qw_breadcrumbs/most_answers'),
                                           ));
                                     } else if ($sort === 'views') {
                                           $br .= $this->breadcrumb_part(array(
 												'type' => 'no-sort-views',
 												'url'  => qa_path($link) . '?sort=views',
-												'text' => qa_lang('cs_breadcrumbs/most_views'),
+												'text' => qa_lang('qw_breadcrumbs/most_views'),
                                           ));
                                     }
                                     break;
@@ -237,7 +237,7 @@ class cs_breadcrumbs_widget {
             switch ($type) {
                   case 'home':
                         $url   = qa_opt('site_url');
-                        $text  = qa_lang("cs_breadcrumbs/home");
+                        $text  = qa_lang("qw_breadcrumbs/home");
                         $class = "class='cs-breadcrumbs-home'";
                         $icon  = "<i class='icon-home'></i> ";
                         break;

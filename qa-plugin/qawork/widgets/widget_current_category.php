@@ -1,6 +1,6 @@
 <?php
 
-	class cs_current_category_widget {
+	class qw_current_category_widget {
 		function allow_template($template){
 			$allow=false;
 			switch ($template){

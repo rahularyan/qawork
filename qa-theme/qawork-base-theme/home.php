@@ -12,8 +12,8 @@
 				<?php $this->search(); ?>			
 				<div class="big-btns">					
 					<?php 
-						echo cs_get_fb_invite_button();
-						echo $this->fb_ask_your_friend(cs_current_url(), 'Message your friend');
+						echo qw_get_fb_invite_button();
+						echo $this->fb_ask_your_friend(qw_current_url(), 'Message your friend');
 					?>
 				</div>
 				<p class="total-site-count align-right">Tell your friends about this site</p>
@@ -22,20 +22,20 @@
 
 		<div class="home-top-users">			
 			<div class="container">
-				<?php $this->cs_position('Home Top Users'); ?>
+				<?php $this->qw_position('Home Top Users'); ?>
 			</div>
 		</div>
 		<div class="home-happening">			
 			<div class="container">
 				<div class="row">					
 					<div class="col-md-8">
-						<?php $this->cs_position('Home Right'); ?>							
+						<?php $this->qw_position('Home Right'); ?>							
 					</div>
 					<div class="col-md-4">
-						<?php $this->cs_position('Home Activity'); ?>
+						<?php $this->qw_position('Home Activity'); ?>
 					</div>
 				</div>
-				<?php $this->cs_position('Home Bottom'); ?>	
+				<?php $this->qw_position('Home Bottom'); ?>	
 			</div>
 		</div>
 	<?php

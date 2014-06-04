@@ -9,7 +9,7 @@ Some part of this code was taken from qa-openlogin plugin by alixandru
 https://github.com/alixandru/q2a-open-login
 */
 
-class cs_social_login_page {
+class qw_social_login_page {
 	var $directory;
 	var $urltoroot;
 
@@ -34,14 +34,14 @@ class cs_social_login_page {
 
 		$qa_content=qa_content_prepare();
 		
-		$qa_content['site_title']=qa_lang_html('cs_social_login/my_logins_title');
-		$qa_content['title']=qa_lang_html('cs_social_login/my_logins_title');
+		$qa_content['site_title']=qa_lang_html('qw_social_login/my_logins_title');
+		$qa_content['title']=qa_lang_html('qw_social_login/my_logins_title');
 		
 		require_once QA_INCLUDE_DIR.'qa-db-users.php';
 		require_once QA_INCLUDE_DIR.'qa-app-format.php';
 		require_once QA_INCLUDE_DIR.'qa-app-users.php';
 		require_once QA_INCLUDE_DIR.'qa-db-selects.php';
-		require_once CS_CONTROL_DIR.'/addons/social-login/cs-social-login-utils.php';
+		require_once QW_CONTROL_DIR.'/addons/social-login/cs-social-login-utils.php';
 
 		if (QA_FINAL_EXTERNAL_USERS)
 			qa_fatal_error('User accounts are handled by external code');
@@ -52,7 +52,7 @@ class cs_social_login_page {
 			qa_redirect('login');
 
 		//	Get current information on user
-		$useraccount = cs_social_user_find_by_id($userid);
+		$useraccount = qw_social_user_find_by_id($userid);
 		
 		$findemail = $useraccount['oemail']; // considering this is an openid user, so use the openid email
 		if(empty($findemail)) {
@@ -60,7 +60,7 @@ class cs_social_login_page {
 		}
 		
 		// find other un-linked accounts with the same email
-		$otherlogins = cs_social_user_login_find_other($userid, $findemail);
+		$otherlogins = qw_social_user_login_find_other($userid, $findemail);
 			
 		if (qa_clicked('dosaveprofile')) {
 			qa_opt('open_login_remember', qa_post_text('remember') ? '1' : '0');
@@ -94,11 +94,11 @@ class cs_social_login_page {
 					
 					// update login
 					qa_db_user_login_sync(true);
-					cs_social_user_login_set($login['source'], $login['identifier'], 'userid', $userid);
+					qw_social_user_login_set($login['source'], $login['identifier'], 'userid', $userid);
 					qa_db_user_login_sync(false);
 					
 					// delete old user if no other connections to it exist
-					$other_logins_for_user = cs_social_user_login_find_mine($olduserid, cs_social_login_get_new_source($login['source'], $login['identifier']));
+					$other_logins_for_user = qw_social_user_login_find_mine($olduserid, qw_social_login_get_new_source($login['source'], $login['identifier']));
 					if(empty($other_logins_for_user)) {
 						// safe to delete user profile
 						qa_delete_user($olduserid);
@@ -148,11 +148,11 @@ class cs_social_login_page {
 			}
 			
 			// update the array
-			$otherlogins = cs_social_user_login_find_other($userid, $findemail);
+			$otherlogins = qw_social_user_login_find_other($userid, $findemail);
 			
 		}
 		//	Get more information on user, including accounts already linked 
-		$mylogins = cs_social_user_login_find_mine($userid, $useraccount['sessionsource']);
+		$mylogins = qw_social_user_login_find_mine($userid, $useraccount['sessionsource']);
 		
 		if (qa_clicked('dosplit') && !empty($mylogins)) {
 			// a request to split (un-link) some accounts was made
@@ -166,24 +166,24 @@ class cs_social_login_page {
 					
 					// delete login
 					qa_db_user_login_sync(true);
-					cs_social_user_login_delete($login['source'], $login['identifier'], $userid);
+					qw_social_user_login_delete($login['source'], $login['identifier'], $userid);
 					qa_db_user_login_sync(false);
 				}
 			}
 			
 			// update the array
-			$mylogins = cs_social_user_login_find_mine($userid, $useraccount['sessionsource']);
+			$mylogins = qw_social_user_login_find_mine($userid, $useraccount['sessionsource']);
 		}
 
 		//	Prepare content for theme
 		$qa_content=qa_content_prepare();
-		$qa_content['title']=qa_lang_html('cs_social_login/my_logins_title');
+		$qa_content['title']=qa_lang_html('qw_social_login/my_logins_title');
 		
 		$disp_conf = qa_get('confirm');
 		if(!$disp_conf) {
 			// display some summary about the user
 			$qa_content['form_profile']=array(
-				'title' => qa_lang_html('cs_social_login/my_current_user'),
+				'title' => qa_lang_html('qw_social_login/my_current_user'),
 				'tags'  => 'ENCTYPE="multipart/form-data" METHOD="POST" ACTION="'.qa_self_html().'" CLASS="open-login-profile"',
 				'style' => 'wide',
 				'fields' => array(
@@ -202,7 +202,7 @@ class cs_social_login_page {
 					'remember' => array(
 						'type'  => 'checkbox',
 						'label' => qa_lang_html('users/remember_label'),
-						'note'  => qa_lang_html('cs_social_login/remember_me'),
+						'note'  => qa_lang_html('qw_social_login/remember_me'),
 						'tags'  => 'NAME="remember"',
 						'value' => qa_opt('open_login_remember') ? true : false,
 					),
@@ -229,15 +229,15 @@ class cs_social_login_page {
 			if(!empty($mylogins)) {
 				// display the logins already linked to this user account
 				$qa_content['form_mylogins']=array(
-					'title'   => qa_lang_html('cs_social_login/associated_logins'),
+					'title'   => qa_lang_html('qw_social_login/associated_logins'),
 					'tags'    => 'ENCTYPE="multipart/form-data" METHOD="POST" ACTION="'.qa_self_html().'" CLASS="open-login-accounts"',
 					'style'   => 'wide',
 					'fields'  => array(),
 					'buttons' => array(
 						'cancel' => array(
 							'tags'  => 'onClick="qa_show_waiting_after(this, false);"',
-							'label' => qa_lang_html('cs_social_login/split_accounts'),
-							'note'  => '<small>' . qa_lang_html('cs_social_login/split_accounts_note') . '</small>',
+							'label' => qa_lang_html('qw_social_login/split_accounts'),
+							'note'  => '<small>' . qa_lang_html('qw_social_login/split_accounts_note') . '</small>',
 						),
 					),
 					'hidden' => array(
@@ -264,15 +264,15 @@ class cs_social_login_page {
 		if(!empty($otherlogins)) {
 			// display other logins which could be linked to this user account
 			$qa_content['form_merge']=array(
-				'title'   => $disp_conf ? qa_lang_html('cs_social_login/other_logins_conf_title') : qa_lang_html('cs_social_login/other_logins'),
+				'title'   => $disp_conf ? qa_lang_html('qw_social_login/other_logins_conf_title') : qa_lang_html('qw_social_login/other_logins'),
 				'tags'    => 'ENCTYPE="multipart/form-data" METHOD="POST" ACTION="'.qa_self_html().'" CLASS="open-login-others"',
 				'style'   => 'wide',
-				'note'    => $disp_conf ? qa_lang_html('cs_social_login/other_logins_conf_text'): null,
+				'note'    => $disp_conf ? qa_lang_html('qw_social_login/other_logins_conf_text'): null,
 				'fields'  => array(),
 				'buttons' => array(
 						'save' => array(
 							'tags'  => 'onClick="qa_show_waiting_after(this, false);"',
-							'label' => qa_lang_html('cs_social_login/merge_accounts'),
+							'label' => qa_lang_html('qw_social_login/merge_accounts'),
 						),
 				),
 				'hidden' => array(
@@ -290,7 +290,7 @@ class cs_social_login_page {
 				
 				if(!$login['source']) { // this is a regular site login, not an openid login
 					$type  = 'user';
-					$name  = qa_lang_html('cs_social_login/local_user');
+					$name  = qa_lang_html('qw_social_login/local_user');
 					$email = '(' . $login['handle'] . ')';
 					$login['source']     = $login['userid'];
 					$login['identifier'] = $login['userid'];
@@ -312,12 +312,12 @@ class cs_social_login_page {
 				$qa_content['form_merge']['buttons']['cancel'] = array(
 					'tags'  => 'NAME="docancel"',
 					'label' => qa_lang_html('main/cancel_button'),
-					'note'  => '<small>' . qa_lang_html('cs_social_login/merge_accounts_note') . '</small>',
+					'note'  => '<small>' . qa_lang_html('qw_social_login/merge_accounts_note') . '</small>',
 				);
 			} else {
 				// when accessing the logins page, no confirmation is displayed
 				$qa_content['form_merge']['buttons']['save']['note'] = 
-					'<small>' . qa_lang_html('cs_social_login/merge_accounts_note') . '</small>';
+					'<small>' . qa_lang_html('qw_social_login/merge_accounts_note') . '</small>';
 			}
 			
 		} else if($disp_conf) {
@@ -327,11 +327,11 @@ class cs_social_login_page {
 		if(!$has_content) {
 			// no linked logins
 			$qa_content['form_nodata']=array(
-				'title' =>  qa_lang_html('cs_social_login/no_logins_title'),
+				'title' =>  qa_lang_html('qw_social_login/no_logins_title'),
 				'style' => 'light',
 				'fields' => array(
 					'note' => array(
-						'note' => qa_lang_html('cs_social_login/no_logins_text'),
+						'note' => qa_lang_html('qw_social_login/no_logins_text'),
 						'type' => 'static'
 					)
 				),
@@ -342,7 +342,7 @@ class cs_social_login_page {
 
 		// set some extra subnavigations 
 		$qa_content['navigation']['sub']['logins'] = array(
-														'label' => qa_lang_html('cs_social_login/my_logins_title'),
+														'label' => qa_lang_html('qw_social_login/my_logins_title'),
 														'url'   => './logins' ,
 													);
 		

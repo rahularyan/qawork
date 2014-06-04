@@ -6,7 +6,7 @@ if (!defined('QA_VERSION')) {
 }
 
 
-class cs_notification_page {
+class qw_notification_page {
 	var $directory;
 	var $urltoroot;
 
@@ -42,14 +42,14 @@ class cs_notification_page {
 				<div class="step-one">
 					<h1>Welcome to the theme installation</h1>
 				</div>
-				<?php $this->cs_install_nav(); ?>
+				<?php $this->qw_install_nav(); ?>
 			</div>
 		<?php
 		$output = ob_get_clean();
 		
 		return $output;
 	}
-	function cs_install_nav(){
+	function qw_install_nav(){
 		?>
 			<ul class="install-nav">
 				<li><a href="#" class="icon-cog">Settings</a></li>

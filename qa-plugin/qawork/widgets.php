@@ -6,7 +6,7 @@ if (!defined('QA_VERSION')) {
 }
 
 
-class cs_theme_widgets {
+class qw_theme_widgets {
 	var $directory;
 	var $urltoroot;
 
@@ -25,11 +25,11 @@ class cs_theme_widgets {
 	function process_request($request)
 	{
 		$saved=false;
-		if (qa_clicked('cs_remove_all_button')) {	
+		if (qa_clicked('qw_remove_all_button')) {	
 			qa_db_query_sub('TRUNCATE TABLE ^ra_widgets');
 			$saved=true;
 		}
-		if (qa_clicked('cs_reset_widgets_button')) {	
+		if (qa_clicked('qw_reset_widgets_button')) {	
 			$handle = fopen(Q_THEME_DIR.'/demo_content/widget_builder.sql', 'r');
 			$sql = '';
 							
@@ -61,23 +61,23 @@ class cs_theme_widgets {
 	function opt_form(){
 		$output = '<div id="ra-widgets">
 					<div class="widget-list col-sm-5">
-						'. $this->cs_get_widgets() .'
+						'. $this->qw_get_widgets() .'
 					</div>
 					<div class="widget-postions col-sm-7">
-						'.$this->cs_get_widgets_positions().'
+						'.$this->qw_get_widgets_positions().'
 					</div>
 				</div>
 				<div class="form-widget-button-holder">
 					<form class="form-horizontal" method="post">
-						<input class="qa-form-tall-button btn-primary" type="submit" name="cs_remove_all_button" value="Remove All Widgets" title="">
-						<input class="qa-form-tall-button btn-primary" type="submit" name="cs_reset_widgets_button" value="Reset All Widgets To Theme Default" title="">
+						<input class="qa-form-tall-button btn-primary" type="submit" name="qw_remove_all_button" value="Remove All Widgets" title="">
+						<input class="qa-form-tall-button btn-primary" type="submit" name="qw_reset_widgets_button" value="Reset All Widgets To Theme Default" title="">
 					</form>
 				</div>';
 		
 		return $output;
 	}
 	
-	function cs_get_widgets(){
+	function qw_get_widgets(){
 			ob_start();
 			foreach(qa_load_modules_with('widget', 'allow_template') as $k => $widget){
 				?>
@@ -107,9 +107,9 @@ class cs_theme_widgets {
 		}	
 
 
-		function cs_get_widgets_positions(){
+		function qw_get_widgets_positions(){
 
-			$widget_positions = cs_widget_position();
+			$widget_positions = qw_widget_position();
 
 			ob_start();
 			if(is_array($widget_positions)){
@@ -138,7 +138,7 @@ class cs_theme_widgets {
 											<input type="checkbox" name="show_title" <?php echo (@$w['param']['locations']['show_title'] ? 'checked' : ''); ?>> Show widget title</label><br />
 												<span>Select pages where you want to show</span>
 												<?php
-													foreach(cs_get_template_array() as $k => $t){
+													foreach(qw_get_template_array() as $k => $t){
 														$checked = @$w['param']['locations'][$k] ? 'checked' : '';
 														echo '												
 															<div class="checkbox">
@@ -152,7 +152,7 @@ class cs_theme_widgets {
 											</div>
 											<div class="widget-option">
 												<?php 
-													if ( isset($w['param']['options']['cs_t_text']) ){
+													if ( isset($w['param']['options']['qw_t_text']) ){
 														$w['type']='textarea';
 													}
 													$this->get_widget_form($w['name'], $w['param']['options']);
@@ -173,7 +173,7 @@ class cs_theme_widgets {
 		
 		function get_widget_template_checkbox(){
 			$output = '';
-			foreach(cs_get_template_array() as $t_name => $t)
+			foreach(qw_get_template_array() as $t_name => $t)
 				$output .='												
 					<div class="checkbox">
 						<label>
@@ -187,8 +187,8 @@ class cs_theme_widgets {
 			
 			$module	=	qa_load_module('widget', $name);
 			
-			if(is_object($module) && method_exists($module, 'cs_widget_form')){
-				$fields = $module->cs_widget_form();
+			if(is_object($module) && method_exists($module, 'qw_widget_form')){
+				$fields = $module->qw_widget_form();
 				if($options){
 					foreach($options as $k => $opt){
 						if(isset($fields['fields'][$k])){

@@ -13,15 +13,15 @@ if (!defined('QA_VERSION')) {
 }
 
 
-qa_register_plugin_module('widget', 'addons/following/widget-following.php', 'cs_following_widget', 'CS Following');
-qa_register_plugin_module('page', 'addons/following/page.php', 'cs_following_page', 'CS following Page');
+qa_register_plugin_module('widget', 'addons/following/widget-following.php', 'qw_following_widget', 'QW Following');
+qa_register_plugin_module('page', 'addons/following/page.php', 'qw_following_page', 'QW following Page');
 
-$cs_following = new Cs_Follwing;
+$qw_following = new Qw_Follwing;
 	
-	class Cs_Follwing{
+	class Qw_Follwing{
 		function __construct(){
-			cs_add_filter('template_array', array($this, 'page_templates'));
-			cs_event_hook('doctype', NULL, array($this, 'navigation'));
+			qw_add_filter('template_array', array($this, 'page_templates'));
+			qw_event_hook('doctype', NULL, array($this, 'navigation'));
 		}
 		
 		public function navigation($themeclass){		
@@ -39,7 +39,7 @@ $cs_following = new Cs_Follwing;
 					$themeclass['navigation']['user']['following']['selected'] = true;
 				}
 				
-				if(cs_is_user())
+				if(qw_is_user())
 					$themeclass['navigation']['sub']['following'] = array(
 						'label' => qa_lang('cleanstrap/following'),
 						'url' => qa_path_html('following'),
@@ -56,7 +56,7 @@ $cs_following = new Cs_Follwing;
 				$handle = qa_get_logged_in_handle();
 			}	
 			
-			if(cs_is_user())
+			if(qw_is_user())
 				$themeclass['navigation']['sub']['following'] = array(
 					'label' => qa_lang('cleanstrap/following'),
 					'url' => qa_path_html('following/'.$handle),
