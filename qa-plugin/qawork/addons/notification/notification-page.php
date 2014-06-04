@@ -30,6 +30,19 @@ class cs_notification_page {
 		$qa_content['error']="";
 		$qa_content['suggest_next']="";
 		$qa_content['template']="notifications";
+
+		// Get the no of notifications 
+		$start=qa_get_start();
+		$pagesize = qa_opt('cs_all_notification_page_size') ;
+		if (!$pagesize) {
+			$pagesize = 15 ;
+		}
+		
+		$notifications_count = cs_get_notification_count(qa_get_logged_in_userid()) ; 
+		$qa_content['page_links']=qa_html_page_links(qa_request(), $start, $pagesize, $notifications_count , qa_opt('pages_prev_next'));
+		
+		if (empty($qa_content['page_links']))
+			$qa_content['suggest_next']=qa_html_suggest_ask();
 		
 		$qa_content['custom']= $this->opt_form();
 		
@@ -37,12 +50,17 @@ class cs_notification_page {
 	}
 	
 	function opt_form(){
-		require_once CS_CONTROL_DIR .'/addons/notification/functions.php';
 		ob_start();
 		?>
 			<div id="notifications-page" class="clearfix">
 				<a class="mark-activity icon-tick" href="#" data-id="<?php echo qa_get_logged_in_userid() ?> "> <?php echo qa_lang('cleanstrap/mark_all_as_read') ?> </a>
-				<?php cs_activitylist(); ?>
+				<?php 
+					$limit = qa_opt('cs_all_notification_page_size') ;
+					if (!$limit) {
+						$limit = 15 ;
+					}
+					cs_activitylist($limit); 
+				?>
 			</div>
 		<?php
 		$output = ob_get_clean();

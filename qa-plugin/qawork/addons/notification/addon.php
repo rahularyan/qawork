@@ -22,6 +22,7 @@ qa_register_plugin_layer('addons/notification/notification-layer.php', 'CS Notif
 qa_register_plugin_module('page', 'addons/notification/notification-page.php', 'cs_notification_page', 'CS Notification Page');
 
 include_once CS_CONTROL_DIR. '/addons/notification/email-events.php';
+require_once CS_CONTROL_DIR .'/addons/notification/functions.php';
 
 function cs_set_notification_as_read($id){
 	if(qa_is_logged_in())
@@ -73,6 +74,7 @@ class Cs_Notification_Addon{
 		// added hooks for options and option tabs 
 		cs_add_action('cs_theme_option_tab', array($this, 'option_tab'));
         cs_add_action('cs_theme_option_tab_content', array($this, 'option_tab_content'));
+        cs_add_action('cs_reset_theme_options', array($this, 'reset_theme_options'));
 	}
 	
 	public function init_queries($queries, $tableslc){
@@ -770,7 +772,6 @@ class Cs_Notification_Addon{
 		$saved = false;
 			
             if (qa_clicked('cs_save_button')) {
-            	  require_once CS_CONTROL_DIR .'/addons/notification/functions.php';
                   $enable_plugin = !!qa_post_text('cs_enable_email_notfn_field');
                   qa_opt('cs_enable_email_notfn', $enable_plugin);
                   if (!$enable_plugin) {
@@ -833,6 +834,7 @@ class Cs_Notification_Addon{
 									</td>
 								</tr>' ;
 				$output .= '</tbody>' ;
+
 				$output .= '<tbody>' ;
 					$output .= '<tr>
 									<th class="qa-form-tall-label">' . qa_lang("notification/cs_notify_enable_summerize_email_lang") .'</th>
@@ -878,8 +880,21 @@ class Cs_Notification_Addon{
 								</tr>' ;
 				$output .= '</tbody>' ;
 
+				$output .= '<tbody>' ;
+					$output .= '<tr class="" >
+									<th class="qa-form-tall-label">' . qa_lang("notification/cs_all_notification_page_size_lang") .'</th>
+										<td class="qa-form-tall-data">
+											<input type="text" value="' . qa_opt('cs_all_notification_page_size') . '" id="cs_styling_rtl" name="cs_all_notification_page_size_field" data-opts="cs_all_notification_page_size_fields">
+										</td>
+								</tr>' ;
+				$output .= '</tbody>' ;
+				
 			$output .= '</table></div>';
 			echo $output;
+	  }
+
+	  public function reset_theme_options() {
+	  		reset_all_notification_options();
 	  }
 
 }

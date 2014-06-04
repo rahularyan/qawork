@@ -10,12 +10,14 @@ function reset_all_notification_options() {
       qa_opt('cs_notify_tag_followers', false);
       qa_opt('cs_notify_user_followers', false);
       qa_opt('cs_notify_min_points_opt', false);
-      qa_opt('cs_notify_min_points_val', false);
+      qa_opt('cs_notify_min_points_val', 0);
+      qa_opt('cs_all_notification_page_size', 15 );
+      qa_opt('cs_email_notf_enable', false);
 }
 
 function reset_all_notification_points_options() {
       qa_opt('cs_notify_min_points_opt', false);
-      qa_opt('cs_notify_min_points_val', false);
+      qa_opt('cs_notify_min_points_val', 0);
 }
 
 function set_all_notification_options() {
@@ -51,6 +53,12 @@ function set_all_notification_options() {
             reset_all_notification_options();
             $error['no_options_selected'] = "Please choose atleast follower option to enable this plugin ";
       }
+      // set the notifications page size 
+      $page_size = qa_post_text('cs_all_notification_page_size_field') ;
+      if (!$page_size || $page_size < 15 || $page_size > 200 ) {
+           $page_size = 15 ; /*15 set to default */
+      }
+      qa_opt('cs_all_notification_page_size' , $page_size ) ;
       return $error;
 }
 
@@ -60,10 +68,19 @@ function options_selected() {
               (!!qa_post_text('cs_notify_user_followers_field')) );
 }
 
-function cs_activitylist()
+function cs_get_notification_count($userid = ""){
+      if (!$userid) {
+            $userid = qa_get_logged_in_userid();
+      }
+
+      return qa_db_read_one_value (qa_db_query_sub(
+                        'SELECT count(*) FROM ^ra_userevent WHERE effecteduserid=# AND event NOT IN ("u_wall_post", "u_message") ',
+                        $userid ) );
+}
+
+function cs_activitylist($limit)
 {
-            $offset = (int)qa_get('offset');
-            $offset = isset($offset) ? ($offset*15) : 0;
+            $offset = (int)qa_get('start');
             
             // get points for each activity
             require_once QA_INCLUDE_DIR.'qa-db-points.php';
@@ -97,7 +114,7 @@ function cs_activitylist()
             
             // Get Events
             $userid = qa_get_logged_in_userid();
-            $limit  = 15 ;
+           
             $eventslist = qa_db_read_all_assoc(
                   qa_db_query_sub( 
                         'SELECT id, UNIX_TIMESTAMP(datetime) AS datetime, userid, postid, effecteduserid, event, params, `read` FROM ^ra_userevent WHERE effecteduserid=# AND event NOT IN ("u_wall_post", "u_message") ORDER BY datetime DESC LIMIT # OFFSET #',

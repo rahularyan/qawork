@@ -92,6 +92,7 @@ return array(
 	"twenty_times_a_day_lang"         => "Twenty times a Day",
 	"twenty_four_times_a_day_lang"    => "Twenty four times a Day",
 	"cs_notify_freq_per_day_opt_lang" => "Choose the frequency of sending notification emails ",
+	"cs_all_notification_page_size_lang" => "Number of notifications to be displayed on the notifications page (minimum 15 and maximum 200) ",
 	// user designations
 	"basic_desg"                      => "Basic User" ,
 	"approved_desg"                   => "Approved User" ,
