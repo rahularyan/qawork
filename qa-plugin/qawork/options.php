@@ -790,7 +790,7 @@ class cs_theme_options {
     	// General 
     	qa_opt('logo_url', ''); /*Needs to be changed */
 		qa_opt('cs_favicon_url', ''); /*Needs to be changed */
-		qa_opt('cs_enable_gzip', 0 );
+		qa_opt('cs_enable_gzip', 1 );
 		qa_opt('cs_featured_image_width', 250);
 		qa_opt('cs_featured_image_height', 250);
 		qa_opt('cs_featured_thumbnail_width', 250);
