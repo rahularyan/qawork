@@ -6,23 +6,14 @@ function get_base_url()
 	/* First we need to get the protocol the website is using */
 	$protocol = strtolower(substr($_SERVER["SERVER_PROTOCOL"], 0, 5)) == 'https' ? 'https://' : 'http://';
 
-	/* returns /myproject/index.php */
-	if(QA_URL_FORMAT_NEAT == 0 || strpos($_SERVER['PHP_SELF'],'/index.php/') !== false):
-		$path = strstr($_SERVER['PHP_SELF'], '/index', true);
-		$directory = $path;
-	else:
-		$path = $_SERVER['PHP_SELF'];
-		$path_parts = pathinfo($path);
-		$directory = $path_parts['dirname'];
-		$directory = ($directory == "/") ? "" : $directory;
-	endif;       
-		
-		$directory = ($directory == "\\") ? "" : $directory;
+	$root = str_replace(array('/', '\\'), DIRECTORY_SEPARATOR,$_SERVER['DOCUMENT_ROOT']);
+	$base = str_replace(array('/', '\\'), DIRECTORY_SEPARATOR, rtrim(QA_BASE_DIR, '/'));
+
 		
 	/* Returns localhost OR mysite.com */
 	$host = $_SERVER['HTTP_HOST'];
 
-	return $protocol . $host . $directory;
+	return $protocol . $host . '/' . str_replace($root, '', $base );
 }	
 
 function cs_is_home(){
@@ -848,48 +839,6 @@ function cs_combine_assets($assets, $css = true){
 	return $styles;
 }
 
-
-
-function cs_compress_css($content) {
-
-	// Normalize whitespace
-	$content = preg_replace( '/\s+/', ' ', $content );
-
-	// Remove comment blocks, everything between /* and */, unless
-	// preserved with /*! ... */
-	$content = preg_replace( '/\/\*[^\!](.*?)\*\//', '', $content );
-
-	// Remove ; before }
-	$content = preg_replace( '/;(?=\s*})/', '', $content );
-
-	// Remove space after , : ; { } */ >
-	$content = preg_replace( '/(,|:|;|\{|}|\*\/|>) /', '$1', $content );
-
-	// Remove space before , ; { } ( ) >
-	$content = preg_replace( '/ (,|;|\{|}|\(|\)|>)/', '$1', $content );
-
-	// Strips leading 0 on decimal values (converts 0.5px into .5px)
-	$content = preg_replace( '/(:| )0\.([0-9]+)(%|em|ex|px|in|cm|mm|pt|pc)/i', '${1}.${2}${3}', $content );
-
-	// Strips units if value is 0 (converts 0px to 0)
-	$content = preg_replace( '/(:| )(\.?)0(%|em|ex|px|in|cm|mm|pt|pc)/i', '${1}0', $content );
-
-	// Converts all zeros value into short-hand
-	$content = preg_replace( '/0 0 0 0/', '0', $content );
-
-	// Shortern 6-character hex color codes to 3-character where possible
-	$content = preg_replace( '/#([a-f0-9])\\1([a-f0-9])\\2([a-f0-9])\\3/i', '#\1\2\3', $content );
-
-	return trim( $content );
-}
-
-function cs_compress_js( $content ) {
-	require_once CS_CONTROL_DIR.'/inc/jsmin.php';
-
-	$content = JSMin::minify($content);
-	return $content;
-}
-
 function cs_update_tags_meta($tag, $title, $content){
 
 	qa_db_query_sub(
@@ -1098,12 +1047,7 @@ function cs_array_insert_before($key, array &$array, $new_key, $new_value) {
 
 function cs_order_profile_fields($profile){
 	 $keys = cs_apply_filter('order_profile_field', array('name', 'website', 'location', 'about'));
-	 $hide = cs_apply_filter('hide_profile_field', array('cover' , 'cs_facebook_a_post', 'cs_facebook_q_post', 'cs_facebook_c_post', 
-	 													 'cs_twitter_a_post', 'cs_twitter_q_post', 'cs_twitter_c_post', 
-	 													 'aol_hauthSession', 'facebook_hauthSession', 'foursquare_hauthSession', 
-	 													 'google_hauthSession', 'linkedin_hauthSession', 'live_hauthSession',
-	 													 'myspace_hauthSession', 'openid_hauthSession', 'twitter_hauthSession', 
-	 													 'yahoo_hauthSession'));
+	 $hide = cs_apply_filter('hide_profile_field', array('cover' , 'cs_facebook_a_post', 'cs_facebook_q_post', 'cs_facebook_c_post', 'cs_twitter_a_post', 'cs_twitter_q_post', 'cs_twitter_c_post', 'aol_hauthSession', 'facebook_hauthSession', 'foursquare_hauthSession', 'google_hauthSession', 'linkedin_hauthSession', 'live_hauthSession','myspace_hauthSession', 'openid_hauthSession', 'twitter_hauthSession', 'yahoo_hauthSession'));
 	 $hide = array_keys(array_flip( $hide ));
 	 foreach ($profile as $key => $value) {
 	 	if (in_array($key, $hide)) {
@@ -1181,4 +1125,17 @@ function cs_array_search_partial($arr, $keyword) {
         if (strpos($string, $keyword) !== FALSE)
             return $index;
     }
+}
+
+function cs_get_all_styles($template = 'none'){
+	// short css
+	$sort = cs_apply_filter('sort_enqueue_css', array('bootstrap', 'cs_admin'));	
+	$css = cs_apply_filter('enqueue_css', array(), $template);
+	return array_merge(array_flip( $sort ), $css);
+}
+
+function cs_get_all_scripts($template = 'none'){
+	$sort = cs_apply_filter('sort_enqueue_scripts', array('jquery', 'bootstrap', 'cs_admin'));
+	$scripts = cs_apply_filter('enqueue_scripts', array(), $template);
+	return array_merge(array_flip( $sort ), $scripts);
 }
