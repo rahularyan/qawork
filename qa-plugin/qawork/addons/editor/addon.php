@@ -6,34 +6,34 @@ if (!defined('QA_VERSION')) {
 
 qa_register_plugin_module('editor', '/addons/editor/editor.php', 'qw_editor', 'QW Editor');
 
-define('QW_EDITOR_STYLE_SHEET_PATH', CS_CONTROL_DIR . '/addons/editor/plugins/codesnippet/lib/highlight/styles' );
-define('QW_EDITOR_STYLE_SHEET_LINK', CS_CONTROL_URL . '/addons/editor/plugins/codesnippet/lib/highlight/styles' );
+define('QW_EDITOR_STYLE_SHEET_PATH', QW_CONTROL_DIR . '/addons/editor/plugins/codesnippet/lib/highlight/styles' );
+define('QW_EDITOR_STYLE_SHEET_LINK', QW_CONTROL_URL . '/addons/editor/plugins/codesnippet/lib/highlight/styles' );
 
 class QW_Editor_Addon{
 	function __construct(){
-    cs_event_hook('doctype', NULL, array($this, 'navigation'));
-		cs_event_hook('register_language', NULL, array($this, 'language'));
-		cs_add_filter('enqueue_css', array($this, 'css'));
-		cs_event_hook('enqueue_script', NULL, array($this, 'script'));
-		cs_add_action('cs_theme_option_tab', array($this, 'option_tab'));
-    cs_add_action('cs_theme_option_tab_content', array($this, 'option_tab_content'));
-    cs_add_action('cs_reset_theme_options', array($this, 'reset_theme_options'));
+    qw_event_hook('doctype', NULL, array($this, 'navigation'));
+		qw_event_hook('register_language', NULL, array($this, 'language'));
+		qw_add_filter('enqueue_css', array($this, 'css'));
+		qw_event_hook('enqueue_script', NULL, array($this, 'script'));
+		qw_add_action('qw_theme_option_tab', array($this, 'option_tab'));
+    qw_add_action('qw_theme_option_tab_content', array($this, 'option_tab_content'));
+    qw_add_action('qw_reset_theme_options', array($this, 'reset_theme_options'));
 
 	}
 		
 	public function language($lang_arr){
-		// $lang_arr['qw_editor'] = CS_CONTROL_DIR .'/addons/breadcrumbs/language-*.php';
+		// $lang_arr['qw_editor'] = QW_CONTROL_DIR .'/addons/breadcrumbs/language-*.php';
 		return $lang_arr;
 	}
 
 	public function css($css_src , $template ){
 		if ($template == 'question') {
-			$selected_theme  = qa_opt('cs_qa_editor_code_theme');
+			$selected_theme  = qa_opt('qw_qa_editor_code_theme');
 	    	if (!$selected_theme ) {
 	    		$selected_theme  = "github.css" ;
 	    	}
 	    	$suffix = "/" ;
-	    	$minify_opt  = qa_opt('cs_qa_editor_theme_use_minified');
+	    	$minify_opt  = qa_opt('qw_qa_editor_theme_use_minified');
 	    	if (!!$minify_opt) {
 	    		$suffix = ".min/" ;
 	    	}
@@ -51,15 +51,15 @@ class QW_Editor_Addon{
 	}
 
 	public function navigation($themeclass) {
-        // cs_log(print_r($themeclass , true));
+        // qw_log(print_r($themeclass , true));
         return $themeclass ; 
     }
 
     public function option_tab(){
           $saved=false;
-          if(qa_clicked('cs_save_button')){   
-              qa_opt("cs_qa_editor_code_theme", qa_post_text("cs_qa_editor_code_theme"));
-              qa_opt("cs_qa_editor_theme_use_minified", !!qa_post_text("cs_qa_editor_theme_use_minified"));
+          if(qa_clicked('qw_save_button')){   
+              qa_opt("qw_qa_editor_code_theme", qa_post_text("qw_qa_editor_code_theme"));
+              qa_opt("qw_qa_editor_theme_use_minified", !!qa_post_text("qw_qa_editor_theme_use_minified"));
               $saved=true;
           }
           
@@ -69,7 +69,7 @@ class QW_Editor_Addon{
     }
 
     public function option_tab_content(){
-    	$selected_theme  = qa_opt('cs_qa_editor_code_theme');
+    	$selected_theme  = qa_opt('qw_qa_editor_code_theme');
     	if (!$selected_theme ) {
     		$selected_theme  = "github.css" ;
     	}
@@ -98,7 +98,7 @@ class QW_Editor_Addon{
                 <tr>
                   <th class="qa-form-tall-label">Choose your prefered theme for code snippets</th>
                   <td class="qa-form-tall-data">
-                    	<select name="cs_qa_editor_code_theme">
+                    	<select name="qw_qa_editor_code_theme">
                     	'.$select_options.'
                     	</select>
                   </td>
@@ -110,7 +110,7 @@ class QW_Editor_Addon{
                 <tr>
                   <th class="qa-form-tall-label">Use minified style sheets (Recomended for fasetr loading ) </th>
                   <td class="qa-form-tall-data">
-                    <input type="checkbox"' . (qa_opt('cs_qa_editor_theme_use_minified') ? ' checked=""' : '') . ' id="cs_styling_rtl" name="cs_qa_editor_theme_use_minified" data-opts="cs_qa_editor_theme_use_minified_fields">
+                    <input type="checkbox"' . (qa_opt('qw_qa_editor_theme_use_minified') ? ' checked=""' : '') . ' id="qw_styling_rtl" name="qw_qa_editor_theme_use_minified" data-opts="qw_qa_editor_theme_use_minified_fields">
                   </td>
                 </tr>
                 </tbody>
@@ -119,9 +119,9 @@ class QW_Editor_Addon{
             echo $output;
     }
     public function reset_theme_options() {
-        if (qa_clicked('cs_reset_button')) {
-          qa_opt("cs_qa_editor_code_theme", "github.css");
-          qa_opt("cs_qa_editor_theme_use_minified", 1);
+        if (qa_clicked('qw_reset_button')) {
+          qa_opt("qw_qa_editor_code_theme", "github.css");
+          qa_opt("qw_qa_editor_theme_use_minified", 1);
           $saved=true;
         }
     }

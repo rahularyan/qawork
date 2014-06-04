@@ -6,7 +6,7 @@ if (!defined('QA_VERSION')) {
 }
 
 
-class cs_notification_page {
+class qw_notification_page {
 	var $directory;
 	var $urltoroot;
 
@@ -33,12 +33,12 @@ class cs_notification_page {
 
 		// Get the no of notifications 
 		$start=qa_get_start();
-		$pagesize = qa_opt('cs_all_notification_page_size') ;
+		$pagesize = qa_opt('qw_all_notification_page_size') ;
 		if (!$pagesize) {
 			$pagesize = 15 ;
 		}
 		
-		$notifications_count = cs_get_notification_count(qa_get_logged_in_userid()) ; 
+		$notifications_count = qw_get_notification_count(qa_get_logged_in_userid()) ; 
 		$qa_content['page_links']=qa_html_page_links(qa_request(), $start, $pagesize, $notifications_count , qa_opt('pages_prev_next'));
 		
 		if (empty($qa_content['page_links']))
@@ -55,11 +55,11 @@ class cs_notification_page {
 			<div id="notifications-page" class="clearfix">
 				<a class="mark-activity icon-tick" href="#" data-id="<?php echo qa_get_logged_in_userid() ?> "> <?php echo qa_lang('cleanstrap/mark_all_as_read') ?> </a>
 				<?php 
-					$limit = qa_opt('cs_all_notification_page_size') ;
+					$limit = qa_opt('qw_all_notification_page_size') ;
 					if (!$limit) {
 						$limit = 15 ;
 					}
-					cs_activitylist($limit); 
+					qw_activitylist($limit); 
 				?>
 			</div>
 		<?php

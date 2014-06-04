@@ -3,7 +3,7 @@
 Some part of this code was taken from qa-openlogin plugin by alixandru
 https://github.com/alixandru/q2a-open-login
 */
-class cs_open_login {
+class qw_open_login {
 
       var $directory;
       var $urltoroot;
@@ -44,11 +44,11 @@ class cs_open_login {
                   // after login come back to the same page
                   $loginCallback = qa_path('', array(), qa_opt('site_url'));
 
-                  require_once CS_CONTROL_DIR . '/inc/hybridauth/Hybrid/Auth.php';
-                  require_once CS_CONTROL_DIR . '/addons/social-login/cs-social-login-utils.php';
+                  require_once QW_CONTROL_DIR . '/inc/hybridauth/Hybrid/Auth.php';
+                  require_once QW_CONTROL_DIR . '/addons/social-login/cs-social-login-utils.php';
 
                   // prepare the configuration of HybridAuth
-                  $config = $this->cs_social_get_config($loginCallback);
+                  $config = $this->qw_social_get_config($loginCallback);
 
                   $topath = qa_get('to');
                   if (!isset($topath)) {
@@ -102,8 +102,8 @@ class cs_open_login {
             }
 
             if ($action == 'process') {
-                  require_once CS_CONTROL_DIR . '/inc/hybridauth/Hybrid/Auth.php';
-                  require_once CS_CONTROL_DIR . '/inc/hybridauth/Hybrid/Endpoint.php';
+                  require_once QW_CONTROL_DIR . '/inc/hybridauth/Hybrid/Auth.php';
+                  require_once QW_CONTROL_DIR . '/inc/hybridauth/Hybrid/Endpoint.php';
                   Hybrid_Endpoint::process();
             }
             return false;
@@ -113,10 +113,10 @@ class cs_open_login {
             // after login come back to the same page
             $loginCallback = qa_path('', array(), qa_opt('site_url'));
 
-            require_once CS_CONTROL_DIR . '/inc/hybridauth/Hybrid/Auth.php';
+            require_once QW_CONTROL_DIR . '/inc/hybridauth/Hybrid/Auth.php';
 
             // prepare the configuration of HybridAuth
-            $config = $this->cs_social_get_config($loginCallback);
+            $config = $this->qw_social_get_config($loginCallback);
 
             try {
                   // try to logout
@@ -150,14 +150,14 @@ class cs_open_login {
       }
 
       function login_html($tourl, $context) {
-            $this->cs_social_print_code($tourl, false, $context);
+            $this->qw_social_print_code($tourl, false, $context);
       }
 
       function logout_html($tourl) {
-            $this->cs_social_print_code($tourl, true, 'menu');
+            $this->qw_social_print_code($tourl, true, 'menu');
       }
 
-      function cs_social_print_code($tourl, $logout, $context) {
+      function qw_social_print_code($tourl, $logout, $context) {
             $css = $key = strtolower($this->provider);
             if ($key == 'live') {
                   $css = 'windows'; // translate provider name to zocial css class
@@ -192,7 +192,7 @@ class cs_open_login {
                         $url .= '&amp;to=' . $tourl; // play nice with validators
                   }
                   $classes = "$context action-login $zocial $css";
-                  $title = qa_lang_html_sub('cs_social_login/login_using', $this->provider);
+                  $title = qa_lang_html_sub('qw_social_login/login_using', $this->provider);
                   $text = $this->provider . ' ' . qa_lang_html('main/nav_login');
 
                   if ($context != 'menu') {
@@ -204,7 +204,7 @@ class cs_open_login {
             <?php
       }
 
-      function cs_social_get_config($url) {
+      function qw_social_get_config($url) {
             $key = strtolower($this->provider);
             return array(
                 'base_url' => $url,

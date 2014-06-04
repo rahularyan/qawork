@@ -1,4 +1,4 @@
-function cs_animate_button(elm, hide){
+function qw_animate_button(elm, hide){
 	//set the default value 
 	if (typeof(hide)==='undefined') {hide = false};
 
@@ -7,24 +7,24 @@ function cs_animate_button(elm, hide){
 	else
 		$(elm).addClass('btn-loading');
 }
-function cs_remove_animate_button(elm){
+function qw_remove_animate_button(elm){
 	$(elm).removeClass('.btn-loading.active');
 }
 
-function cs_question_meta(){
+function qw_question_meta(){
 	$('#set_featured').click(function(e){
 		e.preventDefault();
-		cs_animate_button(this);
+		qw_animate_button(this);
 		$.ajax({
 			data: {
-				cs_ajax: true,
-				cs_ajax_html: true,
+				qw_ajax: true,
+				qw_ajax_html: true,
 				action: 'set_question_featured',
 			},
 			dataType: 'html',
 			context:this,
 			success: function (response) {				
-				cs_animate_button(this, true);
+				qw_animate_button(this, true);
 				location.reload();
 			},
 		});		
@@ -34,7 +34,7 @@ function cs_question_meta(){
 
 }
 
-function cs_tab(){
+function qw_tab(){
 
 	jQuery('.ra-option-tabs li a').click(function(e){
 		e.preventDefault();
@@ -47,15 +47,15 @@ function cs_tab(){
 	});
 }
 
-function cs_set_active_sub_nav(elem){
+function qw_set_active_sub_nav(elem){
 	$(elem).closest('.qa-nav-sub-list').find('li a').removeClass('qa-nav-sub-selected');
 	$(elem).addClass('qa-nav-sub-selected');
 }
 
-function cs_ajax_sub_menu(elem){
+function qw_ajax_sub_menu(elem){
 	$(elem).click(function(e){
 		e.preventDefault();
-		cs_set_active_sub_nav(this);
+		qw_set_active_sub_nav(this);
 		
 		var url = $(this).attr('href');
 		$.get( url, function( data ) {
@@ -66,9 +66,9 @@ function cs_ajax_sub_menu(elem){
 	});
 }
 
-function cs_vote_click(){
+function qw_vote_click(){
 	$('body').delegate('.vote-up, .vote-down', 'click', function(){
-		cs_ajax_loading(this);
+		qw_ajax_loading(this);
 		if (typeof ($(this).data('id')) != 'undefined'){
 			var ens=$(this).data('id').split('_');
 			var parent = $(this).parent();
@@ -85,7 +85,7 @@ function cs_vote_click(){
 						
 
 					} else if (lines[0]=='0') {						
-						cs_alert(lines[1]);					
+						qw_alert(lines[1]);					
 					} else
 						qa_ajax_error();
 				}
@@ -94,7 +94,7 @@ function cs_vote_click(){
 		return false;
 	});	
 }
-function cs_ajax_loading($elm){
+function qw_ajax_loading($elm){
 	var position = $($elm).offset();
 	var html = '<div id="ajax-loading"></div>';	
 	$(html).appendTo('body').ajaxStart(function () {
@@ -106,7 +106,7 @@ function cs_ajax_loading($elm){
 		$(this).remove();
 	});
 }
-function cs_toggle_editor(){	
+function qw_toggle_editor(){	
 	$( '#q_doanswer, #focus_doanswer' ).not('.disabled').on('click', function(event) {
 		event.preventDefault();
 		$('html, body').animate({
@@ -114,10 +114,10 @@ function cs_toggle_editor(){
 		}, 500);
 	});
 }
-function cs_favorite_click()
+function qw_favorite_click()
 {
 	$('body').delegate( '.fav-btn', 'click', function() {
-		cs_ajax_loading(this);
+		qw_ajax_loading(this);
 		var ens 	=	$(this).data('id').split('_');
 		var code	=	$(this).data('code');
 		var elem	=	$(this);
@@ -129,25 +129,25 @@ function cs_favorite_click()
 					$('.fav-btn').tooltip({placement:'top'});
 				}else if (lines[0]=='0') {
 					//alert(lines[1]);
-					//cs_remove_process(elem);
+					//qw_remove_process(elem);
 				} else
 					qa_ajax_error();
 			}
 		);
 		
-		//cs_process(elem, false);
+		//qw_process(elem, false);
 		
 		return false;
 	});
 }
-function cs_alert($mesasge){
+function qw_alert($mesasge){
 	if($('#ra-alert').length > 0)
 		$('#ra-alert').remove();
 	var html = '<div id="ra-alert" class="alert fade in"><button aria-hidden="true" data-dismiss="alert" class="close" type="button">&times;</button>'+$mesasge+'</div>';
 	$(html).appendTo('body');
 	$('#ra-alert').css({left:($(window).width()/2 - $('#ra-alert').width()/2)}).animate({top:'50px'},300);
 }
-function cs_slide_menu(){
+function qw_slide_menu(){
 	$('.slide-mobile-menu').toggle(
 		function() {
 			$('#nav-top .qa-nav-main').animate({'left':0}, 200);
@@ -161,7 +161,7 @@ function cs_slide_menu(){
 		}
 	);
 }
-function cs_float_left(){
+function qw_float_left(){
 	var winwidth 	= $(window).width();
 	if(winwidth < 980)
 		$('.left-sidebar .float-nav').removeAttr('style');
@@ -191,7 +191,7 @@ function cs_float_left(){
 	});
 }
 
-function cs_widgets(){
+function qw_widgets(){
 	$('.position-toggler').click(function(){
 		$('.position-canvas').not($(this).parent().next()).hide();
 		$(this).parent().next().toggle(0);
@@ -229,7 +229,7 @@ function cs_widgets(){
 	
 	$('#ra-widgets').delegate('.widget-save.active', 'click', function(){
 		var $parent = $(this).closest('.widget-canvas').find('.position-canvas');
-		cs_save_widget($parent);
+		qw_save_widget($parent);
 	});
 	
 	if ($('#ra-widgets').length>0) {
@@ -257,7 +257,7 @@ function cs_widgets(){
 		});
 	}
 }
-function cs_save_widget($elm){
+function qw_save_widget($elm){
 	var widget ={};
 	var	locations = {};
 	var	options = {};
@@ -306,13 +306,13 @@ function cs_save_widget($elm){
 	});
 }
 
-function cs_ask_box_autocomplete(){
+function qw_ask_box_autocomplete(){
 	$( "#ra-ask-search" ).autocomplete({
 		source: function( request, response ) {
 			$.ajax({
 				data: {
-					cs_ajax: true,
-					cs_ajax_html: true,
+					qw_ajax: true,
+					qw_ajax_html: true,
 					start_with: request.term,
 					action: 'get_question_suggestion',
 				},
@@ -368,12 +368,12 @@ function back_to_top(){
 	});
 }
 
-function cs_load_login_register(){
+function qw_load_login_register(){
 	$('#login-register').not('active').click(function(){
 		$.ajax({
 			data: {
-				cs_ajax: true,
-				cs_ajax_html: true,
+				qw_ajax: true,
+				qw_ajax_html: true,
 				action: 'get_login_register',
 			},
 			dataType: 'html',
@@ -383,14 +383,14 @@ function cs_load_login_register(){
 		});
 	});
 }
-function cs_create_cache(){
+function qw_create_cache(){
 	$('body').delegate('#cache_assets', 'click', function(e){
 		e.preventDefault();
 		if(!$(this).is('.active')){
 			$.ajax({
 				data: {
-					cs_ajax: true,
-					cs_ajax_html: true,
+					qw_ajax: true,
+					qw_ajax_html: true,
 					action: 'build_assets_cache',
 				},
 				context:this,
@@ -403,8 +403,8 @@ function cs_create_cache(){
 		}else{
 			$.ajax({
 				data: {
-					cs_ajax: true,
-					cs_ajax_html: true,
+					qw_ajax: true,
+					qw_ajax_html: true,
 					action: 'destroy_assets_cache',
 				},
 				context:this,
@@ -417,11 +417,11 @@ function cs_create_cache(){
 		}
 	});
 }
-function cs_save_image(image){
+function qw_save_image(image){
 	$.ajax({
 		data: {
-			cs_ajax: true,
-			cs_ajax_html: true,
+			qw_ajax: true,
+			qw_ajax_html: true,
 			featured_image: image,
 			action: 'save_q_meta',
 		},
@@ -432,7 +432,7 @@ function cs_save_image(image){
 	});	
 }
 
-function cs_user_popover(){	
+function qw_user_popover(){	
 	$('body').on('mouseenter', '.avatar[data-handle]', function( event ) {
 		
 		if($('.user-popover').is(':visible'))
@@ -449,7 +449,7 @@ function cs_user_popover(){
 			$.ajax({
 				type: 'POST',
 				data: {
-					cs_ajax: true,
+					qw_ajax: true,
 					action: 'user_popover',
 					handle: handle,
 				},
@@ -479,7 +479,7 @@ function cs_user_popover(){
 	});
 }
 
-function cs_select_answer(answerid, questionid, target, code, name){
+function qw_select_answer(answerid, questionid, target, code, name){
 
 	var params={};
 	
@@ -514,7 +514,7 @@ function cs_select_answer(answerid, questionid, target, code, name){
 	return false;
 								
 }
-function cs_toggle_comment(){
+function qw_toggle_comment(){
 	$('body').delegate('.toggle-comment', 'click', function(){	
 		var c = $(this).parent().find('.qa-c-wrap');
 		if($(this).is('.open')){
@@ -528,13 +528,13 @@ function cs_toggle_comment(){
 		}
 	});
 }
-function cs_check_site_status_size(){
+function qw_check_site_status_size(){
 	if($('.site-status-inner .bar-float').width() < 160)
 		$('.site-status-inner > *').css({'float': 'none', 'width':'100%'});
 }
 
-function cs_change_cover(elm){
-	cs_animate_button(elm);
+function qw_change_cover(elm){
+	qw_animate_button(elm);
 	$.ajax({
 		url: ajax_url,
 		type: 'POST',
@@ -546,7 +546,7 @@ function cs_change_cover(elm){
 		success: function (response) {
 			$(response).appendTo('body');
 			$('#upload_cover_modal').modal('show');
-			cs_animate_button(elm, true);
+			qw_animate_button(elm, true);
 		},
 	});
 }
@@ -563,23 +563,23 @@ $(document).ready(function(){
 	if( main_height < win_height)
 		$('#site-body').css('height', win_height -50);
 	
-	cs_float_left();	
-	cs_slide_menu();
-	cs_vote_click();
-	cs_toggle_editor();
-	cs_favorite_click();
-	cs_tab();
-	cs_widgets();
+	qw_float_left();	
+	qw_slide_menu();
+	qw_vote_click();
+	qw_toggle_editor();
+	qw_favorite_click();
+	qw_tab();
+	qw_widgets();
 	back_to_top();
-	cs_question_meta();
-	cs_load_login_register();
-	cs_user_popover();
-	cs_check_site_status_size();
-	cs_create_cache();
-	cs_toggle_comment();
+	qw_question_meta();
+	qw_load_login_register();
+	qw_user_popover();
+	qw_check_site_status_size();
+	qw_create_cache();
+	qw_toggle_comment();
 	
 	if ($('.ra-ask-widget').length>0)
-		cs_ask_box_autocomplete();
+		qw_ask_box_autocomplete();
 	
 	if ((typeof qa_wysiwyg_editor_config == 'object') && $('body').hasClass('qa-template-question'))
 		qa_ckeditor_a_content=CKEDITOR.replace('a_content', window.qa_wysiwyg_editor_config);
@@ -610,7 +610,7 @@ $(document).ready(function(){
 		$('.left-sidebar').removeAttr('style');
 		$('.qa-main').removeAttr('style');
 		$('#nav-top .qa-nav-main').removeAttr('style');
-		cs_check_site_status_size();
+		qw_check_site_status_size();
 		
 		if($('#header-top').width() < 1300){
 			$('.ra-social-links').css({'bottom':5, 'top':'auto'});
@@ -622,7 +622,7 @@ $(document).ready(function(){
 	
 	$('body').redraw();
 	
-	$('.cs_ask_form #notify').click(function(){
+	$('.qw_ask_form #notify').click(function(){
 		$(this).closest('.form-group').next().toggle();
 	});
 	
@@ -653,7 +653,7 @@ $(document).ready(function(){
 		var action = $(this).data('qawork');
 		
 		if(action == 'change-cover')
-			cs_change_cover(this);
+			qw_change_cover(this);
 	});
 
 	$('*[data-action="slider"]').each(function(){

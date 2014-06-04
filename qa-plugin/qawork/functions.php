@@ -16,14 +16,14 @@ function get_base_url()
 	return $protocol . $host . '/' . str_replace($root, '', $base );
 }	
 
-function cs_is_home(){
+function qw_is_home(){
 	if(qa_request() == '')
 		return true;
 		
 	return false;
 }
 
-function cs_is_user(){
+function qw_is_user(){
 	$request = qa_request_parts(0);
 	if( $request[0] == 'user' || $request[0] == 'followers' || $request[0] == 'following'|| $request[0] == 'favorites'|| $request[0] == 'account'|| $request[0] == 'logins'|| $request[0] == 'social-posting')
 		return true;
@@ -31,31 +31,31 @@ function cs_is_user(){
 	return false;
 }
 
-function cs_is_state_edit(){
-	$request = cs_request_text('state');
+function qw_is_state_edit(){
+	$request = qw_request_text('state');
 	if( $request == 'edit')
 		return true;
 		
 	return false;
 }
 
-function cs_read_addons(){
+function qw_read_addons(){
 	$addons = array();
 	//load files from addons folder
-	$files=glob(CS_CONTROL_DIR.'/addons/*/addon.php');
+	$files=glob(QW_CONTROL_DIR.'/addons/*/addon.php');
 	//print_r($files);
 	foreach ($files as $file){
-		$data = cs_get_addon_data($file);
+		$data = qw_get_addon_data($file);
 		$data['folder'] = basename(dirname($file));
 		$data['file'] = basename($file);
 		$addons[] = $data;
 	}
 	return $addons;
 }
-function cs_read_addons_ajax(){
+function qw_read_addons_ajax(){
 	$addons = array();
 	//load files from addons folder
-	$files=glob(CS_CONTROL_DIR.'/addons/*/ajax.php');
+	$files=glob(QW_CONTROL_DIR.'/addons/*/ajax.php');
 	//print_r($files);
 	foreach ($files as $file){
 		$data['folder'] = basename(dirname($file));
@@ -65,29 +65,29 @@ function cs_read_addons_ajax(){
 	return $addons;
 }
 
-function cs_load_addons(){
-	$addons = cs_read_addons();
+function qw_load_addons(){
+	$addons = qw_read_addons();
 	if(!empty($addons))
 		foreach($addons as $addon){
-			include_once CS_CONTROL_DIR.'/addons/'.$addon['folder'].'/'.$addon['file'];
+			include_once QW_CONTROL_DIR.'/addons/'.$addon['folder'].'/'.$addon['file'];
 		}
 }
-function cs_load_addons_ajax(){
-	$addons = cs_read_addons_ajax();
+function qw_load_addons_ajax(){
+	$addons = qw_read_addons_ajax();
 	if(!empty($addons))
 		foreach($addons as $addon){			
-			require_once CS_CONTROL_DIR.'/addons/'.$addon['folder'].'/'.$addon['file'];			
+			require_once QW_CONTROL_DIR.'/addons/'.$addon['folder'].'/'.$addon['file'];			
 		}
 }
 
 
-function cs_get_addon_data( $plugin_file) {
-	$plugin_data = cs_get_file_data( $plugin_file);
+function qw_get_addon_data( $plugin_file) {
+	$plugin_data = qw_get_file_data( $plugin_file);
 
 	return $plugin_data;
 }
 
-function cs_get_file_data( $file) {
+function qw_get_file_data( $file) {
 	// We don't need to write to the file, so just open for reading.
 	$fp = fopen( $file, 'r' );
 
@@ -97,7 +97,7 @@ function cs_get_file_data( $file) {
 	// PHP will close file handle, but we are good citizens.
 	fclose( $fp );
 
-	$metadata=cs_addon_metadata($file_data, array(
+	$metadata=qw_addon_metadata($file_data, array(
 		'theme_name' => 'Theme Name',
 		'theme_version' => 'Theme Version',
 		'class' => 'Class',
@@ -110,7 +110,7 @@ function cs_get_file_data( $file) {
 	return $metadata;
 }
 
-function cs_addon_metadata($contents, $fields){
+function qw_addon_metadata($contents, $fields){
 	$metadata=array();
 
 	foreach ($fields as $key => $field)
@@ -172,7 +172,7 @@ function widget_opt_delete($id ){
 	qa_db_query_sub('DELETE FROM ^ra_widgets WHERE id=#', $id);
 }
 
-function cs_user_data($handle){
+function qw_user_data($handle){
 	$userid = qa_handle_to_userid($handle);
 	$identifier=QA_FINAL_EXTERNAL_USERS ? $userid : $handle;
 	$user = array();
@@ -203,7 +203,7 @@ function cs_user_data($handle){
 	return $user;
 }	
 
-function cs_get_avatar($handle, $size = 40, $html =true){
+function qw_get_avatar($handle, $size = 40, $html =true){
 	$userid = qa_handle_to_userid($handle);
 	if(defined('QA_WORDPRESS_INTEGRATE_PATH')){
 		$img_html = get_avatar( qa_get_user_email($userid), $size);
@@ -217,7 +217,7 @@ function cs_get_avatar($handle, $size = 40, $html =true){
 			else
 				$img_html = '';
 		}else{
-			$f = cs_user_data($handle);
+			$f = qw_user_data($handle);
 			if(empty($f['account']['avatarblobid'])){
 				if (qa_opt('avatar_allow_gravatar'))
 					$img_html = qa_get_gravatar_html(qa_get_user_email($userid), $size);
@@ -238,7 +238,7 @@ function cs_get_avatar($handle, $size = 40, $html =true){
 	elseif(isset($match[1]))
 		return $match[1];
 }
-function cs_get_post_avatar($post, $size = 40, $html=false){
+function qw_get_post_avatar($post, $size = 40, $html=false){
 	if(!isset($post['raw'])){
 		$post['raw']['userid'] 			= $post['userid'];
 		$post['raw']['flags'] 			= $post['flags'];
@@ -262,18 +262,18 @@ function cs_get_post_avatar($post, $size = 40, $html=false){
 	return $avatar;
 }
 
-function cs_post_type($id){
+function qw_post_type($id){
 	$result = qa_db_read_one_value(qa_db_query_sub('SELECT type FROM ^posts WHERE postid=#', $id ),true);
 	return $result;
 }
 
-function cs_post_status($item){
+function qw_post_status($item){
 	$notice = '';
 	if (@$item['answer_selected'] || @$item['raw']['selchildid']){	
 		$notice =   '<span class="post-status selected ra-tip" title="'.qa_lang_html('cleanstrap/marked_as_solved').'">'.qa_lang_html('cleanstrap/solved').'</span>' ;
 
 	}elseif(@$item['raw']['closedbyid']){
-		$type = cs_post_type(@$item['raw']['closedbyid']);
+		$type = qw_post_type(@$item['raw']['closedbyid']);
 		if($type == 'Q'){
 			$notice =   '<span class="post-status duplicate ra-tip" title="'.qa_lang_html('cleanstrap/marked_as_duplicate').'">'.qa_lang_html('cleanstrap/duplicate').'</span>' ;		
 		}else{
@@ -284,13 +284,13 @@ function cs_post_status($item){
 	}
 	return $notice;
 }
-function cs_get_post_status($item, $description = false){
+function qw_get_post_status($item, $description = false){
 	// this will return question status whether question is open, closed, duplicate or solved
 	
 	if (@$item['answer_selected'] || @$item['raw']['selchildid']){	
 		$status =   'solved' ;
 	}elseif(@$item['raw']['closedbyid']){
-		$type = cs_post_type(@$item['raw']['closedbyid']);
+		$type = qw_post_type(@$item['raw']['closedbyid']);
 		if($type == 'Q')
 			$status =   'duplicate' ;	
 		else
@@ -300,11 +300,11 @@ function cs_get_post_status($item, $description = false){
 	}
 	return $status;
 }
-function cs_get_excerpt($id){
+function qw_get_excerpt($id){
 	$result = qa_db_read_one_value(qa_db_query_sub('SELECT content FROM ^posts WHERE postid=#', $id ),true);
 	return strip_tags($result);
 }
-function cs_truncate($string, $limit, $pad="...") {
+function qw_truncate($string, $limit, $pad="...") {
 	if(strlen($string) <= $limit) 
 		return $string; 
 	else{ 
@@ -317,7 +317,7 @@ function cs_truncate($string, $limit, $pad="...") {
 	} 
 }
 		
-function cs_user_profile($handle, $field =NULL){
+function qw_user_profile($handle, $field =NULL){
 	$userid = qa_handle_to_userid($handle);
 	if(defined('QA_WORDPRESS_INTEGRATE_PATH')){
 		return get_user_meta( $userid );
@@ -332,7 +332,7 @@ function cs_user_profile($handle, $field =NULL){
 	return false;
 }	
 
-function cs_user_badge($handle) {
+function qw_user_badge($handle) {
 	if(qa_opt('badge_active')){
 	$userids = qa_handles_to_userids(array($handle));
 	$userid = $userids[$handle];
@@ -370,18 +370,18 @@ function cs_user_badge($handle) {
 	return($output);
 	}
 }
-function cs_name($handle){
+function qw_name($handle){
 	if(defined('QA_WORDPRESS_INTEGRATE_PATH')){
-		$userdata = cs_user_profile($handle, 'name');
+		$userdata = qw_user_profile($handle, 'name');
 		$name = $userdata['nickname'][0];
 	}else
-		$name = cs_user_profile($handle, 'name');
+		$name = qw_user_profile($handle, 'name');
 	return strlen($name) ? $name : $handle;
 }
 
 
 
-function cs_post_link($id){
+function qw_post_link($id){
 	$type = mysql_result(qa_db_query_sub('SELECT type FROM ^posts WHERE postid = "'.$id.'"'), 0);
 	
 	if($type == 'A')
@@ -391,7 +391,7 @@ function cs_post_link($id){
 	return qa_q_path_html($id, mysql_result($post,0));
 }	
 
-function cs_tag_list($limit = 20){
+function qw_tag_list($limit = 20){
 	$populartags=qa_db_single_select(qa_db_popular_tags_selectspec(0, $limit));
 			
 	$i= 1;
@@ -400,7 +400,7 @@ function cs_tag_list($limit = 20){
 	}
 }
 
-function cs_url_grabber($str) {
+function qw_url_grabber($str) {
 	preg_match_all(
 	  '#<a\s
 		(?:(?= [^>]* href="   (?P<href>  [^"]*) ")|)
@@ -422,18 +422,18 @@ function cs_url_grabber($str) {
 }
 
 
-function cs_widget_position(){
-	return cs_apply_filter('widget_positions', array());
+function qw_widget_position(){
+	return qw_apply_filter('widget_positions', array());
 }
 
 
 
-function cs_get_template_array(){
-	return cs_apply_filter('template_array', array());
+function qw_get_template_array(){
+	return qw_apply_filter('template_array', array());
 
 }
 
-function cs_social_icons(){
+function qw_social_icons(){
 	$icon =  array(
 		'icon-social-facebook' 		=> 'Facebook',
 		'icon-social-twitter' 		=> 'Twitter',
@@ -445,7 +445,7 @@ function cs_social_icons(){
 		'icon-email' 				=> 'Email',
 	);
 	
-	return cs_apply_filter('social_icon', $icon);
+	return qw_apply_filter('social_icon', $icon);
 }
 
 function is_featured($postid){
@@ -471,7 +471,7 @@ function get_featured_image($postid){
 		
 	return false;
 }
-function cs_cat_path($categorybackpath){
+function qw_cat_path($categorybackpath){
 	return qa_path_html(implode('/', array_reverse(explode('/', $categorybackpath))));
 }
 
@@ -509,12 +509,12 @@ function make_array_utf8( $arr ) {
 	return $arr;
 }
 
-function cs_get_site_cache(){
+function qw_get_site_cache(){
 	global $cache;
-	$cache = json_decode( qa_db_cache_get('cs_cache', 0),true );
+	$cache = json_decode( qa_db_cache_get('qw_cache', 0),true );
 }
 
-function cs_get_cache_popular_tags($to_show){
+function qw_get_cache_popular_tags($to_show){
 	global $cache;
 	$age = 3600; // 1 hour
 
@@ -533,7 +533,7 @@ function cs_get_cache_popular_tags($to_show){
 }
 
 
-function cs_get_cache($query,$age = 10){
+function qw_get_cache($query,$age = 10){
 	global $cache;
 
 	$funcargs=func_get_args();
@@ -552,16 +552,16 @@ function cs_get_cache($query,$age = 10){
 	$cache['changed'] = true;
 	return $result ;	
 }
-function cs_set_site_cache(){
+function qw_set_site_cache(){
 	global $cache;
 	if (@$cache['changed']){
 		unset($cache['changed']);
 		$cache = make_array_utf8($cache);
-		qa_db_cache_set('cs_cache', 0, json_encode($cache) );
+		qa_db_cache_set('qw_cache', 0, json_encode($cache) );
 	}
 }
 
-function cs_ajax_user_popover(){
+function qw_ajax_user_popover(){
 	
 	$handle_id= qa_post_text('handle');
 	$handle= qa_post_text('handle');
@@ -575,13 +575,13 @@ function cs_ajax_user_popover(){
 			$cover = get_user_meta( $userid, 'cover' );
 			$cover = $cover[0];
 		}else{
-			$data = cs_user_data($handle);
-			$profile = cs_user_profile($handle);
+			$data = qw_user_data($handle);
+			$profile = qw_user_profile($handle);
 		}
 
 		?>
 		<div id="<?php echo $userid;?>_popover" class="user-popover">
-			<div class="counts clearfix"<?php echo !empty($profile['cover']) ? ' style="background-image:url('.cs_upload_url().'/'.$profile['cover'].')"' : ''; ?>>
+			<div class="counts clearfix"<?php echo !empty($profile['cover']) ? ' style="background-image:url('.qw_upload_url().'/'.$profile['cover'].')"' : ''; ?>>
 				<div class="bg-opacity clearfix">
 					<div class="points">
 						<?php echo '<span>'.$data['points']['points'] .'</span>Points'; ?>
@@ -598,8 +598,8 @@ function cs_ajax_user_popover(){
 				</div>
 			</div>
 			<div class="bottom">	
-				<div class="avatar pull-left"><?php echo cs_get_post_avatar($data['account'], 30); ?></div>
-				<span class="name"><?php echo cs_name($handle); ?></span>				
+				<div class="avatar pull-left"><?php echo qw_get_post_avatar($data['account'], 30); ?></div>
+				<span class="name"><?php echo qw_name($handle); ?></span>				
 				<span class="level"><?php echo qa_user_level_string($data['account']['level']); ?></span>				
 			</div>
 		</div>	
@@ -609,7 +609,7 @@ function cs_ajax_user_popover(){
 }
 
 
-function cs_ago($time)
+function qw_ago($time)
 {
    $periods = array("second", "minute", "hour", "day", "week", "month", "year", "decade");
    $lengths = array("60","60","24","7","4.35","12","10");
@@ -637,21 +637,21 @@ function stripslashes2($string) {
     return $string;
 }
 
-function cs_count_followers($identifier, $id = false){
+function qw_count_followers($identifier, $id = false){
 	if(!$id)
 		$identifier= qa_handle_to_userid($identifier);
 		
 	return qa_db_read_one_value(qa_db_query_sub('SELECT count(*) FROM ^userfavorites WHERE ^userfavorites.entityid = # and ^userfavorites.entitytype = "U" ', $identifier));	
 }
 
-function cs_count_following($identifier, $id = false){
+function qw_count_following($identifier, $id = false){
 	if(!$id)
 	 $identifier = qa_handle_to_userid($identifier);
 	 
 	return qa_db_read_one_value(qa_db_query_sub('SELECT count(*) FROM ^userfavorites WHERE ^userfavorites.userid = # and ^userfavorites.entitytype = "U" ', $identifier));	
 }
 
-function cs_followers_list($handle, $size = 40, $limit = 10, $order_by = 'rand'){
+function qw_followers_list($handle, $size = 40, $limit = 10, $order_by = 'rand'){
 	$userid = qa_handle_to_userid($handle);
 	
 	if( $order_by == 'rand')
@@ -663,9 +663,9 @@ function cs_followers_list($handle, $size = 40, $limit = 10, $order_by = 'rand')
 		$output = '<div class="user-followers-inner">';
 		$output .= '<ul class="user-followers clearfix">';
 		foreach($followers as $user){
-			$output .= '<li><div class="avatar" data-handle="'.$user['handle'].'" data-id="'.$user['userid'].'">'.cs_get_post_avatar($user, $size, false).'</div></li>';
+			$output .= '<li><div class="avatar" data-handle="'.$user['handle'].'" data-id="'.$user['userid'].'">'.qw_get_post_avatar($user, $size, false).'</div></li>';
 		}
-		$count = cs_user_followers_count($userid);
+		$count = qw_user_followers_count($userid);
 		
 		if(($count - $limit) > 100)
 			$count = '99+';
@@ -681,7 +681,7 @@ function cs_followers_list($handle, $size = 40, $limit = 10, $order_by = 'rand')
 	}
 	return;
 }
-function cs_following_list($handle, $size = 40, $limit = 10, $order_by = 'rand'){
+function qw_following_list($handle, $size = 40, $limit = 10, $order_by = 'rand'){
 	$userid = qa_handle_to_userid($handle);
 	
 	if( $order_by == 'rand')
@@ -694,9 +694,9 @@ function cs_following_list($handle, $size = 40, $limit = 10, $order_by = 'rand')
 		$output = '<div class="user-followers-inner">';
 		$output .= '<ul class="user-followers clearfix">';
 		foreach($followers as $user){
-			$output .= '<li><div class="avatar" data-handle="'.$user['handle'].'" data-id="'.$user['userid'].'">'.cs_get_post_avatar($user, $size, false).'</div></li>';
+			$output .= '<li><div class="avatar" data-handle="'.$user['handle'].'" data-id="'.$user['userid'].'">'.qw_get_post_avatar($user, $size, false).'</div></li>';
 		}
-		$count = cs_count_following($userid);
+		$count = qw_count_following($userid);
 		
 		if(($count - $limit) > 100)
 			$count = '99+';
@@ -712,7 +712,7 @@ function cs_following_list($handle, $size = 40, $limit = 10, $order_by = 'rand')
 	}
 	return;
 }
-function cs_user_followers_count($userid){
+function qw_user_followers_count($userid){
 	$count =  qa_db_read_one_value(qa_db_query_sub('SELECT count(userid) FROM ^userfavorites  WHERE  entityid = # and entitytype = "U"', $userid), true);
 	return $count;
 }
@@ -722,7 +722,7 @@ function handle_url($handle){
 }
 
 
-function cs_event_hook($event, $value = NULL, $callback = NULL, $check = false, $filter = false, $order = 100){
+function qw_event_hook($event, $value = NULL, $callback = NULL, $check = false, $filter = false, $order = 100){
     static $events;
 	
     // Adding or removing a callback?
@@ -780,44 +780,44 @@ function cs_event_hook($event, $value = NULL, $callback = NULL, $check = false, 
 	return false;
 }
 
-function cs_apply_filter(){
+function qw_apply_filter(){
 	$args = func_get_args();
 	unset($args[0]);
-	return cs_event_hook(func_get_arg(0), $args, NULL, false, true);
+	return qw_event_hook(func_get_arg(0), $args, NULL, false, true);
 }
-function cs_do_action(){
+function qw_do_action(){
 	$args = func_get_args();
 	if(isset($args))
 		unset($args[0]);
 
-	return cs_event_hook(func_get_arg(0), $args, NULL);
+	return qw_event_hook(func_get_arg(0), $args, NULL);
 }
 
-function cs_add_filter(){
+function qw_add_filter(){
 	$args = func_get_args();
 	
 	if(isset($args))
 		$order = (count($args) > 2) ? end($args) : 100;
 		
-	cs_event_hook(func_get_arg(0), NULL, (isset($args[1]) ? $args[1] : ''), false, false, (isset($order) ? $order : 100));
+	qw_event_hook(func_get_arg(0), NULL, (isset($args[1]) ? $args[1] : ''), false, false, (isset($order) ? $order : 100));
 }
 
-function cs_add_action(){
+function qw_add_action(){
 	$args = func_get_args();
 	
 	if(isset($args))
 		$order = (count($args) > 2) ? end($args) : 100;
 		
-	cs_event_hook(func_get_arg(0), NULL, (isset($args[1]) ? $args[1] : ''), false, false, (isset($order) ? $order : 100));
+	qw_event_hook(func_get_arg(0), NULL, (isset($args[1]) ? $args[1] : ''), false, false, (isset($order) ? $order : 100));
 }
 
-// an Alice for cs_event_hook 
-function cs_hook_exist($event){
-	return cs_event_hook($event, null, null, true);
+// an Alice for qw_event_hook 
+function qw_hook_exist($event){
+	return qw_event_hook($event, null, null, true);
 }
 
 
-function cs_combine_assets($assets, $css = true){
+function qw_combine_assets($assets, $css = true){
 	$styles = '';
 	$host_name = $_SERVER['HTTP_HOST'];
 	if(is_array($assets)){
@@ -829,9 +829,9 @@ function cs_combine_assets($assets, $css = true){
 				$path = $_SERVER["DOCUMENT_ROOT"].ltrim ($parse['path'], '/');
 				$content = file_get_contents($path);
 				if($css)
-					$styles .= cs_compress_css($content);
+					$styles .= qw_compress_css($content);
 				else
-					$styles .= cs_compress_js($content);
+					$styles .= qw_compress_js($content);
 			}
 		}
 	}
@@ -839,7 +839,7 @@ function cs_combine_assets($assets, $css = true){
 	return $styles;
 }
 
-function cs_update_tags_meta($tag, $title, $content){
+function qw_update_tags_meta($tag, $title, $content){
 
 	qa_db_query_sub(
 		'REPLACE ^tagmetas (tag, title, content) VALUES ($, $, $)',
@@ -849,7 +849,7 @@ function cs_update_tags_meta($tag, $title, $content){
 	return $content;
 	
 }
-function cs_what_icon($what){
+function qw_what_icon($what){
 	$icon = '';
 	switch($what){
 		case 'closed' :
@@ -866,8 +866,8 @@ function cs_what_icon($what){
 			break;
 			
 	}
-	if(cs_hook_exist('cs_what_icon'))
-		return cs_apply_filter('cs_what_icon', $what);
+	if(qw_hook_exist('qw_what_icon'))
+		return qw_apply_filter('qw_what_icon', $what);
 	else
 		return $icon;
 }
@@ -878,7 +878,7 @@ function cs_what_icon($what){
   $time_out => always a positive value in seconds
  */
 
-function cs_scheduler($function_name, $time_out = NULL, $params = NULL) {
+function qw_scheduler($function_name, $time_out = NULL, $params = NULL) {
  	  require_once QA_INCLUDE_DIR . 'qa-app-options.php';
       require_once QA_INCLUDE_DIR . 'qa-db.php';
       //first check $time_out == 0 , then check timeout and set the current rundate 
@@ -926,7 +926,7 @@ function cs_scheduler($function_name, $time_out = NULL, $params = NULL) {
             if (!(is_numeric($time_out) && $time_out > 0 )) {
                   // if the $time_out is not a numeric value or not grater than 0 , then return 
                   return;
-                  cs_log("function came here ");
+                  qw_log("function came here ");
             }
             qa_opt($time_out_opt_name, $time_out);
       }
@@ -934,21 +934,21 @@ function cs_scheduler($function_name, $time_out = NULL, $params = NULL) {
       //first check the timeout for the function name 
 }
 
-function cs_check_scheduler($function_name, $params = NULL) {
+function qw_check_scheduler($function_name, $params = NULL) {
       if ($params !== NULL) {
-            cs_scheduler($function_name, NULL, $params);
+            qw_scheduler($function_name, NULL, $params);
       } else {
-            cs_scheduler($function_name);
+            qw_scheduler($function_name);
       }
 }
 
-function cs_scheduler_set($function_name, $time_out = NULL) {
+function qw_scheduler_set($function_name, $time_out = NULL) {
       if ($time_out !== NULL && is_numeric($time_out) && $time_out > 0) {
-            cs_scheduler($function_name, $time_out);
+            qw_scheduler($function_name, $time_out);
       }
 }
 
-// functions for testing of the cs_scheduler_set
+// functions for testing of the qw_scheduler_set
 function call_me() {
       $current_time = new DateTime("now");
       $date_format = "d/m/Y H:i:s";
@@ -956,15 +956,15 @@ function call_me() {
 
 function call_this_method() {
       // this way we can set the scheduler 
-      // cs_scheduler_set('call_me', 20);
+      // qw_scheduler_set('call_me', 20);
 	  // execute the scheduler 
-      cs_check_scheduler('call_me');
+      qw_check_scheduler('call_me');
 }
 
-function cs_log($string) {
+function qw_log($string) {
      // if (qa_opt('event_logger_to_files')) {
             //   Open, lock, write, unlock, close (to prevent interference between multiple writes)
-            $directory = CS_CONTROL_DIR.'/logs/';
+            $directory = QW_CONTROL_DIR.'/logs/';
 
             if (substr($directory, -1) != '/') $directory.='/';
 
@@ -983,7 +983,7 @@ function cs_log($string) {
       //}
 }
 
-function cs_event_log_row_parser( $row ){
+function qw_event_log_row_parser( $row ){
             $result = preg_split('/\t/', $row) ;
             $param = array();
             $embeded_arrays = array();
@@ -1018,12 +1018,12 @@ function cs_event_log_row_parser( $row ){
             return $param ; 
 }
 //just a helper methos for Testing
-function cs_event_log_reader()
+function qw_event_log_reader()
 {     
       return qa_db_read_one_value(qa_db_query_sub("SELECT ^eventlog.params from  ^eventlog WHERE ^eventlog.datetime = $ ", '2014-05-10 22:55:08'), true);
 }
 
-function cs_is_internal_link($link){
+function qw_is_internal_link($link){
 	$link_host = parse_url($link, PHP_URL_HOST);
 	if( $link_host == $_SERVER['HTTP_HOST'])
 		return true;
@@ -1031,7 +1031,7 @@ function cs_is_internal_link($link){
 	return false;
 }
 
-function cs_array_insert_before($key, array &$array, $new_key, $new_value) {
+function qw_array_insert_before($key, array &$array, $new_key, $new_value) {
   if (array_key_exists($key, $array)) {
     $new = array();
     foreach ($array as $k => $value) {
@@ -1045,9 +1045,9 @@ function cs_array_insert_before($key, array &$array, $new_key, $new_value) {
   return FALSE;
 }
 
-function cs_order_profile_fields($profile){
-	 $keys = cs_apply_filter('order_profile_field', array('name', 'website', 'location', 'about'));
-	 $hide = cs_apply_filter('hide_profile_field', array('cover' , 'cs_facebook_a_post', 'cs_facebook_q_post', 'cs_facebook_c_post', 'cs_twitter_a_post', 'cs_twitter_q_post', 'cs_twitter_c_post', 'aol_hauthSession', 'facebook_hauthSession', 'foursquare_hauthSession', 'google_hauthSession', 'linkedin_hauthSession', 'live_hauthSession','myspace_hauthSession', 'openid_hauthSession', 'twitter_hauthSession', 'yahoo_hauthSession'));
+function qw_order_profile_fields($profile){
+	 $keys = qw_apply_filter('order_profile_field', array('name', 'website', 'location', 'about'));
+	 $hide = qw_apply_filter('hide_profile_field', array('cover' , 'qw_facebook_a_post', 'qw_facebook_q_post', 'qw_facebook_c_post', 'qw_twitter_a_post', 'qw_twitter_q_post', 'qw_twitter_c_post', 'aol_hauthSession', 'facebook_hauthSession', 'foursquare_hauthSession', 'google_hauthSession', 'linkedin_hauthSession', 'live_hauthSession','myspace_hauthSession', 'openid_hauthSession', 'twitter_hauthSession', 'yahoo_hauthSession'));
 	 $hide = array_keys(array_flip( $hide ));
 	 foreach ($profile as $key => $value) {
 	 	if (in_array($key, $hide)) {
@@ -1061,7 +1061,7 @@ function cs_order_profile_fields($profile){
 	 return $short ; 
 }
 
-function cs_request_text($field)
+function qw_request_text($field)
 /*
 	Return string for incoming POST field, or null if it's not defined.
 	While we're at it, trim() surrounding white space and converted to Unix line endings.
@@ -1072,11 +1072,11 @@ function cs_request_text($field)
 		return isset($_REQUEST[$field]) ? preg_replace('/\r\n?/', "\n", trim(qa_gpc_to_string($_REQUEST[$field]))) : null;
 	}
 
-function cs_get_user_cover($profile, $small = false, $css = false){
+function qw_get_user_cover($profile, $small = false, $css = false){
 	if(empty($profile['cover']))
 		return false;
 	
-	$url = cs_upload_url().'/';
+	$url = qw_upload_url().'/';
 	$file = explode('.', $profile['cover']);
 	
 	if(!$small && !$css)
@@ -1099,7 +1099,7 @@ function ends_with($haystack, $needle)
     return $needle === "" || substr($haystack, -strlen($needle)) === $needle;
 }
 
-function cs_format_num($num, $precision = 2) {
+function qw_format_num($num, $precision = 2) {
 	if ($num >= 1000 && $num < 1000000)
 	$n_format = number_format($num/1000,$precision).'K';
 
@@ -1114,28 +1114,28 @@ function cs_format_num($num, $precision = 2) {
 
 	return $n_format;
 } 
-function cs_current_url() {
+function qw_current_url() {
 	$url  = @( $_SERVER["HTTPS"] != 'on' ) ? 'http://'.$_SERVER["SERVER_NAME"] :  'https://'.$_SERVER["SERVER_NAME"];
 	$url .= ( $_SERVER["SERVER_PORT"] !== 80 ) ? ":".$_SERVER["SERVER_PORT"] : "";
 	$url .= $_SERVER["REQUEST_URI"];
 	return $url;
 }
-function cs_array_search_partial($arr, $keyword) {
+function qw_array_search_partial($arr, $keyword) {
     foreach($arr as $index => $string) {
         if (strpos($string, $keyword) !== FALSE)
             return $index;
     }
 }
 
-function cs_get_all_styles($template = 'none'){
+function qw_get_all_styles($template = 'none'){
 	// short css
-	$sort = cs_apply_filter('sort_enqueue_css', array('bootstrap', 'cs_admin'));	
-	$css = cs_apply_filter('enqueue_css', array(), $template);
+	$sort = qw_apply_filter('sort_enqueue_css', array('bootstrap', 'qw_admin'));	
+	$css = qw_apply_filter('enqueue_css', array(), $template);
 	return array_merge(array_flip( $sort ), $css);
 }
 
-function cs_get_all_scripts($template = 'none'){
-	$sort = cs_apply_filter('sort_enqueue_scripts', array('jquery', 'bootstrap', 'cs_admin'));
-	$scripts = cs_apply_filter('enqueue_scripts', array(), $template);
+function qw_get_all_scripts($template = 'none'){
+	$sort = qw_apply_filter('sort_enqueue_scripts', array('jquery', 'bootstrap', 'qw_admin'));
+	$scripts = qw_apply_filter('enqueue_scripts', array(), $template);
 	return array_merge(array_flip( $sort ), $scripts);
 }

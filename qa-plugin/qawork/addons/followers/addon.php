@@ -13,15 +13,15 @@ if (!defined('QA_VERSION')) {
 }
 
 
-qa_register_plugin_module('widget', 'addons/followers/widget-followers.php', 'cs_followers_widget', 'CS Followers');
-qa_register_plugin_module('page', 'addons/followers/page.php', 'cs_followers_page', 'CS followers Page');
+qa_register_plugin_module('widget', 'addons/followers/widget-followers.php', 'qw_followers_widget', 'QW Followers');
+qa_register_plugin_module('page', 'addons/followers/page.php', 'qw_followers_page', 'QW followers Page');
 
-$cs_followers = new Cs_Follwers;
+$qw_followers = new Qw_Follwers;
 	
-	class Cs_Follwers{
+	class Qw_Follwers{
 		function __construct(){
-			cs_add_filter('template_array', array($this, 'page_templates'));
-			cs_event_hook('doctype', NULL, array($this, 'navigation'));
+			qw_add_filter('template_array', array($this, 'page_templates'));
+			qw_event_hook('doctype', NULL, array($this, 'navigation'));
 		}
 		
 		public function navigation($themeclass){		
@@ -48,7 +48,7 @@ $cs_followers = new Cs_Follwers;
 				$handle = qa_get_logged_in_handle();
 			}
 			
-			if(cs_is_user())
+			if(qw_is_user())
 				$themeclass['navigation']['sub']['followers'] = array(
 					'label' => qa_lang('cleanstrap/followers'),
 					'url' => qa_path_html('followers/'.$handle),

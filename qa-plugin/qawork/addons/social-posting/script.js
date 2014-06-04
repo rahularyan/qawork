@@ -1,11 +1,11 @@
 // helper functions to post to facebook wall and share some links 
 
-function cs_init_facebook_api (applicationId , ajaxCallback , ajaxCallbackParam ) {
+function qw_init_facebook_api (applicationId , ajaxCallback , ajaxCallbackParam ) {
 	// reutrn if applicationId is not set 
 	if (!applicationId) {return false };
 	if (typeof (FB) == 'undefined') {
 		$.getScript("http://connect.facebook.net/en_US/all.js#xfbml=1", function () {
-            if (!FB.cs_initialized) {
+            if (!FB.qw_initialized) {
 	            FB.init({
 	                  appId: applicationId ,
 	                  cookie: true,
@@ -13,7 +13,7 @@ function cs_init_facebook_api (applicationId , ajaxCallback , ajaxCallbackParam 
 	                  xfbml: true
 		   		});
 				//setting my costum marker to make sure init is invoked once and only once for a page load 
-		   		FB.cs_initialized = true ; 
+		   		FB.qw_initialized = true ; 
 		   		ajaxCallback(applicationId , ajaxCallbackParam ) ;
 	   		}
         });
@@ -25,12 +25,12 @@ function cs_init_facebook_api (applicationId , ajaxCallback , ajaxCallbackParam 
  * @param  {[string]} applicationId [application id]
  * @return {[null]}
  */
-function cs_login_to_facebook(applicationId) {
+function qw_login_to_facebook(applicationId) {
 	// reutrn if applications id is not set 
 	if (!applicationId) {return false };
 
 	// first of all initialize facebook api
-	cs_init_facebook_api(applicationId , cs_login_to_facebook , param ) ;
+	qw_init_facebook_api(applicationId , qw_login_to_facebook , param ) ;
 	if (typeof (FB) != 'undefined') {
 		FB.login(function(response) {
 		   if (response.authResponse) {
@@ -51,12 +51,12 @@ function cs_login_to_facebook(applicationId) {
    link: 'a link ',
  */
 // https://developers.facebook.com/docs/reference/dialogs/send/
-function cs_share_link_to_facebook(applicationId , param) { 
+function qw_share_link_to_facebook(applicationId , param) { 
 	// reutrn if applications id is not set 
 	if (!applicationId) {return false };
 
 	// first of all initialize facebook api
-	cs_init_facebook_api(applicationId ,cs_share_link_to_facebook , param ) ;
+	qw_init_facebook_api(applicationId ,qw_share_link_to_facebook , param ) ;
 	if (typeof (FB) != 'undefined') {
 		param.method = 'send' ;
 		FB.ui(param);
@@ -69,12 +69,12 @@ function cs_share_link_to_facebook(applicationId , param) {
    message: 'message'
  */
 // https://developers.facebook.com/docs/reference/dialogs/requests/
-function cs_invite_facebook_friends(applicationId , param) { 
+function qw_invite_facebook_friends(applicationId , param) { 
 	// reutrn if applications id is not set 
 	if (!applicationId) {return false };
 
 	// first of all initialize facebook api
-	cs_init_facebook_api(applicationId , cs_invite_facebook_friends , param) ; 
+	qw_init_facebook_api(applicationId , qw_invite_facebook_friends , param) ; 
 	if (typeof (FB) != 'undefined') {
 		param.method = 'apprequests' ;
 		FB.ui(param);
@@ -90,11 +90,11 @@ function cs_invite_facebook_friends(applicationId , param) {
 	caption: 'caption',
 	description: 'desc.'
  */
-function cs_post_to_facebook_wall(applicationId , param) { 
+function qw_post_to_facebook_wall(applicationId , param) { 
 	// reutrn if applications id is not set 
 	if (!applicationId) {return false };
 	// first of all initialize facebook api
-	cs_init_facebook_api(applicationId , cs_post_to_facebook_wall , param ) ; 
+	qw_init_facebook_api(applicationId , qw_post_to_facebook_wall , param ) ; 
 	
 	if (typeof (FB) != 'undefined') {
 		param.method = 'feed' ;

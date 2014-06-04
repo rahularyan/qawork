@@ -1,6 +1,6 @@
 <?php
 
-	class cs_event_logger {
+	class qw_event_logger {
 		
 		function init_queries($tableslc)
 		{
@@ -34,8 +34,8 @@
 				') ENGINE=MyISAM DEFAULT CHARSET=utf8';
 			}
 
-			if (in_array($tablename, $tableslc) && !qa_opt('cs_eventlog_param_datatype')) {
-				qa_opt('cs_eventlog_param_datatype', 1);
+			if (in_array($tablename, $tableslc) && !qa_opt('qw_eventlog_param_datatype')) {
+				qa_opt('qw_eventlog_param_datatype', 1);
 				$quries[] = 'ALTER TABLE ^eventlog MODIFY params LONGTEXT;';				
 			}
 			return $quries;

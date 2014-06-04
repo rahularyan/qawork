@@ -1,22 +1,22 @@
 <?php
-	class cs_user_posts_widget {
+	class qw_user_posts_widget {
 
-		function cs_widget_form()
+		function qw_widget_form()
 		{
 			
 			return array(
 				'style' => 'wide',
 				'fields' => array(
-					'cs_up_count' => array(
+					'qw_up_count' => array(
 						'label' => 'Numbers of post',
 						'type' => 'number',
-						'tags' => 'name="cs_up_count" class="form-control"',
+						'tags' => 'name="qw_up_count" class="form-control"',
 						'value' => '10',
 					),
-					'cs_up_type' => array(
+					'qw_up_type' => array(
 						'label' => 'Numbers of Questions',
 						'type' => 'select',
-						'tags' => 'name="cs_up_type" class="form-control"',
+						'tags' => 'name="qw_up_type" class="form-control"',
 						'value' => array('Q' => 'Questions'),
 						'options' => array(
 							'Q' => 'Questions',
@@ -76,14 +76,14 @@
 		}
 
 		// output the list of selected post type
-		function cs_user_post_list($handle, $type, $limit){
+		function qw_user_post_list($handle, $type, $limit){
 			$userid = qa_handle_to_userid($handle);
 			require_once QA_INCLUDE_DIR.'qa-app-posts.php';
 			if(defined('QA_WORDPRESS_INTEGRATE_PATH')){
 				global $wpdb;
-				$post = cs_get_cache('SELECT * FROM ^posts INNER JOIN '.$wpdb->base_prefix.'users ON ^posts.userid='.$wpdb->base_prefix.'users.ID WHERE ^posts.type=$ and ^posts.userid=# ORDER BY ^posts.created DESC LIMIT #', 10 ,$type, $userid, $limit);
+				$post = qw_get_cache('SELECT * FROM ^posts INNER JOIN '.$wpdb->base_prefix.'users ON ^posts.userid='.$wpdb->base_prefix.'users.ID WHERE ^posts.type=$ and ^posts.userid=# ORDER BY ^posts.created DESC LIMIT #', 10 ,$type, $userid, $limit);
 			}else
-				$post = cs_get_cache('SELECT * FROM ^posts INNER JOIN ^users ON ^posts.userid=^users.userid WHERE ^posts.type=$ and ^posts.userid=# ORDER BY ^posts.created DESC LIMIT #', 10 ,$type, $userid, $limit);	
+				$post = qw_get_cache('SELECT * FROM ^posts INNER JOIN ^users ON ^posts.userid=^users.userid WHERE ^posts.type=$ and ^posts.userid=# ORDER BY ^posts.created DESC LIMIT #', 10 ,$type, $userid, $limit);	
 
 			$output = '<ul class="question-list users-post-widget post-type-'.$type.'">';
 			
@@ -102,9 +102,9 @@
 					if($type=='Q'){
 						$output .= '<a href="'. qa_q_path_html($p['postid'], $p['title']) .'" title="'. $p['title'] .'">'.qa_html($p['title']).'</a>';
 					}elseif($type=='A'){
-						$output .= '<a href="'.cs_post_link($p['parentid']).'#a'.$p['postid'].'">'. cs_truncate(strip_tags($p['content']), 100).'</a>';
+						$output .= '<a href="'.qw_post_link($p['parentid']).'#a'.$p['postid'].'">'. qw_truncate(strip_tags($p['content']), 100).'</a>';
 					}else{
-						$output .= '<a href="'.cs_post_link($p['parentid']).'#c'.$p['postid'].'">'. cs_truncate(strip_tags($p['content']), 100).'</a>';
+						$output .= '<a href="'.qw_post_link($p['parentid']).'#c'.$p['postid'].'">'. qw_truncate(strip_tags($p['content']), 100).'</a>';
 					}
 					
 					$output .= '<div class="list-date"><span class="icon-calendar">'.$when.'</span>';	
@@ -136,21 +136,21 @@
 				
 			}else
 				$handle = $qa_content['raw']['account']['handle'];
-			if($widget_opt['cs_up_type'] == 'Q')
+			if($widget_opt['qw_up_type'] == 'Q')
 				$type_title = 'questions';
-			elseif($widget_opt['cs_up_type'] == 'A')
+			elseif($widget_opt['qw_up_type'] == 'A')
 				$type_title = 'answers';
 			else
 				$type_title = 'comments';
 			
-			if($widget_opt['cs_up_type'] != 'C')
+			if($widget_opt['qw_up_type'] != 'C')
 				$type_link = '<a class="see-all" href="'.qa_path_html('user/'.$handle.'/'.$type_title).'">Show all</a>';
 			
 			if(@$themeobject->current_widget['param']['locations']['show_title'])
 				$themeobject->output('<h3 class="user-post-title">'.$handle.'\'s '.$type_title.@$type_link.'</h3>');
 
 			$themeobject->output('<div class="ra-ua-widget">');
-			$themeobject->output($this->cs_user_post_list($handle, @$widget_opt['cs_up_type'],  (int)$widget_opt['cs_up_count']));
+			$themeobject->output($this->qw_user_post_list($handle, @$widget_opt['qw_up_type'],  (int)$widget_opt['qw_up_count']));
 			$themeobject->output('</div>');
 		}
 	

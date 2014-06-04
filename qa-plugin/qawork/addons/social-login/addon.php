@@ -1,7 +1,7 @@
 <?php
 
 /*
-  Name:CS Social Login
+  Name:QW Social Login
   Version:1.0
   Author: Amiya Sahu
   Description:For enabling social logins
@@ -14,19 +14,19 @@ if (!defined('QA_VERSION')) {
 }
 
 qa_register_plugin_overrides('addons/social-login/cs-social-logins-overrides.php');
-qa_register_plugin_module('page', 'addons/social-login/page.php', 'cs_social_login_page', 'CS Social Login Page');
+qa_register_plugin_module('page', 'addons/social-login/page.php', 'qw_social_login_page', 'QW Social Login Page');
 
-class Cs_Social_Login_Addon {
+class Qw_Social_Login_Addon {
 
       function __construct() {
-			cs_add_action('user_profile_btn', array($this, 'navigation'));
+			qw_add_action('user_profile_btn', array($this, 'navigation'));
 
-            cs_event_hook('register_language', NULL, array($this, 'language'));
-            cs_event_hook('enqueue_css', NULL, array($this, 'css'));
-			cs_add_filter('init_queries', array($this, 'init_queries'));
-            cs_add_action('cs_theme_option_tab', array($this, 'option_tab'));
-            cs_add_action('cs_theme_option_tab_content', array($this, 'option_tab_content'));
-            cs_add_action('cs_reset_theme_options', array($this, 'reset_theme_options'));
+            qw_event_hook('register_language', NULL, array($this, 'language'));
+            qw_event_hook('enqueue_css', NULL, array($this, 'css'));
+			qw_add_filter('init_queries', array($this, 'init_queries'));
+            qw_add_action('qw_theme_option_tab', array($this, 'option_tab'));
+            qw_add_action('qw_theme_option_tab_content', array($this, 'option_tab_content'));
+            qw_add_action('qw_reset_theme_options', array($this, 'reset_theme_options'));
       }
 
 	public function init_queries($queries, $tableslc){
@@ -54,19 +54,19 @@ class Cs_Social_Login_Addon {
       }
 
       public function language($lang_arr) {
-		$lang_arr['cs_social_login'] = CS_CONTROL_DIR .'/addons/social-login/language-*.php';
+		$lang_arr['qw_social_login'] = QW_CONTROL_DIR .'/addons/social-login/language-*.php';
 		return $lang_arr;
       }
 
       public function css($css_src) {
-            $css_src['cs_social_login'] = CS_CONTROL_URL . '/addons/social-login/styles.css';
+            $css_src['qw_social_login'] = QW_CONTROL_URL . '/addons/social-login/styles.css';
             return $css_src;
       }
 	  
 	  public function reset_theme_options() {
-	  		if (qa_clicked('cs_reset_button')) {
+	  		if (qa_clicked('qw_reset_button')) {
 	  			// loop through all the providers and reset them .
-	  			$allProviders = scandir( CS_CONTROL_DIR . '/inc/hybridauth/Hybrid/Providers' );
+	  			$allProviders = scandir( QW_CONTROL_DIR . '/inc/hybridauth/Hybrid/Providers' );
 			
 				$activeProviders = array();
 				foreach($allProviders as $providerFile) {
@@ -82,7 +82,7 @@ class Cs_Social_Login_Addon {
 				}
 				
 				// at the end remove the list of all active providers from the file 
-				file_put_contents( CS_CONTROL_DIR . '/inc/hybridauth/providers.php', 
+				file_put_contents( QW_CONTROL_DIR . '/inc/hybridauth/providers.php', 
 					'<' . '?' . 'php return ""; ?' . '>'
 				);
 				
@@ -95,10 +95,10 @@ class Cs_Social_Login_Addon {
 
 	  function option_tab(){
 		$saved=false;
-		if(qa_clicked('cs_save_button')){		
+		if(qa_clicked('qw_save_button')){		
 				
 			// loop through all providers and see which one was enabled
-			$allProviders = scandir( CS_CONTROL_DIR . '/inc/hybridauth/Hybrid/Providers' );
+			$allProviders = scandir( QW_CONTROL_DIR . '/inc/hybridauth/Hybrid/Providers' );
 			
 			$activeProviders = array();
 			foreach($allProviders as $providerFile) {
@@ -122,7 +122,7 @@ class Cs_Social_Login_Addon {
 			}
 			
 			// at the end save a list of all active providers
-			file_put_contents( CS_CONTROL_DIR . '/inc/hybridauth/providers.php', 
+			file_put_contents( QW_CONTROL_DIR . '/inc/hybridauth/providers.php', 
 				'<' . '?' . 'php return "' . implode(',', $activeProviders) . '" ?' . '>'
 			);
 			
@@ -140,7 +140,7 @@ class Cs_Social_Login_Addon {
 			</li>';
 	  }
 	  function option_tab_content(){
-		$allProviders = scandir( CS_CONTROL_DIR . '/inc/hybridauth/Hybrid/Providers'  );
+		$allProviders = scandir( QW_CONTROL_DIR . '/inc/hybridauth/Hybrid/Providers'  );
 		$output = '<div class="qa-part-form-tc-hybrid">
 			<h3>Social login</h3>
 			<table class="qa-form-tall-table options-table">';
@@ -158,25 +158,25 @@ class Cs_Social_Login_Addon {
 					<tr>
 						<th class="qa-form-tall-label">Enable ' . $provider.'</th>
 						<td class="qa-form-tall-data">
-							<input type="checkbox"' . (qa_opt($key.'_app_enabled') ? ' checked=""' : '') . ' id="cs_styling_rtl" name="'.$key.'_app_enabled_field" data-opts=".'.$key.'_fields">
+							<input type="checkbox"' . (qa_opt($key.'_app_enabled') ? ' checked=""' : '') . ' id="qw_styling_rtl" name="'.$key.'_app_enabled_field" data-opts=".'.$key.'_fields">
 						</td>
 					</tr>
 					<tr class="'.$key.'_fields' . (qa_opt($key.'_app_enabled') ? ' csshow' : ' cshide') . '">
 						<th class="qa-form-tall-label">Show ' . $provider . ' button in the header</th>
 						<td class="qa-form-tall-data">
-							<input type="checkbox"' . (qa_opt($key.'_app_shortcut') ? ' checked=""' : '') . ' id="cs_styling_rtl" name="'.$key.'_app_shortcut_field">
+							<input type="checkbox"' . (qa_opt($key.'_app_shortcut') ? ' checked=""' : '') . ' id="qw_styling_rtl" name="'.$key.'_app_shortcut_field">
 						</td>
 					</tr>
 					<tr class="'.$key.'_fields' . (qa_opt($key.'_app_enabled') ? ' csshow' : ' cshide') . '">
 						<th class="qa-form-tall-label">'.$provider . ' App ID:</th>
 						<td class="qa-form-tall-data">
-							<input type="text" value="' . qa_html(qa_opt("{$key}_app_id")) . '" id="cs_styling_rtl" name="'.$key.'_app_id_field">
+							<input type="text" value="' . qa_html(qa_opt("{$key}_app_id")) . '" id="qw_styling_rtl" name="'.$key.'_app_id_field">
 						</td>
 					</tr>
 					<tr class="'.$key.'_fields ' . (qa_opt($key.'_app_enabled') ? ' csshow' : ' cshide') . '">
 						<th class="qa-form-tall-label">'.$provider . ' App Secret:</th>
 						<td class="qa-form-tall-data">
-							<input type="text" value="' . qa_html(qa_opt("{$key}_app_secret")) . '" id="cs_styling_rtl" name="'.$key.'_app_secret_field">
+							<input type="text" value="' . qa_html(qa_opt("{$key}_app_secret")) . '" id="qw_styling_rtl" name="'.$key.'_app_secret_field">
 						</td>
 					</tr>
 					</tbody>
@@ -190,18 +190,18 @@ class Cs_Social_Login_Addon {
 
 }
 
-$cs_social_login_addon = new Cs_Social_Login_Addon;
+$qw_social_login_addon = new Qw_Social_Login_Addon;
 // load the plugin modules for each provider listed in the file 
 if (!QA_FINAL_EXTERNAL_USERS) { // login modules don't work with external user integration
       // since we're not allowed to access the database at this step, take the information from a local file
       // note: the file providers.php will be automatically generated when the configuration of the plugin
       // is updated on the Administration page
-      $providers = @include_once CS_CONTROL_DIR . '/inc/hybridauth/providers.php';
+      $providers = @include_once QW_CONTROL_DIR . '/inc/hybridauth/providers.php';
       if ($providers) {
             // loop through all active providers and register them
             $providerList = explode(',', $providers);
             foreach ($providerList as $provider) {
-                  qa_register_plugin_module('login', 'addons/social-login/cs-social-login-module.php', 'cs_open_login', $provider);
+                  qa_register_plugin_module('login', 'addons/social-login/cs-social-login-module.php', 'qw_open_login', $provider);
             }
       }
 }

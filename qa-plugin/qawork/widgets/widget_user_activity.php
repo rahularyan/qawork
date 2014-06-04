@@ -1,16 +1,16 @@
 <?php
-	class cs_user_activity_widget {
+	class qw_user_activity_widget {
 
-		function cs_widget_form()
+		function qw_widget_form()
 		{
 			
 			return array(
 				'style' => 'wide',
 				'fields' => array(
-					'cs_ua_count' => array(
+					'qw_ua_count' => array(
 						'label' => 'Numbers of Questions',
 						'type' => 'number',
-						'tags' => 'name="cs_ua_count" class="form-control"',
+						'tags' => 'name="qw_ua_count" class="form-control"',
 						'value' => '10',
 					),
 				),
@@ -136,7 +136,7 @@
 				$themeobject->output('<h3 class="widget-title">'.qa_lang_sub('cleanstrap/x_activities', $handle).'</h3>');
 				
 			$themeobject->output('<div class="ra-ua-widget">');
-			$themeobject->output($this->get_user_activity($handle, (int)$widget_opt['cs_ua_count']));
+			$themeobject->output($this->get_user_activity($handle, (int)$widget_opt['qw_ua_count']));
 			$themeobject->output('</div>');
 		}
 	

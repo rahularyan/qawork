@@ -6,7 +6,7 @@ if (!defined('QA_VERSION')) {
 }
 
 
-class cs_theme_options {
+class qw_theme_options {
 	var $directory;
 	var $urltoroot;
 
@@ -26,59 +26,59 @@ class cs_theme_options {
 	{
 	
 		$saved = false;
-		if (qa_clicked('cs_reset_button')) {
+		if (qa_clicked('qw_reset_button')) {
 			$this->reset_theme_options();
 			$saved = 'Settings saved';
 		}
-		if (qa_clicked('cs_save_button')) {
+		if (qa_clicked('qw_save_button')) {
 			// General
-			qa_opt('logo_url', qa_post_text('cs_logo_field'));
-			qa_opt('cs_favicon_url', qa_post_text('cs_favicon_field'));
-			qa_opt('cs_enable_gzip', (bool) qa_post_text('cs_enable_gzip'));
-			qa_opt('cs_featured_image_width', (int) qa_post_text('cs_featured_image_width'));
-			qa_opt('cs_featured_image_height', (int) qa_post_text('cs_featured_image_height'));
-			qa_opt('cs_featured_thumbnail_width', (int) qa_post_text('cs_featured_thumbnail_width'));
-			qa_opt('cs_featured_thumbnail_height', (int) qa_post_text('cs_featured_thumbnail_height'));
-			qa_opt('cs_crop_x', qa_post_text('cs_crop_x'));
-			qa_opt('cs_crop_y', qa_post_text('cs_crop_y'));
+			qa_opt('logo_url', qa_post_text('qw_logo_field'));
+			qa_opt('qw_favicon_url', qa_post_text('qw_favicon_field'));
+			qa_opt('qw_enable_gzip', (bool) qa_post_text('qw_enable_gzip'));
+			qa_opt('qw_featured_image_width', (int) qa_post_text('qw_featured_image_width'));
+			qa_opt('qw_featured_image_height', (int) qa_post_text('qw_featured_image_height'));
+			qa_opt('qw_featured_thumbnail_width', (int) qa_post_text('qw_featured_thumbnail_width'));
+			qa_opt('qw_featured_thumbnail_height', (int) qa_post_text('qw_featured_thumbnail_height'));
+			qa_opt('qw_crop_x', qa_post_text('qw_crop_x'));
+			qa_opt('qw_crop_y', qa_post_text('qw_crop_y'));
 			
 			// Layout
-			qa_opt('cs_nav_position', qa_post_text('cs_nav_position'));
-			qa_opt('cs_nav_fixed', (bool) qa_post_text('cs_nav_fixed'));
-			qa_opt('cs_show_icon', (bool) qa_post_text('cs_show_icon'));
-			qa_opt('cs_enable_ask_button', (bool) qa_post_text('cs_enable_ask_button'));
-			qa_opt('cs_enable_category_nav', (bool) qa_post_text('cs_enable_category_nav'));
-			qa_opt('cs_enable_clean_qlist', (bool) qa_post_text('cs_enable_clean_qlist'));
-			qa_opt('cs_enable_except', (bool) qa_post_text('cs_enable_except'));
-			qa_opt('cs_except_len', (int) qa_post_text('cs_except_len'));
-			qa_opt('cs_enable_avatar_lists', (bool) qa_post_text('cs_enable_avatar_lists'));
-			if (qa_opt('cs_enable_avatar_lists'))
+			qa_opt('qw_nav_position', qa_post_text('qw_nav_position'));
+			qa_opt('qw_nav_fixed', (bool) qa_post_text('qw_nav_fixed'));
+			qa_opt('qw_show_icon', (bool) qa_post_text('qw_show_icon'));
+			qa_opt('qw_enable_ask_button', (bool) qa_post_text('qw_enable_ask_button'));
+			qa_opt('qw_enable_category_nav', (bool) qa_post_text('qw_enable_category_nav'));
+			qa_opt('qw_enable_clean_qlist', (bool) qa_post_text('qw_enable_clean_qlist'));
+			qa_opt('qw_enable_except', (bool) qa_post_text('qw_enable_except'));
+			qa_opt('qw_except_len', (int) qa_post_text('qw_except_len'));
+			qa_opt('qw_enable_avatar_lists', (bool) qa_post_text('qw_enable_avatar_lists'));
+			if (qa_opt('qw_enable_avatar_lists'))
 				qa_opt('avatar_q_list_size', 35);
 			else
 				qa_opt('avatar_q_list_size', 0); // set avatar size to zero so Q2A won't load them
-			qa_opt('show_view_counts', (bool) qa_post_text('cs_enable_views_lists'));
-			qa_opt('cs_show_tags_list', (bool) qa_post_text('cs_show_tags_list'));
-			qa_opt('cs_horizontal_voting_btns', (bool) qa_post_text('cs_horizontal_voting_btns'));
-			qa_opt('cs_enble_back_to_top', (bool) qa_post_text('cs_enble_back_to_top'));
-			qa_opt('cs_back_to_top_location', qa_post_text('cs_back_to_top_location'));
+			qa_opt('show_view_counts', (bool) qa_post_text('qw_enable_views_lists'));
+			qa_opt('qw_show_tags_list', (bool) qa_post_text('qw_show_tags_list'));
+			qa_opt('qw_horizontal_voting_btns', (bool) qa_post_text('qw_horizontal_voting_btns'));
+			qa_opt('qw_enble_back_to_top', (bool) qa_post_text('qw_enble_back_to_top'));
+			qa_opt('qw_back_to_top_location', qa_post_text('qw_back_to_top_location'));
 			
 			// Styling
-			qa_opt('cs_styling_rtl', (bool) qa_post_text('cs_styling_rtl'));
-			qa_opt('cs_bg_select', qa_post_text('cs_bg_select'));
-			qa_opt('cs_bg_color', qa_post_text('cs_bg_color'));
-			qa_opt('cs_text_color', qa_post_text('cs_text_color'));
-			qa_opt('cs_border_color', qa_post_text('cs_border_color'));
-			qa_opt('cs_q_link_color', qa_post_text('cs_q_link_color'));
-			qa_opt('cs_q_link_hover_color', qa_post_text('cs_q_link_hover_color'));
-			qa_opt('cs_nav_link_color', qa_post_text('cs_nav_link_color'));
-			qa_opt('cs_nav_link_color_hover', qa_post_text('cs_nav_link_color_hover'));
-			qa_opt('cs_subnav_link_color', qa_post_text('cs_subnav_link_color'));
-			qa_opt('cs_subnav_link_color_hover', qa_post_text('cs_subnav_link_color_hover'));
-			qa_opt('cs_link_color', qa_post_text('cs_link_color'));
-			qa_opt('cs_link_hover_color', qa_post_text('cs_link_hover_color'));
-			qa_opt('cs_highlight_color', qa_post_text('cs_highlight_color'));
-			qa_opt('cs_highlight_bg_color', qa_post_text('cs_highlight_bg_color'));
-			qa_opt('cs_ask_btn_bg', qa_post_text('cs_ask_btn_bg'));
+			qa_opt('qw_styling_rtl', (bool) qa_post_text('qw_styling_rtl'));
+			qa_opt('qw_bg_select', qa_post_text('qw_bg_select'));
+			qa_opt('qw_bg_color', qa_post_text('qw_bg_color'));
+			qa_opt('qw_text_color', qa_post_text('qw_text_color'));
+			qa_opt('qw_border_color', qa_post_text('qw_border_color'));
+			qa_opt('qw_q_link_color', qa_post_text('qw_q_link_color'));
+			qa_opt('qw_q_link_hover_color', qa_post_text('qw_q_link_hover_color'));
+			qa_opt('qw_nav_link_color', qa_post_text('qw_nav_link_color'));
+			qa_opt('qw_nav_link_color_hover', qa_post_text('qw_nav_link_color_hover'));
+			qa_opt('qw_subnav_link_color', qa_post_text('qw_subnav_link_color'));
+			qa_opt('qw_subnav_link_color_hover', qa_post_text('qw_subnav_link_color_hover'));
+			qa_opt('qw_link_color', qa_post_text('qw_link_color'));
+			qa_opt('qw_link_hover_color', qa_post_text('qw_link_hover_color'));
+			qa_opt('qw_highlight_color', qa_post_text('qw_highlight_color'));
+			qa_opt('qw_highlight_bg_color', qa_post_text('qw_highlight_bg_color'));
+			qa_opt('qw_ask_btn_bg', qa_post_text('qw_ask_btn_bg'));
 			
 		
 			
@@ -98,8 +98,8 @@ class cs_theme_options {
 				}
 				$i++;
 			}
-			qa_opt('cs_social_list', json_encode($social_links));
-			qa_opt('cs_social_enable', (bool) qa_post_text('cs_social_enable'));
+			qa_opt('qw_social_list', json_encode($social_links));
+			qa_opt('qw_social_enable', (bool) qa_post_text('qw_social_enable'));
 			
 			// Advertisement
 			$AdsCount = (int) qa_post_text('adv_number'); // number of advertisement items
@@ -111,7 +111,7 @@ class cs_theme_options {
 					$ads[$i]['adv_adsense']  = qa_post_text('adv_adsense_' . $i);
 					$ads[$i]['adv_location'] = qa_post_text('adv_location_' . $i);
 					$AdsCount--;
-				} elseif ((@getimagesize(@$_FILES['cs_adv_image_' . $i]['tmp_name']) > 0) or (null !== qa_post_text('adv_image_title_' . $i)) or (null !== qa_post_text('adv_image_link_' . $i)) or (null !== qa_post_text('adv_location_' . $i))) {
+				} elseif ((@getimagesize(@$_FILES['qw_adv_image_' . $i]['tmp_name']) > 0) or (null !== qa_post_text('adv_image_title_' . $i)) or (null !== qa_post_text('adv_image_link_' . $i)) or (null !== qa_post_text('adv_location_' . $i))) {
 					// add static ads
 					if (null !== qa_post_text('adv_image_url_' . $i)) {
 						$ads[$i]['adv_image'] = qa_post_text('adv_image_url_' . $i);
@@ -123,13 +123,13 @@ class cs_theme_options {
 				}
 				$i++;
 			}
-			qa_opt('cs_advs', json_encode($ads));
-			qa_opt('cs_enable_adv_list', (bool) qa_post_text('cs_enable_adv_list'));
-			qa_opt('cs_ads_below_question_title', base64_encode($_REQUEST['cs_ads_below_question_title']));
-			qa_opt('cs_ads_after_question_content', base64_encode($_REQUEST['cs_ads_after_question_content']));
+			qa_opt('qw_advs', json_encode($ads));
+			qa_opt('qw_enable_adv_list', (bool) qa_post_text('qw_enable_adv_list'));
+			qa_opt('qw_ads_below_question_title', base64_encode($_REQUEST['qw_ads_below_question_title']));
+			qa_opt('qw_ads_after_question_content', base64_encode($_REQUEST['qw_ads_after_question_content']));
 			
 			// footer							
-			qa_opt('cs_footer_copyright', qa_post_text('cs_footer_copyright'));
+			qa_opt('qw_footer_copyright', qa_post_text('qw_footer_copyright'));
 			
 			
 			$saved = true;
@@ -166,7 +166,7 @@ class cs_theme_options {
 			<li>
 				<a href="#" data-toggle=".qa-part-form-tc-ads">Advertisements</a>
 			</li>
-			'.cs_do_action('cs_theme_option_tab').'
+			'.qw_do_action('qw_theme_option_tab').'
 		</ul>
 	</div><div class="option-tab-content">';
 		$output .= $this->opt_general();
@@ -174,12 +174,12 @@ class cs_theme_options {
 		//$output .= $this->opt_styling();
 		$output .= $this->opt_social();
 		$output .= $this->opt_ads();
-		$output .= cs_do_action('cs_theme_option_tab_content');
+		$output .= qw_do_action('qw_theme_option_tab_content');
 		$output .= '</div>';
 		$output .= '<div class="form-button-sticky-footer">';
 			$output .= '<div class="form-button-holder">';
-				$output .= '<input type="submit" class="qa-form-tall-button btn-primary" title="" value="Save Changes" name="cs_save_button">';
-				$output .= '<input type="submit" class="qa-form-tall-button" title="" value="Reset to Default" name="cs_reset_button">';
+				$output .= '<input type="submit" class="qa-form-tall-button btn-primary" title="" value="Save Changes" name="qw_save_button">';
+				$output .= '<input type="submit" class="qa-form-tall-button" title="" value="Reset to Default" name="qw_reset_button">';
 			$output .= '</div>';
 		$output .= '</div>';
 		$output .= '</form>';
@@ -200,7 +200,7 @@ class cs_theme_options {
 					<td class="qa-form-tall-data">
 						' . (qa_opt('logo_url') ? '<img id="logo-preview" class="logo-preview img-thumbnail" src="' . qa_opt('logo_url') . '">' : '<img id="logo-preview" class="logo-preview img-thumbnail" style="display:none;" src="">') . '
 						<div id="logo_uploader">Upload</div>
-						<input id="cs_logo_field" type="hidden" name="cs_logo_field" value="' . qa_opt('logo_url') . '">
+						<input id="qw_logo_field" type="hidden" name="qw_logo_field" value="' . qa_opt('logo_url') . '">
 					</td>
 				</tr>
 				<tr>
@@ -209,9 +209,9 @@ class cs_theme_options {
 						<span class="description">favicon image (32px32px).</span>
 					</th>
 					<td class="qa-form-tall-data">
-						' . (qa_opt('cs_favicon_url') ? '<img id="favicon-preview" class="favicon-preview img-thumbnail" src="' . qa_opt('cs_favicon_url') . '">' : '<img id="favicon-preview" class="favicon-preview img-thumbnail" style="display:none;" src="">') . '
+						' . (qa_opt('qw_favicon_url') ? '<img id="favicon-preview" class="favicon-preview img-thumbnail" src="' . qa_opt('qw_favicon_url') . '">' : '<img id="favicon-preview" class="favicon-preview img-thumbnail" style="display:none;" src="">') . '
 						<div id="favicon_uploader">Upload</div>
-						<input id="cs_favicon_field" type="hidden" name="cs_favicon_field" value="' . qa_opt('cs_favicon_url') . '">
+						<input id="qw_favicon_field" type="hidden" name="qw_favicon_field" value="' . qa_opt('qw_favicon_url') . '">
 					</td>
 				</tr>
 			</tbody>
@@ -223,8 +223,8 @@ class cs_theme_options {
 					</th>
 					<td class="qa-form-tall-label">
 						<div class="on-off-checkbox-container">
-								<input type="checkbox" class="on-off-checkbox" ' . (qa_opt('cs_enable_gzip') ? ' checked=""' : '') . ' id="cs_enable_gzip" name="cs_enable_gzip">
-							<label for="cs_enable_gzip">
+								<input type="checkbox" class="on-off-checkbox" ' . (qa_opt('qw_enable_gzip') ? ' checked=""' : '') . ' id="qw_enable_gzip" name="qw_enable_gzip">
+							<label for="qw_enable_gzip">
 							</label>
 						</div>
 					</td>
@@ -238,7 +238,7 @@ class cs_theme_options {
 						<span class="description">you can add links or images by entering html code</span>
 					</th>
 					<td class="qa-form-tall-label">
-						<input id="cs_footer_copyright" class="form-control" type="text" name="cs_footer_copyright" value="' . qa_opt('cs_footer_copyright') . '">
+						<input id="qw_footer_copyright" class="form-control" type="text" name="qw_footer_copyright" value="' . qa_opt('qw_footer_copyright') . '">
 					</td>
 				</tr>
 			</tbody>
@@ -258,8 +258,8 @@ class cs_theme_options {
 					</th>
 					<td class="qa-form-tall-label">
 						<div class="on-off-checkbox-container">
-								<input type="checkbox" class="on-off-checkbox" value="1"' . (qa_opt('cs_styling_rtl') ? ' checked=""' : '') . ' id="cs_styling_rtl" name="cs_styling_rtl">
-							<label for="cs_styling_rtl">
+								<input type="checkbox" class="on-off-checkbox" value="1"' . (qa_opt('qw_styling_rtl') ? ' checked=""' : '') . ' id="qw_styling_rtl" name="qw_styling_rtl">
+							<label for="qw_styling_rtl">
 							</label>
 						</div>
 					</td>
@@ -273,8 +273,8 @@ class cs_theme_options {
 					</th>
 					<td class="qa-form-tall-label">
 						<div class="on-off-checkbox-container">
-								<input type="checkbox" class="on-off-checkbox" value="1"' . (qa_opt('cs_show_icon') ? ' checked=""' : '') . ' id="cs_show_icon" name="cs_show_icon">
-								<label for="cs_show_icon"></label>
+								<input type="checkbox" class="on-off-checkbox" value="1"' . (qa_opt('qw_show_icon') ? ' checked=""' : '') . ' id="qw_show_icon" name="qw_show_icon">
+								<label for="qw_show_icon"></label>
 						</div>
 					</td>
 				</tr>
@@ -285,8 +285,8 @@ class cs_theme_options {
 					</th>
 					<td class="qa-form-tall-label">
 						<div class="on-off-checkbox-container">
-								<input type="checkbox" class="on-off-checkbox" value="1"' . (qa_opt('cs_enable_ask_button') ? ' checked=""' : '') . ' id="cs_enable_ask_button" name="cs_enable_ask_button">
-								<label for="cs_enable_ask_button"></label>
+								<input type="checkbox" class="on-off-checkbox" value="1"' . (qa_opt('qw_enable_ask_button') ? ' checked=""' : '') . ' id="qw_enable_ask_button" name="qw_enable_ask_button">
+								<label for="qw_enable_ask_button"></label>
 						</div>
 					</td>
 				</tr>
@@ -297,8 +297,8 @@ class cs_theme_options {
 					</th>
 					<td class="qa-form-tall-label">
 						<div class="on-off-checkbox-container">
-								<input type="checkbox" class="on-off-checkbox" value="1"' . (qa_opt('cs_enable_category_nav') ? ' checked=""' : '') . ' id="cs_enable_category_nav" name="cs_enable_category_nav">
-								<label for="cs_enable_category_nav"></label>
+								<input type="checkbox" class="on-off-checkbox" value="1"' . (qa_opt('qw_enable_category_nav') ? ' checked=""' : '') . ' id="qw_enable_category_nav" name="qw_enable_category_nav">
+								<label for="qw_enable_category_nav"></label>
 						</div>
 					</td>
 				</tr>
@@ -312,8 +312,8 @@ class cs_theme_options {
 					</th>
 					<td class="qa-form-tall-label">
 						<div class="on-off-checkbox-container">
-								<input type="checkbox" class="on-off-checkbox" value="1"' . (qa_opt('cs_enable_clean_qlist') ? ' checked=""' : '') . ' id="cs_enable_clean_qlist" name="cs_enable_clean_qlist">
-								<label for="cs_enable_clean_qlist"></label>
+								<input type="checkbox" class="on-off-checkbox" value="1"' . (qa_opt('qw_enable_clean_qlist') ? ' checked=""' : '') . ' id="qw_enable_clean_qlist" name="qw_enable_clean_qlist">
+								<label for="qw_enable_clean_qlist"></label>
 						</div>
 					</td>
 				</tr>
@@ -327,18 +327,18 @@ class cs_theme_options {
 					</th>
 					<td class="qa-form-tall-label">
 						<div class="on-off-checkbox-container">
-								<input type="checkbox" class="on-off-checkbox" value="1"' . (qa_opt('cs_enable_except') ? ' checked=""' : '') . ' id="cs_enable_except" name="cs_enable_except">
-								<label for="cs_enable_except"></label>
+								<input type="checkbox" class="on-off-checkbox" value="1"' . (qa_opt('qw_enable_except') ? ' checked=""' : '') . ' id="qw_enable_except" name="qw_enable_except">
+								<label for="qw_enable_except"></label>
 						</div>
 					</td>
 				</tr>
-				<tr id="cs_except_length">
+				<tr id="qw_except_length">
 					<th class="qa-form-tall-label">
 						Excerpt Length
 						<span class="description">Length of questions description in question lists</span>
 					</th>
 					<td class="qa-form-tall-label">
-						<input class="qa-form-wide-number" type="text" value="' . qa_opt('cs_except_len') . '"  id="cs_except_len" name="cs_except_len">
+						<input class="qa-form-wide-number" type="text" value="' . qa_opt('qw_except_len') . '"  id="qw_except_len" name="qw_except_len">
 					</td>
 				</tr>
 				<tr>
@@ -348,8 +348,8 @@ class cs_theme_options {
 					</th>
 					<td class="qa-form-tall-label">
 						<div class="on-off-checkbox-container">
-								<input type="checkbox" class="on-off-checkbox" value="1"' . (qa_opt('cs_enable_avatar_lists') ? ' checked=""' : '') . ' id="cs_enable_avatar_lists" name="cs_enable_avatar_lists">
-								<label for="cs_enable_avatar_lists"></label>
+								<input type="checkbox" class="on-off-checkbox" value="1"' . (qa_opt('qw_enable_avatar_lists') ? ' checked=""' : '') . ' id="qw_enable_avatar_lists" name="qw_enable_avatar_lists">
+								<label for="qw_enable_avatar_lists"></label>
 						</div>
 					</td>
 				</tr>
@@ -360,8 +360,8 @@ class cs_theme_options {
 					</th>
 					<td class="qa-form-tall-label">
 						<div class="on-off-checkbox-container">
-								<input type="checkbox" class="on-off-checkbox" value="1"' . (qa_opt('show_view_counts') ? ' checked=""' : '') . ' id="cs_enable_views_lists" name="cs_enable_views_lists">
-								<label for="cs_enable_views_lists"></label>
+								<input type="checkbox" class="on-off-checkbox" value="1"' . (qa_opt('show_view_counts') ? ' checked=""' : '') . ' id="qw_enable_views_lists" name="qw_enable_views_lists">
+								<label for="qw_enable_views_lists"></label>
 						</div>
 					</td>
 				</tr>
@@ -372,8 +372,8 @@ class cs_theme_options {
 					</th>
 					<td class="qa-form-tall-label">
 						<div class="on-off-checkbox-container">
-								<input type="checkbox" class="on-off-checkbox" value="1"' . (qa_opt('cs_show_tags_list') ? ' checked=""' : '') . ' id="cs_show_tags_list" name="cs_show_tags_list">
-								<label for="cs_show_tags_list"></label>
+								<input type="checkbox" class="on-off-checkbox" value="1"' . (qa_opt('qw_show_tags_list') ? ' checked=""' : '') . ' id="qw_show_tags_list" name="qw_show_tags_list">
+								<label for="qw_show_tags_list"></label>
 						</div>
 					</td>
 				</tr>
@@ -386,8 +386,8 @@ class cs_theme_options {
 					</th>
 					<td class="qa-form-tall-label">
 						<div class="on-off-checkbox-container">
-								<input type="checkbox" class="on-off-checkbox" value="1"' . (qa_opt('cs_horizontal_voting_btns') ? ' checked=""' : '') . ' id="cs_horizontal_voting_btns" name="cs_horizontal_voting_btns">
-							<label for="cs_horizontal_voting_btns">
+								<input type="checkbox" class="on-off-checkbox" value="1"' . (qa_opt('qw_horizontal_voting_btns') ? ' checked=""' : '') . ' id="qw_horizontal_voting_btns" name="qw_horizontal_voting_btns">
+							<label for="qw_horizontal_voting_btns">
 							</label>
 						</div>
 					</td>
@@ -401,22 +401,22 @@ class cs_theme_options {
 					</th>
 					<td class="qa-form-tall-label">
 						<div class="on-off-checkbox-container">
-								<input type="checkbox" class="on-off-checkbox" value="1"' . (qa_opt('cs_enble_back_to_top') ? ' checked=""' : '') . ' id="cs_enble_back_to_top" name="cs_enble_back_to_top">
-							<label for="cs_enble_back_to_top">
+								<input type="checkbox" class="on-off-checkbox" value="1"' . (qa_opt('qw_enble_back_to_top') ? ' checked=""' : '') . ' id="qw_enble_back_to_top" name="qw_enble_back_to_top">
+							<label for="qw_enble_back_to_top">
 							</label>
 						</div>
 					</td>
 					</tr>
-					<tr id="back_to_top_location_container" ' . (qa_opt('cs_enble_back_to_top') ? '' : ' style="display:none;"') . '>
+					<tr id="back_to_top_location_container" ' . (qa_opt('qw_enble_back_to_top') ? '' : ' style="display:none;"') . '>
 					<th class="qa-form-tall-label">
 						Back To Top\'s Position
 						<span class="description">Back To Top button\'s Position</span>
 					</th>
 					<td class="qa-form-tall-label">
-						<input class="theme-option-radio" type="radio"' . (qa_opt('cs_back_to_top_location') == 'nav' ? ' checked=""' : '') . ' id="cs_back_to_top_nav" name="cs_back_to_top_location" value="nav">
-						   <label for="cs_back_to_top_nav">Under Navigation</label>
-						<input class="theme-option-radio" type="radio"' . (qa_opt('cs_back_to_top_location') == 'right' ? ' checked=""' : '') . ' id="cs_back_to_top_right" name="cs_back_to_top_location" value="right">
-						   <label for="cs_back_to_top_right">Bottom Right</label> 
+						<input class="theme-option-radio" type="radio"' . (qa_opt('qw_back_to_top_location') == 'nav' ? ' checked=""' : '') . ' id="qw_back_to_top_nav" name="qw_back_to_top_location" value="nav">
+						   <label for="qw_back_to_top_nav">Under Navigation</label>
+						<input class="theme-option-radio" type="radio"' . (qa_opt('qw_back_to_top_location') == 'right' ? ' checked=""' : '') . ' id="qw_back_to_top_right" name="qw_back_to_top_location" value="right">
+						   <label for="qw_back_to_top_right">Bottom Right</label> 
 					</td>
 				</tr>
 			</tbody>
@@ -431,12 +431,12 @@ class cs_theme_options {
 		<h3>Colors</h3>
 		<table class="qa-form-tall-table options-table">
 			<tbody>
-				<tr id="bg-color-container"' . ((qa_opt('cs_bg_select') == 'bg_color') ? '' : ' style="display:none;"') . '>
+				<tr id="bg-color-container"' . ((qa_opt('qw_bg_select') == 'bg_color') ? '' : ' style="display:none;"') . '>
 					<th class="qa-form-tall-label">
 						Body Font Color
 					</th>
 					<td class="qa-form-tall-label">
-						<input type="colorpicker" class="form-control" value="' . qa_opt('cs_bg_color') . '" id="cs_bg_color" name="cs_bg_color">
+						<input type="colorpicker" class="form-control" value="' . qa_opt('qw_bg_color') . '" id="qw_bg_color" name="qw_bg_color">
 					</td>
 				</tr>
 			</tbody>
@@ -446,7 +446,7 @@ class cs_theme_options {
 						Text color
 					</th>
 					<td class="qa-form-tall-label">
-						<input type="colorpicker" class="form-control" value="' . qa_opt('cs_text_color') . '" id="cs_text_color" name="cs_text_color">
+						<input type="colorpicker" class="form-control" value="' . qa_opt('qw_text_color') . '" id="qw_text_color" name="qw_text_color">
 					</td>
 				</tr>
 				<tr>
@@ -454,7 +454,7 @@ class cs_theme_options {
 						Border color
 					</th>
 					<td class="qa-form-tall-label">
-						<input type="colorpicker" class="form-control" value="' . qa_opt('cs_border_color') . '" id="cs_border_color" name="cs_border_color">
+						<input type="colorpicker" class="form-control" value="' . qa_opt('qw_border_color') . '" id="qw_border_color" name="qw_border_color">
 					</td>
 				</tr>
 				<tr>
@@ -462,8 +462,8 @@ class cs_theme_options {
 						Link color
 					</th>
 					<td class="qa-form-tall-label">
-						Link Color<input type="colorpicker" class="form-control" value="' . qa_opt('cs_link_color') . '" id="cs_link_color" name="cs_link_color">
-						Hover Color<input type="colorpicker" class="form-control" value="' . qa_opt('cs_link_hover_color') . '" id="cs_link_hover_color" name="cs_link_hover_color">
+						Link Color<input type="colorpicker" class="form-control" value="' . qa_opt('qw_link_color') . '" id="qw_link_color" name="qw_link_color">
+						Hover Color<input type="colorpicker" class="form-control" value="' . qa_opt('qw_link_hover_color') . '" id="qw_link_hover_color" name="qw_link_hover_color">
 					</td>
 				</tr>
 				<tr>
@@ -471,8 +471,8 @@ class cs_theme_options {
 						Question Link color
 					</th>
 					<td class="qa-form-tall-label">
-						Link Color<input type="colorpicker" class="form-control" value="' . qa_opt('cs_q_link_color') . '" id="cs_q_link_color" name="cs_q_link_color">
-						Hover Color<input type="colorpicker" class="form-control" value="' . qa_opt('cs_q_link_hover_color') . '" id="cs_q_link_hover_color" name="cs_q_link_hover_color">
+						Link Color<input type="colorpicker" class="form-control" value="' . qa_opt('qw_q_link_color') . '" id="qw_q_link_color" name="qw_q_link_color">
+						Hover Color<input type="colorpicker" class="form-control" value="' . qa_opt('qw_q_link_hover_color') . '" id="qw_q_link_hover_color" name="qw_q_link_hover_color">
 					</td>
 				</tr>
 				<tr>
@@ -480,8 +480,8 @@ class cs_theme_options {
 						Navigation Link color
 					</th>
 					<td class="qa-form-tall-label">
-						Text Color<input type="colorpicker" class="form-control" value="' . qa_opt('cs_nav_link_color') . '" id="cs_nav_link_color" name="cs_nav_link_color">
-						Hover Color<input type="colorpicker" class="form-control" value="' . qa_opt('cs_nav_link_color_hover') . '" id="cs_nav_link_color_hover" name="cs_nav_link_color_hover">
+						Text Color<input type="colorpicker" class="form-control" value="' . qa_opt('qw_nav_link_color') . '" id="qw_nav_link_color" name="qw_nav_link_color">
+						Hover Color<input type="colorpicker" class="form-control" value="' . qa_opt('qw_nav_link_color_hover') . '" id="qw_nav_link_color_hover" name="qw_nav_link_color_hover">
 					</td>
 				</tr>
 				<tr>
@@ -489,8 +489,8 @@ class cs_theme_options {
 						Sub Navigation Link color
 					</th>
 					<td class="qa-form-tall-label">
-						Text Color<input type="colorpicker" class="form-control" value="' . qa_opt('cs_subnav_link_color') . '" id="cs_subnav_link_color" name="cs_subnav_link_color">
-						Hover Color<input type="colorpicker" class="form-control" value="' . qa_opt('cs_subnav_link_color_hover') . '" id="cs_subnav_link_color_hover" name="cs_subnav_link_color_hover">
+						Text Color<input type="colorpicker" class="form-control" value="' . qa_opt('qw_subnav_link_color') . '" id="qw_subnav_link_color" name="qw_subnav_link_color">
+						Hover Color<input type="colorpicker" class="form-control" value="' . qa_opt('qw_subnav_link_color_hover') . '" id="qw_subnav_link_color_hover" name="qw_subnav_link_color_hover">
 					</td>
 				</tr>
 				<tr>
@@ -498,7 +498,7 @@ class cs_theme_options {
 						Highlight Text color
 					</th>
 					<td class="qa-form-tall-label">
-						<input type="colorpicker" class="form-control" value="' . qa_opt('cs_highlight_color') . '" id="cs_highlight_color" name="cs_highlight_color">
+						<input type="colorpicker" class="form-control" value="' . qa_opt('qw_highlight_color') . '" id="qw_highlight_color" name="qw_highlight_color">
 					</td>
 				</tr>
 				<tr>
@@ -506,7 +506,7 @@ class cs_theme_options {
 						Highlight background color
 					</th>
 					<td class="qa-form-tall-label">
-						<input type="colorpicker" class="form-control" value="' . qa_opt('cs_highlight_bg_color') . '" id="cs_highlight_bg_color" name="cs_highlight_bg_color">
+						<input type="colorpicker" class="form-control" value="' . qa_opt('qw_highlight_bg_color') . '" id="qw_highlight_bg_color" name="qw_highlight_bg_color">
 					</td>
 				</tr>
 			</tbody>
@@ -521,7 +521,7 @@ class cs_theme_options {
 						<span class="description">ADD DETAIL.</span>
 					</th>
 					<td class="qa-form-tall-label">
-						<input type="colorpicker" class="form-control" value="' . qa_opt('cs_ask_btn_bg') . '" id="cs_ask_btn_bg" name="cs_ask_btn_bg">
+						<input type="colorpicker" class="form-control" value="' . qa_opt('qw_ask_btn_bg') . '" id="qw_ask_btn_bg" name="qw_ask_btn_bg">
 					</td>
 				</tr>
 			</tbody>
@@ -533,11 +533,11 @@ class cs_theme_options {
 	function opt_social(){
 		$i              = 0;
 		$social_content = '';
-		$social_fields  = json_decode(qa_opt('cs_social_list'), true);
+		$social_fields  = json_decode(qa_opt('qw_social_list'), true);
 		if (isset($social_fields))
 			foreach ($social_fields as $k => $social_field) {
 				$list_options = '<option class="icon-wrench" value="1"' . ((@$social_field['social_icon'] == '1') ? ' selected' : '') . '>Upload Social Icon</option>';
-				foreach (cs_social_icons() as $icon => $name) {
+				foreach (qw_social_icons() as $icon => $name) {
 
 					$list_options .= '<option class="' . $icon . '" value="' . $icon . '"' . (($icon == @$social_field['social_icon']) ? ' selected' : '') . '>' . $name . '</option>';
 				}
@@ -581,8 +581,8 @@ class cs_theme_options {
 					</th>
 					<td class="qa-form-tall-label">
 						<div class="on-off-checkbox-container">
-							<input type="checkbox" class="on-off-checkbox" value="1"' . (qa_opt('cs_social_enable') ? ' checked=""' : '') . ' id="cs_social_enable" name="cs_social_enable">
-							<label for="cs_social_enable"></label>
+							<input type="checkbox" class="on-off-checkbox" value="1"' . (qa_opt('qw_social_enable') ? ' checked=""' : '') . ' id="qw_social_enable" name="qw_social_enable">
+							<label for="qw_social_enable"></label>
 						</div>
 					</td>
 				</tr>
@@ -607,7 +607,7 @@ class cs_theme_options {
 	
 	function opt_ads(){
 	
-	 $advs        = json_decode(qa_opt('cs_advs'), true);
+	 $advs        = json_decode(qa_opt('qw_advs'), true);
             $i           = 0;
             $adv_content = '';
             if (isset($advs))
@@ -680,13 +680,13 @@ class cs_theme_options {
 					</th>
 					<td class="qa-form-tall-label">
 						<div class="on-off-checkbox-container">
-							<input type="checkbox" class="on-off-checkbox" value="1"' . (qa_opt('cs_enable_adv_list') ? ' checked=""' : '') . ' id="cs_enable_adv_list" name="cs_enable_adv_list">
-							<label for="cs_enable_adv_list"></label>
+							<input type="checkbox" class="on-off-checkbox" value="1"' . (qa_opt('qw_enable_adv_list') ? ' checked=""' : '') . ' id="qw_enable_adv_list" name="qw_enable_adv_list">
+							<label for="qw_enable_adv_list"></label>
 						</div>
 					</td>
 				</tr>
 			</tbody>
-			<tbody id="ads_container" ' . (qa_opt('cs_enable_adv_list') ? '' : ' style="display:none;"') . '>
+			<tbody id="ads_container" ' . (qa_opt('qw_enable_adv_list') ? '' : ' style="display:none;"') . '>
 				<tr>
 					<th class="qa-form-tall-label">
 						Add Advertisement
@@ -709,7 +709,7 @@ class cs_theme_options {
 					<span class="description">Advertisement below Question Title</span>
 				</th>
 				<td class="qa-form-tall-label">
-					<textarea class="form-control" cols="40" rows="5" name="cs_ads_below_question_title">' . base64_decode(qa_opt('cs_ads_below_question_title')) . '</textarea>
+					<textarea class="form-control" cols="40" rows="5" name="qw_ads_below_question_title">' . base64_decode(qa_opt('qw_ads_below_question_title')) . '</textarea>
 				</td>
 			</tr>
 			<tr>
@@ -718,7 +718,7 @@ class cs_theme_options {
 					<span class="description">this advertisement will show up between Question & Answer</span>
 				</th>
 				<td class="qa-form-tall-label">
-					<textarea class="form-control" cols="40" rows="5" name="cs_ads_after_question_content">' . base64_decode(qa_opt('cs_ads_after_question_content')) . '</textarea>
+					<textarea class="form-control" cols="40" rows="5" name="qw_ads_after_question_content">' . base64_decode(qa_opt('qw_ads_after_question_content')) . '</textarea>
 				</td>
 			</tr>
 			</tbody>
@@ -791,47 +791,47 @@ class cs_theme_options {
     {
     	// General 
     	qa_opt('logo_url', ''); /*Needs to be changed */
-		qa_opt('cs_favicon_url', ''); /*Needs to be changed */
-		qa_opt('cs_enable_gzip', 1 );
-		qa_opt('cs_featured_image_width', 250);
-		qa_opt('cs_featured_image_height', 250);
-		qa_opt('cs_featured_thumbnail_width', 250);
-		qa_opt('cs_featured_thumbnail_height', 250);
-		qa_opt('cs_crop_x', 0);
-		qa_opt('cs_crop_y', 0);
+		qa_opt('qw_favicon_url', ''); /*Needs to be changed */
+		qa_opt('qw_enable_gzip', 1 );
+		qa_opt('qw_featured_image_width', 250);
+		qa_opt('qw_featured_image_height', 250);
+		qa_opt('qw_featured_thumbnail_width', 250);
+		qa_opt('qw_featured_thumbnail_height', 250);
+		qa_opt('qw_crop_x', 0);
+		qa_opt('qw_crop_y', 0);
 	 
 		// Layout
-		qa_opt('cs_nav_position', 'top');
-		qa_opt('cs_nav_fixed', 1 );
-		qa_opt('cs_show_icon', 1 );
-		qa_opt('cs_enable_ask_button', 1 );
-		qa_opt('cs_enable_category_nav', 1 );
-		qa_opt('cs_enable_clean_qlist', 1 );
-		qa_opt('cs_enable_except', 1 );
-		qa_opt('cs_except_len', 120 );
-		qa_opt('cs_enable_avatar_lists', 1 );
-		if (qa_opt('cs_enable_avatar_lists'))
+		qa_opt('qw_nav_position', 'top');
+		qa_opt('qw_nav_fixed', 1 );
+		qa_opt('qw_show_icon', 1 );
+		qa_opt('qw_enable_ask_button', 1 );
+		qa_opt('qw_enable_category_nav', 1 );
+		qa_opt('qw_enable_clean_qlist', 1 );
+		qa_opt('qw_enable_except', 1 );
+		qa_opt('qw_except_len', 120 );
+		qa_opt('qw_enable_avatar_lists', 1 );
+		if (qa_opt('qw_enable_avatar_lists'))
 			qa_opt('avatar_q_list_size', 35);
 		else
 			qa_opt('avatar_q_list_size', 0); // set avatar size to zero so Q2A won't load them
 		qa_opt('show_view_counts', 1 );
-		qa_opt('cs_show_tags_list', 1 );
-		qa_opt('cs_horizontal_voting_btns', 0 );
-		qa_opt('cs_enble_back_to_top', 0 );
-		qa_opt('cs_back_to_top_location', 'right');
+		qa_opt('qw_show_tags_list', 1 );
+		qa_opt('qw_horizontal_voting_btns', 0 );
+		qa_opt('qw_enble_back_to_top', 0 );
+		qa_opt('qw_back_to_top_location', 'right');
 	 
 		// Styling
 		// these color combinations needs to be changed 
-		qa_opt('cs_styling_rtl', 0 );
+		qa_opt('qw_styling_rtl', 0 );
 		// social 
-		qa_opt('cs_social_enable', 0 );
+		qa_opt('qw_social_enable', 0 );
 		// Advertisement
-		qa_opt('cs_enable_adv_list', 0 );
+		qa_opt('qw_enable_adv_list', 0 );
 		// footer							
-		qa_opt('cs_footer_copyright', "© ".date('Y').qa_opt('site_name'));
+		qa_opt('qw_footer_copyright', "© ".date('Y').qa_opt('site_name'));
 		
 		// now add the hook for other addons for reseting their settings 
-		cs_do_action('cs_reset_theme_options') ;
+		qw_do_action('qw_reset_theme_options') ;
     }
 	
 }

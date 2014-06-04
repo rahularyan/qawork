@@ -9,7 +9,7 @@ if (!defined('QA_VERSION')) {
 function qa_set_user_avatar($userid, $imagedata, $oldblobid=null){
 	
 	//require_once QA_INCLUDE_DIR.'qa-util-image.php';
-	require_once CS_CONTROL_DIR.'/inc/class_images.php';
+	require_once QW_CONTROL_DIR.'/inc/class_images.php';
 	$thumb = new Image($_FILES['file']['tmp_name']);
 	$thumb->resize(200, 200, 'crop', 'c', 'c', 99);
 	$imagedata=$thumb->get_image_content();

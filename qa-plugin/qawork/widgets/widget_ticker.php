@@ -1,22 +1,22 @@
 <?php
-	class cs_ticker_widget {
+	class qw_ticker_widget {
 		
-		function cs_widget_form()
+		function qw_widget_form()
 		{
 			
 			return array(
 				'style' => 'wide',
 				'fields' => array(
-					'cs_ticker_count' => array(
+					'qw_ticker_count' => array(
 						'label' => 'Questions to show',
 						'type' => 'number',
-						'tags' => 'name="cs_ticker_count"',
+						'tags' => 'name="qw_ticker_count"',
 						'value' => '10',
 					),
-					'cs_ticker_data' => array(
+					'qw_ticker_data' => array(
 						'label' => 'Data from',
 						'type' => 'select',
-						'tags' => 'name="cs_ticker_data"',
+						'tags' => 'name="qw_ticker_data"',
 						'value' => 'Category',
 						'options' => array(
 							'Category' => 'Category',
@@ -24,10 +24,10 @@
 							'Keyword' => 'Keyword',
 						)
 					),
-					'cs_ticker_slug' => array(
+					'qw_ticker_slug' => array(
 						'label' => 'Enter slug(Keyword)',
 						'type' => 'text',
-						'tags' => 'name="cs_ticker_slug"',
+						'tags' => 'name="qw_ticker_slug"',
 					),
 	
 				),
@@ -82,7 +82,7 @@
 		}
 		
 		// output the list of selected post type
-		function cs_relative_post_list($limit, $slug, $type, $return = false){
+		function qw_relative_post_list($limit, $slug, $type, $return = false){
 			require_once QA_INCLUDE_DIR.'qa-app-posts.php';
 			if(!empty($slug)){
 				if($type=='Category'){
@@ -94,7 +94,7 @@
 						$categories = array_reverse($categories);
 						$slug = implode("/", $categories);
 					}
-					$posts = cs_get_cache(
+					$posts = qw_get_cache(
 							'SELECT * FROM ^posts WHERE ^posts.type=$
 							AND categoryid=(SELECT categoryid FROM ^categories WHERE ^categories.backpath=$ LIMIT 1) 
 							ORDER BY ^posts.created DESC LIMIT #',
@@ -103,7 +103,7 @@
 				}elseif($type=='Tags'){
 					$post_type='Q';
 					$title = 'Questions in <a href="'.qa_path_html('tag/'.qa_strtolower($slug)).'">'.$slug.'</a>';
-					$posts = cs_get_cache(
+					$posts = qw_get_cache(
 						'SELECT * FROM ^posts WHERE ^posts.type=$
 						AND ^posts.postid IN (SELECT postid FROM ^posttags WHERE 
 							wordid=(SELECT wordid FROM ^words WHERE word=$ OR word=$ COLLATE utf8_bin LIMIT 1) ORDER BY postcreated DESC)
@@ -116,7 +116,7 @@
 					$title = 'Posts About <a href="'.qa_path_html('search/'.qa_strtolower($keyword)).'">'.$keyword.'</a>';
 					//$post=qa_get_search_results($keyword, 0, $limit, $userid , false, false);
 					$words=qa_string_to_words($keyword);
-					$posts=cs_get_cache_select_selectspec(qa_db_search_posts_selectspec($userid, $words, $words, $words, $words, trim($keyword), 0, false, $limit));
+					$posts=qw_get_cache_select_selectspec(qa_db_search_posts_selectspec($userid, $words, $words, $words, $words, trim($keyword), 0, false, $limit));
 
 					$output = '<h3 class="widget-title">'.$title.'</h3>';
 					$output .= '<ul class="question-list">';
@@ -130,18 +130,18 @@
 							$what = qa_lang('cleanstrap/commented');
 						}
 						$handle = qa_post_userid_to_handle($post['userid']);
-						$avatar = cs_get_post_avatar($post, 35);
+						$avatar = qw_get_post_avatar($post, 35);
 						$output .= '<li id="q-list-'.$post['postid'].'" class="question-item">';
 						$output .= '<div class="pull-left avatar" data-handle="'.$handle.'" data-id="'. $post['userid'] .'">' . $avatar . '</div>';
 						$output .= '<div class="list-right">';
 						if($post_type=='Q'){
-							$output .= '<a class="title" href="'. qa_q_path_html($post['postid'], $post['title']) .'" title="'. $post['title'] .'">'.cs_truncate(strip_tags($post['title']), 70).'</a>';
+							$output .= '<a class="title" href="'. qa_q_path_html($post['postid'], $post['title']) .'" title="'. $post['title'] .'">'.qw_truncate(strip_tags($post['title']), 70).'</a>';
 						}elseif($post_type=='A'){
-							$output .= '<p><a href="'.cs_post_link($post['parentid']).'#a'.$post['postid'].'">'. cs_truncate(strip_tags($post['content']),70).'</a></p>';
+							$output .= '<p><a href="'.qw_post_link($post['parentid']).'#a'.$post['postid'].'">'. qw_truncate(strip_tags($post['content']),70).'</a></p>';
 						}else{
-							$output .= '<p><a href="'.cs_post_link($post['parentid']).'#c'.$post['postid'].'">'. cs_truncate(strip_tags($post['content']),70).'</a></p>';
+							$output .= '<p><a href="'.qw_post_link($post['parentid']).'#c'.$post['postid'].'">'. qw_truncate(strip_tags($post['content']),70).'</a></p>';
 						}
-						$output .= '<div class="meta"><a href="'.qa_path_html('user/'.$handle).'">'.cs_name($handle).'</a> '.$what;
+						$output .= '<div class="meta"><a href="'.qa_path_html('user/'.$handle).'">'.qw_name($handle).'</a> '.$what;
 						if ($post_type=='Q'){
 							$output .= ' <span class="vote-count">'.$post['netvotes'].' votes</span>';
 							$output .= ' <span class="ans-count">'.$post['acount'].' ans</span>';
@@ -174,25 +174,25 @@
 					$what = qa_lang_html('cleanstrap/commented');
 				}
 				$handle = qa_post_userid_to_handle($p['userid']);
-				$avatar = cs_get_avatar($handle, 35, false);
+				$avatar = qw_get_avatar($handle, 35, false);
 				$output .= '<li id="q-list-'.$p['postid'].'" class="question-item">';
 				$output .= '<div class="pull-left avatar" data-handle="'.$handle.'" data-id="'. qa_handle_to_userid($handle).'">' . (isset($avatar)?'<img src="'. $avatar .'" />':'') . '</div>';
 				$output .= '<div class="list-right">';
 
 				if($post_type=='Q'){
 
-					$output .= '<a class="title" href="'. qa_q_path_html($p['postid'], $p['title']) .'" title="'. $p['title'] .'">'.cs_truncate(qa_html($p['title']), 70).'</a>';
+					$output .= '<a class="title" href="'. qa_q_path_html($p['postid'], $p['title']) .'" title="'. $p['title'] .'">'.qw_truncate(qa_html($p['title']), 70).'</a>';
 
 				}elseif($post_type=='A'){
 
-					$output .= '<p><a href="'.cs_post_link($p['parentid']).'#a'.$p['postid'].'">'. cs_truncate(strip_tags($p['content']),70).'</a></p>';
+					$output .= '<p><a href="'.qw_post_link($p['parentid']).'#a'.$p['postid'].'">'. qw_truncate(strip_tags($p['content']),70).'</a></p>';
 
 				}else{
 
-					$output .= '<p><a href="'.cs_post_link($p['parentid']).'#c'.$p['postid'].'">'. cs_truncate(strip_tags($p['content']),70).'</a></p>';
+					$output .= '<p><a href="'.qw_post_link($p['parentid']).'#c'.$p['postid'].'">'. qw_truncate(strip_tags($p['content']),70).'</a></p>';
 
 				}
-				$output .= '<div class="meta"><a href="'.qa_path_html('user/'.$handle).'">'.cs_name($handle).'</a> '.$what;
+				$output .= '<div class="meta"><a href="'.qa_path_html('user/'.$handle).'">'.qw_name($handle).'</a> '.$what;
 				if ($post_type=='Q'){
 
 					$output .= ' <span class="vote-count">'.$p['netvotes'].' votes</span>';
@@ -220,16 +220,16 @@
 		{
 			$widget_opt = $themeobject->current_widget['param']['options'];
 
-			$count = (isset($widget_opt['cs_ticker_count']) && !empty($widget_opt['cs_ticker_count'])) ?(int)$widget_opt['cs_ticker_count'] : 10;
+			$count = (isset($widget_opt['qw_ticker_count']) && !empty($widget_opt['qw_ticker_count'])) ?(int)$widget_opt['qw_ticker_count'] : 10;
 			
-			$slug = @$widget_opt['cs_ticker_slug'];
+			$slug = @$widget_opt['qw_ticker_slug'];
 			
-			$type = (isset($widget_opt['cs_ticker_data'])) ? $widget_opt['cs_ticker_data'] : 'Keyword';
+			$type = (isset($widget_opt['qw_ticker_data'])) ? $widget_opt['qw_ticker_data'] : 'Keyword';
 			
 			$themeobject->output('<div class="ra-ticker-widget">');
 			
 			if(isset($slug))
-				$themeobject->output($this->cs_relative_post_list($count, $slug, $type, true));
+				$themeobject->output($this->qw_relative_post_list($count, $slug, $type, true));
 			else
 				$themeobject->output('<p>'.qa_lang('cleanstrap/tag_slug_empty').'</p>');
 			$themeobject->output('</div>');

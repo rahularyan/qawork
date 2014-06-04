@@ -4882,7 +4882,7 @@ a.open-login-button.twitter {
     background: rgba(0, 0, 0, 0);
     border: medium none;    
 }
-#header-right-position .cs_ask_form{
+#header-right-position .qw_ask_form{
 	margin-right: -20px;
 }
 #header-right-position .widget .widget-title{
@@ -6446,11 +6446,11 @@ div.oembedall-lanyard .first {
     border-bottom: 2px solid #EEEEEE;
     margin-bottom: 25px;
 }
-.widget.cs_user_posts {
+.widget.qw_user_posts {
     border: medium none;
     box-shadow: none;
 }
-.widget.cs_user_posts . h3{
+.widget.qw_user_posts . h3{
 	padding:0;
 }
 .user-right {
@@ -6990,7 +6990,7 @@ div.oembedall-lanyard .first {
     overflow: hidden;
     padding: 40px 0;
 }
-.cs_tags .block a, .cs-category-widget-list li a {
+.qw_tags .block a, .cs-category-widget-list li a {
     background: rgba(0, 0, 0, 0);
     border-color: rgba(0, 0, 0, 0) rgba(0, 0, 0, 0) #EEEEEE;
     border-image: none;

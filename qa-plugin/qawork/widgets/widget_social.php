@@ -1,7 +1,7 @@
 <?php
-	class cs_social_widget {
+	class qw_social_widget {
 
-		function cs_widget_form()
+		function qw_widget_form()
 		{
 			
 			return array(
@@ -66,7 +66,7 @@
 
 		function output_widget($region, $place, $themeobject, $template, $request, $qa_content)
 		{
-			if (! qa_opt('cs_social_enable')) 
+			if (! qa_opt('qw_social_enable')) 
 				return;
 				
 			$widget_opt = @$themeobject->current_widget['param']['options'];
@@ -77,7 +77,7 @@
 			$themeobject->output('<div class="ra-social-widget clearfix '.(!!$widget_opt['inline'] ? 'inline' : 'block').'">');
 			
 
-			$links = json_decode(qa_opt('cs_social_list'));
+			$links = json_decode(qa_opt('qw_social_list'));
 			
 			if(!empty($links)){
 				$themeobject->output('<ul>');

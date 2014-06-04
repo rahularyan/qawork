@@ -6,18 +6,18 @@ if (!defined('QA_VERSION')) { // don't allow this page to be requested directly 
 }
 
 function reset_all_notification_options() {
-      qa_opt('cs_notify_cat_followers', false);
-      qa_opt('cs_notify_tag_followers', false);
-      qa_opt('cs_notify_user_followers', false);
-      qa_opt('cs_notify_min_points_opt', false);
-      qa_opt('cs_notify_min_points_val', 0);
-      qa_opt('cs_all_notification_page_size', 15 );
-      qa_opt('cs_email_notf_enable', false);
+      qa_opt('qw_notify_cat_followers', false);
+      qa_opt('qw_notify_tag_followers', false);
+      qa_opt('qw_notify_user_followers', false);
+      qa_opt('qw_notify_min_points_opt', false);
+      qa_opt('qw_notify_min_points_val', 0);
+      qa_opt('qw_all_notification_page_size', 15 );
+      qa_opt('qw_email_notf_enable', false);
 }
 
 function reset_all_notification_points_options() {
-      qa_opt('cs_notify_min_points_opt', false);
-      qa_opt('cs_notify_min_points_val', 0);
+      qa_opt('qw_notify_min_points_opt', false);
+      qa_opt('qw_notify_min_points_val', 0);
 }
 
 function set_all_notification_options() {
@@ -25,16 +25,16 @@ function set_all_notification_options() {
       $error = array();
       //if plugin is enabled then atlest one option has to be enabled 
       if (options_selected()) {
-            qa_opt('cs_email_notf_debug_mode', !!qa_post_text('cs_email_notf_debug_mode_field'));
-            qa_opt('cs_notify_cat_followers', !!qa_post_text('cs_notify_cat_followers_field'));
-            qa_opt('cs_notify_tag_followers', !!qa_post_text('cs_notify_tag_followers_field'));
-            qa_opt('cs_notify_user_followers', !!qa_post_text('cs_notify_user_followers_field'));
-            $minimum_user_point_option = !!qa_post_text('cs_notify_min_points_opt_field');
+            qa_opt('qw_email_notf_debug_mode', !!qa_post_text('qw_email_notf_debug_mode_field'));
+            qa_opt('qw_notify_cat_followers', !!qa_post_text('qw_notify_cat_followers_field'));
+            qa_opt('qw_notify_tag_followers', !!qa_post_text('qw_notify_tag_followers_field'));
+            qa_opt('qw_notify_user_followers', !!qa_post_text('qw_notify_user_followers_field'));
+            $minimum_user_point_option = !!qa_post_text('qw_notify_min_points_opt_field');
             if ($minimum_user_point_option) { //if minimum point option is checked 
-                  $minimum_user_point_value = qa_post_text('cs_notify_min_points_val_field');
+                  $minimum_user_point_value = qa_post_text('qw_notify_min_points_val_field');
                   if (!!$minimum_user_point_value && is_numeric($minimum_user_point_value) && $minimum_user_point_value > 0) { //if the minimum point value is provided then only set else reset
-                        qa_opt('cs_notify_min_points_opt', $minimum_user_point_option);
-                        qa_opt('cs_notify_min_points_val', (int) $minimum_user_point_value);
+                        qa_opt('qw_notify_min_points_opt', $minimum_user_point_option);
+                        qa_opt('qw_notify_min_points_val', (int) $minimum_user_point_value);
                   } else if (!is_numeric($minimum_user_point_value) || $minimum_user_point_value <= 0) {
                         reset_all_notification_points_options();
                         //send a error message to UI 
@@ -49,26 +49,26 @@ function set_all_notification_options() {
             }
       } else {
             //if none of the elements are selected disable the plugin and send a error message UI 
-            qa_opt('cs_email_notf_enable', false);
+            qa_opt('qw_email_notf_enable', false);
             reset_all_notification_options();
             $error['no_options_selected'] = "Please choose atleast follower option to enable this plugin ";
       }
       // set the notifications page size 
-      $page_size = qa_post_text('cs_all_notification_page_size_field') ;
+      $page_size = qa_post_text('qw_all_notification_page_size_field') ;
       if (!$page_size || $page_size < 15 || $page_size > 200 ) {
            $page_size = 15 ; /*15 set to default */
       }
-      qa_opt('cs_all_notification_page_size' , $page_size ) ;
+      qa_opt('qw_all_notification_page_size' , $page_size ) ;
       return $error;
 }
 
 function options_selected() {
-      return ((!!qa_post_text('cs_notify_cat_followers_field')) ||
-              (!!qa_post_text('cs_notify_tag_followers_field')) ||
-              (!!qa_post_text('cs_notify_user_followers_field')) );
+      return ((!!qa_post_text('qw_notify_cat_followers_field')) ||
+              (!!qa_post_text('qw_notify_tag_followers_field')) ||
+              (!!qa_post_text('qw_notify_user_followers_field')) );
 }
 
-function cs_get_notification_count($userid = ""){
+function qw_get_notification_count($userid = ""){
       if (!$userid) {
             $userid = qa_get_logged_in_userid();
       }
@@ -78,7 +78,7 @@ function cs_get_notification_count($userid = ""){
                         $userid ) );
 }
 
-function cs_activitylist($limit)
+function qw_activitylist($limit)
 {
             $offset = (int)qa_get('start');
             
@@ -160,7 +160,7 @@ function cs_activitylist($limit)
                                     $url = qa_path_html(qa_q_request($event['postid'], $event['params']['title']), $url_param, qa_opt('site_url'),null,null);
                                                       
                                     echo '<div class="event-content clearfix'.$read.''.$read.'"'.$id.'>
-                                                <div class="avatar"><a href="'.$user_link.'">'.cs_get_avatar($handle, 32, true).'</a></div>
+                                                <div class="avatar"><a href="'.$user_link.'">'.qw_get_avatar($handle, 32, true).'</a></div>
                                                 <div class="event-right">
                                                       <a href="'.$url.'">
                                                             <div class="head">
@@ -181,10 +181,10 @@ function cs_activitylist($limit)
                                     $anchor = qa_anchor('A', $event['postid']);
                                     $url    = qa_path_html(qa_q_request($event['params']['qid'], $event['params']['qtitle']), $url_param, qa_opt('site_url'),null,$anchor);
                                     
-                                    $title  = cs_truncate($event['params']['qtitle'], 60);
+                                    $title  = qw_truncate($event['params']['qtitle'], 60);
                                     
                                     echo '<div class="event-content clearfix'.$read.'"'.$id.'>
-                                                <div class="avatar"><a href="'.$user_link.'">'.cs_get_avatar($handle, 32, true).'</a></div>
+                                                <div class="avatar"><a href="'.$user_link.'">'.qw_get_avatar($handle, 32, true).'</a></div>
                                                 <div class="event-right">
                                                       <a href="'.$url.'">
                                                             <div class="head">
@@ -219,7 +219,7 @@ function cs_activitylist($limit)
                                           $what = qa_lang_html('cleanstrap/replied_to_your');
                                     
                                     echo '<div class="event-content clearfix'.$read.'"'.$id.'>
-                                                <div class="avatar"><a href="'.$user_link.'">'.cs_get_avatar($handle, 32, true).'</a></div>
+                                                <div class="avatar"><a href="'.$user_link.'">'.qw_get_avatar($handle, 32, true).'</a></div>
                                                 <div class="event-right">
                                                       <a href="'.$url.'">
                                                             <div class="head">
@@ -302,7 +302,7 @@ function cs_activitylist($limit)
                                     $anchor = qa_anchor('A', $event['postid']);
                                     $url = qa_path_html(qa_q_request($event['params']['qid'], $event['params']['qtitle']), $url_param, qa_opt('site_url'),null,$anchor);
                                     echo '<div class="event-content clearfix'.$read.'"'.$id.'>
-                                                <div class="avatar"><a href="'.$user_link.'">'.cs_get_avatar($handle, 32, true).'</a></div>
+                                                <div class="avatar"><a href="'.$user_link.'">'.qw_get_avatar($handle, 32, true).'</a></div>
                                                 <div class="event-right">
                                                       <a href="'.$url.'">
                                                             <div class="head">
@@ -323,9 +323,9 @@ function cs_activitylist($limit)
                                     
                                     $url = qa_path_html(qa_q_request($event['params']['qid'], $event['params']['qtitle']), $url_param, qa_opt('site_url'),null);
                                     
-                                    $title = cs_truncate($event['params']['qtitle'], 60);
+                                    $title = qw_truncate($event['params']['qtitle'], 60);
                                     echo '<div class="event-content clearfix'.$read.'"'.$id.'>
-                                                <div class="avatar"><a href="'.$user_link.'">'.cs_get_avatar($handle, 32, true).'</a></div>
+                                                <div class="avatar"><a href="'.$user_link.'">'.qw_get_avatar($handle, 32, true).'</a></div>
                                                 <div class="event-right">
                                                       <a href="'.$url.'">
                                                             <div class="head">
@@ -348,7 +348,7 @@ function cs_activitylist($limit)
                                     $url = qa_path_html(qa_q_request($event['params']['qid'], $event['params']['qtitle']), $url_param, qa_opt('site_url'),null,$anchor);
                               
                                     echo '<div class="event-content clearfix'.$read.'"'.$id.'>
-                                                <div class="avatar"><a href="'.$user_link.'">'.cs_get_avatar($handle, 32, true).'</a></div>
+                                                <div class="avatar"><a href="'.$user_link.'">'.qw_get_avatar($handle, 32, true).'</a></div>
                                                 <div class="event-right">
                                                       <a href="'.$url.'">
                                                             <div class="head">
@@ -410,7 +410,7 @@ function cs_activitylist($limit)
                                     break;
                               case 'u_favorite': 
                                     echo '<div class="event-content clearfix'.$read.'"'.$id.'>
-                                                <div class="avatar"><a href="'.$user_link.'">'.cs_get_avatar($handle, 32, true).'</a></div>
+                                                <div class="avatar"><a href="'.$user_link.'">'.qw_get_avatar($handle, 32, true).'</a></div>
                                                 <div class="event-right">
                                                       <a href="'.$user_link.'">
                                                             <div class="head">
@@ -429,7 +429,7 @@ function cs_activitylist($limit)
                               
                               case 'q_favorite': 
                                     echo '<div class="event-content clearfix'.$read.'"'.$id.'>
-                                                <div class="avatar"><a href="'.$user_link.'">'.cs_get_avatar($handle, 32, true).'</a></div>
+                                                <div class="avatar"><a href="'.$user_link.'">'.qw_get_avatar($handle, 32, true).'</a></div>
                                                 <div class="event-right">
                                                       <a href="'.$user_link.'">
                                                             <div class="head">
@@ -556,7 +556,7 @@ function cs_activitylist($limit)
                                     } 
 
                                     if ($approved_only === false ) {
-                                          $new_designation = cs_get_user_desg($new_level);
+                                          $new_designation = qw_get_user_desg($new_level);
                                     }
 
                                     $content = strtr(qa_lang($approved_only ? 'notification/u_level_approved_notf' : 'notification/u_level_improved_notf'), array(

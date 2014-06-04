@@ -24,13 +24,13 @@
 	require_once QA_INCLUDE_DIR.'qa-db-selects.php';
 
 	// load all addons ajax query
-	cs_load_addons_ajax();
+	qw_load_addons_ajax();
 	
 	
 
 if(isset($_REQUEST['action'])){
-	$action = 'cs_ajax_'.$_REQUEST['action'];
-		cs_do_action($action, array());
+	$action = 'qw_ajax_'.$_REQUEST['action'];
+		qw_do_action($action, array());
 }	
 
 

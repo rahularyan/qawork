@@ -1,16 +1,16 @@
 <?php
-	class cs_activity_widget {
+	class qw_activity_widget {
 
-		function cs_widget_form()
+		function qw_widget_form()
 		{
 			
 			return array(
 				'style' => 'wide',
 				'fields' => array(
-					'cs_sa_count' => array(
+					'qw_sa_count' => array(
 						'label' => 'Numbers of Questions',
 						'type' => 'number',
-						'tags' => 'name="cs_sa_count" class="form-control"',
+						'tags' => 'name="qw_sa_count" class="form-control"',
 						'value' => '10',
 					),
 				),
@@ -64,7 +64,7 @@
 			return $allow;
 		}
 	
-		function cs_events($limit =10, $events_type = false){
+		function qw_events($limit =10, $events_type = false){
 			if(!$events_type)
 				$events_type = array('q_post', 'a_post', 'c_post', 'a_select', 'badge_awarded');
 			
@@ -75,7 +75,7 @@
 			if(empty($events))return;
 			$postids = array();
 			foreach($events as $post){
-				$params = cs_event_log_row_parser($post['params']);
+				$params = qw_event_log_row_parser($post['params']);
 				
 				if(isset($params['postid']))
 					$postids[] = $params['postid'];
@@ -105,7 +105,7 @@
 							$timeCode      = qa_when_to_html( $p['unix_time'] , 7);
 							// $time          = @$timeCode['prefix'] . @$timeCode['data'] . @$timeCode['suffix'];
 							$user_handles .= ((!$user_handles) ? "" : ", " ).'<p class="title inline"><strong class="avatar" data-handle="'.$p['handle'].'" data-id="'. $p['userid'].'">'.@$usernameLink.'</strong>';
-							$profile_pics .= '<div class="avatar" data-handle="'.$p['handle'].'" data-id="'. $p['userid'].'">'.cs_get_post_avatar($p, 20, false).'</div>';
+							$profile_pics .= '<div class="avatar" data-handle="'.$p['handle'].'" data-id="'. $p['userid'].'">'.qw_get_post_avatar($p, 20, false).'</div>';
 							unset($events[$count]) ;
 							$new_registered_users++ ;
 							
@@ -141,7 +141,7 @@
 					$event_icon = '';
 					$title = '';
 					
-					$params = cs_event_log_row_parser($p['params']);
+					$params = qw_event_log_row_parser($p['params']);
 					
 					if (!isset($posts[$params['postid']]))  {
 						// some times the posts get deleted , then it should not show an error 
@@ -212,17 +212,17 @@
 					
 					$o .= '<div class="activity-detail">';
 					
-					$o .= '<div class="avatar" data-handle="'.$p['handle'].'" data-id="'. $p['userid'].'">'.cs_get_post_avatar($p, 20, false).'</div>';
+					$o .= '<div class="avatar" data-handle="'.$p['handle'].'" data-id="'. $p['userid'].'">'.qw_get_post_avatar($p, 20, false).'</div>';
 
 					if($p['event'] == 'q_post' || $p['event'] == 'a_post' || $p['event'] == 'c_post'|| $p['event'] == 'q_edit' || $p['event'] == 'a_edit' || $p['event'] == 'c_edit'){
 						$main_post = $posts[$params['postid']];
 						
 						if ($p['event'] == 'q_post' || $p['event'] == 'q_edit') {
-							$o .= '<a class="activity-title" href="' . qa_q_path_html($main_post['postid'], $main_post['title']) . '" title="' . $main_post['title'] . '">' . cs_truncate($main_post['title'],100) . '</a>';
+							$o .= '<a class="activity-title" href="' . qa_q_path_html($main_post['postid'], $main_post['title']) . '" title="' . $main_post['title'] . '">' . qw_truncate($main_post['title'],100) . '</a>';
 						} elseif ($p['event'] == 'a_post' || $p['event'] == 'a_edit') {
-							$o .= '<a class="activity-title" href="' . qa_q_path($main_post['parentid'], $main_post['title'], false, 'C', $main_post['postid']). '">' . cs_truncate(strip_tags($main_post['content']),100) . '</a>';
+							$o .= '<a class="activity-title" href="' . qa_q_path($main_post['parentid'], $main_post['title'], false, 'C', $main_post['postid']). '">' . qw_truncate(strip_tags($main_post['content']),100) . '</a>';
 						} elseif($p['event'] == 'c_post' || $p['event'] == 'c_edit') {
-							$o .= '<a class="activity-title" href="' . qa_q_path($main_post['parentid'], $main_post['title'], false, 'C', $main_post['postid']) . '">' . cs_truncate(strip_tags($main_post['content']),100) . '</a>';
+							$o .= '<a class="activity-title" href="' . qa_q_path($main_post['parentid'], $main_post['title'], false, 'C', $main_post['postid']) . '">' . qw_truncate(strip_tags($main_post['content']),100) . '</a>';
 						}
 					}else{
 					
@@ -253,7 +253,7 @@
 				$themeobject->output('<h3 class="widget-title">Site Activity</h3>');
 				
 			$themeobject->output('<div class="ra-sa-widget">');
-			$themeobject->output($this->cs_events((int)$widget_opt['cs_sa_count']));
+			$themeobject->output($this->qw_events((int)$widget_opt['qw_sa_count']));
 			$themeobject->output('</div>');
 		}
 	

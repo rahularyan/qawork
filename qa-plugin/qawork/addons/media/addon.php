@@ -12,33 +12,33 @@ if (!defined('QA_VERSION')) {
 		exit;
 }
 
-function cs_upload_dir(){
+function qw_upload_dir(){
 	return defined(QA_BLOBS_DIRECTORY) ? QA_BLOBS_DIRECTORY : QA_BASE_DIR.'images';
 }
-function cs_upload_url(){
+function qw_upload_url(){
 	return qa_opt('site_url').'images';
 }
 
-function cs_image_size(){
-	return cs_apply_filter('image_size', array());
+function qw_image_size(){
+	return qw_apply_filter('image_size', array());
 }
 
-function cs_upload_file($field, $postid){
+function qw_upload_file($field, $postid){
 
 	if (isset($_FILES[$field]) && !empty($_FILES[$field])) {
 		
 		if($_FILES[$field]['type'] == 'image/jpeg' || $_FILES[$field]['type'] == 'image/jpg' || $_FILES[$field]['type'] == 'image/png' || $_FILES[$field]['type'] == 'image/gif'){
 			
-			return cs_upload_image($_FILES[$field], $postid);
+			return qw_upload_image($_FILES[$field], $postid);
 			
 		}else{
-			require_once CS_CONTROL_DIR.'/inc/class_upload.php';
+			require_once QW_CONTROL_DIR.'/inc/class_upload.php';
 			
-			$upload = Upload::factory( cs_upload_dir() );
+			$upload = Upload::factory( qw_upload_dir() );
 			$upload->file($_FILES[$field]);
 
 			//set max. file size (in mb)
-			$upload->set_max_file_size((int)qa_opt('cs_max_image_file'));
+			$upload->set_max_file_size((int)qa_opt('qw_max_image_file'));
 
 			//set allowed mime types
 			$upload->set_allowed_mime_types(array('application/pdf', 'application/zip'));
@@ -46,8 +46,8 @@ function cs_upload_file($field, $postid){
 			
 			if($results['status']){
 				$results['name'] = pathinfo( $results['filename'], PATHINFO_FILENAME);
-				$id = cs_insert_media($results['name'], $results['ext'], $postid );
-				$results['url'] = cs_upload_url();
+				$id = qw_insert_media($results['name'], $results['ext'], $postid );
+				$results['url'] = qw_upload_url();
 				$results['id'] = $id;
 			}
 			return $results;
@@ -55,7 +55,7 @@ function cs_upload_file($field, $postid){
 	}
 }
 
-function cs_file_name($file){
+function qw_file_name($file){
 	$ext = pathinfo( $file, PATHINFO_EXTENSION);
 	$md5 = md5(time().uniqid());
 	return array(
@@ -65,24 +65,24 @@ function cs_file_name($file){
 	);
 }
 
-function cs_upload_image($file, $postid = 0){
-	include_once(CS_CONTROL_DIR.'/inc/class_images.php');
+function qw_upload_image($file, $postid = 0){
+	include_once(QW_CONTROL_DIR.'/inc/class_images.php');
 
-	$uploaddir = cs_upload_dir();
-	$name = cs_file_name($file['name']);
+	$uploaddir = qw_upload_dir();
+	$name = qw_file_name($file['name']);
 	$temp_name = 'temp_image'.$name['ext'];
 	move_uploaded_file($file['tmp_name'], $uploaddir.$temp_name);
 	
 	// get cropping position
-	$crop_x = qa_opt('cs_crop_x');
-	$crop_y = qa_opt('cs_crop_y');
+	$crop_x = qa_opt('qw_crop_x');
+	$crop_y = qa_opt('qw_crop_y');
 	
 	/// save original image first, and then assign id of original to other size
 	$image = new Image($uploaddir.$temp_name);
 	$image->save($name['name'], $uploaddir);	
-	cs_add_action('after_uploading_original_image', $image);
+	qw_add_action('after_uploading_original_image', $image);
 	
-	$sizes = cs_image_size();
+	$sizes = qw_image_size();
 
 	if(isset($sizes)){
 
@@ -97,33 +97,33 @@ function cs_upload_image($file, $postid = 0){
 			$file_name = $name['name'].'_'.$s[0].'x'. $s[1];
 			$image->save($file_name, $uploaddir);
 			$name[$k] = $file_name;
-			cs_add_action('after_creating_thumb', $image);
+			qw_add_action('after_creating_thumb', $image);
 		}
 
 	}
 	
 	// insert to DB
-	$name['id'] = cs_insert_media($name['name'], $name['ext'], $postid );
-	$name['url'] = cs_upload_url();
+	$name['id'] = qw_insert_media($name['name'], $name['ext'], $postid );
+	$name['url'] = qw_upload_url();
 	$name['status'] = 'true';
 	unlink ($uploaddir.$temp_name); 
 	
 	return $name;
 }
 
-function cs_upload_cover($file){
+function qw_upload_cover($file){
 	$file = $_FILES[$file];
-	include_once(CS_CONTROL_DIR.'/inc/class_images.php');
+	include_once(QW_CONTROL_DIR.'/inc/class_images.php');
 	require_once QA_INCLUDE_DIR.'qa-db-users.php';
 	
-	$uploaddir = cs_upload_dir();
-	$name = cs_file_name($file['name']);
+	$uploaddir = qw_upload_dir();
+	$name = qw_file_name($file['name']);
 	$temp_name = 'temp_image'.$name['ext'];
 	move_uploaded_file($file['tmp_name'], $uploaddir.$temp_name);
 	
 	// get cropping position
-	$crop_x = qa_opt('cs_crop_x');
-	$crop_y = qa_opt('cs_crop_y');
+	$crop_x = qa_opt('qw_crop_x');
+	$crop_y = qa_opt('qw_crop_y');
 	
 	/// save original image first, and then assign id of original to other size
 	$image = new Image($uploaddir.$temp_name);
@@ -134,16 +134,16 @@ function cs_upload_cover($file){
 	$image->resize(300, 80, 'crop');
 	$image->save($name['name'].'_s', $uploaddir);	
 	
-	cs_add_action('after_uploading_cover', $image);
+	qw_add_action('after_uploading_cover', $image);
 	
 	// insert to DB
-	$name['id'] = cs_insert_media($name['name'], $name['ext'], 0 );
-	$name['url'] = cs_upload_url();
+	$name['id'] = qw_insert_media($name['name'], $name['ext'], 0 );
+	$name['url'] = qw_upload_url();
 	$name['status'] = 'true';
 	$name['action'] = 'cover';
 	unlink ($uploaddir.$temp_name); 
 	
-	$prev_file = cs_user_profile(qa_get_logged_in_handle(), 'cover');
+	$prev_file = qw_user_profile(qa_get_logged_in_handle(), 'cover');
 
 	if (!empty($prev_file)){	
 		$delete = $uploaddir.'/'.$prev_file;
@@ -160,7 +160,7 @@ function cs_upload_cover($file){
 }
 
 
-function cs_insert_media($file_name, $type, $postid, $parent =0){
+function qw_insert_media($file_name, $type, $postid, $parent =0){
 	$userid = qa_get_logged_in_userid();
 	qa_db_query_sub(
 		'INSERT ^ra_media (type, name, userid, parent, parent_post) VALUES ($, $, #, #, #)',
@@ -169,7 +169,7 @@ function cs_insert_media($file_name, $type, $postid, $parent =0){
 	return qa_db_last_insert_id();
 }
 
-function cs_update_media($id, $title, $description){
+function qw_update_media($id, $title, $description){
 	$userid = qa_get_logged_in_userid();
 	qa_db_query_sub(
 		'UPDATE ^ra_media SET title = $, description = $ WHERE id=$',
@@ -179,9 +179,9 @@ function cs_update_media($id, $title, $description){
 }
 
 /* for deleting media by id */
-function cs_delete_media_by_id($id){
+function qw_delete_media_by_id($id){
 	// first delete all media files
-	cs_delete_media_files_by_id($id);
+	qw_delete_media_files_by_id($id);
 	
 	qa_db_query_sub(
 		'DELETE FROM ^ra_media WHERE id= #',
@@ -190,7 +190,7 @@ function cs_delete_media_by_id($id){
 	
 }
 
-function cs_get_post_media($postid){
+function qw_get_post_media($postid){
 	$userid = qa_get_logged_in_userid();
 	$media = qa_db_read_all_assoc(qa_db_query_sub(
 		'SELECT * FROM ^ra_media WHERE parent_post = #',
@@ -199,7 +199,7 @@ function cs_get_post_media($postid){
 
 	return $media;
 }
-function cs_get_media_by_id($id){
+function qw_get_media_by_id($id){
 	$media = qa_db_read_one_assoc(qa_db_query_sub(
 		'SELECT * FROM ^ra_media WHERE id = #',
 		$id
@@ -208,11 +208,11 @@ function cs_get_media_by_id($id){
 	return $media;
 }
 
-function cs_delete_media_files_by_id($id){
-	$m = cs_get_media_by_id($id);
+function qw_delete_media_files_by_id($id){
+	$m = qw_get_media_by_id($id);
 	
 	if(count($m) > 0){
-		$dir = cs_upload_dir();
+		$dir = qw_upload_dir();
 		
 		if($m['type'] == 'jpg' || $m['type'] == 'jpeg' || $m['type'] == 'png' || $m['type'] == 'gif'){
 			// delete main image
@@ -220,7 +220,7 @@ function cs_delete_media_files_by_id($id){
 			if(file_exists($original))			
 				unlink($original);
 				
-			$sizes = cs_image_size();
+			$sizes = qw_image_size();
 			if(isset($sizes)){
 				foreach($sizes as $s){
 					$file = $dir.'/'.$m['name'].'_'.$s[0].'x'.$s[1].'.'.$m['type'];
@@ -228,24 +228,24 @@ function cs_delete_media_files_by_id($id){
 						unlink($file);
 				}
 			}
-			cs_add_action('after_deleting_media_images', $m);
+			qw_add_action('after_deleting_media_images', $m);
 		}else{
 			unlink($dir.'/'.$m['name'].'.'.$m['type']);
-			cs_add_action('after_deleting_media_files', $m);
+			qw_add_action('after_deleting_media_files', $m);
 		}
 
 	}
 }
 
-function cs_post_medias($postid, $size = 'thumb'){
-	$medias = cs_get_post_media($postid);
+function qw_post_medias($postid, $size = 'thumb'){
+	$medias = qw_get_post_media($postid);
 	
 	if(count($medias) > 0){
-		$dir = cs_upload_url();
+		$dir = qw_upload_url();
 		$output = '<ul class="post-attachments clearfix">';
 		foreach ($medias as $m){
 			if($m['type'] == 'jpg' || $m['type'] == 'jpeg' || $m['type'] == 'png' || $m['type'] == 'gif'){
-					$output .= '<li class="attachments load-media-preview" data-id="'.$m['id'].'" data-toggle="modal" data-target="#show_file_preview"><img src="'.cs_media_filename($m, $size).'" /></li>';
+					$output .= '<li class="attachments load-media-preview" data-id="'.$m['id'].'" data-toggle="modal" data-target="#show_file_preview"><img src="'.qw_media_filename($m, $size).'" /></li>';
 			}else{
 				$output .= '<li class="attachments load-media-preview" data-id="'.$m['id'].'" data-toggle="modal" data-target="#show_file_preview"><i class="file-icon icon-'.$m['type'].'"></i></li>';
 			}
@@ -255,47 +255,47 @@ function cs_post_medias($postid, $size = 'thumb'){
 	}	
 }
 
-function cs_media_filename($m, $size = false){
-	$url = cs_upload_url();
+function qw_media_filename($m, $size = false){
+	$url = qw_upload_url();
 	if(isset($m['name']) && isset($m['type']))
-		return $url.'/'.$m['name'] .($size ? '_'.cs_get_image_size_string($size) : '').'.'. $m['type'];
+		return $url.'/'.$m['name'] .($size ? '_'.qw_get_image_size_string($size) : '').'.'. $m['type'];
 	
 	return false;
 }
 
 
-function cs_get_image_size_string($size){
-	$sizes = cs_image_size();
+function qw_get_image_size_string($size){
+	$sizes = qw_image_size();
 	if(isset($sizes[$size]))
 		return $sizes[$size][0].'x'.$sizes[$size][1];
 	return false;
 }
-class CS_Media_Addon{
+class QW_Media_Addon{
 	function __construct(){
-		cs_add_filter('init_queries', array($this, 'init_queries'));
+		qw_add_filter('init_queries', array($this, 'init_queries'));
 		
-		cs_event_hook('register_language', NULL, array($this, 'language'));
+		qw_event_hook('register_language', NULL, array($this, 'language'));
 		
 		// hook buttons into head_script
-		cs_add_filter('enqueue_scripts', array($this, 'head_script'));
+		qw_add_filter('enqueue_scripts', array($this, 'head_script'));
 		
 		// hook buttons into head_css
-		cs_add_filter('enqueue_css', array($this, 'head_css'));
+		qw_add_filter('enqueue_css', array($this, 'head_css'));
 		
 		// hook buttons in theme layer
-		cs_add_action('doctype', array($this, 'ra_post_buttons'));
-		cs_event_hook('cs_ajax_load_upload_modal', NULL, array($this, 'upload_modal'));
-		cs_event_hook('cs_ajax_upload_file', NULL, array($this, 'upload_file'));
-		cs_event_hook('cs_ajax_load_media_item_edit', NULL, array($this, 'load_media_item_edit'));
-		cs_event_hook('cs_ajax_edit_media_item', NULL, array($this, 'edit_media_item'));
-		cs_event_hook('cs_ajax_load_media_item', NULL, array($this, 'load_media_item'));
+		qw_add_action('doctype', array($this, 'ra_post_buttons'));
+		qw_event_hook('qw_ajax_load_upload_modal', NULL, array($this, 'upload_modal'));
+		qw_event_hook('qw_ajax_upload_file', NULL, array($this, 'upload_file'));
+		qw_event_hook('qw_ajax_load_media_item_edit', NULL, array($this, 'load_media_item_edit'));
+		qw_event_hook('qw_ajax_edit_media_item', NULL, array($this, 'edit_media_item'));
+		qw_event_hook('qw_ajax_load_media_item', NULL, array($this, 'load_media_item'));
 		
-		cs_add_filter('image_size', array($this, 'image_size'));
+		qw_add_filter('image_size', array($this, 'image_size'));
 
-		cs_add_action('footer_bottom', array($this, 'add_preview_modal'));
+		qw_add_action('footer_bottom', array($this, 'add_preview_modal'));
 		
-		cs_add_action('cs_theme_option_tab', array($this, 'cs_theme_option_tab'));
-		cs_add_action('cs_theme_option_tab_content', array($this, 'cs_theme_option_tab_content'));
+		qw_add_action('qw_theme_option_tab', array($this, 'qw_theme_option_tab'));
+		qw_add_action('qw_theme_option_tab_content', array($this, 'qw_theme_option_tab_content'));
 		
 	}
 	public function init_queries($queries, $tableslc){
@@ -321,7 +321,7 @@ class CS_Media_Addon{
 		return $queries;
 	}	
 	public function language($lang_arr){
-		$lang_arr['cs_media'] = CS_CONTROL_DIR .'/addons/media/language-*.php';
+		$lang_arr['qw_media'] = QW_CONTROL_DIR .'/addons/media/language-*.php';
 		return $lang_arr;
 	}
 
@@ -330,12 +330,12 @@ class CS_Media_Addon{
 			$postid = $content['q_view']['raw']['postid'];
 
 			if (isset($content['form_q_edit']) && (qa_get_logged_in_level() >= QA_USER_LEVEL_ADMIN)){
-				$cs_media=array(
-					'label' => '<button type="button" class="icon-image btn btn-default open-media-modal" data-args="'.$postid.'">'.qa_lang_html('cs_media/media').'</button>',
+				$qw_media=array(
+					'label' => '<button type="button" class="icon-image btn btn-default open-media-modal" data-args="'.$postid.'">'.qa_lang_html('qw_media/media').'</button>',
 					'type' => 'custom',
 				);
 				
-				$content['form_q_edit']['fields'] = cs_array_insert_before('content', $content['form_q_edit']['fields'], 'cs_media', $cs_media );
+				$content['form_q_edit']['fields'] = qw_array_insert_before('content', $content['form_q_edit']['fields'], 'qw_media', $qw_media );
 			
 				return $content;
 				
@@ -353,19 +353,19 @@ class CS_Media_Addon{
 			<div class="modal-content">
 			  <div class="modal-header">
 				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-				<h4 class="modal-title" id="myModalLabel"><?php echo qa_lang_html('cs_media/add_media'); ?></h4>
+				<h4 class="modal-title" id="myModalLabel"><?php echo qa_lang_html('qw_media/add_media'); ?></h4>
 			  </div>
 			  <div class="modal-body">
 				<div class="row">
 					<div class="col-sm-7 edit-files-list">
 						<ul class="editable-media">
 							<?php 
-								$medias = cs_get_post_media($postid);
+								$medias = qw_get_post_media($postid);
 		
 								if(count($medias) > 0){
 									foreach ($medias as $m){
 										if($m['type'] == 'jpg' || $m['type'] == 'jpeg' || $m['type'] == 'png' || $m['type'] == 'gif'){
-											echo '<li class="attachments" data-id="'.$m['id'].'"><img src="'.cs_media_filename($m, 'thumb').'" /></li>';
+											echo '<li class="attachments" data-id="'.$m['id'].'"><img src="'.qw_media_filename($m, 'thumb').'" /></li>';
 										}else{
 											echo '<li class="attachments" data-id="'.$m['id'].'" data-code="'.qa_get_form_security_code('media_'.$m['id']).'"><i class="file-icon icon-'.$m['type'].'"></i></li>';
 										}
@@ -377,8 +377,8 @@ class CS_Media_Addon{
 					<div class="col-sm-5">
 						<!-- Nav tabs -->
 						<ul class="nav nav-tabs media-action-tab">
-						  <li class="active"><a href="#upload-tab" data-toggle="tab"><?php echo qa_lang_html('cs_media/upload'); ?></a></li>
-						  <li><a href="#editmedia-tab" data-toggle="tab"><?php echo qa_lang_html('cs_media/edit'); ?></a></li>
+						  <li class="active"><a href="#upload-tab" data-toggle="tab"><?php echo qa_lang_html('qw_media/upload'); ?></a></li>
+						  <li><a href="#editmedia-tab" data-toggle="tab"><?php echo qa_lang_html('qw_media/edit'); ?></a></li>
 						</ul>
 
 						<!-- Tab panes -->
@@ -386,18 +386,18 @@ class CS_Media_Addon{
 						  <div class="tab-pane active" id="upload-tab">
 								<form id="file-upload" method="POST" enctype="multipart/form-data">
 									<div class="file-input-wrapper">
-										<button class="btn-file-input btn"><?php echo qa_lang_html('cs_media/select_a_file'); ?></button>
+										<button class="btn-file-input btn"><?php echo qa_lang_html('qw_media/select_a_file'); ?></button>
 										<input id="file-upload-input" name="post_media" type="file" />
 									</div>
 									<div id="file-preview" class="clearfix"></div>
-									<button type="submit" class="btn btn-success"><?php echo qa_lang_html('cs_media/upload'); ?></button>
+									<button type="submit" class="btn btn-success"><?php echo qa_lang_html('qw_media/upload'); ?></button>
 									<input type="hidden" name="action" value="upload_file">
 									<input type="hidden" name="postid" value="<?php echo $postid; ?>">
 									<input type="hidden" name="code" value="<?php echo qa_get_form_security_code('media_'.$postid ); ?>">
 								</form>	
 						  </div>
 						  <div class="tab-pane" id="editmedia-tab">
-							<p><?php echo qa_lang_html('cs_media/select_a_file_to_edit'); ?></p>
+							<p><?php echo qa_lang_html('qw_media/select_a_file_to_edit'); ?></p>
 						  </div>
 						</div>
 					</div>				
@@ -415,26 +415,26 @@ class CS_Media_Addon{
 	public function load_media_item_edit(){
 		if (qa_get_logged_in_level() >= QA_USER_LEVEL_ADMIN){
 		$id = (int)qa_post_text('args');
-		$media = cs_get_media_by_id($id);
+		$media = qw_get_media_by_id($id);
 
 		ob_start();
 		?>
 			<form class="media-item-form" method="POST">
 				<?php 
 					if($media['type'] == 'jpg' || $media['type'] == 'jpeg' || $media['type'] == 'png' || $media['type'] == 'gif'){
-						$media['url'] = cs_media_filename($media, 'large');
+						$media['url'] = qw_media_filename($media, 'large');
 						echo '<img class="file-preview" src ="'.$media['url'].'" />';
 					}else{
-						$media['url'] = cs_media_filename($media);
+						$media['url'] = qw_media_filename($media);
 						echo '<i class="file-preview file-icon icon-'.$media['type'].'"></i>';
 					}
 				
 				?>
 				
-				<input class="form-control" type="text" value="<?php echo cs_upload_url().'/'.$media['name'].'.'.$media['type']; ?>" name="url">
+				<input class="form-control" type="text" value="<?php echo qw_upload_url().'/'.$media['name'].'.'.$media['type']; ?>" name="url">
 				
-				<input class="form-control" type="text" name="title" placeholder="<?php echo qa_lang_html('cs_media/title'); ?>" value="<?php echo isset($media['title']) ? $media['title'] : ''; ?>">
-				<textarea class="form-control" name="description" placeholder="<?php echo qa_lang_html('cs_media/description'); ?>"><?php echo isset($media['description']) ? $media['description'] : ''; ?></textarea>
+				<input class="form-control" type="text" name="title" placeholder="<?php echo qa_lang_html('qw_media/title'); ?>" value="<?php echo isset($media['title']) ? $media['title'] : ''; ?>">
+				<textarea class="form-control" name="description" placeholder="<?php echo qa_lang_html('qw_media/description'); ?>"><?php echo isset($media['description']) ? $media['description'] : ''; ?></textarea>
 
 				<input type="submit" class="btn btn-success" name="do" value="save">
 				<input type="submit" class="btn" name="do" value="delete">
@@ -457,14 +457,14 @@ class CS_Media_Addon{
 		$id = qa_post_text('id');
 		if (qa_get_logged_in_level() >= QA_USER_LEVEL_ADMIN && qa_check_form_security_code('media_edit_'.$id, qa_post_text('code'))){
 			if(qa_post_text('do') == 'delete'){
-				cs_delete_media_by_id($id);
+				qw_delete_media_by_id($id);
 				echo json_encode(array('delete' , '<div class="alert alert-success alert-dismissable">
 				  <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
 				  '.qa_lang_html('cleanstrap/media_successfully_deleted').'
 				</div>'));
 
 			}elseif(qa_post_text('do') == 'save'){
-				cs_update_media($id, qa_post_text('title'), qa_post_text('description'));
+				qw_update_media($id, qa_post_text('title'), qa_post_text('description'));
 				
 				echo json_encode(array('save' , '<div class="alert alert-success alert-dismissable">
 				  <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
@@ -476,13 +476,13 @@ class CS_Media_Addon{
 	}
 	
 	public function head_script($script_src){		
-		$script_src['media_script'] = CS_CONTROL_URL . '/addons/media/script.js';
+		$script_src['media_script'] = QW_CONTROL_URL . '/addons/media/script.js';
 		return $script_src;
 		
 	}
 	
 	public function head_css($css_src){
-		$css_src['cs_media_css'] = CS_CONTROL_URL . '/addons/media/styles.css';
+		$css_src['qw_media_css'] = QW_CONTROL_URL . '/addons/media/styles.css';
 		return $css_src;
 	}
 	
@@ -492,10 +492,10 @@ class CS_Media_Addon{
 		
 		if($type == 'cover' && qa_check_form_security_code('upload_cover', qa_post_text('code'))){
 		
-			echo json_encode(cs_upload_cover('cover'));
+			echo json_encode(qw_upload_cover('cover'));
 		
 		}elseif(qa_get_logged_in_level() >= QA_USER_LEVEL_ADMIN && qa_check_form_security_code('media_'.$postid, qa_post_text('code'))){
-			echo json_encode(cs_upload_file('post_media', $postid));
+			echo json_encode(qw_upload_file('post_media', $postid));
 		}else{
 			echo '0';
 		}
@@ -529,15 +529,15 @@ class CS_Media_Addon{
 	public function load_media_item(){
 		$id = (int)qa_post_text('args');
 		
-		$media = cs_get_media_by_id($id);
+		$media = qw_get_media_by_id($id);
 		
 		echo '<div class="media-popup">';
 		
 		if($media['type'] == 'jpeg' || $media['type'] == 'jpg' || $media['type'] == 'png' || $media['type'] == 'gif')
-			echo '<img class="file-preview" src="'.cs_media_filename($media).'" />';
+			echo '<img class="file-preview" src="'.qw_media_filename($media).'" />';
 		else{
 			echo '<i class="file-preview icon-'.$media['type'].'" ></i>';
-			echo '<a href="'.cs_media_filename($media).'" class="btn">Download</a>';
+			echo '<a href="'.qw_media_filename($media).'" class="btn">Download</a>';
 		}
 		
 		if(!empty($media['title']))
@@ -551,7 +551,7 @@ class CS_Media_Addon{
 		die();
 	}
 	
-	public function cs_theme_option_tab(){
+	public function qw_theme_option_tab(){
 		?>
 			<li>
 				<a href="#" data-toggle=".qa-part-form-tc-media">Media</a>
@@ -559,7 +559,7 @@ class CS_Media_Addon{
 		<?php
 	}
 	
-	public function cs_theme_option_tab_content(){
+	public function qw_theme_option_tab_content(){
 		?>
 		<div class="qa-part-form-tc-media">
 			<h3>Media manager options</h3>
@@ -570,7 +570,7 @@ class CS_Media_Addon{
 							Max size of image (MB)
 						</th>
 						<td class="qa-form-tall-label">
-							<input type="input" name="cs_max_image_size" id="cs_max_image_size" value="1" class="form-control">
+							<input type="input" name="qw_max_image_size" id="qw_max_image_size" value="1" class="form-control">
 						</td>
 					</tr>
 					<tr>
@@ -578,7 +578,7 @@ class CS_Media_Addon{
 							Max size of file (MB)
 						</th>
 						<td class="qa-form-tall-label">
-							<input type="input" name="cs_max_image_file" id="cs_max_image_file" value="5" class="form-control">
+							<input type="input" name="qw_max_image_file" id="qw_max_image_file" value="5" class="form-control">
 						</td>
 					</tr>
 				</tbody>
@@ -589,10 +589,10 @@ class CS_Media_Addon{
 						<span class="description">Crop Featured image from Right/Left</span>
 					</th>
 					<td class="qa-form-tall-label">
-						<select id="cs_crop_x" name="cs_crop_y" >
-							<option <?php echo (qa_opt('cs_crop_x') == 'l') ? ' selected' : ''; ?> value="l">left</option>
-							<option <?php echo (qa_opt('cs_crop_x') == 'c') ? ' selected' : ''; ?> value="c">Center</option>
-							<option <?php echo (qa_opt('cs_crop_x') == 'r') ? ' selected' : ''; ?> value="r">right</option>
+						<select id="qw_crop_x" name="qw_crop_y" >
+							<option <?php echo (qa_opt('qw_crop_x') == 'l') ? ' selected' : ''; ?> value="l">left</option>
+							<option <?php echo (qa_opt('qw_crop_x') == 'c') ? ' selected' : ''; ?> value="c">Center</option>
+							<option <?php echo (qa_opt('qw_crop_x') == 'r') ? ' selected' : ''; ?> value="r">right</option>
 						</select>
 					</td>
 				</tr>
@@ -602,10 +602,10 @@ class CS_Media_Addon{
 						<span class="description">Crop Featured image from Top/Bottom</span>
 					</th>
 					<td class="qa-form-tall-label">
-						<select id="cs_crop_y" name="cs_crop_y" >
-							<option <?php echo (qa_opt('cs_crop_y') == 't') ? ' selected' : '' ?> value="t">Top</option>
-							<option <?php echo (qa_opt('cs_crop_y') == 'c') ? ' selected' : ''; ?> value="c">Center</option>
-							<option <?php echo (qa_opt('cs_crop_y') == 'b') ? ' selected' : ''; ?> value="b">Bottom</option>
+						<select id="qw_crop_y" name="qw_crop_y" >
+							<option <?php echo (qa_opt('qw_crop_y') == 't') ? ' selected' : '' ?> value="t">Top</option>
+							<option <?php echo (qa_opt('qw_crop_y') == 'c') ? ' selected' : ''; ?> value="c">Center</option>
+							<option <?php echo (qa_opt('qw_crop_y') == 'b') ? ' selected' : ''; ?> value="b">Bottom</option>
 						</select>
 					</td>
 				</tr>
@@ -619,4 +619,4 @@ class CS_Media_Addon{
 
 
 // init method
-$cs_media_addon = new CS_Media_Addon; 
+$qw_media_addon = new QW_Media_Addon; 

@@ -6,7 +6,7 @@ if (!defined('QA_VERSION')) {
 }
 
 
-class cs_tags_admin_page {
+class qw_tags_admin_page {
 	var $directory;
 	var $urltoroot;
 
@@ -93,7 +93,7 @@ class cs_tags_admin_page {
 							$output .= '<p>'.$meta->description.'</p>';
 						
 						$output .= '</li>';
-						$output .= cs_event_hook('tag_admin_tag_item', $tag);
+						$output .= qw_event_hook('tag_admin_tag_item', $tag);
 						
 						echo $output;						
 					} 

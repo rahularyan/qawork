@@ -1,16 +1,16 @@
 <?php
 	class widget_categories {
 
-		function cs_widget_form()
+		function qw_widget_form()
 		{
 			
 			return array(
 				'style' => 'wide',
 				'fields' => array(
-					'cs_category_depth' => array(
+					'qw_category_depth' => array(
 						'label' => 'Categories Depth',
 						'type' => 'select',
-						'tags' => 'name="cs_category_depth" class="form-control"',
+						'tags' => 'name="qw_category_depth" class="form-control"',
 						'value' => 1,
 						'options' => array('1' => 'One', '2'=> 'Two', '3' => 'Three'),
 					),
@@ -64,7 +64,7 @@
 			
 			return $allow;
 		}
-		function cs_category_navigation_sub($sub_categories,$depth,$path){
+		function qw_category_navigation_sub($sub_categories,$depth,$path){
 			if ($depth<=1) return;
 			$output	= '';
 			if (is_array($sub_categories))
@@ -73,7 +73,7 @@
 					$output .= '<ul class="cs-category-widget-list-sub">';
 					$output .= '<li><a href="' . qa_path_html('questions/'. $category_path) . '">' . $category['title'] . '</a>';
 					$sub_sub_categories = qa_get_select_selectspec(qa_db_category_sub_selectspec($category['categoryid']));
-					$output .= $this->cs_category_navigation_sub($sub_sub_categories,$depth-1,$category_path);
+					$output .= $this->qw_category_navigation_sub($sub_sub_categories,$depth-1,$category_path);
 					$output .= '</li>';
 					$output .= '</ul>';
 				}
@@ -107,7 +107,7 @@
 				$output = '<h3 class="widget-title">Categories</h3>';
 		
 		
-			$depth= (int)$widget_opt['cs_category_depth']; // change it to get from options
+			$depth= (int)$widget_opt['qw_category_depth']; // change it to get from options
 			$userid=qa_get_logged_in_userid();
 			$categoryslugs=0;
 			$countslugs=0;
@@ -121,7 +121,7 @@
 				//$sub_categories = qa_category_navigation(qa_db_select_with_pending(qa_db_category_nav_selectspec($categoryslugs, false, false, true)));
 				$sub_categories = qa_db_select_with_pending(qa_db_category_sub_selectspec($category['categoryid']));
 				$output .= '<li><a class="icon-folder-close" href="' . $category['url'] . '">' . $category['label'] . '<span>'.filter_var($category['note'], FILTER_SANITIZE_NUMBER_INT).'</span></a>';
-				$output .= $this->cs_category_navigation_sub($sub_categories,$depth,$category_detail['tags']);
+				$output .= $this->qw_category_navigation_sub($sub_categories,$depth,$category_detail['tags']);
 				$output .= '</li>';
 			}
 			$output .= '</ul>';

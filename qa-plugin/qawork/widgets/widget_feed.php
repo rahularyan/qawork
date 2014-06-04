@@ -1,30 +1,30 @@
 <?php
-	class cs_feed_widget {
+	class qw_feed_widget {
 
-		function cs_widget_form()
+		function qw_widget_form()
 		{
 			
 			return array(
 				'style' => 'wide',
 				'fields' => array(
-					'cs_feed_title_field' => array(
+					'qw_feed_title_field' => array(
 						'label' => 'Widget Title:',
 						'type' => 'string',
 						'value' => 'Feed Widget',
-						'tags' => 'NAME="cs_feed_title_field"',
+						'tags' => 'NAME="qw_feed_title_field"',
 					),
-					'cs_feed_url_field' => array(
+					'qw_feed_url_field' => array(
 						'label' => 'Feed URL:',
 						'type' => 'string',
 						'value' => '',
-						'tags' => 'NAME="cs_feed_url_field"',
+						'tags' => 'NAME="qw_feed_url_field"',
 					),
-					'cs_feed_count_field' => array(
+					'qw_feed_count_field' => array(
 						'label' => 'number of recent feeds:',
 						'suffix' => 'item',
 						'type' => 'number',
 						'value' => 10,
-						'tags' => 'NAME="cs_feed_count_field"',
+						'tags' => 'NAME="qw_feed_count_field"',
 					),
 				),
 			);
@@ -89,9 +89,9 @@
 			}
 			$widget_opt = @$themeobject->current_widget['param']['options'];
 			
-			$url = $widget_opt['cs_feed_url_field'];
-			$count=(int)$widget_opt['cs_feed_count_field'];
-			$title=$widget_opt['cs_feed_title_field'];
+			$url = $widget_opt['qw_feed_url_field'];
+			$count=(int)$widget_opt['qw_feed_count_field'];
+			$title=$widget_opt['qw_feed_title_field'];
 			//$url = 'http://qa-themes.com/?feed=rss';
 			//$count=10;
 			//$title='Blog Feed';

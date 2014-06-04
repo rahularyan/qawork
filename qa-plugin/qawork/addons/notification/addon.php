@@ -1,9 +1,9 @@
 <?php
 
 /*
-	Name:CS Notification
+	Name:QW Notification
 	Type:layer
-	Class:cs_notification_layer
+	Class:qw_notification_layer
 	Version:1.0
 	Author: Rahul Aryan
 	Description:For showing ajax users notification
@@ -16,15 +16,15 @@ if (!defined('QA_VERSION')) {
 }
 
 
-$cs_notification_addon = new Cs_Notification_Addon;
+$qw_notification_addon = new Qw_Notification_Addon;
 
-qa_register_plugin_layer('addons/notification/notification-layer.php', 'CS Notification Layer');
-qa_register_plugin_module('page', 'addons/notification/notification-page.php', 'cs_notification_page', 'CS Notification Page');
+qa_register_plugin_layer('addons/notification/notification-layer.php', 'QW Notification Layer');
+qa_register_plugin_module('page', 'addons/notification/notification-page.php', 'qw_notification_page', 'QW Notification Page');
 
-include_once CS_CONTROL_DIR. '/addons/notification/email-events.php';
-require_once CS_CONTROL_DIR .'/addons/notification/functions.php';
+include_once QW_CONTROL_DIR. '/addons/notification/email-events.php';
+require_once QW_CONTROL_DIR .'/addons/notification/functions.php';
 
-function cs_set_notification_as_read($id){
+function qw_set_notification_as_read($id){
 	if(qa_is_logged_in())
 		qa_db_query_sub(
 			'UPDATE ^ra_userevent SET `read` = 1 WHERE id=# AND effecteduserid=#',
@@ -32,49 +32,49 @@ function cs_set_notification_as_read($id){
 		);
 }
 
-function cs_set_all_activity_as_read($uid){
+function qw_set_all_activity_as_read($uid){
 	qa_db_query_sub(
 		'UPDATE ^ra_userevent SET `read` = 1 WHERE effecteduserid=# AND event NOT IN ("u_wall_post", "u_message")',
 		$uid
 	);
 }
-function cs_set_all_messages_as_read($uid){
+function qw_set_all_messages_as_read($uid){
 	qa_db_query_sub(
 		'UPDATE ^ra_userevent SET `read` = 1 WHERE effecteduserid=# AND event IN ("u_wall_post", "u_message")',
 		$uid
 	);
 }
-function cs_get_total_activity($uid){
+function qw_get_total_activity($uid){
 	return qa_db_read_one_value(qa_db_query_sub(
 		'SELECT COUNT(*) FROM ^ra_userevent WHERE `read` = 0 AND effecteduserid=#  AND event NOT IN ("u_wall_post", "u_message")',
 		$uid
 	), true);
 }
-function cs_get_total_messages($uid){
+function qw_get_total_messages($uid){
 	return qa_db_read_one_value(qa_db_query_sub(
 		'SELECT COUNT(*) FROM ^ra_userevent WHERE `read` = 0 AND effecteduserid=#  AND event IN ("u_wall_post", "u_message")',
 		$uid
 	), true);
 }
 
-class Cs_Notification_Addon{
+class Qw_Notification_Addon{
 	function __construct(){
-		cs_add_filter('init_queries', array($this, 'init_queries'));
-		cs_event_hook('enqueue_css', NULL, array($this, 'css'));
-		cs_event_hook('enqueue_scripts', NULL, array($this, 'scripts'));
-		cs_event_hook('cs_ajax_activitylist', NULL, array($this, 'activitylist'));
-		cs_event_hook('cs_ajax_messagelist', NULL, array($this, 'messagelist'));
-		cs_event_hook('cs_ajax_mark_all_activity', NULL, array($this, 'mark_all_activity'));
-		cs_event_hook('cs_ajax_mark_all_messages', NULL, array($this, 'mark_all_messages'));
-		cs_event_hook('cs_ajax_activity_count', NULL, array($this, 'activity_count'));
-		cs_event_hook('cs_ajax_messages_count', NULL, array($this, 'messages_count'));
-		// cs_event_hook('language', NULL, array($this, 'language'));
-        cs_event_hook('register_language', NULL, array($this, 'language'));
+		qw_add_filter('init_queries', array($this, 'init_queries'));
+		qw_event_hook('enqueue_css', NULL, array($this, 'css'));
+		qw_event_hook('enqueue_scripts', NULL, array($this, 'scripts'));
+		qw_event_hook('qw_ajax_activitylist', NULL, array($this, 'activitylist'));
+		qw_event_hook('qw_ajax_messagelist', NULL, array($this, 'messagelist'));
+		qw_event_hook('qw_ajax_mark_all_activity', NULL, array($this, 'mark_all_activity'));
+		qw_event_hook('qw_ajax_mark_all_messages', NULL, array($this, 'mark_all_messages'));
+		qw_event_hook('qw_ajax_activity_count', NULL, array($this, 'activity_count'));
+		qw_event_hook('qw_ajax_messages_count', NULL, array($this, 'messages_count'));
+		// qw_event_hook('language', NULL, array($this, 'language'));
+        qw_event_hook('register_language', NULL, array($this, 'language'));
 		
 		// added hooks for options and option tabs 
-		cs_add_action('cs_theme_option_tab', array($this, 'option_tab'));
-        cs_add_action('cs_theme_option_tab_content', array($this, 'option_tab_content'));
-        cs_add_action('cs_reset_theme_options', array($this, 'reset_theme_options'));
+		qw_add_action('qw_theme_option_tab', array($this, 'option_tab'));
+        qw_add_action('qw_theme_option_tab_content', array($this, 'option_tab_content'));
+        qw_add_action('qw_reset_theme_options', array($this, 'reset_theme_options'));
 	}
 	
 	public function init_queries($queries, $tableslc){
@@ -117,12 +117,12 @@ class Cs_Notification_Addon{
 	
 	public function css($css_src){
 		
-		$css_src['cs_notification'] = CS_CONTROL_URL . '/addons/notification/styles.css';
+		$css_src['qw_notification'] = QW_CONTROL_URL . '/addons/notification/styles.css';
 		return  $css_src;
 	}
 	
 	public function scripts($src){		
-		$src['cs_notification'] = CS_CONTROL_URL . '/addons/notification/script.js';
+		$src['qw_notification'] = QW_CONTROL_URL . '/addons/notification/script.js';
 
 		return  $src;
 	}
@@ -209,7 +209,7 @@ class Cs_Notification_Addon{
 						$url = qa_path_html(qa_q_request($event['postid'], $event['params']['title']), $url_param, qa_opt('site_url'),null,null);
 									
 						echo '<div class="event-content clearfix'.$read.''.$read.'"'.$id.'>
-								<div class="avatar"><a href="'.$user_link.'">'.cs_get_avatar($handle, 32, true).'</a></div>
+								<div class="avatar"><a href="'.$user_link.'">'.qw_get_avatar($handle, 32, true).'</a></div>
 								<div class="event-right">
 									<a href="'.$url.'">
 										<div class="head">
@@ -230,10 +230,10 @@ class Cs_Notification_Addon{
 						$anchor = qa_anchor('A', $event['postid']);
 						$url    = qa_path_html(qa_q_request($event['params']['qid'], $event['params']['qtitle']), $url_param, qa_opt('site_url'),null,$anchor);
 						
-						$title  = cs_truncate($event['params']['qtitle'], 60);
+						$title  = qw_truncate($event['params']['qtitle'], 60);
 						
 						echo '<div class="event-content clearfix'.$read.'"'.$id.'>
-								<div class="avatar"><a href="'.$user_link.'">'.cs_get_avatar($handle, 32, true).'</a></div>
+								<div class="avatar"><a href="'.$user_link.'">'.qw_get_avatar($handle, 32, true).'</a></div>
 								<div class="event-right">
 									<a href="'.$url.'">
 										<div class="head">
@@ -268,7 +268,7 @@ class Cs_Notification_Addon{
 							$what = qa_lang_html('cleanstrap/replied_to_your');
 						
 						echo '<div class="event-content clearfix'.$read.'"'.$id.'>
-								<div class="avatar"><a href="'.$user_link.'">'.cs_get_avatar($handle, 32, true).'</a></div>
+								<div class="avatar"><a href="'.$user_link.'">'.qw_get_avatar($handle, 32, true).'</a></div>
 								<div class="event-right">
 									<a href="'.$url.'">
 										<div class="head">
@@ -351,7 +351,7 @@ class Cs_Notification_Addon{
 						$anchor = qa_anchor('A', $event['postid']);
 						$url = qa_path_html(qa_q_request($event['params']['qid'], $event['params']['qtitle']), $url_param, qa_opt('site_url'),null,$anchor);
 						echo '<div class="event-content clearfix'.$read.'"'.$id.'>
-								<div class="avatar"><a href="'.$user_link.'">'.cs_get_avatar($handle, 32, true).'</a></div>
+								<div class="avatar"><a href="'.$user_link.'">'.qw_get_avatar($handle, 32, true).'</a></div>
 								<div class="event-right">
 									<a href="'.$url.'">
 										<div class="head">
@@ -372,9 +372,9 @@ class Cs_Notification_Addon{
 						
 						$url = qa_path_html(qa_q_request($event['params']['qid'], $event['params']['qtitle']), $url_param, qa_opt('site_url'),null);
 						
-						$title = cs_truncate($event['params']['qtitle'], 60);
+						$title = qw_truncate($event['params']['qtitle'], 60);
 						echo '<div class="event-content clearfix'.$read.'"'.$id.'>
-								<div class="avatar"><a href="'.$user_link.'">'.cs_get_avatar($handle, 32, true).'</a></div>
+								<div class="avatar"><a href="'.$user_link.'">'.qw_get_avatar($handle, 32, true).'</a></div>
 								<div class="event-right">
 									<a href="'.$url.'">
 										<div class="head">
@@ -397,7 +397,7 @@ class Cs_Notification_Addon{
 						$url = qa_path_html(qa_q_request($event['params']['qid'], $event['params']['qtitle']), $url_param, qa_opt('site_url'),null,$anchor);
 					
 						echo '<div class="event-content clearfix'.$read.'"'.$id.'>
-								<div class="avatar"><a href="'.$user_link.'">'.cs_get_avatar($handle, 32, true).'</a></div>
+								<div class="avatar"><a href="'.$user_link.'">'.qw_get_avatar($handle, 32, true).'</a></div>
 								<div class="event-right">
 									<a href="'.$url.'">
 										<div class="head">
@@ -459,7 +459,7 @@ class Cs_Notification_Addon{
 						break;
 					case 'u_favorite': 
 						echo '<div class="event-content clearfix'.$read.'"'.$id.'>
-								<div class="avatar"><a href="'.$user_link.'">'.cs_get_avatar($handle, 32, true).'</a></div>
+								<div class="avatar"><a href="'.$user_link.'">'.qw_get_avatar($handle, 32, true).'</a></div>
 								<div class="event-right">
 									<a href="'.$user_link.'">
 										<div class="head">
@@ -478,7 +478,7 @@ class Cs_Notification_Addon{
 					
 					case 'q_favorite': 
 						echo '<div class="event-content clearfix'.$read.'"'.$id.'>
-								<div class="avatar"><a href="'.$user_link.'">'.cs_get_avatar($handle, 32, true).'</a></div>
+								<div class="avatar"><a href="'.$user_link.'">'.qw_get_avatar($handle, 32, true).'</a></div>
 								<div class="event-right">
 									<a href="'.$user_link.'">
 										<div class="head">
@@ -604,7 +604,7 @@ class Cs_Notification_Addon{
                         } 
 
                         if ($approved_only === false ) {
-                              $new_designation = cs_get_user_desg($new_level);
+                              $new_designation = qw_get_user_desg($new_level);
                         }
 
                         $content = strtr(qa_lang($approved_only ? 'notification/u_level_approved_notf' : 'notification/u_level_improved_notf'), array(
@@ -687,7 +687,7 @@ class Cs_Notification_Addon{
 				switch($event['event']){
 					case 'u_message': // related question to an answer
 						echo '<div class="event-content clearfix'.$read.'"'.$id.'>
-								<div class="avatar"><a href="'.$user_link.'">'.cs_get_avatar($handle, 32, true).'</a></div>
+								<div class="avatar"><a href="'.$user_link.'">'.qw_get_avatar($handle, 32, true).'</a></div>
 								<div class="event-right">
 									<a href="'.qa_path_html('message/'.$handle, $url_param, qa_opt('site_url')).'">
 										<div class="head">
@@ -706,7 +706,7 @@ class Cs_Notification_Addon{
 					case 'u_wall_post': // user's question had been answered
 						$url = qa_path_html('user/'.$reciever_handle.'/wall', $url_param, qa_opt('site_url'));
 						echo '<div class="event-content clearfix'.$read.'"'.$id.'>
-								<div class="avatar"><a href="'.$user_link.'">'.cs_get_avatar($handle, 32, true).'</a></div>
+								<div class="avatar"><a href="'.$user_link.'">'.qw_get_avatar($handle, 32, true).'</a></div>
 								<div class="event-right">
 									<a href="'.$url.'">
 										<div class="head">
@@ -735,45 +735,45 @@ class Cs_Notification_Addon{
 	
 	public function mark_all_activity(){
 		if(qa_is_logged_in())
-			cs_set_all_activity_as_read(qa_get_logged_in_userid());
+			qw_set_all_activity_as_read(qa_get_logged_in_userid());
 		
 		die();
 	}
 	public function mark_all_messages(){
 		if(qa_is_logged_in())
-			cs_set_all_messages_as_read(qa_get_logged_in_userid());
+			qw_set_all_messages_as_read(qa_get_logged_in_userid());
 		
 		die();
 	}
 
 	public function activity_count(){
-		echo cs_get_total_activity(qa_get_logged_in_userid());
+		echo qw_get_total_activity(qa_get_logged_in_userid());
 		// adding the feature of scheduler check here to make sure the sending email called on time 
-		$time_out = qa_opt('cs_process_emails_from_db_time_out');
+		$time_out = qa_opt('qw_process_emails_from_db_time_out');
 		if (!$time_out) {
 			// if the scheduler is not set set it for 15 mins 
-			cs_scheduler_set('cs_process_emails_from_db' , 6*60*60 /*4 times a day by default*/ );
+			qw_scheduler_set('qw_process_emails_from_db' , 6*60*60 /*4 times a day by default*/ );
 		}		
-		cs_check_scheduler('cs_process_emails_from_db');
+		qw_check_scheduler('qw_process_emails_from_db');
 		die();
 	}
 
 	public function messages_count(){
-		echo cs_get_total_messages(qa_get_logged_in_userid());
+		echo qw_get_total_messages(qa_get_logged_in_userid());
 		
 		die();
 	}
 	public function language($lang_arr){
-		$lang_arr['notification'] = CS_CONTROL_DIR .'/addons/notification/language-*.php';
+		$lang_arr['notification'] = QW_CONTROL_DIR .'/addons/notification/language-*.php';
 		return $lang_arr;
 	}
 	// adding options and option tab 
 	public function option_tab(){
 		$saved = false;
 			
-            if (qa_clicked('cs_save_button')) {
-                  $enable_plugin = !!qa_post_text('cs_enable_email_notfn_field');
-                  qa_opt('cs_enable_email_notfn', $enable_plugin);
+            if (qa_clicked('qw_save_button')) {
+                  $enable_plugin = !!qa_post_text('qw_enable_email_notfn_field');
+                  qa_opt('qw_enable_email_notfn', $enable_plugin);
                   if (!$enable_plugin) {
                         //if the plugin is disabled then turn off all features 
                         reset_all_notification_options();
@@ -782,9 +782,9 @@ class Cs_Notification_Addon{
                         //$error will be false if the 
                         $error = (isset($response) && is_array($response) && !empty($response)) ? true : false;
                   }
-                  $notification_time_out = qa_post_text('cs_process_emails_from_db_time_out');
+                  $notification_time_out = qa_post_text('qw_process_emails_from_db_time_out');
                   if ($notification_time_out > 0) {	
-                  		qa_opt('cs_process_emails_from_db_time_out' , $notification_time_out );
+                  		qa_opt('qw_process_emails_from_db_time_out' , $notification_time_out );
                   }
                   $saved = true;
             }
@@ -795,11 +795,11 @@ class Cs_Notification_Addon{
 	  }
 	 public function option_tab_content(){
 		$all_options = array(
-				'cs_enable_email_notfn' ,
-				'cs_notify_tag_followers' ,
-				'cs_notify_cat_followers' ,
-				'cs_notify_user_followers' ,
-				'cs_notify_min_points_opt' ,
+				'qw_enable_email_notfn' ,
+				'qw_notify_tag_followers' ,
+				'qw_notify_cat_followers' ,
+				'qw_notify_user_followers' ,
+				'qw_notify_min_points_opt' ,
 			);
 		$output = '<div class="qa-part-form-tc-notify">
 			<h3>Email Notification Settings</h3>
@@ -811,14 +811,14 @@ class Cs_Notification_Addon{
 					$output .= '<tr>
 									<th class="qa-form-tall-label">' . qa_lang("notification/".$option."_lang") .'</th>
 									<td class="qa-form-tall-data">
-										<input type="checkbox"' . (qa_opt($option) ? ' checked="checked"' : '') . ' id="cs_styling_rtl" name="'.$option.'_field" data-opts=".'.$option.'_fields">
+										<input type="checkbox"' . (qa_opt($option) ? ' checked="checked"' : '') . ' id="qw_styling_rtl" name="'.$option.'_field" data-opts=".'.$option.'_fields">
 									</td>
 								</tr>' ;
-								if ($option == 'cs_notify_min_points_opt') {
-									$output .= '<tr class="cs_notify_min_points_opt_fields' . (qa_opt('cs_notify_min_points_opt') ? ' csshow' : ' cshide') . '" >
-													<th class="qa-form-tall-label">' . qa_lang("notification/cs_notify_min_points_val_lang") .'</th>
+								if ($option == 'qw_notify_min_points_opt') {
+									$output .= '<tr class="qw_notify_min_points_opt_fields' . (qa_opt('qw_notify_min_points_opt') ? ' csshow' : ' cshide') . '" >
+													<th class="qa-form-tall-label">' . qa_lang("notification/qw_notify_min_points_val_lang") .'</th>
 														<td class="qa-form-tall-data">
-															<input type="text" value="' . qa_opt('cs_notify_min_points_val') . '" id="cs_styling_rtl" name="cs_notify_min_points_val_field" data-opts="cs_notify_min_points_val_fields">
+															<input type="text" value="' . qa_opt('qw_notify_min_points_val') . '" id="qw_styling_rtl" name="qw_notify_min_points_val_field" data-opts="qw_notify_min_points_val_fields">
 														</td>
 												</tr>' ;
 								}
@@ -828,18 +828,18 @@ class Cs_Notification_Addon{
 				
 				$output .= '<tbody>' ;
 					$output .= '<tr>
-									<th class="qa-form-tall-label">' . qa_lang("notification/cs_notify_enable_async_lang") .'</th>
+									<th class="qa-form-tall-label">' . qa_lang("notification/qw_notify_enable_async_lang") .'</th>
 									<td class="qa-form-tall-data">
-										<input type="checkbox" checked="true" id="cs_styling_rtl" name="cs_notify_enable_async_field" data-opts="cs_notify_enable_async_fields">
+										<input type="checkbox" checked="true" id="qw_styling_rtl" name="qw_notify_enable_async_field" data-opts="qw_notify_enable_async_fields">
 									</td>
 								</tr>' ;
 				$output .= '</tbody>' ;
 
 				$output .= '<tbody>' ;
 					$output .= '<tr>
-									<th class="qa-form-tall-label">' . qa_lang("notification/cs_notify_enable_summerize_email_lang") .'</th>
+									<th class="qa-form-tall-label">' . qa_lang("notification/qw_notify_enable_summerize_email_lang") .'</th>
 									<td class="qa-form-tall-data">
-										<input type="checkbox" checked="true" id="cs_styling_rtl" name="cs_notify_enable_summerize_email_field" data-opts="cs_notify_enable_summerize_email_fields">
+										<input type="checkbox" checked="true" id="qw_styling_rtl" name="qw_notify_enable_summerize_email_field" data-opts="qw_notify_enable_summerize_email_fields">
 									</td>
 								</tr>' ;
 				$output .= '</tbody>' ;
@@ -858,11 +858,11 @@ class Cs_Notification_Addon{
 							"twenty_four_times_a_day" => 1*60*60 ,
 					);
 
-				$selected_frequency = qa_opt('cs_process_emails_from_db_time_out');
+				$selected_frequency = qa_opt('qw_process_emails_from_db_time_out');
 
 				if (!$selected_frequency) {
 					$selected_frequency = 6*60*60 ;
-					qa_opt('cs_process_emails_from_db_time_out' , $selected_frequency );
+					qa_opt('qw_process_emails_from_db_time_out' , $selected_frequency );
 				}
 				
 				$select_string = "" ;
@@ -871,9 +871,9 @@ class Cs_Notification_Addon{
 					$select_string .= '<option value="'.$value.'"'. $selected.'>'.qa_lang("notification/{$key}_lang").'</option>' ;
 				}
 				$output .= '<tr>
-									<th class="qa-form-tall-label">' . qa_lang("notification/cs_notify_freq_per_day_opt_lang") .'</th>
+									<th class="qa-form-tall-label">' . qa_lang("notification/qw_notify_freq_per_day_opt_lang") .'</th>
 									<td class="qa-form-tall-data">
-										<select id="cs_styling_rtl" name="cs_process_emails_from_db_time_out" data-opts="cs_process_emails_from_db_time_out_fields"> 
+										<select id="qw_styling_rtl" name="qw_process_emails_from_db_time_out" data-opts="qw_process_emails_from_db_time_out_fields"> 
 											'.$select_string.'
 										</select>
 									</td>
@@ -882,9 +882,9 @@ class Cs_Notification_Addon{
 
 				$output .= '<tbody>' ;
 					$output .= '<tr class="" >
-									<th class="qa-form-tall-label">' . qa_lang("notification/cs_all_notification_page_size_lang") .'</th>
+									<th class="qa-form-tall-label">' . qa_lang("notification/qw_all_notification_page_size_lang") .'</th>
 										<td class="qa-form-tall-data">
-											<input type="text" value="' . qa_opt('cs_all_notification_page_size') . '" id="cs_styling_rtl" name="cs_all_notification_page_size_field" data-opts="cs_all_notification_page_size_fields">
+											<input type="text" value="' . qa_opt('qw_all_notification_page_size') . '" id="qw_styling_rtl" name="qw_all_notification_page_size_field" data-opts="qw_all_notification_page_size_fields">
 										</td>
 								</tr>' ;
 				$output .= '</tbody>' ;

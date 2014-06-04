@@ -12,12 +12,12 @@ $(document).ready(function(){
 	"use strict";
 	$('#activitylist').one('click', function(e){
 		e.preventDefault();
-		cs_load_activity();
+		qw_load_activity();
 	});
 	
 	$('#messagelist').one('click', function(e){
 		e.preventDefault();
-		cs_load_messages();		
+		qw_load_messages();		
 	});
 	
 	$('.mark-activity').click(function(){
@@ -48,18 +48,18 @@ $(document).ready(function(){
 		});
 	});
 	
-	$('.activity-bar .append').on('scroll', cs_chk_activity_scroll);
-	$('.message-bar .append').on('scroll', cs_chk_message_scroll);
+	$('.activity-bar .append').on('scroll', qw_chk_activity_scroll);
+	$('.message-bar .append').on('scroll', qw_chk_message_scroll);
 
-	cs_user_activity_count();
+	qw_user_activity_count();
 	
 	window.setInterval(function(){
-	  cs_user_activity_count();
+	  qw_user_activity_count();
 	}, 50000);
 
 });
 
-function cs_load_activity(){	
+function qw_load_activity(){	
 	activity_request = true;
 	$.ajax({
 		type:'GET',
@@ -89,7 +89,7 @@ function cs_load_activity(){
 
 }
 
-function cs_load_messages(){	
+function qw_load_messages(){	
 	message_request = true;
 	$.ajax({
 		type:'GET',
@@ -119,7 +119,7 @@ function cs_load_messages(){
 
 }
 
-function cs_user_activity_count(){
+function qw_user_activity_count(){
 	$.ajax({
 		type:'GET',
 		url : ajax_url,
@@ -145,21 +145,21 @@ function cs_user_activity_count(){
 }
 
 
-function cs_chk_activity_scroll(e){
+function qw_chk_activity_scroll(e){
 	if(($('.activity-bar .append .no-more-activity').length ==0) && !activity_request){
 		var elem = $(e.currentTarget);		
 		if (elem[0].scrollHeight - elem.scrollTop() == elem.outerHeight()){
-			cs_load_activity();
+			qw_load_activity();
 		}
 	}
 }
 
 
-function cs_chk_message_scroll(e){
+function qw_chk_message_scroll(e){
 	if(($('.message-bar .append .no-more-activity').length ==0) && !message_request){
 		var elem = $(e.currentTarget);		
 		if (elem[0].scrollHeight - elem.scrollTop() == elem.outerHeight()){
-			cs_load_messages();
+			qw_load_messages();
 		}
 	}
 }

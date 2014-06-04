@@ -9,15 +9,15 @@ class qa_html_theme_layer extends qa_html_theme_base {
         $widgets       = get_all_widgets();
         $this->widgets = $widgets;
         
-		if(cs_is_user()){
+		if(qw_is_user()){
 			$handle = qa_request_part(1);
 			if(empty($handle)) $handle = qa_get_logged_in_handle();
-			$this->content['active_user'] = cs_user_data($handle);
-			$this->content['active_user_profile'] = cs_user_profile($handle);
+			$this->content['active_user'] = qw_user_data($handle);
+			$this->content['active_user_profile'] = qw_user_profile($handle);
 		}
 
-		if (isset($_REQUEST['cs_ajax_html'])) {
-            $action = 'cs_ajax_' . $_REQUEST['action'];
+		if (isset($_REQUEST['qw_ajax_html'])) {
+            $action = 'qw_ajax_' . $_REQUEST['action'];
             if (method_exists($this, $action))
                 $this->$action();
         } else {
@@ -26,7 +26,7 @@ class qa_html_theme_layer extends qa_html_theme_base {
             unset($this->content['navigation']['main']['ask']);
             unset($this->content['navigation']['main']['admin']);
 			
-			if((bool)qa_opt('cs_enable_category_nav'))
+			if((bool)qa_opt('qw_enable_category_nav'))
 				unset($this->content['navigation']['main']['categories']);
 
 				
@@ -35,9 +35,9 @@ class qa_html_theme_layer extends qa_html_theme_base {
 			if(qa_get_logged_in_level() >= QA_USER_LEVEL_ADMIN)	{
 
 				// theme installation & update
-				/* $version = qa_opt('cs_version');
-				if( CS_VERSION > $version )
-					qa_redirect('cs_installation'); */
+				/* $version = qa_opt('qw_version');
+				if( QW_VERSION > $version )
+					qa_redirect('qw_installation'); */
 
 				//show theme option menu if user is admin
 				$this->content['navigation']['user']['themeoptions'] = array(
@@ -65,18 +65,18 @@ class qa_html_theme_layer extends qa_html_theme_base {
 			
 			}
 		}
-		if(cs_is_user() && empty($this->content['navigation']['sub']['profile'])){
+		if(qw_is_user() && empty($this->content['navigation']['sub']['profile'])){
 			$userid=qa_get_logged_in_userid();
 			$handle=qa_get_logged_in_handle();
 			$this->content['navigation']['sub']=qa_user_sub_navigation($handle, 'profile',	$userid );
 		}
-		if(cs_hook_exist('doctype'))
-			$this->content = cs_apply_filter('doctype', $this->content);
+		if(qw_hook_exist('doctype'))
+			$this->content = qw_apply_filter('doctype', $this->content);
 	}
 	
 	function head_script()
 	{
-		$scripts = cs_get_all_scripts($this->template);
+		$scripts = qw_get_all_scripts($this->template);
 		// unset old jQuery
 		if($this->content['script'] && ($key = array_search('<script src="../qa-content/jquery-1.7.2.min.js" type="text/javascript"></script>', $this->content['script'])) !== false) {
 			unset($this->content['script'][$key]);
@@ -85,19 +85,19 @@ class qa_html_theme_layer extends qa_html_theme_base {
 			unset($this->content['script_rel'][$key]);
 		}
 		
-		$this->output('<script> ajax_url = "' . CS_CONTROL_URL . '/ajax.php";</script>');
+		$this->output('<script> ajax_url = "' . QW_CONTROL_URL . '/ajax.php";</script>');
 
 		qa_html_theme_base::head_script();
 		
 		$this->output('<script> theme_url = "' . Q_THEME_URL . '";</script>');
 
-		if (qa_opt('cs_enable_gzip')){ //Gzip
-			$this->output('<script type="text/javascript" src="'.CS_CONTROL_URL.'/gzip.php?type=js"></script>');
+		if (qa_opt('qw_enable_gzip')){ //Gzip
+			$this->output('<script type="text/javascript" src="'.QW_CONTROL_URL.'/gzip.php?type=js"></script>');
 			
 			if (!empty($scripts))
 				foreach ($scripts as $script_src){
 					// load if external url
-					if(!cs_is_internal_link($script_src))
+					if(!qw_is_internal_link($script_src))
 						$this->output('<script type="text/javascript" src="'.$script_src.'"></script>');
 				}
 		}else{
@@ -108,10 +108,10 @@ class qa_html_theme_layer extends qa_html_theme_base {
 
 		
 		//register a hook
-		if(cs_hook_exist('head_script'))
-			$this->output(cs_do_action('head_script', $this));
+		if(qw_hook_exist('head_script'))
+			$this->output(qw_do_action('head_script', $this));
 		
-		if($this->cs_is_widget_active('CS Ask Form') && $this->template != 'ask'){
+		if($this->qw_is_widget_active('QW Ask Form') && $this->template != 'ask'){
 			$this->output('<script type="text/javascript" src="'.get_base_url().'/qa-content/qa-ask.js"></script>');
 			
 			list($categories, $completetags)=qa_db_select_with_pending(
@@ -156,13 +156,13 @@ class qa_html_theme_layer extends qa_html_theme_base {
 	
 	function head_css()
 	{
-		$css 	= cs_get_all_styles($this->template);
-		if (qa_opt('cs_enable_gzip')){ //Gzip
-			$this->output('<link href="'.CS_CONTROL_URL.'/gzip.php?type=css" rel="stylesheet" type="text/css">');
+		$css 	= qw_get_all_styles($this->template);
+		if (qa_opt('qw_enable_gzip')){ //Gzip
+			$this->output('<link href="'.QW_CONTROL_URL.'/gzip.php?type=css" rel="stylesheet" type="text/css">');
 										
 			if (!empty($css))
 				foreach ($css as $css_src){
-					if(!cs_is_internal_link($css_src))
+					if(!qw_is_internal_link($css_src))
 						$this->output('<link rel="stylesheet" type="text/css" href="'.$css_src.'"/>');
 				}
 		}else{
@@ -180,7 +180,7 @@ class qa_html_theme_layer extends qa_html_theme_base {
 		qa_html_theme_base::head_css();	
 		$this->output('<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 			<meta http-equiv="X-UA-Compatible" content="IE=edge"> ');
-		$fav = qa_opt('cs_favicon_url');
+		$fav = qa_opt('qw_favicon_url');
 		if( $fav )
 			$this->output('<link rel="shortcut icon" href="' .  $fav . '" type="image/x-icon">');
 		$this->output('
@@ -194,26 +194,26 @@ class qa_html_theme_layer extends qa_html_theme_base {
 			');
 		
 		
-		if (qa_opt('cs_custom_style_created')){
+		if (qa_opt('qw_custom_style_created')){
 			$this->output('<link rel="stylesheet" type="text/css" href="' . Q_THEME_URL . '/css/dynamic.css"/>');
 		}else{
-			$css = qa_opt('cs_custom_css');
+			$css = qa_opt('qw_custom_css');
 			$this->output('<style>' . $css . '</style>');
 		}
 	
 		//register a hook
-		if(cs_hook_exist('head_css'))
-			$this->output(cs_do_action('head_css', $this));
+		if(qw_hook_exist('head_css'))
+			$this->output(qw_do_action('head_css', $this));
 		
 	}
 		
 	function form_field($field, $style)
     {
-		if (cs_hook_exist(__FUNCTION__)) {$args=func_get_args(); return cs_do_action(__FUNCTION__, $args); }
+		if (qw_hook_exist(__FUNCTION__)) {$args=func_get_args(); return qw_do_action(__FUNCTION__, $args); }
         
-        if (@$field['type'] == 'cs_qaads_multi_text') {
+        if (@$field['type'] == 'qw_qaads_multi_text') {
             $this->form_prefix($field, $style);
-            $this->cs_qaads_form_multi_text($field, $style);
+            $this->qw_qaads_form_multi_text($field, $style);
             $this->form_suffix($field, $style);
             
         } else {
@@ -221,9 +221,9 @@ class qa_html_theme_layer extends qa_html_theme_base {
         }
     }
     
-    function cs_qaads_form_multi_text($field, $style)
+    function qw_qaads_form_multi_text($field, $style)
     {
-		if (cs_hook_exist(__FUNCTION__)) {$args=func_get_args(); return cs_do_action(__FUNCTION__, $args); }
+		if (qw_hook_exist(__FUNCTION__)) {$args=func_get_args(); return qw_do_action(__FUNCTION__, $args); }
         $this->output('<div class="ra-multitext"><div class="ra-multitext-append">');
         
         $i = 0;
@@ -259,9 +259,9 @@ class qa_html_theme_layer extends qa_html_theme_base {
     
     function q_list_items($q_items)
     {
-		if (cs_hook_exist(__FUNCTION__)) {$args=func_get_args(); return cs_do_action(__FUNCTION__, $args); }
-        if (qa_opt('cs_enable_adv_list')) {
-            $advs = json_decode(qa_opt('cs_advs'), true);
+		if (qw_hook_exist(__FUNCTION__)) {$args=func_get_args(); return qw_do_action(__FUNCTION__, $args); }
+        if (qa_opt('qw_enable_adv_list')) {
+            $advs = json_decode(qa_opt('qw_advs'), true);
             foreach ($advs as $k => $adv) {
                 $advertisments[@$adv['adv_location']][] = $adv;
             }
@@ -290,7 +290,7 @@ class qa_html_theme_layer extends qa_html_theme_base {
 	
 	
 	function install_page(){
-		if (cs_hook_exist(__FUNCTION__)) {$args=func_get_args(); return cs_do_action(__FUNCTION__, $args); }
+		if (qw_hook_exist(__FUNCTION__)) {$args=func_get_args(); return qw_do_action(__FUNCTION__, $args); }
 		$content = $this->content;
 		$this->output('<div class="clearfix qa-main container ' . (@$this->content['hidden'] ? ' qa-main-hidden' : '') . '">');
 		$this->main_parts($content);
@@ -300,8 +300,8 @@ class qa_html_theme_layer extends qa_html_theme_base {
 	
 	function html()
     {
-		if (cs_hook_exist(__FUNCTION__)) {$args=func_get_args(); return cs_do_action(__FUNCTION__, $args); }
-        if (isset($_REQUEST['cs_ajax_html'])) {
+		if (qw_hook_exist(__FUNCTION__)) {$args=func_get_args(); return qw_do_action(__FUNCTION__, $args); }
+        if (isset($_REQUEST['qw_ajax_html'])) {
             return;
         } else {
             $this->output('<html lang="' . qa_opt('site_language') . '">');
@@ -316,21 +316,21 @@ class qa_html_theme_layer extends qa_html_theme_base {
     
     function body_tags()
     {
-        if (cs_hook_exist(__FUNCTION__)) {$args=func_get_args(); return cs_do_action(__FUNCTION__, $args); }
-        $this->output('id="nav-' . qa_opt('cs_nav_position') . '"');
+        if (qw_hook_exist(__FUNCTION__)) {$args=func_get_args(); return qw_do_action(__FUNCTION__, $args); }
+        $this->output('id="nav-' . qa_opt('qw_nav_position') . '"');
         qa_html_theme_base::body_tags();
     }
     function finish()
     {
-        if (isset($_REQUEST['cs_ajax_html'])) {
+        if (isset($_REQUEST['qw_ajax_html'])) {
             return;
         }
-		if (cs_hook_exist(__FUNCTION__)) {$args=func_get_args(); return cs_do_action(__FUNCTION__, $args); }
+		if (qw_hook_exist(__FUNCTION__)) {$args=func_get_args(); return qw_do_action(__FUNCTION__, $args); }
     }
 
     function body()
     {
-		if (cs_hook_exist(__FUNCTION__)) {$args=func_get_args(); return cs_do_action(__FUNCTION__, $args); }
+		if (qw_hook_exist(__FUNCTION__)) {$args=func_get_args(); return qw_do_action(__FUNCTION__, $args); }
         $this->output('<body');
         $this->body_tags();
         $this->output('>');
@@ -348,21 +348,21 @@ class qa_html_theme_layer extends qa_html_theme_base {
     
     function body_content()
     {
-		if (cs_hook_exist(__FUNCTION__)) {$args=func_get_args(); return cs_do_action(__FUNCTION__, $args); }
+		if (qw_hook_exist(__FUNCTION__)) {$args=func_get_args(); return qw_do_action(__FUNCTION__, $args); }
         $this->body_prefix();
         $this->notices();
         $this->header();
 		$this->main_top($this->content);
-        $this->output('<div class="clearfix qa-main ' .(cs_is_user() ? 'cs-user-template' : ''). (@$this->content['hidden'] ? ' qa-main-hidden' : '') . '">');
+        $this->output('<div class="clearfix qa-main ' .(qw_is_user() ? 'cs-user-template' : ''). (@$this->content['hidden'] ? ' qa-main-hidden' : '') . '">');
 		
-		if(cs_is_home())			
+		if(qw_is_home())			
 			include_once Q_THEME_DIR.'/home.php';
 			
 		else{
 		
-			if($this->cs_position_active('Home Slide') && cs_is_home()){
+			if($this->qw_position_active('Home Slide') && qw_is_home()){
 				$this->output('<div class="home-slider-outer"><div class="container">');
-				$this->cs_position('Home Slide');
+				$this->qw_position('Home Slide');
 				$this->output('</div></div>');
 			}
 			
@@ -377,15 +377,15 @@ class qa_html_theme_layer extends qa_html_theme_base {
 			if ($this->template == 'admin')
 				$this->output('<div class="left-content">');
 			else
-				$this->output('<div class="left-content '. ($this->cs_position_active('Right') ? 'col-md-8' : 'col-md-12').'">');
+				$this->output('<div class="left-content '. ($this->qw_position_active('Right') ? 'col-md-8' : 'col-md-12').'">');
 				
 			if ($this->template != 'question')
-				$this->cs_position('Content Top');
+				$this->qw_position('Content Top');
 
 			if (isset($this->content['error']) && $this->template != 'not-found')
 				$this->error(@$this->content['error']);
 
-				if(!cs_is_user() && $this->template != 'admin')
+				if(!qw_is_user() && $this->template != 'admin')
 					$this->nav('sub');
 					
 				$this->main();
@@ -405,13 +405,13 @@ class qa_html_theme_layer extends qa_html_theme_base {
 		$this->footer();
 		 
         $this->body_suffix();
-        if ((qa_opt('cs_enble_back_to_top')) && (qa_opt('cs_back_to_top_location') == 'right'))
+        if ((qa_opt('qw_enble_back_to_top')) && (qa_opt('qw_back_to_top_location') == 'right'))
             $this->output('<a id="back-to-top" class="back-to-top-right icon-arrow-up-thick t-bg" href="#"></a>');
     }
     function header()
     {
-		if (cs_hook_exist(__FUNCTION__)) {$args=func_get_args(); return cs_do_action(__FUNCTION__, $args); }
-        $this->cs_position('Top');
+		if (qw_hook_exist(__FUNCTION__)) {$args=func_get_args(); return qw_do_action(__FUNCTION__, $args); }
+        $this->qw_position('Top');
         
         $this->output('<header id="site-header" class="clearfix">');		
 			$this->output('<div id="header-top" class="clearfix">');
@@ -425,22 +425,22 @@ class qa_html_theme_layer extends qa_html_theme_base {
 		$this->output('</header>');
 		
 		$this->get_social_links();
-		$this->cs_page_title();
+		$this->qw_page_title();
 		
-		if(!cs_is_home() && !cs_is_user()){
+		if(!qw_is_home() && !qw_is_user()){
 			$this->output('<div id="header-below" class="clearfix"><div class="container">');		
-			$this->cs_position('Breadcrumbs');		
+			$this->qw_position('Breadcrumbs');		
 			$this->search();			
 			$this->output('</div></div>');
 		}
     }
 	function main_nav_menu(){
-		if (cs_hook_exist(__FUNCTION__)) {$args=func_get_args(); return cs_do_action(__FUNCTION__, $args); }		
+		if (qw_hook_exist(__FUNCTION__)) {$args=func_get_args(); return qw_do_action(__FUNCTION__, $args); }		
 		
 		$this->output('<nav class="pull-left clearfix">');
        // $this->output('<a href="#" class="slide-mobile-menu icon-th-menu"></a>');
         
-		if ( (qa_opt('cs_enable_category_nav')) && (qa_using_categories()) )
+		if ( (qa_opt('qw_enable_category_nav')) && (qa_using_categories()) )
 			$this->cat_drop_nav();	
 			
 		$this->nav('main');
@@ -448,16 +448,16 @@ class qa_html_theme_layer extends qa_html_theme_base {
 		$this->output('</nav>');		 		
 	}
 	function nav_ask_btn(){
-		if (cs_hook_exist(__FUNCTION__)) {$args=func_get_args(); return cs_do_action(__FUNCTION__, $args); }
+		if (qw_hook_exist(__FUNCTION__)) {$args=func_get_args(); return qw_do_action(__FUNCTION__, $args); }
 		
-		if (qa_opt('cs_enable_ask_button')){
+		if (qa_opt('qw_enable_ask_button')){
 			$this->output('<a id="nav-ask-btn" href="' . qa_path_html('ask') . '" class="btn">' . qa_lang_html('cleanstrap/ask_question') . '</a>');
 		}
 	}
 
     function site_top()
     {
-		if (cs_hook_exist(__FUNCTION__)) {$args=func_get_args(); return cs_do_action(__FUNCTION__, $args); }
+		if (qw_hook_exist(__FUNCTION__)) {$args=func_get_args(); return qw_do_action(__FUNCTION__, $args); }
 		
         $this->output('<div id="site-top" class="container">');
         $this->page_title_error();
@@ -471,7 +471,7 @@ class qa_html_theme_layer extends qa_html_theme_base {
     
     function logo()
     {
-		if (cs_hook_exist(__FUNCTION__)) {$args=func_get_args(); return cs_do_action(__FUNCTION__, $args); }
+		if (qw_hook_exist(__FUNCTION__)) {$args=func_get_args(); return qw_do_action(__FUNCTION__, $args); }
 		
         $logo = qa_opt('logo_url');
         $this->output('<div class="site-logo">', '<a class="navbar-brand'.(!!$logo ? '' :' icon-qawork').'" title="' . strip_tags($this->content['logo']) . '" href="' . get_base_url() . '">
@@ -481,14 +481,14 @@ class qa_html_theme_layer extends qa_html_theme_base {
 	
     function cat_drop_nav()
     {
-		if (cs_hook_exist(__FUNCTION__)) {$args=func_get_args(); return cs_do_action(__FUNCTION__, $args); }
+		if (qw_hook_exist(__FUNCTION__)) {$args=func_get_args(); return qw_do_action(__FUNCTION__, $args); }
 		
         ob_start();
 ?>
 			<ul class="nav navbar-nav category-nav pull-left">
 				<li class="dropdown pull-left">
 					<a data-toggle="dropdown" href="#" class="category-toggle icon-folder" title="<?php echo qa_lang_html('cleanstrap/categories'); ?>"></a>					
-						<?php $this->cs_full_categories_list(); ?>					
+						<?php $this->qw_full_categories_list(); ?>					
 				</li>
 			</ul>
 			<?php
@@ -496,7 +496,7 @@ class qa_html_theme_layer extends qa_html_theme_base {
     }
     function user_drop_nav()
     {
-		if (cs_hook_exist(__FUNCTION__)) {$args=func_get_args(); return cs_do_action(__FUNCTION__, $args); }
+		if (qw_hook_exist(__FUNCTION__)) {$args=func_get_args(); return qw_do_action(__FUNCTION__, $args); }
         ob_start();
         if (qa_is_logged_in()) {
             
@@ -507,7 +507,7 @@ class qa_html_theme_layer extends qa_html_theme_base {
             echo qa_path_html('user/' . qa_get_logged_in_handle());
 ?>" class="avatar">
 							<?php
-            $LoggedinUserAvatar = cs_get_avatar(qa_get_logged_in_handle(), 25, false);
+            $LoggedinUserAvatar = qw_get_avatar(qa_get_logged_in_handle(), 25, false);
             if (!empty($LoggedinUserAvatar))
                 echo '<img src="' . $LoggedinUserAvatar . '" />'; // in case there is no Avatar image and theme doesn't use a default avatar
             else
@@ -544,7 +544,7 @@ class qa_html_theme_layer extends qa_html_theme_base {
 				</ul>
 			
 			<?php
-			$this->cs_notification_btn();
+			$this->qw_notification_btn();
         } else {
 ?>				<div id="login-drop" class="dropdown pull-right">
 					<a class="icon-key login-register"  href="#" title="<?php echo qa_lang_html('cleanstrap/login_register'); ?>" data-toggle="dropdown"><?php echo qa_lang_html('cleanstrap/login'); ?></a>
@@ -606,12 +606,12 @@ class qa_html_theme_layer extends qa_html_theme_base {
         $this->output(ob_get_clean());
         
     }
-	function cs_notification_btn(){
+	function qw_notification_btn(){
 	
 	}
     function search()
     {
-		if (cs_hook_exist(__FUNCTION__)) {$args=func_get_args(); return cs_do_action(__FUNCTION__, $args); }
+		if (qw_hook_exist(__FUNCTION__)) {$args=func_get_args(); return qw_do_action(__FUNCTION__, $args); }
         $search = $this->content['search'];
         
         $this->output('<form ' . $search['form_tags'] . ' class="form-search" role="search" >', @$search['form_extra']);
@@ -623,23 +623,23 @@ class qa_html_theme_layer extends qa_html_theme_base {
     }
     function search_field($search)
     {
-		if (cs_hook_exist(__FUNCTION__)) {$args=func_get_args(); return cs_do_action(__FUNCTION__, $args); }
+		if (qw_hook_exist(__FUNCTION__)) {$args=func_get_args(); return qw_do_action(__FUNCTION__, $args); }
         $this->output('<i class="icon-search"></i><input type="text" ' . $search['field_tags'] . ' value="' . @$search['value'] . '" class="form-control search-query" placeholder="' . qa_lang_html('cleanstrap/search') . '" autocomplete="off" />', '');
     }
     
     function search_button($search)
     {
-		if (cs_hook_exist(__FUNCTION__)) {$args=func_get_args(); return cs_do_action(__FUNCTION__, $args); }
+		if (qw_hook_exist(__FUNCTION__)) {$args=func_get_args(); return qw_do_action(__FUNCTION__, $args); }
         $this->output('<button type="submit" value="' . $search['button_label'] . '" class="btn btn-default">Search</button>');
     }
     
     function sidepanel()
     {
-		if (cs_hook_exist(__FUNCTION__)) {$args=func_get_args(); return cs_do_action(__FUNCTION__, $args); }
-        if ($this->cs_position_active('Right')) {
+		if (qw_hook_exist(__FUNCTION__)) {$args=func_get_args(); return qw_do_action(__FUNCTION__, $args); }
+        if ($this->qw_position_active('Right')) {
             $this->output('<div class="side-c col-md-4">');
             $this->output('<div class="qa-sidepanel">');
-            $this->cs_position('Right');
+            $this->qw_position('Right');
             $this->output('</div>', '');
             
             $this->output('</div>');
@@ -650,7 +650,7 @@ class qa_html_theme_layer extends qa_html_theme_base {
     
     function user_sidebar()
     {
-		if (cs_hook_exist(__FUNCTION__)) {$args=func_get_args(); return cs_do_action(__FUNCTION__, $args); }
+		if (qw_hook_exist(__FUNCTION__)) {$args=func_get_args(); return qw_do_action(__FUNCTION__, $args); }
         ob_start();
 ?>
 				<ul class="user-sidebar">
@@ -680,9 +680,9 @@ class qa_html_theme_layer extends qa_html_theme_base {
     }
 
     
-    function cs_full_categories_list($show_sub = false)
+    function qw_full_categories_list($show_sub = false)
     {
-		if (cs_hook_exist(__FUNCTION__)) {$args=func_get_args(); return cs_do_action(__FUNCTION__, $args); }
+		if (qw_hook_exist(__FUNCTION__)) {$args=func_get_args(); return qw_do_action(__FUNCTION__, $args); }
         
         $level      = 1;
         $navigation = @$this->content['navigation']['cat'];
@@ -706,7 +706,7 @@ class qa_html_theme_layer extends qa_html_theme_base {
 		foreach ($navigation as $key => $navlink) {
 			$this->set_context('nav_key', $key);
 			$this->set_context('nav_index', $index++);
-			$this->cs_full_categories_list_item($key, $navlink, '', $level, $show_sub);
+			$this->qw_full_categories_list_item($key, $navlink, '', $level, $show_sub);
 			
 			if($row == $col)
 				$this->output('</ul></div><div class="category-list-drop"><ul>');
@@ -722,9 +722,9 @@ class qa_html_theme_layer extends qa_html_theme_base {
         unset($navigation);
     }
     
-    function cs_full_categories_list_item($key, $navlink, $class, $level = null, $show_sub)
+    function qw_full_categories_list_item($key, $navlink, $class, $level = null, $show_sub)
     {
-		if (cs_hook_exist(__FUNCTION__)) {$args=func_get_args(); return cs_do_action(__FUNCTION__, $args); }
+		if (qw_hook_exist(__FUNCTION__)) {$args=func_get_args(); return qw_do_action(__FUNCTION__, $args); }
         $suffix = strtr($key, array( // map special character in navigation key
             '$' => '',
             '/' => '-'
@@ -742,45 +742,45 @@ class qa_html_theme_layer extends qa_html_theme_base {
     
     function main()
     {
-		if (cs_hook_exist(__FUNCTION__)) {$args=func_get_args(); return cs_do_action(__FUNCTION__, $args); }
+		if (qw_hook_exist(__FUNCTION__)) {$args=func_get_args(); return qw_do_action(__FUNCTION__, $args); }
        $content = $this->content;
 
 		if($this->template == 'not-found'){
 				$this->notfound_template($content);				
-		}elseif(cs_is_user()){			
+		}elseif(qw_is_user()){			
 			$this->user_template($content);				
 		}elseif($this->template == 'question'){
 			$this->question_view($content);
 		}elseif($this->template == 'user-wall'){
 			$handle = qa_request_part(1);
 			$this->output('<section id="content" class="content-sidebar user-cols">');
-			$this->cs_user_nav($handle);
+			$this->qw_user_nav($handle);
 			$this->output('<div class="messages">');
 			$this->message_list_and_form($this->content['message_list']);
 			$this->output('</div></section>');
 		}elseif($this->template == 'admin'){
 			$this->admin_template($content);				
 		}else{
-			if(cs_hook_exist('main_'.$this->template))
-				cs_do_action('main_'.$this->template, $this);
+			if(qw_hook_exist('main_'.$this->template))
+				qw_do_action('main_'.$this->template, $this);
 			else	
 				$this->default_template($content);
 					
 		}
 	}
 	function main_top($content){
-		if (cs_hook_exist(__FUNCTION__)) {$args=func_get_args(); return cs_do_action(__FUNCTION__, $args); }
+		if (qw_hook_exist(__FUNCTION__)) {$args=func_get_args(); return qw_do_action(__FUNCTION__, $args); }
 
-		if ($this->cs_position_active('Header') || $this->cs_position_active('Header Right')) {
+		if ($this->qw_position_active('Header') || $this->qw_position_active('Header Right')) {
 			$this->output('<div class="header-position-c clearfix"><div class="container">');	
-				if ($this->cs_position_active('Header')){
+				if ($this->qw_position_active('Header')){
 					$this->output('<div class="col-md-6">');
-					$this->cs_position('Header');
+					$this->qw_position('Header');
 					$this->output('</div>');
 				}
-				if ($this->cs_position_active('Header Right')){
+				if ($this->qw_position_active('Header Right')){
 					$this->output('<div class="col-md-6">');
-					$this->cs_position('Header Right');
+					$this->qw_position('Header Right');
 					$this->output('</div>');
 				}
 			$this->output('</div></div>');
@@ -788,37 +788,37 @@ class qa_html_theme_layer extends qa_html_theme_base {
 	}
 	
 	function default_template($content){
-		if (cs_hook_exist(__FUNCTION__)) {$args=func_get_args(); return cs_do_action(__FUNCTION__, $args); }
+		if (qw_hook_exist(__FUNCTION__)) {$args=func_get_args(); return qw_do_action(__FUNCTION__, $args); }
 		
 			$this->main_parts($content);
-			$this->cs_position('Content Bottom');
+			$this->qw_position('Content Bottom');
 			$this->suggest_next();	
 	}	
 	
 	function admin_template($content){
-		if (cs_hook_exist(__FUNCTION__)) {$args=func_get_args(); return cs_do_action(__FUNCTION__, $args); }
+		if (qw_hook_exist(__FUNCTION__)) {$args=func_get_args(); return qw_do_action(__FUNCTION__, $args); }
 		$this->main_parts($content);
 	}
 	
-	function cs_page_title(){
-		if (cs_hook_exist(__FUNCTION__)) {$args=func_get_args(); return cs_do_action(__FUNCTION__, $args); }
+	function qw_page_title(){
+		if (qw_hook_exist(__FUNCTION__)) {$args=func_get_args(); return qw_do_action(__FUNCTION__, $args); }
 		
-		if(cs_is_user()){
+		if(qw_is_user()){
 			$handle = qa_request_part(1);
 			if(empty($handle)) $handle = qa_get_logged_in_handle();
 			$this->profile_user_card($handle);	
-		}elseif (!cs_is_home() && (!empty($this->content['title']))) {
+		}elseif (!qw_is_home() && (!empty($this->content['title']))) {
             $this->output('<div class="page-title"><div class="container">');
             $this->feed();
 			$this->favorite();
 			$this->output('<h1>'. $this->content['title'] .'</h1>');
-			$this->cs_question_head();
+			$this->qw_question_head();
             $this->output('</div></div>');
         }
 	}
     function title() // add RSS feed icon after the page title
     {
-		if (cs_hook_exist(__FUNCTION__)) {$args=func_get_args(); return cs_do_action(__FUNCTION__, $args); }
+		if (qw_hook_exist(__FUNCTION__)) {$args=func_get_args(); return qw_do_action(__FUNCTION__, $args); }
         qa_html_theme_base::title();
         
         $feed = @$this->content['feed'];
@@ -829,7 +829,7 @@ class qa_html_theme_layer extends qa_html_theme_base {
     
     function home($content)
     {
-		if (cs_hook_exist(__FUNCTION__)) {$args=func_get_args(); return cs_do_action(__FUNCTION__, $args); }
+		if (qw_hook_exist(__FUNCTION__)) {$args=func_get_args(); return qw_do_action(__FUNCTION__, $args); }
 		
 			
         $this->output('<div class="home-left-inner">'); 
@@ -840,35 +840,35 @@ class qa_html_theme_layer extends qa_html_theme_base {
     }
     
 	function user_template($content){
-		if (cs_hook_exist(__FUNCTION__)) {$args=func_get_args(); return cs_do_action(__FUNCTION__, $args); }
+		if (qw_hook_exist(__FUNCTION__)) {$args=func_get_args(); return qw_do_action(__FUNCTION__, $args); }
 		if(defined('QA_WORDPRESS_INTEGRATE_PATH')){
 			$userid = $this->content['raw']['userid'];
 			$user_date =  get_userdata( $userid );
 			$handle =  $user_date->user_login;
-			$about  = cs_name($handle);
+			$about  = qw_name($handle);
 		}else{
 			$handle = qa_request_part(1);
 			if(empty($handle)) $handle = qa_get_logged_in_handle();
 		}
 		$this->output('<div class="user-right">');
 	
-		$this->cs_user_nav($handle);
+		$this->qw_user_nav($handle);
 		$this->profile_page($content, $handle);
 		$this->output('</div>');		
 			
 	}
 	
 	function profile_user_card($handle){
-		if (cs_hook_exist(__FUNCTION__)) {$args=func_get_args(); return cs_do_action(__FUNCTION__, $args); }
+		if (qw_hook_exist(__FUNCTION__)) {$args=func_get_args(); return qw_do_action(__FUNCTION__, $args); }
 
 		$user = $this->content['active_user'];
 		$profile = $this->content['active_user_profile'];	
 
-		$this->output('<div class="user-card"'. (!empty($profile['cover']) ? ' style="background-image:url('.cs_upload_url().'/'.$profile['cover'].')"' : '').'><div class="cover-overlay"><div class="container">');
+		$this->output('<div class="user-card"'. (!empty($profile['cover']) ? ' style="background-image:url('.qw_upload_url().'/'.$profile['cover'].')"' : '').'><div class="cover-overlay"><div class="container">');
 			/* start user info */
 			$this->output(
 				'<div class="user-info">',
-				'<div class="user-thumb">' . cs_get_post_avatar($user['account'], 150) . '</div>',
+				'<div class="user-thumb">' . qw_get_post_avatar($user['account'], 150) . '</div>',
 				'<div class="user-name">',
 					'<span>'.$handle.'</span>',
 					'<small class="block">' . qa_user_level_string($user['account']['level']) . '</small>',
@@ -883,12 +883,12 @@ class qa_html_theme_layer extends qa_html_theme_base {
 			$this->output('</div>');
 			/* end user info */
 			
-			$this->cs_user_activity_count($handle);			
+			$this->qw_user_activity_count($handle);			
 		$this->output('</div></div></div>');
 
 	}
 	
-	function cs_user_profile_button($handle){
+	function qw_user_profile_button($handle){
 		$user = $this->content['active_user'];
 		$profile = $this->content['active_user_profile'];	
 		
@@ -897,7 +897,7 @@ class qa_html_theme_layer extends qa_html_theme_base {
 			
 			$form = @$this->content['form_profile'];
 			
-			if(isset($form) && !cs_is_state_edit()){
+			if(isset($form) && !qw_is_state_edit()){
 				$this->output('<form class="user-buttons" '.$form['tags'].'><div class="btn-group">');
 				foreach($form['buttons'] as $k => $btn)
 					$this->output('<button class="btn '.$k .($k == 'delete' ? ' btn-danger' : '' ).'" ' . $btn['tags'] . ' type="submit">' . $btn['label'] . '</button>');
@@ -910,16 +910,16 @@ class qa_html_theme_layer extends qa_html_theme_base {
 					'<a class="btn btn-success" href="#" data-qawork="change-cover">Change cover</a>',
 					'<a class="btn" href="'.qa_path_html('account').'">Account</a>',
 					'<a class="btn" href="'.qa_path_html('notifications').'">'.qa_lang_html('cleanstrap/notifications').'</a>',
-					cs_do_action('user_profile_btn', $handle, $user),
+					qw_do_action('user_profile_btn', $handle, $user),
 				'</div>'
 			);
 			
 		$this->output('</div>');
 	}
 	
-	function cs_user_activity_count($handle)
+	function qw_user_activity_count($handle)
     {
-		if (cs_hook_exist(__FUNCTION__)) {$args=func_get_args(); return cs_do_action(__FUNCTION__, $args); }
+		if (qw_hook_exist(__FUNCTION__)) {$args=func_get_args(); return qw_do_action(__FUNCTION__, $args); }
 		
         $user = $this->content['active_user'];
 
@@ -929,11 +929,11 @@ class qa_html_theme_layer extends qa_html_theme_base {
 					'<span>' . qa_lang_html('cleanstrap/points') . '</span>', 
 				'</li>',				
 				'<li class="counts">', 
-					'<i>'.cs_count_followers($handle).'</i>',
+					'<i>'.qw_count_followers($handle).'</i>',
 					'<span>' .qa_lang_html('cleanstrap/followers'). '</span>', 
 				'</li>', 
 				'<li class="counts">', 
-					'<i>'.cs_count_following($handle).'</i>',
+					'<i>'.qw_count_following($handle).'</i>',
 					'<span>' .qa_lang_html('cleanstrap/following'). '</span>', 
 				'</li>', 
 			'</ul>'
@@ -943,24 +943,24 @@ class qa_html_theme_layer extends qa_html_theme_base {
 	
 	function profile_page($content, $handle)
     {
-		if (cs_hook_exist(__FUNCTION__)) {$args=func_get_args(); return cs_do_action(__FUNCTION__, $args); }
+		if (qw_hook_exist(__FUNCTION__)) {$args=func_get_args(); return qw_do_action(__FUNCTION__, $args); }
 		$user = $this->content['active_user'];
 		$profile = $this->content['active_user_profile'];
 		
 		$this->output('<div class="user-main-content">');
-		$this->cs_user_profile_button($handle);	
+		$this->qw_user_profile_button($handle);	
 		
-		if($this->template == 'user' && !cs_is_state_edit()){
+		if($this->template == 'user' && !qw_is_state_edit()){
 			$this->output('<div class="user-widgets row">');
 				$this->output('<div class="col-sm-4">');
-					$this->cs_position('Profile Left Top');
-					$this->cs_user_about($user, $profile);
-					$this->cs_user_activities($user, $profile);
-					$this->cs_position('Profile Left Bottom');
+					$this->qw_position('Profile Left Top');
+					$this->qw_user_about($user, $profile);
+					$this->qw_user_activities($user, $profile);
+					$this->qw_position('Profile Left Bottom');
 				$this->output('</div>');
 				$this->output('<div class="col-sm-8">');
-					$this->cs_user_wall_widget($content['message_list'], $handle);
-					$this->cs_position('Profile Right');
+					$this->qw_user_wall_widget($content['message_list'], $handle);
+					$this->qw_position('Profile Right');
 				$this->output('</div>');				
 			$this->output('</div>');
 		}else{
@@ -969,10 +969,10 @@ class qa_html_theme_layer extends qa_html_theme_base {
 		$this->output('</div>');
 		
     }
-	function cs_user_about($user, $profile){
+	function qw_user_about($user, $profile){
 		
 		if(isset($profile) && !empty($profile)){
-			$profile = cs_order_profile_fields($profile);
+			$profile = qw_order_profile_fields($profile);
 			if (isset($profile['website']) && !empty($profile['website'])) {
 				$new_url = $profile['website'] ;
 				if(!filter_var($new_url, FILTER_VALIDATE_URL)){ 
@@ -998,7 +998,7 @@ class qa_html_theme_layer extends qa_html_theme_base {
 		}
 
 	}
-	function cs_user_activities($user, $profile){
+	function qw_user_activities($user, $profile){
 		if(isset($user['points']) && !empty($user['points'])){
 			$p = $user['points'];
 			$this->output(
@@ -1019,7 +1019,7 @@ class qa_html_theme_layer extends qa_html_theme_base {
 		}
 	}
 	
-	function cs_user_wall_widget($message_list, $handle){
+	function qw_user_wall_widget($message_list, $handle){
 		/* unset title */
 		unset($message_list['title']);
 		
@@ -1030,9 +1030,9 @@ class qa_html_theme_layer extends qa_html_theme_base {
 		}
 	}
 	
-    function cs_user_nav($handle)
+    function qw_user_nav($handle)
     {
-		if (cs_hook_exist(__FUNCTION__)) {$args=func_get_args(); return cs_do_action(__FUNCTION__, $args); }
+		if (qw_hook_exist(__FUNCTION__)) {$args=func_get_args(); return qw_do_action(__FUNCTION__, $args); }
 		
 		if(isset($this->content['navigation']['sub'])){
 			$sub = $this->content['navigation']['sub'];
@@ -1055,8 +1055,8 @@ class qa_html_theme_layer extends qa_html_theme_base {
         $this->output('</div>');
     }
 	
-	function cs_question_head(){
-		if (cs_hook_exist(__FUNCTION__)) {$args=func_get_args(); return cs_do_action(__FUNCTION__, $args); }
+	function qw_question_head(){
+		if (qw_hook_exist(__FUNCTION__)) {$args=func_get_args(); return qw_do_action(__FUNCTION__, $args); }
 		
 		$content = $this->content;
 		$q_view = @$content['q_view'];
@@ -1065,13 +1065,13 @@ class qa_html_theme_layer extends qa_html_theme_base {
 
 			$this->output('<div class="question-metas">
 				'.(is_featured($q_view['raw']['postid']) ? '<span class="featured-sticker icon-star ra-tip" title="'.qa_lang_html('cleanstrap/question_is_featured').'">' . qa_lang_html('cleanstrap/featured') . '</span>' : '').'
-				'.cs_post_status($q_view).'				
+				'.qw_post_status($q_view).'				
 				<span class="meta-icon icon-answer"></span>
 				<span class="q-view-a-count">'.qa_lang_sub('cleanstrap/x_answers', $q_view['raw']['acount']).' </span>
 				<span class="icon-eye meta-icon"></span>
 				<span class="q-view-a-count">' . qa_lang_sub('cleanstrap/x_answers', $q_view['raw']['views']) . ' </span>
 				<span class="icon-folder meta-icon"></span>
-				'.qa_lang_html('cleanstrap/posted_under').' <a class="cat-in" href="' . cs_cat_path($q_view['raw']['categorybackpath']) . '">' . $q_view['raw']['categoryname'] . '</a>
+				'.qa_lang_html('cleanstrap/posted_under').' <a class="cat-in" href="' . qw_cat_path($q_view['raw']['categorybackpath']) . '">' . $q_view['raw']['categoryname'] . '</a>
 				</div>');
 				
 				if (!empty($q_view['q_tags'])) {
@@ -1084,12 +1084,12 @@ class qa_html_theme_layer extends qa_html_theme_base {
 	
     function question_view($content)
     {
-		if (cs_hook_exist(__FUNCTION__)) {$args=func_get_args(); return cs_do_action(__FUNCTION__, $args); }
+		if (qw_hook_exist(__FUNCTION__)) {$args=func_get_args(); return qw_do_action(__FUNCTION__, $args); }
 		
 			$q_view = @$content['q_view'];
 			$this->output('<div class="lr-table row"><div class="left-content question-main col-md-8">');
 					$this->main_parts($content);
-					$this->cs_position('Content Bottom');					
+					$this->qw_position('Content Bottom');					
 				$this->output('</div>');
 			
 				$this->output('<div class="question-side col-md-4">');
@@ -1098,7 +1098,7 @@ class qa_html_theme_layer extends qa_html_theme_base {
 					$link = qa_q_path(@$q_view['raw']['postid'], @$q_view['raw']['title'] , true);
 					$this->fb_ask_your_friend($link);
 					$this->output('</div>');
-					$this->cs_position('Question Right');			
+					$this->qw_position('Question Right');			
 				$this->output('</div>');
 			$this->output('</div>');
 		
@@ -1106,8 +1106,8 @@ class qa_html_theme_layer extends qa_html_theme_base {
 	
     function q_list_item($q_item)
     {
-		if (cs_hook_exist(__FUNCTION__)) {$args=func_get_args(); return cs_do_action(__FUNCTION__, $args); }
-        $status = cs_get_post_status($q_item);
+		if (qw_hook_exist(__FUNCTION__)) {$args=func_get_args(); return qw_do_action(__FUNCTION__, $args); }
+        $status = qw_get_post_status($q_item);
         if (qa_opt('styling_' . $status . '_question'))
             $status_class = ' qa-q-status-' . $status;
         else
@@ -1123,7 +1123,7 @@ class qa_html_theme_layer extends qa_html_theme_base {
     
     function q_item_stats($q_item) // add view count to question list
     {
-		if (cs_hook_exist(__FUNCTION__)) {$args=func_get_args(); return cs_do_action(__FUNCTION__, $args); }
+		if (qw_hook_exist(__FUNCTION__)) {$args=func_get_args(); return qw_do_action(__FUNCTION__, $args); }
         $this->output('<div class="qa-q-item-stats">');
         $this->a_count($q_item);
         qa_html_theme_base::view_count($q_item);
@@ -1132,19 +1132,19 @@ class qa_html_theme_layer extends qa_html_theme_base {
     
     function q_item_main($q_item)
     {
-		if (cs_hook_exist(__FUNCTION__)) {$args=func_get_args(); return cs_do_action(__FUNCTION__, $args); }
+		if (qw_hook_exist(__FUNCTION__)) {$args=func_get_args(); return qw_do_action(__FUNCTION__, $args); }
         $avatar_size =  35;
         $timeCode    = $q_item['when'];
         $when        = @$timeCode['prefix'] . @$timeCode['data'] . @$timeCode['suffix'];
         
        // if (isset($q_item['avatar'])) {
             $this->output('<div class="asker-avatar">');
-            $this->output(cs_get_post_avatar($q_item, $avatar_size, true));		
+            $this->output(qw_get_post_avatar($q_item, $avatar_size, true));		
             $this->output('</div>');
        // }
         $this->output(
 			'<div class="qa-q-item-main">',
-			'<div class="ans-count ra-tip" title="'.qa_lang_sub('cleanstrap/x_answers', $q_item['raw']['acount']).'">'. cs_format_num($q_item['raw']['acount']) .'</div>',
+			'<div class="ans-count ra-tip" title="'.qa_lang_sub('cleanstrap/x_answers', $q_item['raw']['acount']).'">'. qw_format_num($q_item['raw']['acount']) .'</div>',
 			'<div class="qa-q-item-main-line">'
 		);
 		
@@ -1152,7 +1152,7 @@ class qa_html_theme_layer extends qa_html_theme_base {
 		
 		$this->output('<div class="q-item-right pull-right">');
 			
-			if ((qa_opt('cs_show_tags_list') && !empty($q_item['q_tags'])) || isset($q_item['raw']['categoryname']) ) {
+			if ((qa_opt('qw_show_tags_list') && !empty($q_item['q_tags'])) || isset($q_item['raw']['categoryname']) ) {
 				$this->output('<div class="cat-tag-drop">');
 				
 				
@@ -1207,7 +1207,7 @@ class qa_html_theme_layer extends qa_html_theme_base {
 		
 		if (!empty($post['what_2'])) {
 			$order=explode('^', @$post['meta_order']);
-			$this->output('<div class="what-2 '.cs_what_icon($post['what_2']).'">');
+			$this->output('<div class="what-2 '.qw_what_icon($post['what_2']).'">');
 			foreach ($order as $element)
 				switch ($element) {
 					case 'what':
@@ -1227,19 +1227,19 @@ class qa_html_theme_layer extends qa_html_theme_base {
 	}
     
 	function q_item_main_stats($q_item){
-		if (cs_hook_exist(__FUNCTION__)) {$args=func_get_args(); return cs_do_action(__FUNCTION__, $args); }
+		if (qw_hook_exist(__FUNCTION__)) {$args=func_get_args(); return qw_do_action(__FUNCTION__, $args); }
 		
 		if (isset($q_item['raw']['categoryname']) && !empty($q_item['raw']['categoryname'])) {
-			$cat = '<a class="cat-in icon-folder" href="' . cs_cat_path($q_item['raw']['categorybackpath']) . '">' . $q_item['raw']['categoryname'] . '</a>	';
+			$cat = '<a class="cat-in icon-folder" href="' . qw_cat_path($q_item['raw']['categorybackpath']) . '">' . $q_item['raw']['categoryname'] . '</a>	';
 		}
 
 				
 		$this->output(			
 			'<div class="q-item-footer clearfix">',				
 				'<div class="q-item-status">',
-					'<span class="status-c">' . cs_post_status($q_item) . '</span>',
+					'<span class="status-c">' . qw_post_status($q_item) . '</span>',
 					'<span class="icon-thumb-up">'.qa_lang_sub('cleanstrap/x_votes', $q_item['raw']['netvotes']).'</span>',
-					'<span class="icon-eye">'.qa_lang_sub('cleanstrap/x_views', cs_format_num($q_item['raw']['views'])).'</span>',
+					'<span class="icon-eye">'.qa_lang_sub('cleanstrap/x_views', qw_format_num($q_item['raw']['views'])).'</span>',
 					@$cat);
 					if (!empty($q_item['q_tags'])){
 						$this->output('<span class="icon-tags"></span>');
@@ -1252,24 +1252,24 @@ class qa_html_theme_layer extends qa_html_theme_base {
 	
     function footer()
     {
-		if (cs_hook_exist(__FUNCTION__)) {$args=func_get_args(); return cs_do_action(__FUNCTION__, $args); }
+		if (qw_hook_exist(__FUNCTION__)) {$args=func_get_args(); return qw_do_action(__FUNCTION__, $args); }
 		
-		if($this->cs_position_active('Site Counts')){
+		if($this->qw_position_active('Site Counts')){
 			$this->output('<div class="site-counts-positions">');
 				$this->output('<div class="container">');
-					$this->cs_position('Site Counts');
+					$this->qw_position('Site Counts');
 				$this->output('</div>');
 			$this->output('</div>');
 		}
-		if($this->cs_position_active('Footer 1') || $this->cs_position_active('Footer 1 Right')){
+		if($this->qw_position_active('Footer 1') || $this->qw_position_active('Footer 1 Right')){
 			$this->output('<div class="footer-positions">');
 				$this->output('<div class="container">');
 					$this->output('<div class="row">');
 						$this->output('<div class="col-md-8">');					
-							$this->cs_position('Footer 1');
+							$this->qw_position('Footer 1');
 						$this->output('</div>');
 						$this->output('<div class="col-md-4">');					
-							$this->cs_position('Footer 1 Right');
+							$this->qw_position('Footer 1 Right');
 						$this->output('</div>');
 					$this->output('</div>');
 				$this->output('</div>');
@@ -1281,22 +1281,22 @@ class qa_html_theme_layer extends qa_html_theme_base {
 			$this->nav('footer');
         
 			$this->output('<div class="qa-attribution-right">');
-				if ((bool) qa_opt('cs_footer_copyright'))
-					$this->output(qa_opt('cs_footer_copyright'));
+				if ((bool) qa_opt('qw_footer_copyright'))
+					$this->output(qa_opt('qw_footer_copyright'));
 				$this->output('<span class="developer">Crafted by <a href="http://rahularyan.com">RA Team</a></span>');
 			$this->output('</div>');
 		$this->output('</div>');        
         $this->output('</footer>');
 		
-		$this->output(cs_do_action('footer_bottom', $this));
+		$this->output(qw_do_action('footer_bottom', $this));
     }
     
     function get_social_links()
     {
-		if (cs_hook_exist(__FUNCTION__)) {$args=func_get_args(); return cs_do_action(__FUNCTION__, $args); }
+		if (qw_hook_exist(__FUNCTION__)) {$args=func_get_args(); return qw_do_action(__FUNCTION__, $args); }
 		
-        if (!! qa_opt('cs_social_enable')) {
-            $links = json_decode(qa_opt('cs_social_list'));
+        if (!! qa_opt('qw_social_enable')) {
+            $links = json_decode(qa_opt('qw_social_list'));
             
 			if(!empty($links)){
 				$this->output('<ul class="ra-social-links">');
@@ -1312,7 +1312,7 @@ class qa_html_theme_layer extends qa_html_theme_base {
     
     function nav_item($key, $navlink, $class, $level = null)
     {
-		if (cs_hook_exist(__FUNCTION__)) {$args=func_get_args(); return cs_do_action(__FUNCTION__, $args); }
+		if (qw_hook_exist(__FUNCTION__)) {$args=func_get_args(); return qw_do_action(__FUNCTION__, $args); }
         $suffix = strtr($key, array( // map special character in navigation key
             '$' => '',
             '/' => '-'
@@ -1328,7 +1328,7 @@ class qa_html_theme_layer extends qa_html_theme_base {
     }
     function nav_link($navlink, $class)
     {
-		if (cs_hook_exist(__FUNCTION__)) {$args=func_get_args(); return cs_do_action(__FUNCTION__, $args); }
+		if (qw_hook_exist(__FUNCTION__)) {$args=func_get_args(); return qw_do_action(__FUNCTION__, $args); }
 		$icon = isset($navlink['icon']) ? $navlink['icon'] : ($this->template == 'admin' ? 'icon-cog' : '');
         if (isset($navlink['url']))
             $this->output('<a href="' . $navlink['url'] . '" class="' . $icon . ' qa-' . $class . '-link' . (@$navlink['selected'] ? (' qa-' . $class . '-selected') : '') . (@$navlink['favorited'] ? (' qa-' . $class . '-favorited') : '') . '"' . (strlen(@$navlink['popup']) ? (' title="' . $navlink['popup'] . '"') : '') . (isset($navlink['target']) ? (' target="' . $navlink['target'] . '"') : '') . '>' . $navlink['label'] . (strlen(@$navlink['note']) ? '<span class="qa-' . $class . '-note">' . filter_var($navlink['note'], FILTER_SANITIZE_NUMBER_INT) . '</span>' : '') . '</a>');
@@ -1338,7 +1338,7 @@ class qa_html_theme_layer extends qa_html_theme_base {
     }
     function page_title_error()
     {
-		if (cs_hook_exist(__FUNCTION__)) {$args=func_get_args(); return cs_do_action(__FUNCTION__, $args); }
+		if (qw_hook_exist(__FUNCTION__)) {$args=func_get_args(); return qw_do_action(__FUNCTION__, $args); }
         $favorite = @$this->content['favorite'];
         
         if (isset($favorite))
@@ -1360,7 +1360,7 @@ class qa_html_theme_layer extends qa_html_theme_base {
     
     function post_avatar_meta($post, $class, $avatarprefix = null, $metaprefix = null, $metaseparator = '<br/>')
     {
-		if (cs_hook_exist(__FUNCTION__)) {$args=func_get_args(); return cs_do_action(__FUNCTION__, $args); }
+		if (qw_hook_exist(__FUNCTION__)) {$args=func_get_args(); return qw_do_action(__FUNCTION__, $args); }
         $this->output('<div class="' . $class . '-avatar-meta">');
         //$this->post_avatar($post, $class, $avatarprefix);
         $this->post_meta($post, $class, $metaprefix, $metaseparator);
@@ -1369,7 +1369,7 @@ class qa_html_theme_layer extends qa_html_theme_base {
     
     function feed()
     {
-		if (cs_hook_exist(__FUNCTION__)) {$args=func_get_args(); return cs_do_action(__FUNCTION__, $args); }
+		if (qw_hook_exist(__FUNCTION__)) {$args=func_get_args(); return qw_do_action(__FUNCTION__, $args); }
         $feed = @$this->content['feed'];
         
         if (!empty($feed)) {
@@ -1379,7 +1379,7 @@ class qa_html_theme_layer extends qa_html_theme_base {
     
     function page_links()
     {
-		if (cs_hook_exist(__FUNCTION__)) {$args=func_get_args(); return cs_do_action(__FUNCTION__, $args); }
+		if (qw_hook_exist(__FUNCTION__)) {$args=func_get_args(); return qw_do_action(__FUNCTION__, $args); }
         $page_links = @$this->content['page_links'];
         
         if (!empty($page_links)) {
@@ -1388,7 +1388,7 @@ class qa_html_theme_layer extends qa_html_theme_base {
     }
     function page_links_list($page_items)
     {
-		if (cs_hook_exist(__FUNCTION__)) {$args=func_get_args(); return cs_do_action(__FUNCTION__, $args); }
+		if (qw_hook_exist(__FUNCTION__)) {$args=func_get_args(); return qw_do_action(__FUNCTION__, $args); }
         if (!empty($page_items)) {
             $this->output('<ul class="pagination clearfix">');
             
@@ -1412,11 +1412,11 @@ class qa_html_theme_layer extends qa_html_theme_base {
     
     function voting($post)
     {
-        if (cs_hook_exist(__FUNCTION__)) {$args=func_get_args(); return cs_do_action(__FUNCTION__, $args); }
+        if (qw_hook_exist(__FUNCTION__)) {$args=func_get_args(); return qw_do_action(__FUNCTION__, $args); }
         $code = @$post['voting_form_hidden']['code'];
         if (isset($post['vote_view'])) {
             $state = @$post['vote_state'];
-            $this->output('<div class="' . $state . ' ' . (isset($this->content['q_list']) ? 'list-' : '') . 'voting clearfix ' . (qa_opt('cs_horizontal_voting_btns') ? 'voting-horizontal ' : 'voting-vertical ') . (($post['vote_view'] == 'updown') ? 'qa-voting-updown' : 'qa-voting-net') . (($post['raw']['netvotes'] < (0)) ? ' negative' : '') . (($post['raw']['netvotes'] > (0)) ? ' positive' : '') . '" ' . @$post['vote_tags'] . '>');
+            $this->output('<div class="' . $state . ' ' . (isset($this->content['q_list']) ? 'list-' : '') . 'voting clearfix ' . (qa_opt('qw_horizontal_voting_btns') ? 'voting-horizontal ' : 'voting-vertical ') . (($post['vote_view'] == 'updown') ? 'qa-voting-updown' : 'qa-voting-net') . (($post['raw']['netvotes'] < (0)) ? ' negative' : '') . (($post['raw']['netvotes'] > (0)) ? ' positive' : '') . '" ' . @$post['vote_tags'] . '>');
             $this->voting_inner_html($post);
             $this->output('</div>');
         }
@@ -1425,7 +1425,7 @@ class qa_html_theme_layer extends qa_html_theme_base {
     
     function voting_inner_html($post)
     {
-        if (cs_hook_exist(__FUNCTION__)) {$args=func_get_args(); return cs_do_action(__FUNCTION__, $args); }
+        if (qw_hook_exist(__FUNCTION__)) {$args=func_get_args(); return qw_do_action(__FUNCTION__, $args); }
         $up_tags   = preg_replace('/onclick="([^"]+)"/', '', str_replace('name', 'data-id', @$post['vote_up_tags']));
         $down_tags = preg_replace('/onclick="([^"]+)"/', '', str_replace('name', 'data-id', @$post['vote_down_tags']));
         if (qa_is_logged_in()) {
@@ -1484,7 +1484,7 @@ class qa_html_theme_layer extends qa_html_theme_base {
     
     function vote_count($post)
     {
-		if (cs_hook_exist(__FUNCTION__)) {$args=func_get_args(); return cs_do_action(__FUNCTION__, $args); }
+		if (qw_hook_exist(__FUNCTION__)) {$args=func_get_args(); return qw_do_action(__FUNCTION__, $args); }
         // You can also use $post['upvotes_raw'], $post['downvotes_raw'], $post['netvotes_raw'] to get
         // raw integer vote counts, for graphing or showing in other non-textual ways
         
@@ -1501,19 +1501,19 @@ class qa_html_theme_layer extends qa_html_theme_base {
     }
     function vote_hover_button($post, $element, $value, $class)
     {
-		if (cs_hook_exist(__FUNCTION__)) {$args=func_get_args(); return cs_do_action(__FUNCTION__, $args); }
+		if (qw_hook_exist(__FUNCTION__)) {$args=func_get_args(); return qw_do_action(__FUNCTION__, $args); }
         if (isset($post[$element]))
             $this->output('<button ' . $post[$element] . ' type="submit" class="' . $class . '-button btn">' . $value . '</button>');
     }
     function vote_disabled_button($post, $element, $value, $class)
     {
-		if (cs_hook_exist(__FUNCTION__)) {$args=func_get_args(); return cs_do_action(__FUNCTION__, $args); }
+		if (qw_hook_exist(__FUNCTION__)) {$args=func_get_args(); return qw_do_action(__FUNCTION__, $args); }
         if (isset($post[$element]))
             $this->output('<button ' . $post[$element] . ' type="submit" class="btn ' . $class . '-disabled" disabled="disabled">' . $value . '</button>');
     }
     function q_view($q_view)
     {
-		if (cs_hook_exist(__FUNCTION__)) {$args=func_get_args(); return cs_do_action(__FUNCTION__, $args); }
+		if (qw_hook_exist(__FUNCTION__)) {$args=func_get_args(); return qw_do_action(__FUNCTION__, $args); }
         if (!empty($q_view)) {
             $this->output('<div class="qa-q-view' . (@$q_view['hidden'] ? ' qa-q-view-hidden' : '') . rtrim(' ' . @$q_view['classes']) . '"' . rtrim(' ' . @$q_view['tags']) . '>');
             
@@ -1524,17 +1524,17 @@ class qa_html_theme_layer extends qa_html_theme_base {
     }
     function q_view_main($q_view)
     {
-		if (cs_hook_exist(__FUNCTION__)) {$args=func_get_args(); return cs_do_action(__FUNCTION__, $args); }
+		if (qw_hook_exist(__FUNCTION__)) {$args=func_get_args(); return qw_do_action(__FUNCTION__, $args); }
 
         $this->output('<div class="q-view-body">');
 		
 		$this->output('<div class="big-s-avatar avatar">');
-			$this->output(cs_get_post_avatar($q_view, 40, true));
+			$this->output(qw_get_post_avatar($q_view, 40, true));
 			$this->voting($q_view);
 		$this->output('</div>');
 		
         $this->output('<div class="no-overflow">');
-            $this->output(base64_decode(qa_opt('cs_ads_below_question_title')));
+            $this->output(base64_decode(qa_opt('qw_ads_below_question_title')));
             
             $this->output('<div class="qa-q-view-main">');
             
@@ -1558,7 +1558,7 @@ class qa_html_theme_layer extends qa_html_theme_base {
 				
 			$this->q_view_content($q_view);
 			if(isset($q_view['raw']['postid'])){
-				$this->output(cs_do_action('after_question', $q_view['raw']['postid']));
+				$this->output(qw_do_action('after_question', $q_view['raw']['postid']));
 			}
             $this->output('</div>');
 						
@@ -1577,7 +1577,7 @@ class qa_html_theme_layer extends qa_html_theme_base {
             $this->output('</div>');
 			
             $this->c_form(@$q_view['c_form']);
-            $this->output(base64_decode(qa_opt('cs_ads_after_question_content')));
+            $this->output(base64_decode(qa_opt('qw_ads_after_question_content')));
             $this->output('</div>');			
             $this->output('</div>');
             $this->output('</div>');
@@ -1588,7 +1588,7 @@ class qa_html_theme_layer extends qa_html_theme_base {
     }
 	function q_view_follows($q_view)
 	{
-		if (cs_hook_exist(__FUNCTION__)) {$args=func_get_args(); return cs_do_action(__FUNCTION__, $args); }
+		if (qw_hook_exist(__FUNCTION__)) {$args=func_get_args(); return qw_do_action(__FUNCTION__, $args); }
 		if (!empty($q_view['follows']))
 			$this->output(
 				'<div class="qa-q-view-follows">',
@@ -1602,7 +1602,7 @@ class qa_html_theme_layer extends qa_html_theme_base {
 		
 	function q_view_closed($q_view)
 	{
-		if (cs_hook_exist(__FUNCTION__)) {$args=func_get_args(); return cs_do_action(__FUNCTION__, $args); }
+		if (qw_hook_exist(__FUNCTION__)) {$args=func_get_args(); return qw_do_action(__FUNCTION__, $args); }
 		if (!empty($q_view['closed'])) {
 			$haslink=isset($q_view['closed']['url']);
 			
@@ -1626,7 +1626,7 @@ class qa_html_theme_layer extends qa_html_theme_base {
 	}
     function ra_post_buttons($q_view, $show_feat_img=false)
     {
-		if (cs_hook_exist(__FUNCTION__)) {$args=func_get_args(); return cs_do_action(__FUNCTION__, $args); }
+		if (qw_hook_exist(__FUNCTION__)) {$args=func_get_args(); return qw_do_action(__FUNCTION__, $args); }
         if(isset($q_view['form']['buttons'])){
 			$buttons = $q_view['form']['buttons'];
 			
@@ -1667,14 +1667,14 @@ class qa_html_theme_layer extends qa_html_theme_base {
 			}
 
 			//register a hook
-			$this->output(cs_do_action('ra_post_buttons_hook', $this, $q_view));
+			$this->output(qw_do_action('ra_post_buttons_hook', $this, $q_view));
 			
 			$this->output('</div>');
 		}
     }
     function post_tags($post, $class)
     {
-		if (cs_hook_exist(__FUNCTION__)) {$args=func_get_args(); return cs_do_action(__FUNCTION__, $args); }
+		if (qw_hook_exist(__FUNCTION__)) {$args=func_get_args(); return qw_do_action(__FUNCTION__, $args); }
         if (!empty($post['q_tags'])) {
             $this->output('<div class="' . $class . '-tags clearfix">');
             $this->post_tag_list($post, $class);
@@ -1684,7 +1684,7 @@ class qa_html_theme_layer extends qa_html_theme_base {
 
      function c_list_item($c_item)
     {
-		if (cs_hook_exist(__FUNCTION__)) {$args=func_get_args(); return cs_do_action(__FUNCTION__, $args); }
+		if (qw_hook_exist(__FUNCTION__)) {$args=func_get_args(); return qw_do_action(__FUNCTION__, $args); }
         $extraclass = @$c_item['classes'] . (@$c_item['hidden'] ? ' qa-c-item-hidden' : '');
         
         $this->output('<div class="clearfix qa-c-list-item ' . $extraclass . '" ' . @$c_item['tags'] . '>');
@@ -1692,7 +1692,7 @@ class qa_html_theme_layer extends qa_html_theme_base {
         $this->output('<div class="asker-avatar">');
         
         if (isset($c_item['raw']['handle']))
-            $this->output(cs_get_post_avatar($c_item, 20, true));
+            $this->output(qw_get_post_avatar($c_item, 20, true));
         
         $this->output('</div>');
         $this->output('<div class="qa-c-wrap"><div class="qa-c-wrap-inner-height">');
@@ -1705,7 +1705,7 @@ class qa_html_theme_layer extends qa_html_theme_base {
     
     function c_item_main($c_item)
     {
-		if (cs_hook_exist(__FUNCTION__)) {$args=func_get_args(); return cs_do_action(__FUNCTION__, $args); }
+		if (qw_hook_exist(__FUNCTION__)) {$args=func_get_args(); return qw_do_action(__FUNCTION__, $args); }
         $this->error(@$c_item['error']);
         
         if (isset($c_item['expand_tags']))
@@ -1717,7 +1717,7 @@ class qa_html_theme_layer extends qa_html_theme_base {
     }
     function ra_comment_buttons($c_item)
     {
-		if (cs_hook_exist(__FUNCTION__)) {$args=func_get_args(); return cs_do_action(__FUNCTION__, $args); }
+		if (qw_hook_exist(__FUNCTION__)) {$args=func_get_args(); return qw_do_action(__FUNCTION__, $args); }
 		if(isset($c_item['form']['buttons'])){
 			$buttons = $c_item['form']['buttons'];
 			
@@ -1743,7 +1743,7 @@ class qa_html_theme_layer extends qa_html_theme_base {
     }
     function a_list($a_list)
     {
-		if (cs_hook_exist(__FUNCTION__)) {$args=func_get_args(); return cs_do_action(__FUNCTION__, $args); }
+		if (qw_hook_exist(__FUNCTION__)) {$args=func_get_args(); return qw_do_action(__FUNCTION__, $args); }
 		if (isset($a_list['title']) && (strlen(@$a_list['title']) || strlen(@$a_list['title_tags'])))
                 $this->output('<h3 class="answers-label icon-answer">' . @$a_list['title'] . '</h3>');
 		
@@ -1759,7 +1759,7 @@ class qa_html_theme_layer extends qa_html_theme_base {
     }
     function a_list_item($a_item)
     {
-		if (cs_hook_exist(__FUNCTION__)) {$args=func_get_args(); return cs_do_action(__FUNCTION__, $args); }
+		if (qw_hook_exist(__FUNCTION__)) {$args=func_get_args(); return qw_do_action(__FUNCTION__, $args); }
         $extraclass = @$a_item['classes'] . ($a_item['hidden'] ? ' qa-a-list-item-hidden' : ($a_item['selected'] ? ' qa-a-list-item-selected' : ''));
         
         $this->output('<div class="qa-a-list-item ' . $extraclass . '" ' . @$a_item['tags'] . '>');
@@ -1770,11 +1770,11 @@ class qa_html_theme_layer extends qa_html_theme_base {
     }
     function a_item_main($a_item)
     {
-		if (cs_hook_exist(__FUNCTION__)) {$args=func_get_args(); return cs_do_action(__FUNCTION__, $args); }
+		if (qw_hook_exist(__FUNCTION__)) {$args=func_get_args(); return qw_do_action(__FUNCTION__, $args); }
 
         $avatar_size =  40;
 		$this->output('<div class="big-s-avatar avatar">');
-		$this->output(cs_get_post_avatar($a_item, $avatar_size, true));
+		$this->output(qw_get_post_avatar($a_item, $avatar_size, true));
 		$this->voting($a_item);
 		$this->output('</div>');			
         
@@ -1806,7 +1806,7 @@ class qa_html_theme_layer extends qa_html_theme_base {
         //if ($a_item['hidden'] || $a_item['selected'])
         
 		if(isset($a_item['raw']['postid'])){
-			$this->output(cs_do_action('after_answer', $a_item['raw']['postid']));
+			$this->output(qw_do_action('after_answer', $a_item['raw']['postid']));
 		}
         
         $this->ra_post_buttons($a_item);
@@ -1829,7 +1829,7 @@ class qa_html_theme_layer extends qa_html_theme_base {
 	
     function main_part($key, $part)
     {
-		if (cs_hook_exist(__FUNCTION__)) {$args=func_get_args(); return cs_do_action(__FUNCTION__, $args); }
+		if (qw_hook_exist(__FUNCTION__)) {$args=func_get_args(); return qw_do_action(__FUNCTION__, $args); }
 		
         $partdiv = ((strpos($key, 'custom') === 0) || (strpos($key, 'form') === 0) || (strpos($key, 'q_list') === 0) || (strpos($key, 'q_view') === 0) || (strpos($key, 'a_form') === 0) || (strpos($key, 'a_list') === 0) || (strpos($key, 'ranking') === 0) || (strpos($key, 'message_list') === 0) || (strpos($key, 'nav_list') === 0));
         
@@ -1868,7 +1868,7 @@ class qa_html_theme_layer extends qa_html_theme_base {
     
     function answer_form()
     {
-		if (cs_hook_exist(__FUNCTION__)) {$args=func_get_args(); return cs_do_action(__FUNCTION__, $args); }
+		if (qw_hook_exist(__FUNCTION__)) {$args=func_get_args(); return qw_do_action(__FUNCTION__, $args); }
         if (isset($this->content['a_form'])) {
             $this->output('<div class="answer-form">');
             $this->a_form($this->content['a_form']);
@@ -1879,12 +1879,12 @@ class qa_html_theme_layer extends qa_html_theme_base {
     
     function a_form($a_form)
     {
-		if (cs_hook_exist(__FUNCTION__)) {$args=func_get_args(); return cs_do_action(__FUNCTION__, $args); }
+		if (qw_hook_exist(__FUNCTION__)) {$args=func_get_args(); return qw_do_action(__FUNCTION__, $args); }
         $this->output('<div class="qa-a-form"' . (isset($a_form['id']) ? (' id="' . $a_form['id'] . '"') : '') . '>');
         
         if (isset($a_form)) {
 			
-			$this->output('<div class="big-s-avatar avatar">' . cs_get_avatar(qa_get_logged_in_handle(), 40) . '</div>');
+			$this->output('<div class="big-s-avatar avatar">' . qw_get_avatar(qa_get_logged_in_handle(), 40) . '</div>');
     
 				$this->output('<div class="q-cont-right">');
          
@@ -1903,7 +1903,7 @@ class qa_html_theme_layer extends qa_html_theme_base {
     
     function favorite($post=false)
     {
-		if (cs_hook_exist(__FUNCTION__)) {$args=func_get_args(); return cs_do_action(__FUNCTION__, $args); }
+		if (qw_hook_exist(__FUNCTION__)) {$args=func_get_args(); return qw_do_action(__FUNCTION__, $args); }
 		if($post)
 			$favorite = @$post['favorite'];			
 		else
@@ -1917,7 +1917,7 @@ class qa_html_theme_layer extends qa_html_theme_base {
     }
     function favorite_inner_html($favorite)
     {
-		if (cs_hook_exist(__FUNCTION__)) {$args=func_get_args(); return cs_do_action(__FUNCTION__, $args); }
+		if (qw_hook_exist(__FUNCTION__)) {$args=func_get_args(); return qw_do_action(__FUNCTION__, $args); }
 		$type 		= qa_post_text('entitytype');
 		
 		$icon_add	= 'icon-heart';
@@ -1935,7 +1935,7 @@ class qa_html_theme_layer extends qa_html_theme_base {
     }
     function favorite_button($tags, $class, $title = '')
     {
-		if (cs_hook_exist(__FUNCTION__)) {$args=func_get_args(); return cs_do_action(__FUNCTION__, $args); }
+		if (qw_hook_exist(__FUNCTION__)) {$args=func_get_args(); return qw_do_action(__FUNCTION__, $args); }
 
         if (isset($tags)) {            
 
@@ -1951,11 +1951,11 @@ class qa_html_theme_layer extends qa_html_theme_base {
     
     function c_form($c_form)
     {
-		if (cs_hook_exist(__FUNCTION__)) {$args=func_get_args(); return cs_do_action(__FUNCTION__, $args); }
+		if (qw_hook_exist(__FUNCTION__)) {$args=func_get_args(); return qw_do_action(__FUNCTION__, $args); }
         $this->output('<div class="qa-c-form"' . (isset($c_form['id']) ? (' id="' . $c_form['id'] . '"') : '') . (@$c_form['collapse'] ? ' style="display:none;"' : '') . '>');
         
         $this->output('<div class="asker-avatar no-radius">');
-        $this->output(cs_get_avatar(qa_get_logged_in_handle(), 30));
+        $this->output(qw_get_avatar(qa_get_logged_in_handle(), 30));
         $this->output('</div>');
         if (!empty($c_form['title'])) {
             $this->output('<div class="comment-f-wrap">');
@@ -1970,7 +1970,7 @@ class qa_html_theme_layer extends qa_html_theme_base {
     
     function ranking($ranking)
     {
-		if (cs_hook_exist(__FUNCTION__)) {$args=func_get_args(); return cs_do_action(__FUNCTION__, $args); }
+		if (qw_hook_exist(__FUNCTION__)) {$args=func_get_args(); return qw_do_action(__FUNCTION__, $args); }
         $this->part_title($ranking);
         
         $class = (@$ranking['type'] == 'users') ? 'qa-top-users' : 'qa-top-tags';
@@ -1993,14 +1993,14 @@ class qa_html_theme_layer extends qa_html_theme_base {
                     else
                         $handle = ltrim(strip_tags($user['label']));
                     
-                    $data   = cs_user_data($handle);
-                    $profile  = cs_user_profile($handle);
-                    $avatar = cs_get_avatar($handle, 50, false);
+                    $data   = qw_user_data($handle);
+                    $profile  = qw_user_profile($handle);
+                    $avatar = qw_get_avatar($handle, 50, false);
 					
                     $this->output('
 							<div class="user-box">
 							<div class="user-box-inner">
-								<div class="cover"'.cs_get_user_cover($profile, true, true).'>
+								<div class="cover"'.qw_get_user_cover($profile, true, true).'>
 									<div class="user-avatar">
 										<a href="' . qa_path_html('user/' . $handle) . '" class="avatar">
 											<img class="avatar" src="' . $avatar . '" />
@@ -2017,7 +2017,7 @@ class qa_html_theme_layer extends qa_html_theme_base {
 									</div>
 							</div>');
                     if (qa_opt('badge_active') && function_exists('qa_get_badge_list'))
-                        $this->output('<div class="badge-list">' . cs_user_badge($handle) . '</div>');
+                        $this->output('<div class="badge-list">' . qw_user_badge($handle) . '</div>');
                     
                     $this->output('</div>');
                     $this->output('</div>');
@@ -2052,7 +2052,7 @@ class qa_html_theme_layer extends qa_html_theme_base {
                     
                     for ($row = 0; $row < $rows; $row++) {
                         $this->set_context('ranking_row', $row);
-                        $this->cs_tags_item(@$ranking['items'][$column * $rows + $row], $class, $column > 0);
+                        $this->qw_tags_item(@$ranking['items'][$column * $rows + $row], $class, $column > 0);
                     }
                     
                     $this->clear_context('ranking_column');
@@ -2104,9 +2104,9 @@ class qa_html_theme_layer extends qa_html_theme_base {
 						</div>');
         }
     }
-    function cs_tags_item($item, $class, $spacer)
+    function qw_tags_item($item, $class, $spacer)
     {
-		if (cs_hook_exist(__FUNCTION__)) {$args=func_get_args(); return cs_do_action(__FUNCTION__, $args); }
+		if (qw_hook_exist(__FUNCTION__)) {$args=func_get_args(); return qw_do_action(__FUNCTION__, $args); }
         $content = qa_db_read_one_value( qa_db_query_sub("SELECT ^tagmetas.content FROM ^tagmetas WHERE ^tagmetas.tag =$ ", strip_tags($item['label'])), true);
 		
         if (isset($item))
@@ -2116,7 +2116,7 @@ class qa_html_theme_layer extends qa_html_theme_base {
 						'<p class="tag-head">',
 							$item['label'] . '<span> &#215; ' . $item['count'] . '</span>',
 						 '</p><p class="desc">',
-						 cs_truncate($content, 150),
+						 qw_truncate($content, 150),
 						 '</p>',
 					 '</div>',
 				 '</li>'
@@ -2124,11 +2124,11 @@ class qa_html_theme_layer extends qa_html_theme_base {
     }
     function message_list_form($list)
     {
-		if (cs_hook_exist(__FUNCTION__)) {$args=func_get_args(); return cs_do_action(__FUNCTION__, $args); }
+		if (qw_hook_exist(__FUNCTION__)) {$args=func_get_args(); return qw_do_action(__FUNCTION__, $args); }
         if (!empty($list['form'])) {
             $this->output('<div class="qa-message-list-form">');
 				$this->output('<div class="asker-avatar">');
-					$this->output(cs_get_avatar(qa_get_logged_in_handle(), 35));
+					$this->output(qw_get_avatar(qa_get_logged_in_handle(), 35));
 				$this->output('</div>');
 				$this->output('<div class="qa-message-list-inner">');
 					$this->form($list['form']);
@@ -2139,10 +2139,10 @@ class qa_html_theme_layer extends qa_html_theme_base {
     
     function message_item($message)
     {
-		if (cs_hook_exist(__FUNCTION__)) {$args=func_get_args(); return cs_do_action(__FUNCTION__, $args); }
+		if (qw_hook_exist(__FUNCTION__)) {$args=func_get_args(); return qw_do_action(__FUNCTION__, $args); }
         $this->output('<div class="qa-message-item" ' . @$message['tags'] . '>');
         $this->output('<div class="asker-avatar">');
-        $this->output(cs_get_avatar($message['raw']['fromhandle'], 35));
+        $this->output(qw_get_avatar($message['raw']['fromhandle'], 35));
         $this->output('</div>');
         $this->output('<div class="qa-message-item-inner">');
 		$this->message_buttons($message);
@@ -2163,19 +2163,19 @@ class qa_html_theme_layer extends qa_html_theme_base {
 		}
 	}
 	
-    function cs_ajax_get_ajax_block()
+    function qw_ajax_get_ajax_block()
     {
-		if (cs_hook_exist(__FUNCTION__)) {$args=func_get_args(); return cs_do_action(__FUNCTION__, $args); }
+		if (qw_hook_exist(__FUNCTION__)) {$args=func_get_args(); return qw_do_action(__FUNCTION__, $args); }
         $mheight = floor($_REQUEST['height']);
         $height  = $mheight - 600;
         $height  = floor($height / 60);
         
-        $this->cs_pie_stats();
+        $this->qw_pie_stats();
         if ($this->template != 'admin' && $height > 0) {
             $height = ($height > 10) ? 10 : $height;
             $this->output('<div class="panel">');
             $this->output('<div class="panel-heading">' . qa_lang_html('cleanstrap/latest_answers') . '</div>');
-            cs_post_list('A', $height);
+            qw_post_list('A', $height);
             $this->output('</div>');
         }
         if ($this->template != 'admin' && $mheight > 1360) {
@@ -2184,7 +2184,7 @@ class qa_html_theme_layer extends qa_html_theme_base {
             $height = ($height > 10) ? 10 : $height;
             $this->output('<div class="panel">');
             $this->output('<div class="panel-heading">' . qa_lang_html('cleanstrap/latest_comments') . '</div>');
-            cs_post_list('C', $height);
+            qw_post_list('C', $height);
             $this->output('</div>');
         }
         die();
@@ -2195,7 +2195,7 @@ class qa_html_theme_layer extends qa_html_theme_base {
     
     function nav_list($navigation, $class, $level = null)
     {
-		if (cs_hook_exist(__FUNCTION__)) {$args=func_get_args(); return cs_do_action(__FUNCTION__, $args); }
+		if (qw_hook_exist(__FUNCTION__)) {$args=func_get_args(); return qw_do_action(__FUNCTION__, $args); }
 
         if ($class == 'browse-cat') {
             $row = ceil(count($navigation) / 2);
@@ -2210,7 +2210,7 @@ class qa_html_theme_layer extends qa_html_theme_base {
             foreach ($navigation as $key => $navlink) {
                 $this->set_context('nav_key', $key);
                 $this->set_context('nav_index', $index++);
-                $this->cs_cat_items($key, $navlink, $class, $level);
+                $this->qw_cat_items($key, $navlink, $class, $level);
                 if ($row == $i){
                     $this->output('</ul></div>');
                      if($level < 2)
@@ -2248,29 +2248,29 @@ class qa_html_theme_layer extends qa_html_theme_base {
         }
     }
 
-    function cs_cat_items($key, $navlink, $class, $level = null)
+    function qw_cat_items($key, $navlink, $class, $level = null)
     {
-		if (cs_hook_exist(__FUNCTION__)) {$args=func_get_args(); return cs_do_action(__FUNCTION__, $args); }
+		if (qw_hook_exist(__FUNCTION__)) {$args=func_get_args(); return qw_do_action(__FUNCTION__, $args); }
         $suffix = strtr($key, array( // map special character in navigation key
             '$' => '',
             '/' => '-'
         ));
         
         $this->output('<li class="panel ra-cat-item' . (@$navlink['opposite'] ? '-opp' : '') . (@$navlink['state'] ? (' ra-cat-' . $navlink['state']) : '') . ' ra-cat-' . $suffix . '">');
-        $this->cs_cat_item($navlink, 'cat');
+        $this->qw_cat_item($navlink, 'cat');
         if (count(@$navlink['subnav']))
             $this->nav_list($navlink['subnav'], $class, 2);
         
         $this->output('</li>');
     }
-    function cs_cat_item($navlink, $class)
+    function qw_cat_item($navlink, $class)
     {
-		if (cs_hook_exist(__FUNCTION__)) {$args=func_get_args(); return cs_do_action(__FUNCTION__, $args); }
+		if (qw_hook_exist(__FUNCTION__)) {$args=func_get_args(); return qw_do_action(__FUNCTION__, $args); }
         if (isset($navlink['url']))
-            $this->output('<h4>' . (strlen(@$navlink['note']) ? '<span>' . cs_url_grabber($navlink['note']) . '</span>' : '') . '<a href="' . $navlink['url'] . '" class="ra-' . $class . '-link' . (@$navlink['selected'] ? (' ra-' . $class . '-selected') : '') . (@$navlink['favorited'] ? (' ra-' . $class . '-favorited') : '') . '"' . (strlen(@$navlink['popup']) ? (' title="' . $navlink['popup'] . '"') : '') . (isset($navlink['target']) ? (' target="' . $navlink['target'] . '"') : '') . '>' . (@$navlink['favorited'] ? '<i class="icon-star" title="' . qa_lang_html('cleanstrap/category_favourited') . '"></i>' : '') . $navlink['label'] . '</a>' . '</h4>');
+            $this->output('<h4>' . (strlen(@$navlink['note']) ? '<span>' . qw_url_grabber($navlink['note']) . '</span>' : '') . '<a href="' . $navlink['url'] . '" class="ra-' . $class . '-link' . (@$navlink['selected'] ? (' ra-' . $class . '-selected') : '') . (@$navlink['favorited'] ? (' ra-' . $class . '-favorited') : '') . '"' . (strlen(@$navlink['popup']) ? (' title="' . $navlink['popup'] . '"') : '') . (isset($navlink['target']) ? (' target="' . $navlink['target'] . '"') : '') . '>' . (@$navlink['favorited'] ? '<i class="icon-star" title="' . qa_lang_html('cleanstrap/category_favourited') . '"></i>' : '') . $navlink['label'] . '</a>' . '</h4>');
         
         else
-            $this->output('<h4 class="ra-' . $class . '-nolink' . (@$navlink['selected'] ? (' ra-' . $class . '-selected') : '') . (@$navlink['favorited'] ? (' ra-' . $class . '-favorited') : '') . '"' . (strlen(@$navlink['popup']) ? (' title="' . $navlink['popup'] . '"') : '') . '>' . (strlen(@$navlink['note']) ? '<span>' . cs_url_grabber($navlink['note']) . '</span>' : '') . (@$navlink['favorited'] ? '<i class="icon-star" title="' . qa_lang_html('cleanstrap/category_favourited') . '"></i>' : '') . $navlink['label'] . '</h4>');
+            $this->output('<h4 class="ra-' . $class . '-nolink' . (@$navlink['selected'] ? (' ra-' . $class . '-selected') : '') . (@$navlink['favorited'] ? (' ra-' . $class . '-favorited') : '') . '"' . (strlen(@$navlink['popup']) ? (' title="' . $navlink['popup'] . '"') : '') . '>' . (strlen(@$navlink['note']) ? '<span>' . qw_url_grabber($navlink['note']) . '</span>' : '') . (@$navlink['favorited'] ? '<i class="icon-star" title="' . qa_lang_html('cleanstrap/category_favourited') . '"></i>' : '') . $navlink['label'] . '</h4>');
         
         if (strlen(@$navlink['note']))
             $this->output('<span class="ra-' . $class . '-note">' . str_replace('-', '', preg_replace('/<a[^>]*>(.*)<\/a>/iU', '', $navlink['note'])) . '</span>');
@@ -2278,35 +2278,35 @@ class qa_html_theme_layer extends qa_html_theme_base {
     
     function a_selection($post)
     {
-		if (cs_hook_exist(__FUNCTION__)) {$args=func_get_args(); return cs_do_action(__FUNCTION__, $args); }
+		if (qw_hook_exist(__FUNCTION__)) {$args=func_get_args(); return qw_do_action(__FUNCTION__, $args); }
         $this->output('<div class="qa-a-selection">');
         $code = qa_get_form_security_code('buttons-'.$post['raw']['postid']);
         if (isset($post['select_tags']))
-			$this->output('<a class="icon-tick btn" href="#" onclick="return cs_select_answer('.$post['raw']['postid'].', '.$post['raw']['parentid'].', this, \''.$code.'\', \'a'.$post['raw']['postid'].'_doselect\');" title="Click to select as best answer">Select answer</a>');
-           //$this->cs_hover_button($post, 'select_tags', qa_lang('cleanstrap/select_answer'), 'icon-input-checked qa-a-select');
+			$this->output('<a class="icon-tick btn" href="#" onclick="return qw_select_answer('.$post['raw']['postid'].', '.$post['raw']['parentid'].', this, \''.$code.'\', \'a'.$post['raw']['postid'].'_doselect\');" title="Click to select as best answer">Select answer</a>');
+           //$this->qw_hover_button($post, 'select_tags', qa_lang('cleanstrap/select_answer'), 'icon-input-checked qa-a-select');
         elseif (isset($post['unselect_tags']))
-			$this->output('<a class="icon-tick btn btn-success" href="#" onclick="return cs_select_answer('.$post['raw']['postid'].', '.$post['raw']['parentid'].', this, \''.$code.'\', \'a'.$post['raw']['postid'].'_dounselect\');" title="Click to unselect this answer">Unselect</a>');
-            //$this->cs_hover_button($post, 'unselect_tags', @$post['select_text'], 'icon-tick qa-a-unselect');
+			$this->output('<a class="icon-tick btn btn-success" href="#" onclick="return qw_select_answer('.$post['raw']['postid'].', '.$post['raw']['parentid'].', this, \''.$code.'\', \'a'.$post['raw']['postid'].'_dounselect\');" title="Click to unselect this answer">Unselect</a>');
+            //$this->qw_hover_button($post, 'unselect_tags', @$post['select_text'], 'icon-tick qa-a-unselect');
         elseif ($post['selected'])
             $this->output('<div class="qa-a-selected icon-tick">' . @$post['select_text'] . '</div>');
         
         
         $this->output('</div>');
     }
-    function cs_hover_button($post, $element, $value, $class)
+    function qw_hover_button($post, $element, $value, $class)
     {
-		if (cs_hook_exist(__FUNCTION__)) {$args=func_get_args(); return cs_do_action(__FUNCTION__, $args); }
+		if (qw_hook_exist(__FUNCTION__)) {$args=func_get_args(); return qw_do_action(__FUNCTION__, $args); }
         if (isset($post[$element]))
             $this->output('<button ' . $post[$element] . ' type="submit" class="' . $class . '-button">'.$value.'</button>');
     }
     
-    function cs_position($position)
+    function qw_position($position)
     {
-		if (cs_hook_exist(__FUNCTION__)) {$args=func_get_args(); return cs_do_action(__FUNCTION__, $args); }
+		if (qw_hook_exist(__FUNCTION__)) {$args=func_get_args(); return qw_do_action(__FUNCTION__, $args); }
         $widgets         = $this->widgets;
         $position_active = multi_array_key_exists($position, $widgets);
         $template = (!empty($this->request) ? $this->template : 'home');
-        if (isset($widgets) && $position_active && $this->cs_position_active($position)) {
+        if (isset($widgets) && $position_active && $this->qw_position_active($position)) {
 			$this->output('<div id="' . str_replace(' ', '-', strtolower($position)) . '-position">');
             foreach ($widgets as $w) {
                 
@@ -2317,7 +2317,7 @@ class qa_html_theme_layer extends qa_html_theme_base {
 					}
 					$w['param']['options'] = $new_opt;
                     $this->current_widget = $w;
-                    $this->cs_get_widget($w['name'], @$w['param']['locations']['show_title'], $position);
+                    $this->qw_get_widget($w['name'], @$w['param']['locations']['show_title'], $position);
                 }
             }
 			$this->output('</div>');
@@ -2325,8 +2325,8 @@ class qa_html_theme_layer extends qa_html_theme_base {
     }
 
     
-	function cs_is_widget_active($name){
-		if (cs_hook_exist(__FUNCTION__)) {$args=func_get_args(); return cs_do_action(__FUNCTION__, $args); }
+	function qw_is_widget_active($name){
+		if (qw_hook_exist(__FUNCTION__)) {$args=func_get_args(); return qw_do_action(__FUNCTION__, $args); }
 		$template = (!empty($this->request) ? $this->template : 'home');
 	    $widgets         = $this->widgets;
           
@@ -2339,9 +2339,9 @@ class qa_html_theme_layer extends qa_html_theme_base {
 		return false;
 	}
 	
-    function cs_get_widget($name, $show_title = false, $position)
+    function qw_get_widget($name, $show_title = false, $position)
     {
-        if (cs_hook_exist(__FUNCTION__)) {$args=func_get_args(); return cs_do_action(__FUNCTION__, $args); }
+        if (qw_hook_exist(__FUNCTION__)) {$args=func_get_args(); return qw_do_action(__FUNCTION__, $args); }
         $module = qa_load_module('widget', ltrim($name));
         if (is_object($module)) {
             ob_start();
@@ -2354,9 +2354,9 @@ class qa_html_theme_layer extends qa_html_theme_base {
     }
     
     
-    function cs_ajax_get_question_suggestion()
+    function qw_ajax_get_question_suggestion()
     {
-		if (cs_hook_exist(__FUNCTION__)) {$args=func_get_args(); return cs_do_action(__FUNCTION__, $args); }
+		if (qw_hook_exist(__FUNCTION__)) {$args=func_get_args(); return qw_do_action(__FUNCTION__, $args); }
         $query            = strip_tags($_REQUEST['start_with']);
         $relatedquestions = qa_db_select_with_pending(qa_db_search_posts_selectspec(null, qa_string_to_words($query), null, null, null, null, 0, false, 10));
         //print_r($relatedquestions);
@@ -2365,7 +2365,7 @@ class qa_html_theme_layer extends qa_html_theme_base {
             $data = array();
             foreach ($relatedquestions as $k => $q) {
                 $data[$k]['title']   = $q['title'];
-                $data[$k]['blob']    = cs_get_avatar($q['handle'], 30, false);
+                $data[$k]['blob']    = qw_get_avatar($q['handle'], 30, false);
                 $data[$k]['url']     = qa_q_path_html($q['postid'], $q['title']);
                 $data[$k]['tags']    = $q['tags'];
                 $data[$k]['answers'] = $q['acount'];
@@ -2377,10 +2377,10 @@ class qa_html_theme_layer extends qa_html_theme_base {
     }
     function q_list($q_list)
     {
-		if (cs_hook_exist(__FUNCTION__)) {$args=func_get_args(); return cs_do_action(__FUNCTION__, $args); }
+		if (qw_hook_exist(__FUNCTION__)) {$args=func_get_args(); return qw_do_action(__FUNCTION__, $args); }
 		$userid=qa_get_logged_in_userid();
         if (isset($q_list['qs'])) {
-            if (qa_opt('cs_enable_except')) { // first check it is not an empty list and the feature is turned on
+            if (qa_opt('qw_enable_except')) { // first check it is not an empty list and the feature is turned on
                 //	Collect the question ids of all items in the question list (so we can do this in one DB query)
                 $postids = array();
                 foreach ($q_list['qs'] as $question)
@@ -2391,14 +2391,14 @@ class qa_html_theme_layer extends qa_html_theme_base {
                     //$result         = qa_db_query_sub('SELECT postid, content, format FROM ^posts WHERE postid IN (#)', $postids);
                     //$postinfo       = qa_db_read_all_assoc($result, 'postid');
 					//cache and apply keys to array now that I can't use array key argument in qa_db_read_all_assoc
-					$posts = cs_get_cache('SELECT postid, content, format FROM ^posts WHERE postid IN (#)',50, $postids);
+					$posts = qw_get_cache('SELECT postid, content, format FROM ^posts WHERE postid IN (#)',50, $postids);
 					$postinfo= array();
 					foreach ($posts as $qitem) {
 						$postinfo[$qitem['postid']] = $qitem;
 					}
                     //	Get the regular expression fragment to use for blocked words and the maximum length of content to show
                     $blockwordspreg = qa_get_block_words_preg();
-                    $maxlength      = qa_opt('cs_except_len');
+                    $maxlength      = qa_opt('qw_except_len');
                     //	Now add the popup to the title for each question
                     foreach ($q_list['qs'] as $index => $question) {
                         $thispost = @$postinfo[$question['raw']['postid']];
@@ -2425,9 +2425,9 @@ class qa_html_theme_layer extends qa_html_theme_base {
 					</div>');
     }
 
-    function cs_ajax_save_q_meta()
+    function qw_ajax_save_q_meta()
     {
-		if (cs_hook_exist(__FUNCTION__)) {$args=func_get_args(); return cs_do_action(__FUNCTION__, $args); }
+		if (qw_hook_exist(__FUNCTION__)) {$args=func_get_args(); return qw_do_action(__FUNCTION__, $args); }
         require_once QA_INCLUDE_DIR . 'qa-db-metas.php';
         $postid = @$this->content["q_view"]["raw"]["postid"];
         @$featured_image = $_REQUEST['featured_image'];
@@ -2441,9 +2441,9 @@ class qa_html_theme_layer extends qa_html_theme_base {
         }
         die(Q_THEME_URL . '/uploads/' . $featured_image);
     }
-    function cs_position_active($name)
+    function qw_position_active($name)
     {
-		if (cs_hook_exist(__FUNCTION__)) {$args=func_get_args(); return cs_do_action(__FUNCTION__, $args); }
+		if (qw_hook_exist(__FUNCTION__)) {$args=func_get_args(); return qw_do_action(__FUNCTION__, $args); }
         $widgets  = $this->widgets;
         $template = $this->template;
         $template = (!empty($this->request) ? $template : 'home');
@@ -2458,9 +2458,9 @@ class qa_html_theme_layer extends qa_html_theme_base {
         return false;
     }
     
-    function cs_ajax_set_question_featured()
+    function qw_ajax_set_question_featured()
     {
-		if (cs_hook_exist(__FUNCTION__)) {$args=func_get_args(); return cs_do_action(__FUNCTION__, $args); }
+		if (qw_hook_exist(__FUNCTION__)) {$args=func_get_args(); return qw_do_action(__FUNCTION__, $args); }
         require_once QA_INCLUDE_DIR . 'qa-db-metas.php';
         $postid = @$this->content["q_view"]["raw"]["postid"];
         
@@ -2476,8 +2476,8 @@ class qa_html_theme_layer extends qa_html_theme_base {
 	
 	function body_hidden()
 	{
-		if (cs_hook_exist(__FUNCTION__)) {$args=func_get_args(); return cs_do_action(__FUNCTION__, $args); }
-		if(qa_opt('cs_styling_rtl'))
+		if (qw_hook_exist(__FUNCTION__)) {$args=func_get_args(); return qw_do_action(__FUNCTION__, $args); }
+		if(qa_opt('qw_styling_rtl'))
 			$this->output('<div style="position:absolute; left:9999px; bottom:9999px;">');
 		else
 			$this->output('<div style="position:absolute; left:-9999px; top:-9999px;">');
@@ -2488,7 +2488,7 @@ class qa_html_theme_layer extends qa_html_theme_base {
 	
 	
 	function c_list($c_list, $class){
-		if (cs_hook_exist(__FUNCTION__)) {$args=func_get_args(); return cs_do_action(__FUNCTION__, $args); }
+		if (qw_hook_exist(__FUNCTION__)) {$args=func_get_args(); return qw_do_action(__FUNCTION__, $args); }
 		if (!empty($c_list)) {
 			$this->output('', '<div class="'.$class.'-c-list"'.(@$c_list['hidden'] ? ' style="display:none;"' : '').' '.@$c_list['tags'].'>');
 			$this->output('<div class="comment-count icon-comment">'.count($c_list['cs']).' '.qa_lang('cleanstrap/comments').'</div>');
@@ -2499,7 +2499,7 @@ class qa_html_theme_layer extends qa_html_theme_base {
 		}
 	}
 	function q_social_share(){
-		if (cs_hook_exist(__FUNCTION__)) {$args=func_get_args(); return cs_do_action(__FUNCTION__, $args); }
+		if (qw_hook_exist(__FUNCTION__)) {$args=func_get_args(); return qw_do_action(__FUNCTION__, $args); }
 		$this->output('
 			<div class="btn-group social-share-btn">
 				<a class="btn btn-default btn-lg dropdown-toggle share-btn" type="button" data-toggle="dropdown">'. qa_lang_html('cleanstrap/share') .'</a>
@@ -2517,16 +2517,16 @@ class qa_html_theme_layer extends qa_html_theme_base {
 				</div>
 			</div>
 		');
-		cs_do_action('question_share', $this);	
+		qw_do_action('question_share', $this);	
 	}
 	
 	function fb_ask_your_friend($link, $label = 'Ask your friends'){
-		if (function_exists('cs_get_fb_msg_button')) { /*make sure the social plugin is enabled */
-			$this->output(cs_get_fb_msg_button($link, $label));
+		if (function_exists('qw_get_fb_msg_button')) { /*make sure the social plugin is enabled */
+			$this->output(qw_get_fb_msg_button($link, $label));
 		}
 	}
 	function notfound_template($content){
-		if (cs_hook_exist(__FUNCTION__)) {$args=func_get_args(); return cs_do_action(__FUNCTION__, $args); }
+		if (qw_hook_exist(__FUNCTION__)) {$args=func_get_args(); return qw_do_action(__FUNCTION__, $args); }
 		$this->output('
 			<div class="error-404">
 				<span class="icon-broken"></span>

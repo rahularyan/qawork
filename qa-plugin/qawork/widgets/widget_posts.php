@@ -1,17 +1,17 @@
 <?php
-class cs_widget_posts
+class qw_widget_posts
 {
     
-    function cs_widget_form()
+    function qw_widget_form()
     {
         
         return array(
             'style' => 'wide',
             'fields' => array(
-                'cs_qa_count' => array(
+                'qw_qa_count' => array(
                     'label' => 'Numbers of questions',
                     'type' => 'number',
-                    'tags' => 'name="cs_qa_count" class="form-control"',
+                    'tags' => 'name="qw_qa_count" class="form-control"',
                     'value' => '10'
                 ),
 				'post_type' => array(
@@ -92,12 +92,12 @@ class cs_widget_posts
         
         return $allow;
     }
-    function cs_post_list($type, $limit, $size = 40, $show_content, $content_limt = 80, $return = false)
+    function qw_post_list($type, $limit, $size = 40, $show_content, $content_limt = 80, $return = false)
     {
 
         if(defined('QA_WORDPRESS_INTEGRATE_PATH')){
 			global $wpdb;
-			$posts = cs_get_cache('SELECT ^posts.* , '.$wpdb->base_prefix.'users.* FROM ^posts, '.$wpdb->base_prefix.'users WHERE ^posts.userid='.$wpdb->base_prefix.'users.ID AND ^posts.type=$ ORDER BY ^posts.created DESC LIMIT #',60, $type, $limit);
+			$posts = qw_get_cache('SELECT ^posts.* , '.$wpdb->base_prefix.'users.* FROM ^posts, '.$wpdb->base_prefix.'users WHERE ^posts.userid='.$wpdb->base_prefix.'users.ID AND ^posts.type=$ ORDER BY ^posts.created DESC LIMIT #',60, $type, $limit);
 		}else
 			$posts = qa_db_read_all_assoc(qa_db_query_sub('SELECT ^posts.* , ^users.* FROM ^posts, ^users WHERE ^posts.userid=^users.userid AND ^posts.type=$ ORDER BY ^posts.created DESC LIMIT #', $type, $limit));
         
@@ -120,7 +120,7 @@ class cs_widget_posts
 			$when = @$timeCode['prefix'] . @$timeCode['data'] . @$timeCode['suffix'];
 
             $output .= '<li>';
-            $output .= cs_get_post_avatar($p, $size, true);
+            $output .= qw_get_post_avatar($p, $size, true);
             $output .= '<div class="post-content">';
             
 			$output .= '<div class="meta">';
@@ -139,11 +139,11 @@ class cs_widget_posts
                 $output .= '<a class="title question" href="' . qa_q_path_html($p['postid'], $p['title']) . '" title="' . $p['title'] . '">' . qa_html($p['title']) . '</a>';
 				
 				if(!!$show_content)
-					$output .= '<p class="content question">' . cs_truncate(strip_tags($p['content']), $content_limt) . '</p>';
+					$output .= '<p class="content question">' . qw_truncate(strip_tags($p['content']), $content_limt) . '</p>';
             } elseif ($type == 'A') {
-                $output .= '<a class="title" href="' . cs_post_link($p['parentid']) . '#a' . $p['postid'] . '">' . cs_truncate(strip_tags($p['content']), $content_limt) . '</a>';
+                $output .= '<a class="title" href="' . qw_post_link($p['parentid']) . '#a' . $p['postid'] . '">' . qw_truncate(strip_tags($p['content']), $content_limt) . '</a>';
             } else {
-                $output .= '<a class="title" href="' . cs_post_link($p['parentid']) . '#c' . $p['postid'] . '">' . cs_truncate(strip_tags($p['content']), $content_limt) . '</a>';
+                $output .= '<a class="title" href="' . qw_post_link($p['parentid']) . '#c' . $p['postid'] . '">' . qw_truncate(strip_tags($p['content']), $content_limt) . '</a>';
             }
             
             $output .= '</div>';
@@ -170,7 +170,7 @@ class cs_widget_posts
             $themeobject->output('<h3 class="widget-title">' . qa_lang_sub('cleanstrap/recent_posts', $what) . '</h3>');
         
         $themeobject->output('<div class="ra-post-list-widget widget-'.@$widget_opt['class'].'">');
-        $themeobject->output($this->cs_post_list($widget_opt['post_type'], (int)$widget_opt['cs_qa_count'], (int)$widget_opt['avatar_size'], (int)$widget_opt['show_content'], (int)$widget_opt['content_size']));
+        $themeobject->output($this->qw_post_list($widget_opt['post_type'], (int)$widget_opt['qw_qa_count'], (int)$widget_opt['avatar_size'], (int)$widget_opt['show_content'], (int)$widget_opt['content_size']));
         $themeobject->output('</div>');
     }
 }
