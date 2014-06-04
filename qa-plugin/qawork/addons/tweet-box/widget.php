@@ -180,7 +180,7 @@
        $themeobject->output('</div>');
     }
     function get_tw_settings($widget_opt , $opt ) {
-            return isset($widget_opt['qw_fb_page_url']) ? $widget_opt['qw_fb_page_url'] : "" ;
+            return isset($widget_opt[$opt]) ? $widget_opt[$opt] : "" ;
     }
   }
 
