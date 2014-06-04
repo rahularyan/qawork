@@ -26,10 +26,9 @@ define('CS_VERSION', 2);
 
 require_once CS_CONTROL_DIR. '/functions.php';
 
-
-
-define('CS_CONTROL_URL', get_base_url().'/qa-plugin/qawork');
-define('Q_THEME_URL', get_base_url().'/qa-theme/qawork-base-theme');
+define('CS_BASE_URL', get_base_url());
+define('CS_CONTROL_URL', CS_BASE_URL.'/qa-plugin/qawork');
+define('Q_THEME_URL', CS_BASE_URL.'/qa-theme/qawork-base-theme');
 define('Q_THEME_DIR', QA_THEME_DIR . '/qawork-base-theme');
 
 $theme_function = Q_THEME_DIR.'/functions.php';
@@ -91,6 +90,9 @@ if (cs_hook_exist('register_language')){
 
 cs_event_hook('enqueue_css', NULL, 'cs_admin_enqueue_css');
 function cs_admin_enqueue_css($css_src){
+	$css_src['cs_admin'] = CS_CONTROL_URL . '/css/admin.css';
+	$css_src['bootstrap'] = CS_CONTROL_URL. '/css/bootstrap.css';
+	
 	if (qa_request() == 'themeoptions') {
 		$css_src['cs_spectrum'] = CS_CONTROL_URL . '/css/spectrum.css';		
 	}
@@ -103,6 +105,8 @@ function cs_admin_enqueue_scripts($src){
 		$src['cs_admin'] = CS_CONTROL_URL . '/js/admin.js';
 		$src['spectrum'] = CS_CONTROL_URL . '/js/spectrum.js';
 	}
+	$src['jquery'] = CS_CONTROL_URL. '/js/jquery-1.11.0.min.js';			
+	$src['bootstrap'] = CS_CONTROL_URL. '/js/bootstrap.js';	
 	return  $src;
 }
 

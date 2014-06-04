@@ -28,24 +28,7 @@ class qa_html_theme_layer extends qa_html_theme_base {
 			
 			if((bool)qa_opt('cs_enable_category_nav'))
 				unset($this->content['navigation']['main']['categories']);
-        
-		
-			$this->content['css_src']['cs_admin'] = CS_CONTROL_URL . '/css/admin.css';
-			$this->content['css_src']['cs_style'] = Q_THEME_URL .'/'. $this->css_name();
-			$this->content['css_src']['bootstrap'] = CS_CONTROL_URL. '/css/bootstrap.css';
 
-			$this->content['script_src']['jquery'] = CS_CONTROL_URL. '/js/jquery-1.11.0.min.js';			
-			$this->content['script_src']['bootstrap'] = CS_CONTROL_URL. '/js/bootstrap.js';			
-		
-			//enqueue script and style in content
-			$hooked_script	= cs_apply_filter('enqueue_scripts', $this->content['script_src'], $this->template);
-			$hooked_css 	= cs_apply_filter('enqueue_css', $this->content['css_src'], $this->template);
-
-			if(is_array($hooked_script))
-				$this->content['script_src'] =  $hooked_script;
-				
-			if(is_array($hooked_css))
-				$this->content['css_src'] = $hooked_css;
 				
 			qa_html_theme_base::doctype();
 
@@ -93,6 +76,7 @@ class qa_html_theme_layer extends qa_html_theme_base {
 	
 	function head_script()
 	{
+		$scripts = cs_get_all_scripts($this->template);
 		// unset old jQuery
 		if($this->content['script'] && ($key = array_search('<script src="../qa-content/jquery-1.7.2.min.js" type="text/javascript"></script>', $this->content['script'])) !== false) {
 			unset($this->content['script'][$key]);
@@ -100,32 +84,25 @@ class qa_html_theme_layer extends qa_html_theme_base {
 		if($this->content['script_rel'] && ($key = array_search('qa-content/jquery-1.7.2.min.js', $this->content['script_rel'])) !== false) {
 			unset($this->content['script_rel'][$key]);
 		}
-
-		if($this->content['script_src'] && ($key = cs_array_search_partial($this->content['script_src'], 'ckeditor.js')) !== false)
-			unset($this->content['script_src'][$key]);
-		
-		$this->output('<script src="'.CS_CONTROL_URL.'/js/jquery-1.11.0.min.js"></script>');
 		
 		$this->output('<script> ajax_url = "' . CS_CONTROL_URL . '/ajax.php";</script>');
 
-		$this->content['script'] = array_unique($this->content['script']);
-		$this->content['script_src'] = array_unique($this->content['script_src']);
 		qa_html_theme_base::head_script();
 		
 		$this->output('<script> theme_url = "' . Q_THEME_URL . '";</script>');
-	
+
 		if (qa_opt('cs_enable_gzip')){ //Gzip
-			$this->output('<script type="text/javascript" src="'.Q_THEME_URL.'/js/script_cache.js"></script>');
+			$this->output('<script type="text/javascript" src="'.CS_CONTROL_URL.'/gzip.php?type=js"></script>');
 			
-			if (isset($this->content['script_src']))
-				foreach ($this->content['script_src'] as $script_src){
+			if (!empty($scripts))
+				foreach ($scripts as $script_src){
 					// load if external url
 					if(!cs_is_internal_link($script_src))
 						$this->output('<script type="text/javascript" src="'.$script_src.'"></script>');
 				}
 		}else{
-			if (isset($this->content['script_src']))
-				foreach ($this->content['script_src'] as $script_src)
+			if (!empty($scripts))
+				foreach ($scripts as $script_src)
 					$this->output('<script type="text/javascript" src="'.$script_src.'"></script>');
 		}
 
@@ -179,19 +156,18 @@ class qa_html_theme_layer extends qa_html_theme_base {
 	
 	function head_css()
 	{
-		//qa_html_theme_base::head_css();
-
+		$css 	= cs_get_all_styles($this->template);
 		if (qa_opt('cs_enable_gzip')){ //Gzip
-			$this->output('<link href="'. Q_THEME_URL . '/css/css_cache.css" rel="stylesheet" type="text/css">');
+			$this->output('<link href="'.CS_CONTROL_URL.'/gzip.php?type=css" rel="stylesheet" type="text/css">');
 										
-			if (isset($this->content['css_src']))
-				foreach ($this->content['css_src'] as $css_src){
+			if (!empty($css))
+				foreach ($css as $css_src){
 					if(!cs_is_internal_link($css_src))
 						$this->output('<link rel="stylesheet" type="text/css" href="'.$css_src.'"/>');
 				}
 		}else{
-			if (isset($this->content['css_src']))
-			foreach ($this->content['css_src'] as $css_src)
+			if (!empty($css))
+			foreach ($css as $css_src)
 				$this->output('<link rel="stylesheet" type="text/css" href="'.$css_src.'"/>');
 				
 			if (!empty($this->content['notices']))
@@ -201,7 +177,7 @@ class qa_html_theme_layer extends qa_html_theme_base {
 					'//--></style>'
 				);
 		}
-			
+		qa_html_theme_base::head_css();	
 		$this->output('<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 			<meta http-equiv="X-UA-Compatible" content="IE=edge"> ');
 		$fav = qa_opt('cs_favicon_url');
@@ -2510,39 +2486,6 @@ class qa_html_theme_layer extends qa_html_theme_base {
 		$this->output('</div>');
 	}
 	
-	function cs_ajax_build_assets_cache()
-    {
-
-		if (qa_get_logged_in_level() > QA_USER_LEVEL_ADMIN){
-			$css_file = Q_THEME_DIR.'/css/css_cache.css';
-			$handle = fopen($css_file, 'w') or die('Cannot open file:  '.$css_file);
-			$data = cs_combine_assets($this->content['css_src']);
-			fwrite($handle, $data);
-			
-			$script_file = Q_THEME_DIR.'/js/script_cache.js';
-			$handle = fopen($script_file, 'w') or die('Cannot open file:  '.$script_file);
-			$data = cs_combine_assets($this->content['script_src'], false);
-			fwrite($handle, $data);
-			
-			qa_opt('cs_enable_gzip', 1);
-			
-			echo 'Disable Compression';
-		}
-		
-        die();
-    }	
-	
-	function cs_ajax_destroy_assets_cache()
-    {
-		if (qa_get_logged_in_level() > QA_USER_LEVEL_ADMIN){
-			
-			qa_opt('cs_enable_gzip', 0);
-			
-			echo 'Enable Compression';
-		}
-		
-        die();
-    }
 	
 	function c_list($c_list, $class){
 		if (cs_hook_exist(__FUNCTION__)) {$args=func_get_args(); return cs_do_action(__FUNCTION__, $args); }
