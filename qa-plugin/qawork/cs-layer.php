@@ -4,7 +4,7 @@ class qa_html_theme_layer extends qa_html_theme_base {
 	var $postid;
 	var $widgets;
 	function doctype(){	
-
+	
 		global $widgets;
         $widgets       = get_all_widgets();
         $this->widgets = $widgets;
@@ -29,8 +29,6 @@ class qa_html_theme_layer extends qa_html_theme_base {
 			if((bool)qa_opt('qw_enable_category_nav'))
 				unset($this->content['navigation']['main']['categories']);
 
-				
-			qa_html_theme_base::doctype();
 
 			if(qa_get_logged_in_level() >= QA_USER_LEVEL_ADMIN)	{
 
@@ -78,13 +76,13 @@ class qa_html_theme_layer extends qa_html_theme_base {
 	{
 		$scripts = qw_get_all_scripts($this->template);
 		// unset old jQuery
-		if($this->content['script'] && ($key = array_search('<script src="../qa-content/jquery-1.7.2.min.js" type="text/javascript"></script>', $this->content['script'])) !== false) {
+		if($this->content['script'] && ($key = qw_array_find('jquery-1.7.2.min.js', $this->content['script'])) !== false) {
 			unset($this->content['script'][$key]);
 		}
-		if($this->content['script_rel'] && ($key = array_search('qa-content/jquery-1.7.2.min.js', $this->content['script_rel'])) !== false) {
+		if($this->content['script_rel'] && ($key = qw_array_find('jquery-1.7.2.min.js', $this->content['script'])) !== false) {
 			unset($this->content['script_rel'][$key]);
 		}
-		
+
 		$this->output('<script> ajax_url = "' . QW_CONTROL_URL . '/ajax.php";</script>');
 
 		qa_html_theme_base::head_script();
@@ -97,13 +95,15 @@ class qa_html_theme_layer extends qa_html_theme_base {
 			if (!empty($scripts))
 				foreach ($scripts as $script_src){
 					// load if external url
-					if(!qw_is_internal_link($script_src))
+					if(!qw_is_internal_link($script_src) && filter_var($script_src, FILTER_VALIDATE_URL) !== FALSE)
 						$this->output('<script type="text/javascript" src="'.$script_src.'"></script>');
 				}
 		}else{
 			if (!empty($scripts))
-				foreach ($scripts as $script_src)
-					$this->output('<script type="text/javascript" src="'.$script_src.'"></script>');
+				foreach ($scripts as $script_src){
+					if(filter_var($script_src, FILTER_VALIDATE_URL) !== FALSE)
+						$this->output('<script type="text/javascript" src="'.$script_src.'"></script>');
+				}
 		}
 
 		
@@ -162,13 +162,15 @@ class qa_html_theme_layer extends qa_html_theme_base {
 										
 			if (!empty($css))
 				foreach ($css as $css_src){
-					if(!qw_is_internal_link($css_src))
+					if(!qw_is_internal_link($css_src) && filter_var($css_src, FILTER_VALIDATE_URL) !== FALSE)
 						$this->output('<link rel="stylesheet" type="text/css" href="'.$css_src.'"/>');
 				}
 		}else{
 			if (!empty($css))
-			foreach ($css as $css_src)
-				$this->output('<link rel="stylesheet" type="text/css" href="'.$css_src.'"/>');
+			foreach ($css as $css_src){
+				if(filter_var($css_src, FILTER_VALIDATE_URL) !== FALSE)
+					$this->output('<link rel="stylesheet" type="text/css" href="'.$css_src.'"/>');
+			}
 				
 			if (!empty($this->content['notices']))
 				$this->output(
@@ -1069,7 +1071,7 @@ class qa_html_theme_layer extends qa_html_theme_base {
 				<span class="meta-icon icon-answer"></span>
 				<span class="q-view-a-count">'.qa_lang_sub('cleanstrap/x_answers', $q_view['raw']['acount']).' </span>
 				<span class="icon-eye meta-icon"></span>
-				<span class="q-view-a-count">' . qa_lang_sub('cleanstrap/x_answers', $q_view['raw']['views']) . ' </span>
+				<span class="q-view-a-count">' . qa_lang_sub('cleanstrap/x_views', $q_view['raw']['views']) . ' </span>
 				<span class="icon-folder meta-icon"></span>
 				'.qa_lang_html('cleanstrap/posted_under').' <a class="cat-in" href="' . qw_cat_path($q_view['raw']['categorybackpath']) . '">' . $q_view['raw']['categoryname'] . '</a>
 				</div>');

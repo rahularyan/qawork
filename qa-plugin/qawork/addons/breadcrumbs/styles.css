@@ -2,6 +2,10 @@
     float: left;
     margin-left: 0;
 }
+.widget.qw_breadcrumbs {
+    border: medium none;
+    margin: 0;
+}
 .widget.cs_breadcrumbs {
     margin-bottom: 0;
     margin-left: 0;

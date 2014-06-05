@@ -15,6 +15,8 @@ if (!defined('QA_VERSION')) {
 		exit;
 }
 
+//if this is set to true , the email will be written to the log file 
+define('QW_SEND_EMAIL_DEBUG_MODE', FALSE );
 
 $qw_notification_addon = new Qw_Notification_Addon;
 
@@ -106,6 +108,7 @@ class Qw_Notification_Addon{
 				  userid int(10) NOT NULL,
 				  email varchar(250) NOT NULL,
 				  name varchar(250) NOT NULL,
+				  handle varchar(20) NOT NULL,
 				  queue_id int(6) NOT NULL,
 				  PRIMARY KEY (id)
 				) ENGINE=MyISAM DEFAULT CHARSET=utf8;
@@ -747,13 +750,17 @@ class Qw_Notification_Addon{
 	}
 
 	public function activity_count(){
-		echo qw_get_total_activity(qa_get_logged_in_userid());
+		//echo qw_get_total_activity(qa_get_logged_in_userid());
 		// adding the feature of scheduler check here to make sure the sending email called on time 
 		$time_out = qa_opt('qw_process_emails_from_db_time_out');
-		if (!$time_out) {
+		
+		if(QW_SEND_EMAIL_DEBUG_MODE){
+			qw_process_emails_from_db();
+		}elseif (!$time_out) {
 			// if the scheduler is not set set it for 15 mins 
 			qw_scheduler_set('qw_process_emails_from_db' , 6*60*60 /*4 times a day by default*/ );
-		}		
+		}	
+		
 		qw_check_scheduler('qw_process_emails_from_db');
 		die();
 	}
