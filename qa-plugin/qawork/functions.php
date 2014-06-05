@@ -213,30 +213,27 @@ function qw_get_avatar($handle, $size = 40, $html =true){
 		if (!isset($handle)){
 
 			if ( qa_opt('avatar_allow_upload') && qa_opt('avatar_default_show') && strlen(qa_opt('avatar_default_blobid')) )
-				$img_html = qa_get_avatar_blob_html(qa_opt('avatar_default_blobid'), qa_opt('avatar_default_width'), qa_opt('avatar_default_height'), $size);
+				$img = qa_opt('avatar_default_blobid');
 			else
-				$img_html = '';
+				$img = '';
 		}else{
 			$f = qw_user_data($handle);
 			if(empty($f['account']['avatarblobid'])){
-				if (qa_opt('avatar_allow_gravatar'))
-					$img_html = qa_get_gravatar_html(qa_get_user_email($userid), $size);
-				else if ( qa_opt('avatar_allow_upload') && qa_opt('avatar_default_show') && strlen(qa_opt('avatar_default_blobid')) )
-					$img_html = qa_get_avatar_blob_html(qa_opt('avatar_default_blobid'), qa_opt('avatar_default_width'), qa_opt('avatar_default_height'), $size);
+				if ( qa_opt('avatar_allow_upload') && qa_opt('avatar_default_show') && strlen(qa_opt('avatar_default_blobid')) )
+					$img = qa_opt('avatar_default_blobid');
 				else
-					$img_html = '';
+					$img = '';
 			} else
-				$img_html = qa_get_user_avatar_html($f['account']['flags'], $f['account']['email'], $handle, $f['account']['avatarblobid'], $size, $size, $size, true);
+				$img = $f['account']['avatarblobid'];
 		}
 	}
-	if (empty($img_html))
+	if (empty($img))
 		return;
-		
-	preg_match( '@src="([^"]+)"@' , $img_html , $match );
+
 	if($html)
-		return '<a href="'.qa_path_html('user/'.$handle).'">'.(!defined('QA_WORDPRESS_INTEGRATE_PATH') ?  '<img src="'.$match[1].'" />':$img_html).'</a>';		
-	elseif(isset($match[1]))
-		return $match[1];
+		return '<a href="'.qa_path_absolute('user/'.$handle).'"><img src="'.qa_path_absolute('', array('qa' => 'image', 'qa_blobid' => $img, 'qa_size' => $size)).'" /></a>';		
+	elseif(!empty($img))
+		return qa_path_absolute('', array('qa' => 'image', 'qa_blobid' => $img, 'qa_size' => $size));
 }
 function qw_get_post_avatar($post, $size = 40, $html=false){
 	if(!isset($post['raw'])){
@@ -962,25 +959,22 @@ function call_this_method() {
 }
 
 function qw_log($string) {
-     // if (qa_opt('event_logger_to_files')) {
-            //   Open, lock, write, unlock, close (to prevent interference between multiple writes)
-            $directory = QW_CONTROL_DIR.'/logs/';
+ // if (qa_opt('event_logger_to_files')) {
+		// Open, lock, write, unlock, close (to prevent interference between multiple writes)
+		$directory = QW_CONTROL_DIR.'/logs/';
 
-            if (substr($directory, -1) != '/') $directory.='/';
+		if (substr($directory, -1) != '/') $directory.='/';
 
-            $log_file_name = $directory . 'cs-log-' . date('Y\-m\-d') . '.txt';
+		$log_file_name = $directory . 'cs-log-' . time() . '.html';
 
-            $log_file_exists = file_exists($log_file_name);
-
-            $log_file = @fopen($log_file_name, 'a');
-            if (is_resource($log_file) && (!!$log_file_exists)) {
-                  if (flock($log_file, LOCK_EX)) {
-                        fwrite($log_file, $string . PHP_EOL);
-                        flock($log_file, LOCK_UN);
-                  }
-            }
-            @fclose($log_file);
-      //}
+		$log_file = fopen($log_file_name, 'a+');
+		
+		  if (flock($log_file, LOCK_EX)) {
+				fwrite($log_file, $string . PHP_EOL);
+				flock($log_file, LOCK_UN);
+		  }
+		@fclose($log_file);
+  //}
 }
 
 function qw_event_log_row_parser( $row ){
@@ -1138,4 +1132,20 @@ function qw_get_all_scripts($template = 'none'){
 	$sort = qw_apply_filter('sort_enqueue_scripts', array('jquery', 'bootstrap', 'qw_admin'));
 	$scripts = qw_apply_filter('enqueue_scripts', array(), $template);
 	return array_merge(array_flip( $sort ), $scripts);
+}
+
+// array_search with partial matches
+function qw_array_find($needle, $haystack) {
+	if(!is_array($haystack)) return false;
+	foreach ($haystack as $key=>$item) {
+		if (strpos($item, $needle) !== false) return $key;
+	}
+	return false;
+}
+
+function qa_get_override_file($file){
+	if(file_exists(QW_THEME_DIR.'/'.$file))
+		return QW_THEME_DIR.'/'.$file;
+	else
+		return QW_CONTROL_DIR.'/'.$file;
 }

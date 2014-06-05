@@ -20,7 +20,7 @@
 			$css_src['qw_responsive'] = Q_THEME_URL . '/css/responsive.css';
 			$css_src['qw_main'] = Q_THEME_URL . '/css/main.css';
 			$css_src['qw_color'] = Q_THEME_URL . '/css/theme-green.css';
-			$css_src['Questrial'] = '//fonts.googleapis.com/css?family=Questrial';
+			$css_src['Questrial'] = 'http://fonts.googleapis.com/css?family=Questrial';
 			
 			if (qa_opt('qw_styling_rtl'))
 				$css_src['qw_rtl'] = Q_THEME_URL . '/css/rtl.css';

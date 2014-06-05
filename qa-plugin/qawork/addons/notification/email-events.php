@@ -5,9 +5,6 @@ if (!defined('QA_VERSION')) {
             exit;
 }
 
-//if this is set to true , the email will be written to the log file 
-define('QW_SEND_EMAIL_DEBUG_MODE', false );
-
 //define the event hook event handlers // remove  NULL, ok , and here 
 qw_add_action('a_post','qw_notification_event');
 qw_add_action('c_post','qw_notification_event');
@@ -62,11 +59,24 @@ function qw_process_emails_from_db() {
       foreach ($email_list as $email_data) {
             $email              = $email_data['email'];
             $name               = $email_data['name'];
+            $handle             = $email_data['handle'];
+            $created_by         = $email_data['created_by'];
             $subs['^user_name'] = $name;
             $email_body         = qw_prepare_email_body($email_queue_data, $email);
-            $email_body         = $greeting . $email_body . $thank_you_message;
-            $email_body         = strtr($email_body, $subs);
-            $notification_sent  = qw_send_email_notification(null, $email, $name, $subject, $email_body, $subs);
+            $email_body         = $email_body . $thank_you_message;
+			
+			$b .='<div class="content user-greet">
+					<table><tr><td>
+						<strong>'.$greeting.'</strong>
+						<i>'.$subject.'</i>
+					</td></tr></table>
+				</div>
+				';
+			$b .='<div class="content email-body"><table><tr><td>';
+			$b .= strtr($email_body, $subs);
+			$b .='</td></tr></table></div>';
+            
+			$notification_sent  = qw_send_email_notification(null, $email, $handle, $created_by, $name, $subject, $b, $subs);
             if (!!$notification_sent) {
                   // if the notification is sent then 
                   $processed_queue_ids = array_merge($processed_queue_ids , qw_get_queue_ids_from_queue_data($email_queue_data, $email) ) ;
@@ -106,23 +116,37 @@ function qw_prepare_email_body($email_queue_data, $email) {
                         $event = $queue_data['event'];
                         $body = $queue_data['body'];
                         if (!!$body) {
-                              $email_body_arr[$event] = (isset($email_body_arr[$event]) && !empty($email_body_arr[$event]) ) ? $email_body_arr[$event] . "\n\n" : "";
-                              $email_body_arr[$event] .= $body;
+                              $email_body_arr[$event]['body'] = (isset($email_body_arr[$event]['body']) && !empty($email_body_arr[$event]['body']) ) ? $email_body_arr[$event]['body'] . "" : "";
+                              $email_body_arr[$event]['body'] .= $body;
+                              $email_body_arr[$event]['handle'] = $queue_data['handle'];
+                              $email_body_arr[$event]['created_by'] = $queue_data['created_by'];
                         }
                   } //outer if 
             } //foreach
+			
             foreach ($email_body_arr as $event => $email_body_for_event) {
-                  if (!isset($summerized_email_body[$event])) {
-                        $summerized_email_body[$event] = qw_get_email_headers($event);
-                  }
-                  $summerized_email_body[$event] .= (!!$email_body_for_event) ? $email_body_for_event . "\n" : "";
+				$summerized_email_body[$event] ='<div class="content event-item"><table bgcolor=""><tr>';
+				
+				$summerized_email_body[$event] .='<td class="small" width="60px" style="vertical-align: top; padding-right:10px;">'.qw_get_avatar($email_body_for_event['created_by'], 40).'</td>';
+				
+				$summerized_email_body[$event] .='<td style="vertical-align: top;">';
+				
+				if (!isset($summerized_email_body[$event]))
+					$summerized_email_body[$event] = qw_get_email_headers($event);
+						
+                 $summerized_email_body[$event] .= (!!$email_body_for_event['body']) ? $email_body_for_event['body'] . "" : "";
+				 $summerized_email_body[$event] .='</td>';
+				 $summerized_email_body[$event] .='</tr></table></div>';
             }//foreach 
+			
+			///qw_log(print_r($summerized_email_body, true));
 
             foreach ($summerized_email_body as $event => $email_body_chunk) {
                   if (!!$email_body_chunk) {
-                        $email_body .= $email_body_chunk;
+                        $email_body .= $email_body_chunk;						
                   }
-            }//foreach 
+            }//foreach 			
+			
       } //if 
       return $email_body;
 }
@@ -137,9 +161,16 @@ function qw_get_email_list($email_queue_data) {
                         if (!in_array($email, $unique_email_list)) {
                               $unique_email_list[] = $email;
                               $data = array('email' => $email);
-                              if (isset($queue_data['name']) && !empty($queue_data['name'])) {
+                              
+							  if (!empty($queue_data['name'])) 
                                     $data['name'] = $queue_data['name'];
-                              }
+									
+							 if (!empty($queue_data['handle'])) 
+                                    $data['handle'] = $queue_data['handle'];
+							
+							if (!empty($queue_data['created_by'])) 
+                                    $data['created_by'] = $queue_data['created_by'];
+                              
                               $email_list[] = $data;
                         }
                   }
@@ -206,24 +237,28 @@ function qw_notify_users_by_email($event, $postid, $userid, $effecteduserid, $pa
                   case 'q_post_cat_fl':
                         //this is because we wont have the $parent['email'] for each effected userids when a these selected events occurs 
                         $user_details = qw_get_user_details_from_userid($effecteduserid);
+                        $handle         = $user_details['handle'];
                         $name         = (!!$name) ? $name : $user_details['handle'];
                         $email        = $user_details['email'];
                         break;
                   case 'q_approve':
                   case 'q_reject':
                         $oldquestion = $params['oldquestion'];
+						$handle      = $oldquestion['handle'];
                         $name        = (!!$name) ? $name : $oldquestion['handle'];
                         $email       = $oldquestion['email'];
                         break;
                   case 'a_approve':
                   case 'a_reject':
                         $oldanswer = $params['oldanswer'];
+						$handle      = $oldquestion['handle'];
                         $name      = (!!$name) ? $name : $oldanswer['handle'];
                         $email     = $oldanswer['email'];
                         break;
                   case 'c_approve':
                   case 'c_reject':
                         $oldcomment = $params['oldcomment'];
+						$handle      = $oldcomment['handle'];
                         $name       = (!!$name) ? $name : $oldcomment['handle'];
                         $email      = $oldcomment['email'];
                         break;
@@ -234,6 +269,7 @@ function qw_notify_users_by_email($event, $postid, $userid, $effecteduserid, $pa
             $notifying_user['userid'] = $effecteduserid;
             $notifying_user['name']   = $name;
             $notifying_user['email']  = $email;
+            $notifying_user['handle']  = $handle;
             //consider only first 50 characters for saving notification 
             if ($event === 'u_message') {
                   $content  = (isset($params['message']) && !empty($params['message'])) ? $params['message'] : "";
@@ -328,187 +364,187 @@ function qw_get_user_desg($level) {
 }
 
 function qw_get_email_headers($event = "") {
-      if (!!$event) {
-            switch ($event) {
-                  case 'a_post':
-                        return qa_lang("notification/a_post_email_header");
-                        break;
-                  case 'c_post':
-                        return qa_lang("notification/c_post_email_header");
-                        break;
-                  case 'q_reshow':
-                        return qa_lang("notification/q_reshow_email_header");
-                        break;
-                  case 'a_reshow':
-                        return qa_lang("notification/a_reshow_email_header");
-                        break;
-                  case 'c_reshow':
-                        return qa_lang("notification/c_reshow_email_header");
-                        break;
-                  case 'a_select':
-                        return qa_lang("notification/a_select_email_header");
-                        break;
-                  case 'q_vote_up':
-                        return qa_lang("notification/q_vote_up_email_header");
-                        break;
-                  case 'a_vote_up':
-                        return qa_lang("notification/a_vote_up_email_header");
-                        break;
-                  case 'q_vote_down':
-                        return qa_lang("notification/q_vote_down_email_header");
-                        break;
-                  case 'a_vote_down':
-                        return qa_lang("notification/a_vote_down_email_header");
-                        break;
-                  case 'q_vote_nil':
-                        return qa_lang("notification/q_vote_nil_email_header");
-                        break;
-                  case 'a_vote_nil':
-                        return qa_lang("notification/a_vote_nil_email_header");
-                        break;
-                  case 'q_approve':
-                        return qa_lang("notification/q_approve_email_header");
-                        break;
-                  case 'a_approve':
-                        return qa_lang("notification/a_approve_email_header");
-                        break;
-                  case 'c_approve':
-                        return qa_lang("notification/c_approve_email_header");
-                        break;
-                  case 'q_reject':
-                        return qa_lang("notification/q_reject_email_header");
-                        break;
-                  case 'a_reject':
-                        return qa_lang("notification/a_reject_email_header");
-                        break;
-                  case 'c_reject':
-                        return qa_lang("notification/c_reject_email_header");
-                        break;
-                  case 'q_favorite':
-                        return qa_lang("notification/q_favorite_email_header");
-                        break;
-                  case 'q_post':
-                        return qa_lang("notification/q_post_email_header");
-                        break;
-                  case 'q_post_user_fl':
-                        return qa_lang("notification/q_post_user_fl_email_header");
-                        break;
-                  case 'q_post_cat_fl':
-                        return qa_lang("notification/q_post_cat_fl_email_header");
-                        break;
-                  case 'q_post_tag_fl':
-                        return qa_lang("notification/q_post_tag_fl_email_header");
-                        break;
+	if (!!$event) {
+		switch ($event) {
+		  case 'a_post':
+				return qa_lang("notification/a_post_email_header");
+				break;
+		  case 'c_post':
+				return qa_lang("notification/c_post_email_header");
+				break;
+		  case 'q_reshow':
+				return qa_lang("notification/q_reshow_email_header");
+				break;
+		  case 'a_reshow':
+				return qa_lang("notification/a_reshow_email_header");
+				break;
+		  case 'c_reshow':
+				return qa_lang("notification/c_reshow_email_header");
+				break;
+		  case 'a_select':
+				return qa_lang("notification/a_select_email_header");
+				break;
+		  case 'q_vote_up':
+				return qa_lang("notification/q_vote_up_email_header");
+				break;
+		  case 'a_vote_up':
+				return qa_lang("notification/a_vote_up_email_header");
+				break;
+		  case 'q_vote_down':
+				return qa_lang("notification/q_vote_down_email_header");
+				break;
+		  case 'a_vote_down':
+				return qa_lang("notification/a_vote_down_email_header");
+				break;
+		  case 'q_vote_nil':
+				return qa_lang("notification/q_vote_nil_email_header");
+				break;
+		  case 'a_vote_nil':
+				return qa_lang("notification/a_vote_nil_email_header");
+				break;
+		  case 'q_approve':
+				return qa_lang("notification/q_approve_email_header");
+				break;
+		  case 'a_approve':
+				return qa_lang("notification/a_approve_email_header");
+				break;
+		  case 'c_approve':
+				return qa_lang("notification/c_approve_email_header");
+				break;
+		  case 'q_reject':
+				return qa_lang("notification/q_reject_email_header");
+				break;
+		  case 'a_reject':
+				return qa_lang("notification/a_reject_email_header");
+				break;
+		  case 'c_reject':
+				return qa_lang("notification/c_reject_email_header");
+				break;
+		  case 'q_favorite':
+				return qa_lang("notification/q_favorite_email_header");
+				break;
+		  case 'q_post':
+				return qa_lang("notification/q_post_email_header");
+				break;
+		  case 'q_post_user_fl':
+				return qa_lang("notification/q_post_user_fl_email_header");
+				break;
+		  case 'q_post_cat_fl':
+				return qa_lang("notification/q_post_cat_fl_email_header");
+				break;
+		  case 'q_post_tag_fl':
+				return qa_lang("notification/q_post_tag_fl_email_header");
+				break;
 
-                  case 'u_favorite':
-                        return qa_lang("notification/u_favorite_email_header");
-                        break;
-                  case 'u_message':
-                        return qa_lang("notification/u_message_email_header");
-                        break;
-                  case 'u_wall_post':
-                        return qa_lang("notification/u_wall_post_email_header");
-                        break;
-                  case 'u_level':
-                        return qa_lang("notification/u_level_email_header");
-                        break;
-                  case 'related':
-                        return qa_lang("notification/related_email_header");
-                        break;
-                  default:
-                        break;
-            }
-      }
+		  case 'u_favorite':
+				return qa_lang("notification/u_favorite_email_header");
+				break;
+		  case 'u_message':
+				return qa_lang("notification/u_message_email_header");
+				break;
+		  case 'u_wall_post':
+				return qa_lang("notification/u_wall_post_email_header");
+				break;
+		  case 'u_level':
+				return qa_lang("notification/u_level_email_header");
+				break;
+		  case 'related':
+				return qa_lang("notification/related_email_header");
+				break;
+		  default:
+				break;
+		}
+	}
 }
 
 function qw_get_email_body($event = "") {
-      if (!!$event) {
-            switch ($event) {
-                  case 'a_post':
-                        return qa_lang("notification/a_post_body_email");
-                        break;
-                  case 'c_post':
-                        return qa_lang("notification/c_post_body_email");
-                        break;
-                  case 'q_reshow':
-                        return qa_lang("notification/q_reshow_body_email");
-                        break;
-                  case 'a_reshow':
-                        return qa_lang("notification/a_reshow_body_email");
-                        break;
-                  case 'c_reshow':
-                        return qa_lang("notification/c_reshow_body_email");
-                        break;
-                  case 'a_select':
-                        return qa_lang("notification/a_select_body_email");
-                        break;
-                  case 'q_vote_up':
-                        return qa_lang("notification/q_vote_up_body_email");
-                        break;
-                  case 'a_vote_up':
-                        return qa_lang("notification/a_vote_up_body_email");
-                        break;
-                  case 'q_vote_down':
-                        return qa_lang("notification/q_vote_down_body_email");
-                        break;
-                  case 'a_vote_down':
-                        return qa_lang("notification/a_vote_down_body_email");
-                        break;
-                  case 'q_vote_nil':
-                        return qa_lang("notification/q_vote_nil_body_email");
-                        break;
-                  case 'a_vote_nil':
-                        return qa_lang("notification/a_vote_nil_body_email");
-                        break;
-                  case 'q_approve':
-                        return qa_lang("notification/q_approve_body_email");
-                        break;
-                  case 'a_approve':
-                        return qa_lang("notification/a_approve_body_email");
-                        break;
-                  case 'c_approve':
-                        return qa_lang("notification/c_approve_body_email");
-                        break;
-                  case 'q_reject':
-                        return qa_lang("notification/q_reject_body_email");
-                        break;
-                  case 'a_reject':
-                        return qa_lang("notification/a_reject_body_email");
-                        break;
-                  case 'c_reject':
-                        return qa_lang("notification/c_reject_body_email");
-                        break;
-                  case 'q_favorite':
-                        return qa_lang("notification/q_favorite_body_email");
-                        break;
-                  case 'q_post':
-                  case 'q_post_user_fl':
-                  case 'q_post_tag_fl':
-                  case 'q_post_cat_fl':
-                        return qa_lang("notification/q_post_body_email");
-                        break;
-                  case 'u_favorite':
-                        return qa_lang("notification/u_favorite_body_email");
-                        break;
-                  case 'u_message':
-                        $body = qa_lang("notification/u_message_body_email");
-                        $canreply = !(qa_get_logged_in_flags() & QA_USER_FLAGS_NO_MESSAGES);
-                        $more = qa_lang($canreply ? 'notification/u_message_reply_email' : 'notification/u_message_info');
-                        return $body . $more;
-                        break;
-                  case 'u_wall_post':
-                        return qa_lang("notification/u_wall_post_body_email");
-                        break;
-                  case 'u_level':
-                        return qa_lang("notification/u_level_body_email");
-                        break;
-                  case 'related':
-                        return qa_lang("notification/related_body_email");
-                        break;
-                  default:
-                        break;
-            }
-      }
+	if (!!$event) {
+		switch ($event) {
+		  case 'a_post':
+				return qa_lang("notification/a_post_body_email");
+				break;
+		  case 'c_post':
+				return qa_lang("notification/c_post_body_email");
+				break;
+		  case 'q_reshow':
+				return qa_lang("notification/q_reshow_body_email");
+				break;
+		  case 'a_reshow':
+				return qa_lang("notification/a_reshow_body_email");
+				break;
+		  case 'c_reshow':
+				return qa_lang("notification/c_reshow_body_email");
+				break;
+		  case 'a_select':
+				return qa_lang("notification/a_select_body_email");
+				break;
+		  case 'q_vote_up':
+				return qa_lang("notification/q_vote_up_body_email");
+				break;
+		  case 'a_vote_up':
+				return qa_lang("notification/a_vote_up_body_email");
+				break;
+		  case 'q_vote_down':
+				return qa_lang("notification/q_vote_down_body_email");
+				break;
+		  case 'a_vote_down':
+				return qa_lang("notification/a_vote_down_body_email");
+				break;
+		  case 'q_vote_nil':
+				return qa_lang("notification/q_vote_nil_body_email");
+				break;
+		  case 'a_vote_nil':
+				return qa_lang("notification/a_vote_nil_body_email");
+				break;
+		  case 'q_approve':
+				return qa_lang("notification/q_approve_body_email");
+				break;
+		  case 'a_approve':
+				return qa_lang("notification/a_approve_body_email");
+				break;
+		  case 'c_approve':
+				return qa_lang("notification/c_approve_body_email");
+				break;
+		  case 'q_reject':
+				return qa_lang("notification/q_reject_body_email");
+				break;
+		  case 'a_reject':
+				return qa_lang("notification/a_reject_body_email");
+				break;
+		  case 'c_reject':
+				return qa_lang("notification/c_reject_body_email");
+				break;
+		  case 'q_favorite':
+				return qa_lang("notification/q_favorite_body_email");
+				break;
+		  case 'q_post':
+		  case 'q_post_user_fl':
+		  case 'q_post_tag_fl':
+		  case 'q_post_cat_fl':
+				return qa_lang("notification/q_post_body_email");
+				break;
+		  case 'u_favorite':
+				return qa_lang("notification/u_favorite_body_email");
+				break;
+		  case 'u_message':
+				$body = qa_lang("notification/u_message_body_email");
+				$canreply = !(qa_get_logged_in_flags() & QA_USER_FLAGS_NO_MESSAGES);
+				$more = qa_lang($canreply ? 'notification/u_message_reply_email' : 'notification/u_message_info');
+				return $body . $more;
+				break;
+		  case 'u_wall_post':
+				return qa_lang("notification/u_wall_post_body_email");
+				break;
+		  case 'u_level':
+				return qa_lang("notification/u_level_body_email");
+				break;
+		  case 'related':
+				return qa_lang("notification/related_body_email");
+				break;
+		  default:
+				break;
+		}
+	}
 }
 
 function qw_shrink_email_body($email_body, $max_body_length = 50) {
@@ -547,14 +583,14 @@ function qw_dump_email_content_to_db($param) {
 
 function qw_dump_email_to_db($notifying_user, $queue_id) {
       qa_db_query_sub(
-              'INSERT INTO ^ra_email_queue_receiver (userid, email , name , queue_id ) ' .
-              'VALUES (#, $ , $ , # )', $notifying_user['userid'], $notifying_user['email'], $notifying_user['name'], $queue_id
+              'INSERT INTO ^ra_email_queue_receiver (userid, handle, email , name , queue_id ) ' .
+              'VALUES (#, $, $ , $ , # )', $notifying_user['userid'], $notifying_user['handle'], $notifying_user['email'], $notifying_user['name'], $queue_id
       );
 
       return qa_db_last_insert_id();
 }
 
-function qw_send_email_notification($bcclist, $email, $handle, $subject, $body, $subs) {
+function qw_send_email_notification($bcclist, $email, $handle, $created_by , $name, $subject, $body, $subs) {
 
       global $qa_notifications_suspended;
 
@@ -572,12 +608,17 @@ function qw_send_email_notification($bcclist, $email, $handle, $subject, $body, 
           'fromemail' => qa_opt('from_email'),
           'fromname' => qa_opt('site_title'),
           'mail_list' => $email,
-          'toname' => $handle,
+          'toname' => $name,
+          'handle' => $handle,
+          'created_by' => $created_by,
           'bcclist' => $bcclist,
           'subject' => strtr($subject, $subs),
           'body' => strtr($body, $subs),
           'html' => true ,
       );
+	 
+	 $email_param['body'] = qw_get_email_template($email_param);
+	 
       if (QW_SEND_EMAIL_DEBUG_MODE) {
             //this will write to the log file 
             return qw_send_email_fake($email_param);
@@ -630,9 +671,118 @@ function qw_send_email($params) {
 }
 
 function qw_send_email_fake($email_param) {
-      // qw_log("Fake Email Sending to log the entire email message ");
-      // qw_log(print_r($email_param, true));
+      qw_log(print_r($email_param['body'], true));
       //fake email should never fail 
-      return true;
+      return false;
 }
 
+
+function qw_get_email_template($parms){
+	$email_body = '';
+	$email_body = qa_get_email_template_head($parms);
+	$email_body .= qa_get_email_template_body($parms);
+	$email_body .= qa_get_email_template_footer($parms);
+	return $email_body;
+}
+
+
+function qa_get_email_template_head($parms){
+	ob_start();
+		?>
+		<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+			<html>
+			<head>
+			<!-- If you delete this meta tag, the ground will open and swallow you. -->
+			<meta name="viewport" content="width=device-width" />
+
+			<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+			<title><?php echo $parms['subject']; ?></title>
+				
+			<style>
+				<?php include qa_get_override_file('/css/email.css'); ?>
+			</style>
+
+			</head>
+			<body bgcolor="#EEEEEE" topmargin="0" leftmargin="0" marginheight="0" marginwidth="0">
+
+			<!-- HEADER -->
+			<table class="head-wrap">
+				<tr>
+					<td></td>
+					<td class="header container" align="">
+						
+						<!-- /content -->
+						<div class="content">
+							<table>
+								<tr>
+									<td>
+										<?php 
+											$logo = qa_opt('logo_url');
+											echo '<a title="'.qa_opt('site_title').'" href="' . get_base_url() . '">
+											'.(!!$logo ? '<img class="navbar-site-logo" src="' . $logo . '">' : '<img class="navbar-site-logo" src="' . Q_THEME_URL . '/images/logo.png">').'</a>'
+										?>					
+									</td>
+									<td align="right"> <?php echo qw_get_avatar($parms['handle'], 40); ?></td>
+								</tr>
+							</table>
+						</div><!-- /content -->
+						
+					</td>
+					<td></td>
+				</tr>
+			</table><!-- /HEADER -->
+		<?php
+	return ob_get_clean();
+}
+
+function qa_get_email_template_body($parms){
+	ob_start();
+		?>
+		<!-- BODY -->
+		<table class="body-wrap" bgcolor="">
+			<tr>
+				<td></td>
+				<td class="container" align="" bgcolor="#FFFFFF">
+					<?php echo $parms['body']; ?>
+				</td>
+				<td></td>
+			</tr>
+		</table><!-- /BODY -->
+		<?php
+	return ob_get_clean();
+}
+
+function qa_get_email_template_footer($parms){
+	ob_start();
+		?>
+			<!-- FOOTER -->
+			<table class="footer-wrap">
+				<tr>
+					<td></td>
+					<td class="container">
+						
+							<!-- content -->
+							<div class="content">
+								<table>
+									<tr>
+										<td align="center">
+											<p>
+												<a href="#">Terms</a> |
+												<a href="#">Privacy</a> |
+												<a href="#"><unsubscribe>Unsubscribe</unsubscribe></a>
+											</p>
+										</td>
+									</tr>
+								</table>
+							</div><!-- /content -->
+							
+					</td>
+					<td></td>
+				</tr>
+			</table><!-- /FOOTER -->
+
+			</body>
+			</html>
+		<?php
+	return ob_get_clean();	
+}
