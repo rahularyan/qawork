@@ -431,7 +431,7 @@ class qw_social_login_page {
 
                 $s = qw_open_login_get_new_source($login['source'], $login['identifier']);
                 if ($useraccount['sessionsource'] != $s) {
-                    $del_html = '<a class="btn" href="javascript://" onclick="OP_unlink(\'' . $login['source'] . '_' . md5($login['identifier']) . '\')" class="opacxdel qa-form-light-button-reject" title="' . qa_lang_html('qw_social_login/unlink_this_account') . '"> '.qa_lang_html('qw_social_login/unlink_this_account').' </a>';
+                    $del_html = '<a class="btn btn-sm icon-trash" href="javascript://" onclick="OP_unlink(\'' . $login['source'] . '_' . md5($login['identifier']) . '\')"  title="' . qa_lang_html('qw_social_login/unlink_this_account') . '"> '.qa_lang_html('qw_social_login/unlink_this_account').' </a>';
                 }
 
                 $data["f$i"] = array(

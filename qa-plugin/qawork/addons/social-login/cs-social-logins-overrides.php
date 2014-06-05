@@ -107,9 +107,8 @@ function qa_log_in_external_user($source, $identifier, $fields) {
                    $profilefields = array('name', 'location', 'website', 'about');
 
                    foreach ($profilefields as $fieldname){
-                        if (isset($fields[$fieldname])) {
-                           qa_db_user_profile_set($userid, $fieldname, $fields[$fieldname]);
-                        }
+                            $field_value = (isset($fields[$fieldname]) && !empty($fields[$fieldname]) && !is_null($fields[$fieldname])) ? $fields[$fieldname] : "" ;
+                           qa_db_user_profile_set($userid, $fieldname, $field_value );
                    } 
 
                    if (strlen(@$fields['avatar'])){
