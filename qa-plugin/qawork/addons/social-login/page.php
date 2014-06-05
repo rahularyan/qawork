@@ -520,38 +520,42 @@ class qw_social_login_page {
 
             if ($disp_conf == null || $disp_conf == 1) {
                 $data['actions1'] = array(
-                    'label' => ' &nbsp; &nbsp; <strong><a href="javascript:;" onclick="OP_actionSelected(1, \'#ac1html\')">&raquo; ' . qa_lang_html('qw_social_login/merge_all') . '</a></strong>' . $ac1html,
+                    'label' => '<div class="page-header"><h4><a href="javascript:;" onclick="OP_actionSelected(1, \'#ac1html\' , this )" class="icon-plus"> ' . qa_lang_html('qw_social_login/merge_all') . '</a></h4></div>' . $ac1html,
                     'type' => 'static',
                     'style' => 'tall'
                 );
                 $data['actions2'] = array(
-                    'label' => ' &nbsp; &nbsp; <strong><a href="javascript:;" onclick="OP_actionSelected(2, \'#ac2html\')">&raquo; ' . qa_lang_html('qw_social_login/select_merge') . '</a></strong>' . $ac2html,
+                    'label' => '<div class="page-header"><h4><a href="javascript:;" onclick="OP_actionSelected(2, \'#ac2html\' , this )" class="icon-plus"> ' . qa_lang_html('qw_social_login/select_merge') . '</a></h4></div>' . $ac2html,
                     'type' => 'static',
                     'style' => 'tall'
                 );
                 if ($disp_conf == 1) {
                     $data['actions3'] = array(
-                        'label' => ' &nbsp; &nbsp; <strong><a href="javascript:;" onclick="OP_actionSelected(0, \'#ac3html\')">&raquo; ' . qa_lang_html('qw_social_login/cancel_merge') . '</a></strong>' . $ac3html,
+                        'label' => '<div class="page-header"><h4><a href="javascript:;" onclick="OP_actionSelected(0, \'#ac3html\' , this )" class="icon-trash"> ' . qa_lang_html('qw_social_login/cancel_merge') . '</a></h4></div>' . $ac3html,
                         'type' => 'static',
                         'style' => 'tall'
                     );
                 }
             } else if ($disp_conf == 2) {
                 $data['actions1'] = array(
-                    'label' => ' &nbsp; &nbsp; <strong><a href="javascript:;" onclick="OP_actionSelected(1, \'#ac1html\')">&raquo; ' . qa_lang_html('qw_social_login/link_all') . '</a></strong>' . $ac1html,
+                    'label' => '<div class="page-header"><h4><a href="javascript:;" onclick="OP_actionSelected(1, \'#ac1html\' , this )" class="icon-plus"> ' . qa_lang_html('qw_social_login/link_all') . '</a></h4></div>' . $ac1html,
                     'type' => 'static',
                     'style' => 'tall'
                 );
                 $data['actions3'] = array(
-                    'label' => ' &nbsp; &nbsp; <strong><a href="javascript:;" onclick="OP_actionSelected(0, \'#ac3html\')">&raquo; ' . qa_lang_html('qw_social_login/cancel_link') . '</a></strong>' . $ac3html,
+                    'label' => '<div class="page-header"><h4><a href="javascript:;" onclick="OP_actionSelected(0, \'#ac3html\' , this )" class="icon-plus"> ' . qa_lang_html('qw_social_login/cancel_link') . '</a></h4></div>' . $ac3html,
                     'type' => 'static',
                     'style' => 'tall'
                 );
             }
             $qa_content['form_merge']['fields'] = $data;
             $qa_content['customscript'] = '<script type="text/javascript">
-				function OP_actionSelected(i, divid) {
+				function OP_actionSelected(i, divid , link ) {
 					$(".opacxhtml").slideUp();
+                    $link = $(link);
+                    $(".opacxhtml").prev("div.page-header").children("h4").children("a.icon-minus").not($link).removeClass("icon-minus").addClass("icon-plus");
+
+                    $link.toggleClass("icon-plus icon-minus");
 					if(i != 2 || op_last_action == 2) {
 						$(".qa-main form.open-login-others input[type=checkbox]").css("visibility", "hidden");
 					}
