@@ -1,0 +1,9 @@
+.qa-part-form-mylogins .open-login-button {
+    background: #EEEEEE;
+    border-radius: 5px;
+    color: #FFFFFF;
+    display: inline ;
+    padding: 8px 15px;
+    text-align: center;
+    width: 200px;
+}

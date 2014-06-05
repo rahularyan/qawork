@@ -95,32 +95,36 @@ function qa_log_in_external_user($source, $identifier, $fields) {
             qa_set_logged_in_user($users[0]['userid'], $users[0]['handle'], $remember, $aggsource);
         } else {
             $handle = qa_handle_make_valid(@$fields['handle']);
-
             // check if email address already exists
             $emailusers = array();
             if (strlen(@$fields['email']) && $fields['confirmed']) { // only if email is confirmed
                 $emailusers = qw_db_user_find_by_email_or_oemail($fields['email']);
-
+                
                 if (count($emailusers)) {
-                    // unset regular email to prevent duplicates
-                    unset($fields['email']);
+                    $userid = $emailusers[0] ;
+                }else {
+                   $userid = qa_create_new_user((string) @$fields['email'], null /* no password */, $handle, isset($fields['level']) ? $fields['level'] : QA_USER_LEVEL_BASIC, @$fields['confirmed']);
+                   $profilefields = array('name', 'location', 'website', 'about');
+
+                   foreach ($profilefields as $fieldname){
+                        if (isset($fields[$fieldname])) {
+                           qa_db_user_profile_set($userid, $fieldname, $fields[$fieldname]);
+                        }
+                   } 
+
+                   if (strlen(@$fields['avatar'])){
+                       qa_set_user_avatar($userid, $fields['avatar']);
+                   } 
                 }
             }
-
-            $userid = qa_create_new_user((string) @$fields['email'], null /* no password */, $handle, isset($fields['level']) ? $fields['level'] : QA_USER_LEVEL_BASIC, @$fields['confirmed']);
-
+            
             qa_db_user_set($userid, 'oemail', $oemail);
             qa_db_user_login_add($userid, $source, $identifier);
             qw_db_user_login_set($source, $identifier, 'oemail', $oemail);
             qw_db_user_login_set($source, $identifier, 'ohandle', $ohandle);
             qa_db_user_login_sync(false);
 
-            $profilefields = array('name', 'location', 'website', 'about');
-
-            foreach ($profilefields as $fieldname) if (strlen(@$fields[$fieldname])) qa_db_user_profile_set($userid, $fieldname, $fields[$fieldname]);
-
-            if (strlen(@$fields['avatar'])) qa_set_user_avatar($userid, $fields['avatar']);
-
+            
             qa_set_logged_in_user($userid, $handle, $remember, $aggsource);
 
             return count($emailusers);
