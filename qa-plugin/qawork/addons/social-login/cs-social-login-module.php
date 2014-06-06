@@ -81,10 +81,7 @@ class qw_open_login {
                     qa_redirect('logins', array('confirm' => '1', 'to' => $topath));
                 } else {
                     if (!!$this->provider && strlen(@$hybridauth->getSessionData())) {
-                        require_once QA_INCLUDE_DIR . 'qa-db-users.php';
-                        $userid = qa_get_logged_in_userid();
-                        $profile_field = strtolower($this->provider) . "_hauthSession";
-                        qa_db_user_profile_set($userid, $profile_field, @$hybridauth->getSessionData());
+                        qw_save_user_hauth_session( qa_get_logged_in_userid() , $this->provider  , @$hybridauth->getSessionData() );
                     }
                     qa_redirect_raw(qa_opt('site_url') . $topath);
                 }

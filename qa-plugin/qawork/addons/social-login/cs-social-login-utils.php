@@ -138,6 +138,15 @@ function qw_open_login_get_new_source($source, $identifier) {
     return substr($source, 0, 9) . '-' . substr(md5($identifier), 0, 6);
 }
 
+function qw_save_user_hauth_session($userid , $provider , $session )
+{
+     if (!!$provider && strlen($session)) {
+        require_once QA_INCLUDE_DIR . 'qa-db-users.php';
+        $profile_field = strtolower($provider) . "_hauthSession";
+        qa_db_user_profile_set($userid, $profile_field, $session);
+    }
+}
+
 function qw_social_get_config_common($url, $provider) {
     $key = strtolower($provider);
     $app_id = qa_opt("{$key}_app_id");
