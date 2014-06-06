@@ -236,7 +236,8 @@ class qw_breadcrumbs_widget {
             // $text = qa_lang("breadcrumbs/$text");
             switch ($type) {
                   case 'home':
-                        $url   = QW_BASE_URL;
+
+				  $url   = QW_BASE_URL;
                         $text  = qa_lang("qw_breadcrumbs/home");
                         $class = "class='cs-breadcrumbs-home'";
                         $icon  = "<i class='icon-home'></i> ";

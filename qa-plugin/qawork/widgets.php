@@ -120,7 +120,7 @@ class qw_theme_widgets {
 						<div  class="position-header">		
 							<?php echo $name; ?><span class="position-description"><?php echo $description; ?></span>							
 							<i class="position-toggler icon-cog"></i>
-							<div class="widget-save icon-ok"> Save</div>
+							<div class="widget-save icon-ok btn"> Save</div>
 						</div>
 						<div class="position-canvas" data-name="<?php echo $name; ?>">
 							<?php

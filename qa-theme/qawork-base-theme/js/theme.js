@@ -229,7 +229,9 @@ function qw_widgets(){
 	
 	$('#ra-widgets').delegate('.widget-save.active', 'click', function(){
 		var $parent = $(this).closest('.widget-canvas').find('.position-canvas');
+		qw_animate_button($(this), false);
 		qw_save_widget($parent);
+		qw_animate_button($(this), true);
 	});
 	
 	if ($('#ra-widgets').length>0) {
