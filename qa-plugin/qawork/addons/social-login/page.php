@@ -481,7 +481,7 @@ class qw_social_login_page {
 
             $data = array();
             $select = '<option value="0">' . qa_lang_html('qw_social_login/select_base') . '</option>' .
-                    '<option value="' . $userid . '" title="' . qa_html($useraccount['handle']) . '">' . qa_html($useraccount['handle']) . ' (' . $useraccount['points'] . ' ' . qa_lang_html('admin/points') . ' - ' . qa_lang_html('qw_social_login/current_account') . ')</option>';
+                      '<option value="' . $userid . '" title="' . qa_html($useraccount['handle']) . '">' . qa_html($useraccount['handle']) . ' (' . $useraccount['points'] . ' ' . qa_lang_html('admin/points') . ' - ' . qa_lang_html('qw_social_login/current_account') . ')</option>';
             foreach ($otherlogins as $i => $login) {
                 $type = 'login';
                 $name = qa_html($login['details']['handle']);
@@ -508,10 +508,10 @@ class qw_social_login_page {
             );
 
             $ac1html = '<div class="opacxhtml qa-form-tall-buttons" id="ac1html" style="display: none;">' .
-                    qa_lang_html('qw_social_login/merge_all_first') . ' ' . qa_lang_html('qw_social_login/merge_note') . '<br /><br />' .
+                    qa_lang('qw_social_login/merge_all_first') . ' <br/> ' . qa_lang_html('qw_social_login/merge_note') . '<br /><br />' .
                     qa_lang_html('qw_social_login/select_base_note') . '<br /><select name="base1" onchange="OP_baseSelected(this)">' . $select . '</select></div>';
             $ac2html = '<div class="opacxhtml qa-form-tall-buttons" id="ac2html" style="display: none;">' .
-                    qa_lang_html('qw_social_login/select_merge_first') . ' ' . qa_lang_html('qw_social_login/merge_note') . '<br /><br />' .
+                    qa_lang('qw_social_login/select_merge_first') . ' <br/> ' . qa_lang_html('qw_social_login/merge_note') . '<br /><br />' .
                     qa_lang_html('qw_social_login/select_base_note') . '<br /><select name="base2" onchange="OP_baseSelected(this)">' . $select . '</select></div>';
             $ac3html = '<div class="opacxhtml qa-form-tall-buttons" id="ac3html" style="display: none;">' . qa_lang_html('qw_social_login/cancel_merge_note') . '</div>';
 
