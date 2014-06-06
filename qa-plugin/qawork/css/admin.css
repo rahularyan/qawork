@@ -801,21 +801,19 @@ th .description {
 }
 
 #ra-widgets .widget-canvas .widget-save {
-	-moz-border-radius: 2px;
-	-webkit-border-radius: 2px;
-	border-radius: 2px;
-	color: #FFF;
-	cursor: pointer;
-	display: none;
-	float: right;
-	font-size: 10px;
-	line-height: 20px;
-	margin-right: 8px;
-	margin-top: 5px;
-	padding: 1px 5px 0;
-	position: absolute;
-	right: 30px;
-	top: 9px;
+    border-radius: 2px;
+    color: #FFFFFF;
+    cursor: pointer;
+    display: none;
+    float: right;
+    font-size: 10px;
+    line-height: 20px;
+    margin-right: 8px;
+    margin-top: 5px;
+    padding: 1px 5px 0;
+    position: absolute;
+    right: 30px;
+    top: 3px;
 }
 
 #ra-widgets .widget-canvas .widget-save.active {

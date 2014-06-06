@@ -282,7 +282,7 @@ class qw_social_login_page {
         if ($action == 'login') {
             // handle the login
             // after login come back to the same page
-            $loginCallback = qa_path('', array(), qa_opt('site_url')."/logins/");
+            $loginCallback = qa_path_absolute('logins/');
 
             require_once QW_CONTROL_DIR . '/inc/hybridauth/Hybrid/Auth.php';
             require_once QW_CONTROL_DIR . '/addons/social-login/cs-social-login-utils.php';
