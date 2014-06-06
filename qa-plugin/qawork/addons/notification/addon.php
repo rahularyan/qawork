@@ -15,6 +15,10 @@ if (!defined('QA_VERSION')) {
 		exit;
 }
 
+global $qa_modules;
+//unset Q2A Event Notify so that we can override it
+unset($qa_modules['event']['Q2A Event Notify']);
+
 //if this is set to true , the email will be written to the log file 
 define('QW_SEND_EMAIL_DEBUG_MODE', FALSE );
 
@@ -797,7 +801,10 @@ class Qw_Notification_Addon{
             }
 
 		echo '<li>
-				<a href="#" data-toggle=".qa-part-form-tc-notify">Notification Settings</a>
+				<a href="#" data-toggle=".qa-part-form-tc-notify">Notification</a>
+			</li>
+			<li>
+				<a href="#" data-toggle=".qa-part-form-tc-email">Email templates</a>
 			</li>';
 	  }
 	 public function option_tab_content(){
@@ -896,6 +903,22 @@ class Qw_Notification_Addon{
 								</tr>' ;
 				$output .= '</tbody>' ;
 				
+			$output .= '</table></div>';
+			$output .= '<div class="qa-part-form-tc-email">
+						<h3>Email templates</h3>
+						<table class="qa-form-tall-table options-table">';
+			$output .= '<tbody>' ;
+			$output .= '<tr class="" >
+							<th class="qa-form-tall-label">
+								Email header
+								<span class="description">Set table based header for email</span>
+							</th>
+							<td class="qa-form-tall-data">
+								<textarea type="text" id="qw_email_head" name="qw_email_head_field" rows="10">' . qa_opt('qw_email_head') . '</textarea>
+							</td>
+						</tr>' ;
+			$output .= '</tbody>' ;
+			
 			$output .= '</table></div>';
 			echo $output;
 	  }

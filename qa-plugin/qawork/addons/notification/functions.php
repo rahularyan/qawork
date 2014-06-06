@@ -29,7 +29,8 @@ function set_all_notification_options() {
             qa_opt('qw_notify_cat_followers', !!qa_post_text('qw_notify_cat_followers_field'));
             qa_opt('qw_notify_tag_followers', !!qa_post_text('qw_notify_tag_followers_field'));
             qa_opt('qw_notify_user_followers', !!qa_post_text('qw_notify_user_followers_field'));
-            $minimum_user_point_option = !!qa_post_text('qw_notify_min_points_opt_field');
+            
+			$minimum_user_point_option = !!qa_post_text('qw_notify_min_points_opt_field');
             if ($minimum_user_point_option) { //if minimum point option is checked 
                   $minimum_user_point_value = qa_post_text('qw_notify_min_points_val_field');
                   if (!!$minimum_user_point_value && is_numeric($minimum_user_point_value) && $minimum_user_point_value > 0) { //if the minimum point value is provided then only set else reset

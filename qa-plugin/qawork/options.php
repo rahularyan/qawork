@@ -152,7 +152,7 @@ class qw_theme_options {
 		
 		$output = '<form id="theme-option-form" class="form-horizontal" enctype="multipart/form-data" method="post">';		
 		$output .= '<div class="qa-part-tabs-nav">
-		<ul class="ra-option-tabs nav nav-tabs">
+		<ul class="ra-option-tabs">
 			<li class="active">
 				<a href="#" data-toggle=".qa-part-form-tc-general">General</a>
 			</li>
