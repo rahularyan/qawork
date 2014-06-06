@@ -1,0 +1,51 @@
+.qa-part-form-mylogins .open-login-button {
+    background: #EEEEEE;
+    border-radius: 5px;
+    color: #FFFFFF;
+    display: inline ;
+    padding: 8px 15px;
+    text-align: center;
+    width: 200px;
+}
+
+.open-login-others .opacxhtml select {
+	margin: 5px 0;
+}
+
+.open-login-others .opacxhtml {
+	 padding : 10px 5px 5px 30px ;
+}
+.open-login-others .page-header {
+		margin: 0px ;
+}
+
+.open-login-accounts a.opacxdel:hover {
+	text-decoration: none;
+}
+
+.open-login-accounts a.opacxdel{
+	display: inline-block;
+	line-height: 25px;
+	margin: 0 5px;
+}
+.qa-form-wide-buttons{
+	padding: 10px 5px 5px 30px;
+}
+.qa-form-wide-buttons input {
+	margin-right: 10px ;
+}
+.qa-form-wide-buttons span.qa-form-wide-note {
+	font-size: 15px ; 
+	padding: 5px;
+	line-height: 30px;
+	font-weight: normal;
+}
+.qa-form-wide-buttons span.qa-form-wide-note strong {
+	font-size: 20px ; 
+	font-weight: bolder;
+}
+.qa-part-form-merge label div.avatar {
+	display: inline ;
+	margin-right: 5px ;
+	padding: 2px;
+}

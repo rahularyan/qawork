@@ -107,7 +107,6 @@
 
       $user = $this->get_tw_settings($widget_opt ,'qw_twitter_id');
       $count=(int)$this->get_tw_settings($widget_opt ,'qw_twitter_t_count');
-      $title=$this->get_tw_settings($widget_opt ,'qw_twitter_title');
       
       // Setting our Authentication Variables that we got after creating an application
       $settings = array(
@@ -140,15 +139,15 @@
         
       $user = $this->get_tw_settings($widget_opt ,'qa_twitter_id');
       $count=(int)$this->get_tw_settings($widget_opt ,'qa_twitter_t_count');
-      $title=$this->get_tw_settings($widget_opt ,'qa_twitter_title');
-
-      $themeobject->output('<div class="qa-tweeter-widget">');
-      $themeobject->output('<h2 class="qa-tweeter-header">'.$title.'</h2>');
+      if(@$themeobject->current_widget['param']['locations']['show_title'])
+                        $themeobject->output('<h3 class="widget-title">QW Tweet Box</h3>');
+      
+      $themeobject->output('<div class="qa-twitter-widget  clearfix">');
         
       $tweets=$this->get_tweets();
 
       if (empty($tweets)) return;     
-      $themeobject->output('<ul class="qa-tweeter-list">');
+      $themeobject->output('<ul class="qa-twitter-list">');
       foreach($tweets as $items)
       {
         // links
@@ -168,7 +167,7 @@
           $items['text']);
           
         //echo "Time and Date of Tweet: ".$items['created_at']."<br />";
-        $themeobject->output( '<li class="qa-tweeter-item">'. $items['text'].'</li>');
+        $themeobject->output( '<li class="qa-twitter-item">'. $items['text'].'</li>');
         //echo "Tweeted by: ". $items['user']['name']."<br />";
         //echo "Screen name: ". $items['user']['screen_name']."<br />";
         //echo "Followers: ". $items['user']['followers_count']."<br />";
@@ -180,7 +179,7 @@
        $themeobject->output('</div>');
     }
     function get_tw_settings($widget_opt , $opt ) {
-            return isset($widget_opt['qw_fb_page_url']) ? $widget_opt['qw_fb_page_url'] : "" ;
+            return isset($widget_opt[$opt]) ? $widget_opt[$opt] : "" ;
     }
   }
 
