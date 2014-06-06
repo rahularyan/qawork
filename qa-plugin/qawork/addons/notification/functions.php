@@ -154,11 +154,11 @@ function qw_activitylist($limit)
                         $mark_as_read    = (!$event['read']) ? '<span class="icon icon-tick"></span>' : '';
                         
                         $url_param = array('ra_notification' => $event['id']);
-                        $user_link = qa_path_html('user/'.$handle, $url_param, qa_opt('site_url'));
+                        $user_link = qa_path_html('user/'.$handle, $url_param, QW_BASE_URL);
                         
                         switch($event['event']){
                               case 'related': // related question to an answer
-                                    $url = qa_path_html(qa_q_request($event['postid'], $event['params']['title']), $url_param, qa_opt('site_url'),null,null);
+                                    $url = qa_path_html(qa_q_request($event['postid'], $event['params']['title']), $url_param, QW_BASE_URL,null,null);
                                                       
                                     echo '<div class="event-content clearfix'.$read.''.$read.'"'.$id.'>
                                                 <div class="avatar"><a href="'.$user_link.'">'.qw_get_avatar($handle, 32, true).'</a></div>
@@ -180,7 +180,7 @@ function qw_activitylist($limit)
                                     break;
                               case 'a_post': // user's question had been answered
                                     $anchor = qa_anchor('A', $event['postid']);
-                                    $url    = qa_path_html(qa_q_request($event['params']['qid'], $event['params']['qtitle']), $url_param, qa_opt('site_url'),null,$anchor);
+                                    $url    = qa_path_html(qa_q_request($event['params']['qid'], $event['params']['qtitle']), $url_param, QW_BASE_URL,null,$anchor);
                                     
                                     $title  = qw_truncate($event['params']['qtitle'], 60);
                                     
@@ -204,7 +204,7 @@ function qw_activitylist($limit)
                                     break;
                               case 'c_post': // user's question had been commented
                                     $anchor = qa_anchor('C', $event['postid']);
-                                    $url = qa_path_html(qa_q_request($event['params']['qid'], $event['params']['qtitle']), $url_param, qa_opt('site_url'),null,$anchor);
+                                    $url = qa_path_html(qa_q_request($event['params']['qid'], $event['params']['qtitle']), $url_param, QW_BASE_URL,null,$anchor);
                                     
                                     if($event['params']['parenttype'] == 'Q')
                                           $type =     qa_lang_html('cleanstrap/question');
@@ -238,7 +238,7 @@ function qw_activitylist($limit)
 
                                     break;
                               case 'q_reshow': 
-                                    $url = qa_path_html(qa_q_request($event['params']['qid'], $event['params']['qtitle']), $url_param, qa_opt('site_url'),null,null);
+                                    $url = qa_path_html(qa_q_request($event['params']['qid'], $event['params']['qtitle']), $url_param, QW_BASE_URL,null,null);
                                     
                                     echo '<div class="event-content clearfix'.$read.'"'.$id.'>
                                                 <div class="avatar"><a class="icon icon-eye" href="'.$url.'"></a></div>
@@ -259,7 +259,7 @@ function qw_activitylist($limit)
                                     break;
                               case 'a_reshow': // user's question had been answered
                                     $anchor = qa_anchor('A', $event['postid']);
-                                    $url = qa_path_html(qa_q_request($event['params']['qid'], $event['params']['qtitle']), $url_param, qa_opt('site_url'),null,$anchor);
+                                    $url = qa_path_html(qa_q_request($event['params']['qid'], $event['params']['qtitle']), $url_param, QW_BASE_URL,null,$anchor);
                                     
                                     echo '<div class="event-content clearfix'.$read.'"'.$id.'>
                                                 <div class="avatar"><a class="icon icon-eye" href="'.$url.'"></a></div>
@@ -280,7 +280,7 @@ function qw_activitylist($limit)
                                     break;
                               case 'c_reshow': // user's question had been answered
                                     $anchor = qa_anchor('C', $event['postid']);
-                                    $url = qa_path_html(qa_q_request($event['params']['qid'], $event['params']['qtitle']), $url_param, qa_opt('site_url'),null,$anchor);
+                                    $url = qa_path_html(qa_q_request($event['params']['qid'], $event['params']['qtitle']), $url_param, QW_BASE_URL,null,$anchor);
                                     
                                     echo '<div class="event-content clearfix'.$read.'"'.$id.'>
                                                 <div class="avatar"><a class="icon icon-eye" href="'.$url.'"></a></div>
@@ -301,7 +301,7 @@ function qw_activitylist($limit)
                                     break;
                               case 'a_select':
                                     $anchor = qa_anchor('A', $event['postid']);
-                                    $url = qa_path_html(qa_q_request($event['params']['qid'], $event['params']['qtitle']), $url_param, qa_opt('site_url'),null,$anchor);
+                                    $url = qa_path_html(qa_q_request($event['params']['qid'], $event['params']['qtitle']), $url_param, QW_BASE_URL,null,$anchor);
                                     echo '<div class="event-content clearfix'.$read.'"'.$id.'>
                                                 <div class="avatar"><a href="'.$user_link.'">'.qw_get_avatar($handle, 32, true).'</a></div>
                                                 <div class="event-right">
@@ -322,7 +322,7 @@ function qw_activitylist($limit)
                                     break;
                               case 'q_vote_up': 
                                     
-                                    $url = qa_path_html(qa_q_request($event['params']['qid'], $event['params']['qtitle']), $url_param, qa_opt('site_url'),null);
+                                    $url = qa_path_html(qa_q_request($event['params']['qid'], $event['params']['qtitle']), $url_param, QW_BASE_URL,null);
                                     
                                     $title = qw_truncate($event['params']['qtitle'], 60);
                                     echo '<div class="event-content clearfix'.$read.'"'.$id.'>
@@ -346,7 +346,7 @@ function qw_activitylist($limit)
                                     break;
                               case 'a_vote_up': 
                                     $anchor = qa_anchor('A', $event['postid']);
-                                    $url = qa_path_html(qa_q_request($event['params']['qid'], $event['params']['qtitle']), $url_param, qa_opt('site_url'),null,$anchor);
+                                    $url = qa_path_html(qa_q_request($event['params']['qid'], $event['params']['qtitle']), $url_param, QW_BASE_URL,null,$anchor);
                               
                                     echo '<div class="event-content clearfix'.$read.'"'.$id.'>
                                                 <div class="avatar"><a href="'.$user_link.'">'.qw_get_avatar($handle, 32, true).'</a></div>
@@ -369,7 +369,7 @@ function qw_activitylist($limit)
                                     break;
                               case 'q_approve':
                                     
-                                    $url = qa_path_html(qa_q_request($event['params']['qid'], $event['params']['qtitle']), $url_param, qa_opt('site_url'),null);
+                                    $url = qa_path_html(qa_q_request($event['params']['qid'], $event['params']['qtitle']), $url_param, QW_BASE_URL,null);
                                     
                                     echo '<div class="event-content clearfix'.$read.'"'.$id.'>
                                                 <div class="avatar"><a class="icon icon-input-checked" href="'.$url.'"></a></div>
@@ -390,7 +390,7 @@ function qw_activitylist($limit)
                                     break;
                               case 'a_approve':
                                     $anchor = qa_anchor('A', $event['postid']);
-                                    $url = qa_path_html(qa_q_request($event['params']['qid'], $event['params']['qtitle']), $url_param, qa_opt('site_url'),null,$anchor);
+                                    $url = qa_path_html(qa_q_request($event['params']['qid'], $event['params']['qtitle']), $url_param, QW_BASE_URL,null,$anchor);
                                     
                                     echo '<div class="event-content clearfix'.$read.'"'.$id.'>
                                                 <div class="avatar"><a class="icon icon-input-checked" href="'.$url.'"></a></div>
@@ -447,7 +447,7 @@ function qw_activitylist($limit)
                                           </div>';
                                     break;
                               case 'q_vote_down': 
-                                    $url = qa_path_html(qa_q_request($event['params']['qid'], $event['params']['qtitle']), $url_param, qa_opt('site_url'),null);
+                                    $url = qa_path_html(qa_q_request($event['params']['qid'], $event['params']['qtitle']), $url_param, QW_BASE_URL,null);
                                     echo '<div class="event-content clearfix'.$read.'"'.$id.'>
                                                 <div class="avatar"><a class="icon icon-thumb-down" href="'.$url.'"></a></div>
                                                 <div class="event-right">
@@ -466,7 +466,7 @@ function qw_activitylist($limit)
                                     break;
                               case 'c_approve':
                                     $anchor = qa_anchor('C', $event['postid']);
-                                    $url = qa_path_html(qa_q_request($event['params']['qid'], $event['params']['qtitle']), $url_param, qa_opt('site_url'),null,$anchor);
+                                    $url = qa_path_html(qa_q_request($event['params']['qid'], $event['params']['qtitle']), $url_param, QW_BASE_URL,null,$anchor);
                                     echo '<div class="event-content clearfix'.$read.'"'.$id.'>
                                                 <div class="avatar"><a class="icon icon-input-checked" href="'.$url.'"></a></div>
                                                 <div class="event-right">
@@ -485,7 +485,7 @@ function qw_activitylist($limit)
                                     break;
                               case 'q_reject':
                   
-                                    $url = qa_path_html(qa_q_request($event['params']['qid'], $event['params']['qtitle']), $url_param, qa_opt('site_url'),null);
+                                    $url = qa_path_html(qa_q_request($event['params']['qid'], $event['params']['qtitle']), $url_param, QW_BASE_URL,null);
                   
                                     echo '<div class="event-content clearfix'.$read.'"'.$id.'>
                                                 <div class="avatar"><a class="icon icon-times" href="'.$url.'"></a></div>
@@ -505,7 +505,7 @@ function qw_activitylist($limit)
                                     break;
                               case 'a_reject':
                                     $anchor = qa_anchor('A', $event['postid']);
-                                    $url = qa_path_html(qa_q_request($event['params']['qid'], $event['params']['qtitle']), $url_param, qa_opt('site_url'),null, $anchor);
+                                    $url = qa_path_html(qa_q_request($event['params']['qid'], $event['params']['qtitle']), $url_param, QW_BASE_URL,null, $anchor);
                                     
                                     echo '<div class="event-content clearfix'.$read.'"'.$id.'>
                                                 <div class="avatar"><a class="icon icon-times" href="'.$url.'"></a></div>
@@ -524,7 +524,7 @@ function qw_activitylist($limit)
                                     break;
                               case 'c_reject':
                                     $anchor = qa_anchor('C', $event['postid']);
-                                    $url = qa_path_html(qa_q_request($event['params']['qid'], $event['params']['qtitle']), $url_param, qa_opt('site_url'),null, $anchor);
+                                    $url = qa_path_html(qa_q_request($event['params']['qid'], $event['params']['qtitle']), $url_param, QW_BASE_URL,null, $anchor);
                                     echo '<div class="event-content clearfix'.$read.'"'.$id.'>
                                                 <div class="avatar"><a class="icon icon-times" href="'.$url.'"></a></div>
                                                 <div class="event-right">

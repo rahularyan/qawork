@@ -16,7 +16,7 @@ function qw_upload_dir(){
 	return defined(QA_BLOBS_DIRECTORY) ? QA_BLOBS_DIRECTORY : QA_BASE_DIR.'images';
 }
 function qw_upload_url(){
-	return qa_opt('site_url').'images';
+	return QW_BASE_URL.'/images';
 }
 
 function qw_image_size(){

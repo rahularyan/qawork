@@ -114,7 +114,7 @@ class qw_breadcrumbs_widget {
                   }else { //if question is asked with out any categories list all the tags
                               $br .=$this->breadcrumb_part(array(
                                   'type' => 'questions',
-                                  'url' => qa_opt('site_url')."questions",
+                                  'url' => qa_html_path('questions'),
                                   'text' => qa_lang('qw_breadcrumbs/questions'),
                               ));
                   }
@@ -236,7 +236,7 @@ class qw_breadcrumbs_widget {
             // $text = qa_lang("breadcrumbs/$text");
             switch ($type) {
                   case 'home':
-                        $url   = qa_opt('site_url');
+                        $url   = QW_BASE_URL;
                         $text  = qa_lang("qw_breadcrumbs/home");
                         $class = "class='cs-breadcrumbs-home'";
                         $icon  = "<i class='icon-home'></i> ";

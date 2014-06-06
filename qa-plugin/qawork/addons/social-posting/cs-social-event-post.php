@@ -82,7 +82,7 @@ function qw_post_to_facebook($data) {
     require_once QW_CONTROL_DIR . '/addons/social-posting/cs-social-posting-utils.php';
 
     try {
-        $loginCallback = qa_path_absolute(qa_opt('site_url'), array());
+        $loginCallback = qa_path_absolute(QW_BASE_URL, array());
         // get the config for facebook and creaet a instance
         $config = qw_social_get_config_common($loginCallback, 'Facebook');
         $hybridauth = new Hybrid_Auth($config);
@@ -128,7 +128,7 @@ function qw_post_to_twitter($data) {
     $message .= $data['link'] ;
 
     try {
-        $loginCallback = qa_path_absolute(qa_opt('site_url'), array());
+        $loginCallback = qa_path_absolute(QW_BASE_URL, array());
         // get the config for twitter and creaet a instance
         $config = qw_social_get_config_common($loginCallback, 'Twitter');
         $hybridauth = new Hybrid_Auth($config);
