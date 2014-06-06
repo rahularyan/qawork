@@ -27,7 +27,7 @@ function qw_upload_file($field, $postid){
 
 	if (isset($_FILES[$field]) && !empty($_FILES[$field])) {
 		
-		if($_FILES[$field]['type'] == 'image/jpeg' || $_FILES[$field]['type'] == 'image/jpg' || $_FILES[$field]['type'] == 'image/png' || $_FILES[$field]['type'] == 'image/gif'){
+		if($_FILES[$field]['type'] == 'image/jpeg' || $_FILES[$field]['type'] == 'image/jpg' || $_FILES[$field]['type'] == 'image/png' || $_FILES[$field]['type'] == 'image/gif' || $_FILES[$field]['type'] == 'image/x-icon'){
 			
 			return qw_upload_image($_FILES[$field], $postid);
 			
@@ -346,6 +346,7 @@ class QW_Media_Addon{
 	function upload_modal(){
 		if (qa_get_logged_in_level() >= QA_USER_LEVEL_ADMIN){
 		$postid = (int)qa_post_text('args');
+		$for_item = qa_post_text('for_item');
 		?>
 			<!-- Modal -->
 		<div class="modal fade" id="media-modal-<?php echo $postid; ?>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -365,9 +366,11 @@ class QW_Media_Addon{
 								if(count($medias) > 0){
 									foreach ($medias as $m){
 										if($m['type'] == 'jpg' || $m['type'] == 'jpeg' || $m['type'] == 'png' || $m['type'] == 'gif'){
-											echo '<li class="attachments" data-id="'.$m['id'].'"><img src="'.qw_media_filename($m, 'thumb').'" /></li>';
+											echo '<li class="attachments" data-id="'.$m['id'].'" data-for="'.$for_item.'"><img src="'.qw_media_filename($m, 'thumb').'" /></li>';
+										}elseif($m['type'] == 'ico'){
+											echo '<li class="attachments" data-id="'.$m['id'].'" data-for="'.$for_item.'"><img src="'.qw_media_filename($m).'" /></li>';
 										}else{
-											echo '<li class="attachments" data-id="'.$m['id'].'" data-code="'.qa_get_form_security_code('media_'.$m['id']).'"><i class="file-icon icon-'.$m['type'].'"></i></li>';
+											echo '<li class="attachments" data-id="'.$m['id'].'" data-code="'.qa_get_form_security_code('media_'.$m['id']).'" data-for="'.$for_item.'"><i class="file-icon icon-'.$m['type'].'"></i></li>';
 										}
 									}
 								}
@@ -393,6 +396,7 @@ class QW_Media_Addon{
 									<button type="submit" class="btn btn-success"><?php echo qa_lang_html('qw_media/upload'); ?></button>
 									<input type="hidden" name="action" value="upload_file">
 									<input type="hidden" name="postid" value="<?php echo $postid; ?>">
+									<input type="hidden" name="for_item" value="<?php echo $for_item; ?>">
 									<input type="hidden" name="code" value="<?php echo qa_get_form_security_code('media_'.$postid ); ?>">
 								</form>	
 						  </div>
@@ -415,6 +419,7 @@ class QW_Media_Addon{
 	public function load_media_item_edit(){
 		if (qa_get_logged_in_level() >= QA_USER_LEVEL_ADMIN){
 		$id = (int)qa_post_text('args');
+		$for_item = qa_post_text('for_item');
 		$media = qw_get_media_by_id($id);
 
 		ob_start();
@@ -442,6 +447,7 @@ class QW_Media_Addon{
 				<input type="hidden" name="type" value="<?php echo $media['type']; ?>">
 				<input type="hidden" name="action" value="edit_media_item">
 				<input type="hidden" name="id" value="<?php echo $id; ?>">
+				<input type="hidden" name="for" value="<?php echo $for_item; ?>">
 				<input type="hidden" name="code" value="<?php echo qa_get_form_security_code('media_edit_'.$id ); ?>">
 			</form>
 		<?php

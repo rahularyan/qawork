@@ -65,10 +65,10 @@ function qw_process_emails_from_db() {
             $email_body         = qw_prepare_email_body($email_queue_data, $email);
             $email_body         = $email_body . $thank_you_message;
 			
-			$b .='<div class="content user-greet">
-					<table><tr><td>
-						<strong>'.$greeting.'</strong>
-						<i>'.$subject.'</i>
+			$b .='<div class="content user-greet" >
+					<table style="max-width: 600px; width: 600px; background: none repeat scroll 0% 0% rgb(33, 166, 95); margin-bottom: 15px;"><tr><td>
+						<strong style="display: block;color: #FFFFFF;">'.$greeting.'</strong>
+						<i style="color: #FFFFFF;">'.$subject.'</i>
 					</td></tr></table>
 				</div>
 				';
@@ -265,7 +265,9 @@ function qw_notify_users_by_email($event, $postid, $userid, $effecteduserid, $pa
                   default:
                         break;
             }
-
+			
+			include_once QA_INCLUDE_DIR.'qa-util-string.php';
+			
             $notifying_user['userid'] = $effecteduserid;
             $notifying_user['name']   = $name;
             $notifying_user['email']  = $email;
@@ -706,13 +708,9 @@ function qa_get_email_template_head($parms, $subs){
 
 			<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 			<title><?php echo $parms['subject']; ?></title>
-				
-			<style>
-				<?php include qa_get_override_file('/css/email.css'); ?>
-			</style>
 
 			</head>
-			<body bgcolor="#EEEEEE" topmargin="0" leftmargin="0" marginheight="0" marginwidth="0">
+			<body topmargin="0" leftmargin="0" marginheight="0" marginwidth="0" >
 			
 			<?php 
 				$email_head = qa_opt('qw_email_head');
@@ -721,15 +719,15 @@ function qa_get_email_template_head($parms, $subs){
 				}else{
 				?>
 				<!-- HEADER -->
-				<table class="head-wrap">
+				<table class="head-wrap" style="max-width: 600px; width: 600px; margin: 0 auto;">
 					<tr>
 						<td></td>
 						<td class="header container" align="">
 							
 							<!-- /content -->
 							<div class="content">
-								<table>
-									<tr>
+								<table style="max-width: 600px; width: 600px;margin: 0 auto;">
+									<tr >
 										<td>
 											<a title="{site_title}" href="{base_url}">{logo}</a>				
 										</td>
@@ -751,7 +749,7 @@ function qa_get_email_template_body($parms){
 	ob_start();
 		?>
 		<!-- BODY -->
-		<table class="body-wrap" bgcolor="">
+		<table class="body-wrap" bgcolor="" style="max-width: 600px; width: 600px;background:#fff; margin: 0 auto;">
 			<tr>
 				<td></td>
 				<td class="container" align="" bgcolor="#FFFFFF">
@@ -768,7 +766,7 @@ function qa_get_email_template_footer($parms){
 	ob_start();
 		?>
 			<!-- FOOTER -->
-			<table class="footer-wrap">
+			<table class="footer-wrap" style="max-width: 600px; width: 600px;background:#fff;">
 				<tr>
 					<td></td>
 					<td class="container">

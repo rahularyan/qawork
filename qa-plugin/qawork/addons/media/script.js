@@ -1278,11 +1278,13 @@ function log() {
 
 function qw_load_media_item_to_edit(ui, modal){
 	var id = ui.data('id');
+	var for_item = ui.data('for');
 	$.ajax({
 		url:ajax_url,
 		type:'POST',
 		data: {
 			args: id,
+			for_item:for_item,
 			action: 'load_media_item_edit'
 		},
 		dataType: 'json',
@@ -1302,13 +1304,13 @@ function qw_load_media_item_to_edit(ui, modal){
 					
 				},
 				success: function(data) {
-					ui.removeClass('ui-selected');
+
 					if(data[0] == 'save'){
 						$(modal+' .modal-body').prepend(data[1]);
 					}else{
 						$(modal+' .modal-body').prepend(data[1]);
 						$(modal+' #editmedia-tab form').remove();
-						$(modal+' .editable-media > .ui-selectee').remove();
+						$(modal+' .editable-media .ui-selected').addClass('sdsfs').remove();
 					}
 				},
 				complete: function(xhr) {
@@ -1326,14 +1328,22 @@ $(document).ready(function() {
 
 	$('.open-media-modal').click(function(){
 		var postid = $(this).data('args');
+		var for_item = $(this).data('for');
 		
-		if(!$(this).is('.loaded')){
+		if($('#media-modal-'+postid).length > 0){
+			$(this).removeClass('.loaded');
+			$('#media-modal-'+postid).data('modal', null);
+			$('#media-modal-'+postid).remove();			
+		}
+		
+
 			qw_animate_button(this, false);
 			$.ajax({
 				url:ajax_url,
 				type:'POST',
 				data: {
 					args: postid,
+					for_item: for_item,
 					action: 'load_upload_modal'
 				},
 				dataType: 'html',
@@ -1350,11 +1360,13 @@ $(document).ready(function() {
 					});
 				},
 			});	
-		}else{
-			$('#media-modal-'+postid).modal('toggle');
-		}
+		
 	});
 	
+	$('#modalElement').on('hidden', function(){
+		$(this).data('modal', null);
+	});
+
 	$("body").delegate("#file-upload-input", 'change', function(){
 		qw_show_file_preview(this);	
 		qw_show_upload_btn(this);		
@@ -1393,7 +1405,8 @@ $(document).ready(function() {
 						$('<div class="alert alert-danger alert-dismissable"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>'+data['errors'].join(' ')+'</div>').prependTo($(elm).closest('.modal-body'));
 						
 					}else{
-						if(data['ext'] == 'jpeg' || data['ext'] == 'jpg' || data['ext'] == 'gif' || data['ext'] == 'png'){
+						if(data['ext'] == 'jpeg' || data['ext'] == 'jpg' || data['ext'] == 'gif' || data['ext'] == 'png' || data['ext'] == 'ico'){
+							if(data['ext'] == 'ico') data['thumb'] = data['name'];
 							$('<li class="attachments" data-id="'+data['id']+'"><img src="'+data['url']+'/'+data['thumb']+'.'+data['ext']+'" /></li>').appendTo('.editable-media');	
 						}else{
 							$('<li class="attachments" data-id="'+data['id']+'"><i class="file-icon icon-'+data['ext']+'"></i></li>').appendTo('.editable-media');
@@ -1438,22 +1451,27 @@ $(document).ready(function() {
 			selected_media[this.name] = this.value;
 		});
 		
-		for ( var i in CKEDITOR.instances ){
-		   var currentInstance = i;
-		   break;
-		}
+		//fire the custom event
+		$(this).trigger('qw_insert_image', selected_media);
 		
-		var title = selected_media['title'] ? '<strong>'+selected_media['title']+'</strong>' : '';
-		var description = selected_media['title'] ? '<em>'+selected_media['description']+'</em>' : '';
-		
-		var oEditor   = CKEDITOR.instances[currentInstance];
-		
-		if(selected_media['type'] == 'jpeg' || selected_media['type'] == 'jpg' || selected_media['type'] == 'png' || selected_media['type'] == 'gif')
-			var element = CKEDITOR.dom.element.createFromHtml( '<p class="content-media"><img src="'+selected_media['url']+'" />'+title+description+'</p>' );
-		else
-			var element = CKEDITOR.dom.element.createFromHtml( '<p class="content-media download"><a href="'+selected_media['url']+'" class="btn icon-'+selected_media['type']+'">Download</a>'+title+description+'</p>' );
+		if(typeof CKEDITOR !='undefined'){
+			for ( var i in CKEDITOR.instances ){
+			   var currentInstance = i;
+			   break;
+			}
 			
-		oEditor.insertElement( element );
+			var title = selected_media['title'] ? '<strong>'+selected_media['title']+'</strong>' : '';
+			var description = selected_media['title'] ? '<em>'+selected_media['description']+'</em>' : '';
+			
+			var oEditor   = CKEDITOR.instances[currentInstance];
+			
+			if(selected_media['type'] == 'jpeg' || selected_media['type'] == 'jpg' || selected_media['type'] == 'png' || selected_media['type'] == 'gif')
+				var element = CKEDITOR.dom.element.createFromHtml( '<p class="content-media"><img src="'+selected_media['url']+'" />'+title+description+'</p>' );
+			else
+				var element = CKEDITOR.dom.element.createFromHtml( '<p class="content-media download"><a href="'+selected_media['url']+'" class="btn icon-'+selected_media['type']+'">Download</a>'+title+description+'</p>' );
+				
+			oEditor.insertElement( element );
+		}
 	});
 	
 	
