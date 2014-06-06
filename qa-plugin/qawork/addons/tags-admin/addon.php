@@ -31,7 +31,7 @@ class QW_Tags_Admin_Addon{
 				$themeclass['navigation']['sub']['tags-admin'] = array(
 					'label' => qa_lang('cleanstrap/tags_admin'),
 					'url' => qa_path_html('admin/tags-admin'),
-					'icon' => 'icon-wrench'
+					'icon' => 'icon-cog'
 				);
 			}
 			if(qa_request() == 'admin/tags-admin') {

@@ -190,6 +190,8 @@
 		'x_awarded_an_answer' => '^ selected an answer',
 		'has' => 'has ',
 		'have' => 'have ',
+		'tags_admin' => 'Tags Admin ',
+		'edit_tags_page' => 'Edit Tags ',
 	);
 	
 
