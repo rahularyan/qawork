@@ -118,7 +118,8 @@ class qw_widget_posts
     }
     function qw_post_list($type, $limit, $size = 40, $show_content, $content_limt = 80, $post_status = false, $order_by = 'created', $order = 'DESC', $return = false)
     {
-		if(!!$post_status){
+		$status = '';
+		if(!!$post_status && $type =='Q'){
 			if($post_status == 'solved')
 				$status = ' AND selchildid is NOT NULL';
 			elseif($post_status == 'open')
@@ -165,7 +166,16 @@ class qw_widget_posts
             $output .= '<li>';
             $output .= qw_get_post_avatar($p, $size, true);
             $output .= '<div class="post-content">';
-            
+            if ($type == 'Q') {
+                $output .= '<a class="title question" href="' . qa_q_path_html($p['postid'], $p['title']) . '" title="' . $p['title'] . '">' . qa_html($p['title']) . '</a>';
+				
+				if(!!$show_content)
+					$output .= '<p class="content question">' . qw_truncate(strip_tags($p['content']), $content_limt) . '</p>';
+            } elseif ($type == 'A') {
+                $output .= '<a class="title" href="' . qw_post_link($p['parentid']) . '#a' . $p['postid'] . '">' . qw_truncate(strip_tags($p['content']), $content_limt) . '</a>';
+            } else {
+                $output .= '<a class="title" href="' . qw_post_link($p['parentid']) . '#c' . $p['postid'] . '">' . qw_truncate(strip_tags($p['content']), $content_limt) . '</a>';
+            }
 			$output .= '<div class="meta">';
 				if ($type == 'Q'){
 					$s['raw']['selchildid'] = $p['selchildid'];
@@ -184,18 +194,6 @@ class qw_widget_posts
 				$output .= '<span class="vote-count icon-thumbs-up">' . qa_lang_sub('cleanstrap/x_votes', $p['netvotes']) . '</span>';	
 				
 			$output .= '</div>';
-			
-            if ($type == 'Q') {
-                $output .= '<a class="title question" href="' . qa_q_path_html($p['postid'], $p['title']) . '" title="' . $p['title'] . '">' . qa_html($p['title']) . '</a>';
-				
-				if(!!$show_content)
-					$output .= '<p class="content question">' . qw_truncate(strip_tags($p['content']), $content_limt) . '</p>';
-            } elseif ($type == 'A') {
-                $output .= '<a class="title" href="' . qw_post_link($p['parentid']) . '#a' . $p['postid'] . '">' . qw_truncate(strip_tags($p['content']), $content_limt) . '</a>';
-            } else {
-                $output .= '<a class="title" href="' . qw_post_link($p['parentid']) . '#c' . $p['postid'] . '">' . qw_truncate(strip_tags($p['content']), $content_limt) . '</a>';
-            }
-            
             $output .= '</div>';
             $output .= '</li>';
         }

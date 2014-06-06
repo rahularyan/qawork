@@ -910,3 +910,6 @@ th .description {
     padding-bottom: 55px;
     vertical-align: top;
 }
+.form-widget-button-holder {
+    margin: 20px 0;
+}
