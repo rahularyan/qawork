@@ -57,6 +57,7 @@ function qw_process_emails_from_db() {
       $processed_queue_ids = array() ; 
 
       foreach ($email_list as $email_data) {
+            $b                  = "" ; /*reset the body content */
             $email              = $email_data['email'];
             $name               = $email_data['name'];
             $handle             = $email_data['handle'];
