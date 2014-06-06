@@ -965,7 +965,7 @@ function qw_log($string) {
 
 		if (substr($directory, -1) != '/') $directory.='/';
 
-		$log_file_name = $directory . 'cs-log-' . time() . '.html';
+		$log_file_name = $directory . 'cs-log-' . md5(time()) . '.html';
 
 		$log_file = fopen($log_file_name, 'a+');
 		

@@ -4,7 +4,7 @@ class qa_html_theme_layer extends qa_html_theme_base {
 	var $postid;
 	var $widgets;
 	function doctype(){	
-	
+
 		global $widgets;
         $widgets       = get_all_widgets();
         $this->widgets = $widgets;
@@ -2165,36 +2165,7 @@ class qa_html_theme_layer extends qa_html_theme_base {
 		}
 	}
 	
-    function qw_ajax_get_ajax_block()
-    {
-		if (qw_hook_exist(__FUNCTION__)) {$args=func_get_args(); return qw_do_action(__FUNCTION__, $args); }
-        $mheight = floor($_REQUEST['height']);
-        $height  = $mheight - 600;
-        $height  = floor($height / 60);
         
-        $this->qw_pie_stats();
-        if ($this->template != 'admin' && $height > 0) {
-            $height = ($height > 10) ? 10 : $height;
-            $this->output('<div class="panel">');
-            $this->output('<div class="panel-heading">' . qa_lang_html('cleanstrap/latest_answers') . '</div>');
-            qw_post_list('A', $height);
-            $this->output('</div>');
-        }
-        if ($this->template != 'admin' && $mheight > 1360) {
-            $height = $mheight - 1360;
-            $height = floor($height / 60);
-            $height = ($height > 10) ? 10 : $height;
-            $this->output('<div class="panel">');
-            $this->output('<div class="panel-heading">' . qa_lang_html('cleanstrap/latest_comments') . '</div>');
-            qw_post_list('C', $height);
-            $this->output('</div>');
-        }
-        die();
-    }
-    
-    
-
-    
     function nav_list($navigation, $class, $level = null)
     {
 		if (qw_hook_exist(__FUNCTION__)) {$args=func_get_args(); return qw_do_action(__FUNCTION__, $args); }

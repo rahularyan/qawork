@@ -678,15 +678,24 @@ function qw_send_email_fake($email_param) {
 
 
 function qw_get_email_template($parms){
+	$logo = qa_opt('logo_url');
+	
+	$subs = array(
+		'{handle}' => $parms['handle'],
+		'{base_url}' => get_base_url(),
+		'{site_title}' => qa_opt('site_title'),
+		'{logo}' => (!!$logo ? '<img class="navbar-site-logo" src="' . $logo . '">' : '<img class="navbar-site-logo" src="' . Q_THEME_URL . '/images/logo.png">'),
+		'{avatar}' => qw_get_avatar($parms['handle'], 40),
+	);
 	$email_body = '';
-	$email_body = qa_get_email_template_head($parms);
-	$email_body .= qa_get_email_template_body($parms);
-	$email_body .= qa_get_email_template_footer($parms);
+	$email_body = qa_get_email_template_head($parms, $subs);
+	$email_body .= qa_get_email_template_body($parms, $subs);
+	$email_body .= qa_get_email_template_footer($parms, $subs);
 	return $email_body;
 }
 
 
-function qa_get_email_template_head($parms){
+function qa_get_email_template_head($parms, $subs){
 	ob_start();
 		?>
 		<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -704,35 +713,38 @@ function qa_get_email_template_head($parms){
 
 			</head>
 			<body bgcolor="#EEEEEE" topmargin="0" leftmargin="0" marginheight="0" marginwidth="0">
-
-			<!-- HEADER -->
-			<table class="head-wrap">
-				<tr>
-					<td></td>
-					<td class="header container" align="">
-						
-						<!-- /content -->
-						<div class="content">
-							<table>
-								<tr>
-									<td>
-										<?php 
-											$logo = qa_opt('logo_url');
-											echo '<a title="'.qa_opt('site_title').'" href="' . get_base_url() . '">
-											'.(!!$logo ? '<img class="navbar-site-logo" src="' . $logo . '">' : '<img class="navbar-site-logo" src="' . Q_THEME_URL . '/images/logo.png">').'</a>'
-										?>					
-									</td>
-									<td align="right"> <?php echo qw_get_avatar($parms['handle'], 40); ?></td>
-								</tr>
-							</table>
-						</div><!-- /content -->
-						
-					</td>
-					<td></td>
-				</tr>
-			</table><!-- /HEADER -->
-		<?php
-	return ob_get_clean();
+			
+			<?php 
+				$email_head = qa_opt('qw_email_head');
+				if(!!$email_head){
+					echo $email_head;
+				}else{
+				?>
+				<!-- HEADER -->
+				<table class="head-wrap">
+					<tr>
+						<td></td>
+						<td class="header container" align="">
+							
+							<!-- /content -->
+							<div class="content">
+								<table>
+									<tr>
+										<td>
+											<a title="{site_title}" href="{base_url}">{logo}</a>				
+										</td>
+										<td align="right">{avatar}</td>
+									</tr>
+								</table>
+							</div><!-- /content -->
+							
+						</td>
+						<td></td>
+					</tr>
+				</table><!-- /HEADER -->
+			<?php
+			}
+	return strtr(ob_get_clean(), $subs);
 }
 
 function qa_get_email_template_body($parms){
@@ -785,4 +797,69 @@ function qa_get_email_template_footer($parms){
 			</html>
 		<?php
 	return ob_get_clean();	
+}
+
+function qw_send_notification($userid, $email, $handle, $subject, $body, $subs){
+	
+	global $qa_notifications_suspended;
+	
+	if ($qa_notifications_suspended>0)
+		return false;
+	
+	require_once QA_INCLUDE_DIR.'qa-db-selects.php';
+	require_once QA_INCLUDE_DIR.'qa-util-string.php';
+	
+	if (isset($userid)) {
+		$needemail=!qa_email_validate(@$email); // take from user if invalid, e.g. @ used in practice
+		$needhandle=empty($handle);
+		
+		if ($needemail || $needhandle) {
+			if (QA_FINAL_EXTERNAL_USERS) {
+				if ($needhandle) {
+					$handles=qa_get_public_from_userids(array($userid));
+					$handle=@$handles[$userid];
+				}
+				
+				if ($needemail)
+					$email=qa_get_user_email($userid);
+			
+			} else {
+				$useraccount=qa_db_select_with_pending(
+					qa_db_user_account_selectspec($userid, true)
+				);
+				
+				if ($needhandle)
+					$handle=@$useraccount['handle'];
+
+				if ($needemail)
+					$email=@$useraccount['email'];
+			}
+		}
+	}
+		
+	if (isset($email) && qa_email_validate($email)) {
+		$subs['^site_title']=qa_opt('site_title');
+		$subs['^handle']=$handle;
+		$subs['^email']=$email;
+		$subs['^open']="\n";
+		$subs['^close']="\n";
+	
+		$email_param  = array(
+			'fromemail' => qa_opt('from_email'),
+			'fromname' => qa_opt('site_title'),
+			'toemail' => $email,
+			'toname' => $handle,
+			'handle' => $handle,
+			'subject' => strtr($subject, $subs),
+			'body' => (empty($handle) ? '' : qa_lang_sub('emails/to_handle_prefix', $handle)).strtr($body, $subs),
+			'html' => true,
+		);
+		$email_param['body'] = qw_get_email_template($email_param);
+		if (QW_SEND_EMAIL_DEBUG_MODE) {
+				//this will write to the log file 
+				return qw_send_email_fake($email_param);
+		  }
+		return qa_send_email($email_param);
+	} else
+		return false;
 }
