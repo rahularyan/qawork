@@ -44,3 +44,8 @@
 	font-size: 20px ; 
 	font-weight: bolder;
 }
+.qa-part-form-merge label div.avatar {
+	display: inline ;
+	margin-right: 5px ;
+	padding: 2px;
+}

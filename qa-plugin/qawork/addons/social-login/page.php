@@ -491,9 +491,9 @@ class qw_social_login_page {
                     $type = 'user';
                 }
                 $login_providers = ($type == 'user' ? strtolower(qa_lang_html('qw_social_login/password')) : '<strong>' . implode(', ', $login['logins']) . '</strong>' );
-
+                $avatar = $this->get_avatar_from_handle($login['details']['handle']);
                 $data["f$i"] = array(
-                    'label' => '<strong>' . $name . '</strong> (' . $points . ' ' . qa_lang_html('admin/points') . ', ' .
+                    'label' => $avatar.'<strong>' . $name . '</strong> (' . $points . ' ' . qa_lang_html('admin/points') . ', ' .
                     strtolower(qa_lang_html_sub('qw_social_login/login_using', '')) . $login_providers . ')',
                     'tags' => 'name="user_' . $login['details']['userid'] . '" value="' . $login['details']['userid'] . '" style="visibility: hidden" checked="checked" rel="' . $i . '" onchange="OP_checkClicked(this)"',
                     'type' => 'checkbox',
@@ -696,6 +696,13 @@ class qw_social_login_page {
             'debug_mode' => false,
             'debug_file' => ''
         );
+    }
+
+    function get_avatar_from_handle($handle)
+    {
+        // get user details (display avatar and name) 
+       $user_link = qa_path_html('user/'.$handle, null , qa_opt('site_url'));
+       return '<div class="avatar"><a href="'.$user_link.'">'.qw_get_avatar($handle, 10 , true).'</a></div>' ;
     }
 
     function get_ha_provider($key) {
