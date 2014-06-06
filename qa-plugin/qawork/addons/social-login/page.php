@@ -299,57 +299,59 @@ class qw_social_login_page {
                 $user = $adapter->getUserProfile();
 
                 $duplicates = 0;
-                if (!empty($user))
-                // prepare some data
-                    $ohandle = null;
-                $oemail = null;
+                if (!empty($user)){
+                        // prepare some data
+                        $ohandle = null;
+                        $oemail = null;
 
-                if (empty($user->displayName)) {
-                    $ohandle = $provider;
-                } else {
-                    $ohandle = preg_replace('/[\\@\\+\\/]/', ' ', $user->displayName);
-                }
-                if (strlen(@$user->email) && $user->emailVerified) { // only if email is confirmed
-                    $oemail = $user->email;
-                }
-
-                $duplicate = qw_db_user_login_find_duplicate($source, $user->identifier);
-                if ($duplicate == null) {
-                    // simply create a new login
-                    qa_db_user_login_sync(true);
-                    qa_db_user_login_add($userid, $source, $user->identifier);
-                    if ($oemail) qw_db_user_login_set($source, $user->identifier, 'oemail', $oemail);
-                    qw_db_user_login_set($source, $user->identifier, 'ohandle', $ohandle);
-                    qa_db_user_login_sync(false);
-
-                    // now that everything was added, log out to allow for multiple accounts
-                    $adapter->logout();
-
-                    // redirect to get rid of parameters
-                    qa_redirect('logins');
-                } else if ($duplicate['userid'] == $userid) {
-                    // trying to add the same account, just update the email/handle
-                    qa_db_user_login_sync(true);
-                    if ($oemail) qw_db_user_login_set($source, $user->identifier, 'oemail', $oemail);
-                    qw_db_user_login_set($source, $user->identifier, 'ohandle', $ohandle);
-                    qa_db_user_login_sync(false);
-
-                    // log out to allow for multiple accounts
-                    $adapter->logout();
-
-                    // redirect to get rid of parameters
-                    qa_redirect('logins');
-                } else {
-                    if (qa_get('confirm') == 2) {
-
-                        return $duplicate;
-                    } else {
-                        if (!!$this->provider && strlen(@$hybridauth->getSessionData())) {
-                            qw_save_user_hauth_session( qa_get_logged_in_userid() , $this->provider  , @$hybridauth->getSessionData() );
+                        if (empty($user->displayName)) {
+                            $ohandle = $provider;
+                        } else {
+                            $ohandle = preg_replace('/[\\@\\+\\/]/', ' ', $user->displayName);
                         }
-                        qa_redirect('logins', array('link' => qa_get('link'), 'confirm' => 2));
-                    }
+                        if (strlen(@$user->email) && $user->emailVerified) { // only if email is confirmed
+                            $oemail = $user->email;
+                        }
+
+                        $duplicate = qw_db_user_login_find_duplicate($source, $user->identifier);
+                        if ($duplicate == null) {
+                            // simply create a new login
+                            qa_db_user_login_sync(true);
+                            qa_db_user_login_add($userid, $source, $user->identifier);
+                            if ($oemail) qw_db_user_login_set($source, $user->identifier, 'oemail', $oemail);
+                            qw_db_user_login_set($source, $user->identifier, 'ohandle', $ohandle);
+                            qa_db_user_login_sync(false);
+
+                            // now that everything was added, log out to allow for multiple accounts
+                            $adapter->logout();
+
+                            // redirect to get rid of parameters
+                            qa_redirect('logins');
+                        } else if ($duplicate['userid'] == $userid) {
+                            // trying to add the same account, just update the email/handle
+                            qa_db_user_login_sync(true);
+                            if ($oemail) qw_db_user_login_set($source, $user->identifier, 'oemail', $oemail);
+                            qw_db_user_login_set($source, $user->identifier, 'ohandle', $ohandle);
+                            qa_db_user_login_sync(false);
+
+                            // log out to allow for multiple accounts
+                            $adapter->logout();
+
+                            // redirect to get rid of parameters
+                            qa_redirect('logins');
+                        } else {
+                            if (qa_get('confirm') == 2) {
+
+                                return $duplicate;
+                            } else {
+                                if (!!$this->provider && strlen(@$hybridauth->getSessionData())) {
+                                    qw_save_user_hauth_session( qa_get_logged_in_userid() , $this->provider  , @$hybridauth->getSessionData() );
+                                }
+                                qa_redirect('logins', array('link' => qa_get('link'), 'confirm' => 2));
+                            }
+                        }
                 }
+                
             } catch (Exception $e) {
             	qw_log(print_r($e , true ));
                 qa_redirect('logins', array('provider' => $provider, 'code' => $e->getCode()));
