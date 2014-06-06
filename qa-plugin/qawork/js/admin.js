@@ -152,4 +152,19 @@ $(document).ready(function(){
 	$('[data-opts]').click(function(){
 		$($(this).data('opts')).toggle();
 	});
+	
+	$('body').on('qw_insert_image', function(e, params){
+		if(!!params['for'] && params['for'] == 'logo'){
+			$('#logo-preview').attr('src', params['url']).show();
+			$('#qw_logo_field').attr('value', params['url']);
+		}
+		if(!!params['for'] && params['for'] == 'favicon'){
+			$('#favicon-preview').attr('src', params['url']).show();
+			$('#qw_favicon_field').attr('value', params['url']);
+		}
+		if(!!params['for'] && params['for'] == 'big-favicon'){
+			$('#favicon-preview-big').attr('src', params['url']).show();
+			$('#qw_favicon_big_field').attr('value', params['url']);
+		}
+	});
 });

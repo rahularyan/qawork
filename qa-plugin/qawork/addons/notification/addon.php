@@ -112,7 +112,7 @@ class Qw_Notification_Addon{
 				  userid int(10) NOT NULL,
 				  email varchar(250) NOT NULL,
 				  name varchar(250) NOT NULL,
-				  handle varchar(20) NOT NULL,
+				  handle varchar(20) NULL,
 				  queue_id int(6) NOT NULL,
 				  PRIMARY KEY (id)
 				) ENGINE=MyISAM DEFAULT CHARSET=utf8;

@@ -34,6 +34,7 @@ class qw_theme_options {
 			// General
 			qa_opt('logo_url', qa_post_text('qw_logo_field'));
 			qa_opt('qw_favicon_url', qa_post_text('qw_favicon_field'));
+			qa_opt('qw_favicon_big_url', qa_post_text('qw_favicon_big_field'));
 			qa_opt('qw_enable_gzip', (bool) qa_post_text('qw_enable_gzip'));
 			qa_opt('qw_featured_image_width', (int) qa_post_text('qw_featured_image_width'));
 			qa_opt('qw_featured_image_height', (int) qa_post_text('qw_featured_image_height'));
@@ -199,7 +200,7 @@ class qw_theme_options {
 					</th>
 					<td class="qa-form-tall-data">
 						' . (qa_opt('logo_url') ? '<img id="logo-preview" class="logo-preview img-thumbnail" src="' . qa_opt('logo_url') . '">' : '<img id="logo-preview" class="logo-preview img-thumbnail" style="display:none;" src="">') . '
-						<div id="logo_uploader">Upload</div>
+						<button type="button" class="icon-image btn btn-default open-media-modal" data-args="0" data-for="logo">'.qa_lang_html('qw_media/upload').'</button>
 						<input id="qw_logo_field" type="hidden" name="qw_logo_field" value="' . qa_opt('logo_url') . '">
 					</td>
 				</tr>
@@ -210,8 +211,19 @@ class qw_theme_options {
 					</th>
 					<td class="qa-form-tall-data">
 						' . (qa_opt('qw_favicon_url') ? '<img id="favicon-preview" class="favicon-preview img-thumbnail" src="' . qa_opt('qw_favicon_url') . '">' : '<img id="favicon-preview" class="favicon-preview img-thumbnail" style="display:none;" src="">') . '
-						<div id="favicon_uploader">Upload</div>
+						<button type="button" class="icon-image btn btn-default open-media-modal" data-args="0" data-for="favicon">'.qa_lang_html('qw_media/upload').'</button>
 						<input id="qw_favicon_field" type="hidden" name="qw_favicon_field" value="' . qa_opt('qw_favicon_url') . '">
+					</td>
+				</tr>
+				<tr>
+					<th class="qa-form-tall-label">
+						Big Favicon
+						<span class="description">favicon image for HD device (144px144px).</span>
+					</th>
+					<td class="qa-form-tall-data">
+						' . (qa_opt('qw_favicon_big_url') ? '<img id="favicon-preview-big" class="favicon-preview img-thumbnail" src="' . qa_opt('qw_favicon_big_url') . '">' : '<img id="favicon-preview-big" class="favicon-preview img-thumbnail" style="display:none;" src="">') . '
+						<button type="button" class="icon-image btn btn-default open-media-modal" data-args="0" data-for="big-favicon">'.qa_lang_html('qw_media/upload').'</button>
+						<input id="qw_favicon_big_field" type="hidden" name="qw_favicon_big_field" value="' . qa_opt('qw_favicon_big_url') . '">
 					</td>
 				</tr>
 			</tbody>
