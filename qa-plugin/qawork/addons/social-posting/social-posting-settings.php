@@ -43,7 +43,7 @@ class qw_social_posting_page {
 		if (!isset($userid))
 			qa_redirect('login');
 		if (!(qa_opt('qw_enable_fb_posting') || qa_opt('qw_enable_twitter_posting')))
-			qa_redirect_raw(qa_opt('site_url'));
+			qa_redirect_raw(QW_BASE_URL);
 
 		
 		$qa_content=qa_content_prepare();

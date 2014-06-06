@@ -42,7 +42,7 @@ class qw_open_login {
             if ($action == 'login') {
                   // handle the login
                   // after login come back to the same page
-                  $loginCallback = qa_path('', array(), qa_opt('site_url'));
+                  $loginCallback = qa_path('', array(), QW_BASE_URL);
 
                   require_once QW_CONTROL_DIR . '/inc/hybridauth/Hybrid/Auth.php';
                   require_once QW_CONTROL_DIR . '/addons/social-login/cs-social-login-utils.php';
@@ -82,7 +82,7 @@ class qw_open_login {
                                     $profile_field = strtolower($this->provider)."_hauthSession" ;
                                     qa_db_user_profile_set($userid, $profile_field, @$hybridauth->getSessionData());
                                   }
-                              qa_redirect_raw(qa_opt('site_url') . $topath);
+                              qa_redirect_raw(QW_BASE_URL . $topath);
                         }
                   } catch (Exception $e) {
                         //incase of any issues logout from the adaptor 
@@ -97,7 +97,7 @@ class qw_open_login {
                         }
 
                         // redirect
-                        qa_redirect_raw(qa_opt('site_url') . $topath);
+                        qa_redirect_raw(QW_BASE_URL . $topath);
                   }
             }
 
@@ -111,7 +111,7 @@ class qw_open_login {
 
       function do_logout() {
             // after login come back to the same page
-            $loginCallback = qa_path('', array(), qa_opt('site_url'));
+            $loginCallback = qa_path('', array(), QW_BASE_URL);
 
             require_once QW_CONTROL_DIR . '/inc/hybridauth/Hybrid/Auth.php';
 

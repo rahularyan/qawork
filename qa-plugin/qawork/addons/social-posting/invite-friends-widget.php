@@ -61,7 +61,7 @@ class qw_fb_invite_frnds_widget {
                         $themeobject->output('<h3 class="widget-title">QW Facebook Invite</h3>');
             $themeobject->output('<div class="fb-invite-frnds clearfix">');
             if (!!qa_opt("facebook_app_id")) {
-                  $on_click_event = qw_generate_facebook_invite_script(qa_opt("facebook_app_id"), array('url' => qa_opt("site_url") , 'message' => $message))  ;
+                  $on_click_event = qw_generate_facebook_invite_script(qa_opt("facebook_app_id"), array('url' => QW_BASE_URL , 'message' => $message))  ;
                   $button = '<button class="btn btn-block btn-facebook" onclick="'.$on_click_event.'">'.qa_lang_html('qw_social_posting/send_facebook_invite').'</button>' ;
                   $themeobject->output($button );
             }else {

@@ -537,7 +537,7 @@ class qa_html_theme_layer extends qa_html_theme_base {
             }
 			
            // if (isset($this->content['navigation']['user']['logout']['url'])) {
-                $link = qa_opt('site_url') . "logout";
+                $link = qa_path_html("logout");
                 echo "<li><a class='icon-power' href = '$link'> " . qa_lang_html('cleanstrap/logout') . " </a></li>";
            // }
 ?>
@@ -672,7 +672,7 @@ class qa_html_theme_layer extends qa_html_theme_base {
             }
         }
         if (!isset($this->content['navigation']['user']['logout']['url'])) {
-            $link = qa_opt('site_url') . "logout";
+            $link = qa_path_html('logout');
             echo "<li><a class='icon-power' href = '$link'> " . qa_lang_html('cleanstrap/logout') . " </a></li>";
         }
 ?>

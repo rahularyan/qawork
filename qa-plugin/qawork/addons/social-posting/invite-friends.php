@@ -57,9 +57,9 @@ class qw_social_invite_friends_page {
                       'style' => 'wide',
                       'buttons' => array(
                           'facebook_invite' => array(
-                              'tags' => 'name="facebook_invite" onClick="'.qw_generate_facebook_invite_script(qa_opt("facebook_app_id"), array('name' => $name, 'url' => qa_opt("site_url"))).'"',
+                              'tags' => 'name="facebook_invite" onClick="'.qw_generate_facebook_invite_script(qa_opt("facebook_app_id"), array('name' => $name, 'url' => QW_BASE_URL)).'"',
                               'label' => qa_lang_html('qw_social_posting/send_facebook_invite'),
-                              // 'note' => qw_generate_facebook_invite_script(qa_opt("facebook_app_id"), $name, qa_opt("site_url"))
+                              // 'note' => qw_generate_facebook_invite_script(qa_opt("facebook_app_id"), $name, QW_BASE_URL)
                           ),
 
                           'facebook_status_update' => array(

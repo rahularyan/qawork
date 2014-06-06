@@ -43,7 +43,7 @@ class qa_html_theme_layer extends qa_html_theme_base {
 										<div class="no-activity icon-chart-bar">'.qa_lang('cleanstrap/no-activity').'</div>
 									</div>
 									
-									<a class="event-footer" href="'.qa_path_html('notifications', null, qa_opt('site_url')).'">'.qa_lang('cleanstrap/see_all').'</a>
+									<a class="event-footer" href="'.qa_path_html('notifications', null, QW_BASE_URL).'">'.qa_lang('cleanstrap/see_all').'</a>
 									
 								</div>
 							</div>
@@ -63,7 +63,7 @@ class qa_html_theme_layer extends qa_html_theme_base {
 										<div class="no-activity icon-chart-bar">'.qa_lang('cleanstrap/no-activity').'</div>
 									</div>
 									
-									<a class="event-footer" href="'.qa_path_html('user/'.$handle.'/wall', null, qa_opt('site_url')).'">'.qa_lang('cleanstrap/see_all').'</a>
+									<a class="event-footer" href="'.qa_path_html('user/'.$handle.'/wall', null, QW_BASE_URL).'">'.qa_lang('cleanstrap/see_all').'</a>
 									
 								</div>
 							</div>

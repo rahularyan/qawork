@@ -220,7 +220,7 @@ function qw_update_facebook_status($app_id , $data = array() , $no_script = true
 
 function qw_get_fb_invite_button(){
 	if (!!qa_opt("facebook_app_id")) {
-		$on_click_event = qw_generate_facebook_invite_script(qa_opt("facebook_app_id"), array('url' => qa_opt("site_url")))  ;
+		$on_click_event = qw_generate_facebook_invite_script(qa_opt("facebook_app_id"), array('url' => QW_BASE_URL))  ;
 		$button = '<button class="btn btn-facebook" onclick="'.$on_click_event.'">'.qa_lang_html('qw_social_posting/invite_friends').'</button>' ;
 		return $button ;
 	}
