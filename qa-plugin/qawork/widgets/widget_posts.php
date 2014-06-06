@@ -8,6 +8,12 @@ class qw_widget_posts
         return array(
             'style' => 'wide',
             'fields' => array(
+				'title' => array(
+                    'label' 	=> 'Title',
+                    'type' 		=> 'text',
+                    'tags' 		=> 'name="title" class="form-control"',
+                    'value' 	=> 'QW Post list widget'
+                ),
                 'qw_qa_count' => array(
                     'label' => 'Numbers of questions',
                     'type' => 'number',
@@ -19,6 +25,24 @@ class qw_widget_posts
                     'type' 		=> 'select',
                     'tags' 		=> 'name="post_type" class="form-control"',
                     'options' 	=> array('Q' => 'Questions','A' => 'Answers','C' => 'Comments')
+                ),
+				'post_status' => array(
+                    'label' 	=> 'Post Type',
+                    'type' 		=> 'select',
+                    'tags' 		=> 'name="post_status" class="form-control"',
+                    'options' 	=> array('solved' => 'Solved','open' => 'Open','closed' => 'Closed')
+                ),
+				'order_by' => array(
+                    'label' 	=> 'Order by',
+                    'type' 		=> 'select',
+                    'tags' 		=> 'name="order_by" class="form-control"',
+                    'options' 	=> array('created' => 'Created','views' => 'Views','answers' => 'Answers', 'votes' => 'Votes', 'hotness' => 'Hotness')
+                ),
+				'order' => array(
+                    'label' 	=> 'Order',
+                    'type' 		=> 'select',
+                    'tags' 		=> 'name="order" class="form-control"',
+                    'options' 	=> array('ASC' => 'ASC','DESC' => 'DESC')
                 ),
 				'avatar_size' => array(
                     'label' 	=> 'Avatar size',
@@ -92,14 +116,35 @@ class qw_widget_posts
         
         return $allow;
     }
-    function qw_post_list($type, $limit, $size = 40, $show_content, $content_limt = 80, $return = false)
+    function qw_post_list($type, $limit, $size = 40, $show_content, $content_limt = 80, $post_status = false, $order_by = 'created', $order = 'DESC', $return = false)
     {
-
+		if(!!$post_status){
+			if($post_status == 'solved')
+				$status = ' AND selchildid is NOT NULL';
+			elseif($post_status == 'open')
+				$status = ' AND selchildid is NULL AND closedbyid is NULL';
+			elseif($post_status == 'closed')
+				$status = ' AND closedbyid is NOT NULL';
+		}
+		
+		if(!!$order_by){
+			if($order_by == 'created')
+				$order_by = ' ^posts.created ';
+			elseif($order_by == 'views')
+				$order_by = ' ^posts.views ';
+			elseif($order_by == 'answers')
+				$order_by = ' ^posts.acount ';
+			elseif($order_by == 'votes')
+				$order_by = ' ^posts.netvotes ';
+			elseif($order_by == 'hotness')
+				$order_by = ' ^posts.hotness ';
+			
+		}
         if(defined('QA_WORDPRESS_INTEGRATE_PATH')){
 			global $wpdb;
 			$posts = qw_get_cache('SELECT ^posts.* , '.$wpdb->base_prefix.'users.* FROM ^posts, '.$wpdb->base_prefix.'users WHERE ^posts.userid='.$wpdb->base_prefix.'users.ID AND ^posts.type=$ ORDER BY ^posts.created DESC LIMIT #',60, $type, $limit);
 		}else
-			$posts = qa_db_read_all_assoc(qa_db_query_sub('SELECT ^posts.* , ^users.* FROM ^posts, ^users WHERE ^posts.userid=^users.userid AND ^posts.type=$ ORDER BY ^posts.created DESC LIMIT #', $type, $limit));
+			$posts = qa_db_read_all_assoc(qa_db_query_sub('SELECT UNIX_TIMESTAMP(^posts.created) as unix_time, ^posts.* , ^users.* FROM ^posts, ^users WHERE ^posts.userid=^users.userid AND ^posts.type=$ '.$status.' ORDER BY '.$order_by.' '.$order.' LIMIT #', $type, $limit));
         
         $output = '<ul class="posts-list">';
         foreach($posts as $p) {
@@ -116,23 +161,28 @@ class qw_widget_posts
 			else
 				$handle = $p['handle'];
 			
-			$timeCode = qa_when_to_html(  strtotime( $p['created'] ) ,7);
-			$when = @$timeCode['prefix'] . @$timeCode['data'] . @$timeCode['suffix'];
-
+			$when = qa_when_to_html($p['unix_time'] ,7);
             $output .= '<li>';
             $output .= qw_get_post_avatar($p, $size, true);
             $output .= '<div class="post-content">';
             
 			$output .= '<div class="meta">';
+				if ($type == 'Q'){
+					$s['raw']['selchildid'] = $p['selchildid'];
+					$s['raw']['closedbyid'] = $p['closedbyid'];
+					$output .=qw_post_status($s);
+				}
 				$output .= '<span><a href="' . qa_path_html('user/' . $handle) . '">' . $handle . '</a> ' . $what . '</span>';
+				
+				
+				$output .= '<span class="time icon-time">' .  implode(' ', $when) . '</span>';
 				
 				if ($type == 'Q')
 					$output .= '<span>' . qa_lang_sub('cleanstrap/x_answers', $p['acount']) . '</span>';
 				
-				$output .= '<span class="time icon-time">' .  $when . '</span>';
+									
+				$output .= '<span class="vote-count icon-thumbs-up">' . qa_lang_sub('cleanstrap/x_votes', $p['netvotes']) . '</span>';	
 				
-				if ($type != 'Q')
-					$output .= '<span class="vote-count icon-thumbs-up">' . qa_lang_sub('cleanstrap/x_votes', $p['netvotes']) . '</span>';			
 			$output .= '</div>';
 			
             if ($type == 'Q') {
@@ -157,20 +207,12 @@ class qw_widget_posts
     function output_widget($region, $place, $themeobject, $template, $request, $qa_content)
     {
         $widget_opt = @$themeobject->current_widget['param']['options'];
-		
-		
-		if ($widget_opt['post_type'] == 'Q') {
-			$what = qa_lang_html('cleanstrap/questions');
-		} elseif ($widget_opt['post_type'] == 'A') {
-			$what = qa_lang_html('cleanstrap/answers');
-		} elseif ($widget_opt['post_type'] == 'C') {
-			$what = qa_lang_html('cleanstrap/comments');
-		}
+
         if (@$themeobject->current_widget['param']['locations']['show_title'])
-            $themeobject->output('<h3 class="widget-title">' . qa_lang_sub('cleanstrap/recent_posts', $what) . '</h3>');
+            $themeobject->output('<h3 class="widget-title">' . $widget_opt['title'] . '</h3>');
         
         $themeobject->output('<div class="ra-post-list-widget widget-'.@$widget_opt['class'].'">');
-        $themeobject->output($this->qw_post_list($widget_opt['post_type'], (int)$widget_opt['qw_qa_count'], (int)$widget_opt['avatar_size'], (int)$widget_opt['show_content'], (int)$widget_opt['content_size']));
+        $themeobject->output($this->qw_post_list($widget_opt['post_type'], (int)$widget_opt['qw_qa_count'], (int)$widget_opt['avatar_size'], (int)$widget_opt['show_content'], (int)$widget_opt['content_size'],$widget_opt['post_status'], $widget_opt['order_by'], $widget_opt['order']));
         $themeobject->output('</div>');
     }
 }

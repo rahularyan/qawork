@@ -3967,7 +3967,7 @@ a.open-login-button.twitter {
 
 .ra-post-list-widget .posts-list li {
     border-bottom: 1px solid #eee;
-    padding: 8px 0;
+    padding: 12px 0;
 }
 
 .ra-post-list-widget .posts-list li:last-child{
@@ -3975,11 +3975,19 @@ a.open-login-button.twitter {
 }
 
 .ra-post-list-widget .posts-list .avatar {
-	float: left;
-	margin-right: 15px;
-	margin-top: 7px;
+    float: left;
+    margin-right: 15px;
+    margin-top: 2px;
 }
-
+.ra-post-list-widget .posts-list .post-status{
+    display: inline-block;
+    height: 10px;
+    line-height: 11px;
+    margin-right: 0;
+    padding: 0;
+    text-indent: -9999em;
+    width: 10px;
+}
 .ra-post-list-widget .posts-list .post-content {
 	overflow: hidden;
 }
@@ -3987,19 +3995,22 @@ a.open-login-button.twitter {
     color: inherit;
 }
 .ra-post-list-widget .posts-list .meta {
-   color: #333333;
+    color: #666666;
     display: block;
-    font-size: 11px;
-    font-weight: bold;
+    font-size: 10px;
     margin-bottom: 4px;
 }
 
 .ra-post-list-widget .posts-list .meta span:before {
 	padding-right: 5px;
 }
-
-.ra-post-list-widget .posts-list .meta span:nth-child(2), .ra-post-list-widget .posts-list .meta span:nth-child(3) {
-	margin-left: 10px;
+.ra-post-list-widget .posts-list .meta span:first-child {
+    border: medium none;
+}
+.ra-post-list-widget .posts-list .meta span {
+    border-right: 1px solid #DDDDDD;
+    margin-right: 5px;
+    padding-right: 5px;
 }
 
 .qa-q-list.clean .qa-q-list-item {

@@ -169,20 +169,23 @@ class qw_theme_options {
 			</li>
 			'.qw_do_action('qw_theme_option_tab').'
 		</ul>
-	</div><div class="option-tab-content">';
+	</div><div class="option-tab-content-outer"><div class="option-tab-content">';
 		$output .= $this->opt_general();
 		$output .= $this->opt_layout();
 		//$output .= $this->opt_styling();
 		$output .= $this->opt_social();
 		$output .= $this->opt_ads();
 		$output .= qw_do_action('qw_theme_option_tab_content');
+		
 		$output .= '</div>';
 		$output .= '<div class="form-button-sticky-footer">';
 			$output .= '<div class="form-button-holder">';
-				$output .= '<input type="submit" class="qa-form-tall-button btn-primary" title="" value="Save Changes" name="qw_save_button">';
+				$output .= '<input type="submit" class="qa-form-tall-button btn-success" title="" value="Save Changes" name="qw_save_button">';
 				$output .= '<input type="submit" class="qa-form-tall-button" title="" value="Reset to Default" name="qw_reset_button">';
 			$output .= '</div>';
 		$output .= '</div>';
+		$output .= '</div>';
+		
 		$output .= '</form>';
 		
 		return $output;

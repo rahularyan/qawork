@@ -905,3 +905,8 @@ th .description {
 .option-tab-content > div.active {
 	display: block;
 }
+.option-tab-content-outer {
+    display: table-cell;
+    padding-bottom: 55px;
+    vertical-align: top;
+}
