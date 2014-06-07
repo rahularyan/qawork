@@ -25,7 +25,7 @@ return array(
 	'invite_frnds'           => 'Invite Your Friends ',
 	'update_status'          => 'Update your status ',
 	'invite_status'          => 'I am using a very helpful QuestionAnswer website ^site_url . Lets join togather and enjoy ',
-	'facebook_invite_msg'    => '^name invited to join a very helpful QuestionAnswer Website here ^site_url ',
+	'fb_invite_message_default'    => ' invited to join a very helpful QuestionAnswer Website here {site_url} ',
 	'update_facebook_status' => 'Update Facebook Status',
 	'send_facebook_invite'   => 'Invite Your Facebook Friends',
 	'update_twitter_status'  => 'Tweet your followers',

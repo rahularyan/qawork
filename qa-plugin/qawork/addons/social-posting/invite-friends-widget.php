@@ -49,8 +49,9 @@ class qw_fb_invite_frnds_widget {
             $widget_opt  = @$themeobject->current_widget['param']['options'];
             $message = qa_opt("qw_fb_invite_message") ;
             if (!$message) {
-                  $message = qa_lang('qw_social_posting/facebook_invite_msg_default');
+                  $message = qa_lang_html('qw_social_posting/fb_invite_message_default') ; 
             }
+
             $message = strtr($message , array('{site_url}' => QW_BASE_URL ));
             // widget start 
             if(@$themeobject->current_widget['param']['locations']['show_title'])

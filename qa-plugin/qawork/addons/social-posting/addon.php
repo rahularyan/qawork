@@ -64,6 +64,7 @@ class Qw_Social_Posting_Addon {
           if(qa_clicked('qw_save_button')){   
               qa_opt("qw_enable_fb_posting", !!qa_post_text("qw_enable_fb_posting"));
               qa_opt("qw_enable_twitter_posting", !!qa_post_text("qw_enable_twitter_posting"));
+              qa_opt("qw_fb_invite_message", qa_post_text("qw_fb_invite_message_field"));
               $saved=true;
             }
           
@@ -103,7 +104,7 @@ class Qw_Social_Posting_Addon {
                       <span class="description">Set the template for facebook invite message ({site_url} will be replaced by your website url )</span>
                   </th>
                   <td class="qa-form-tall-data">
-                  <textarea id="qw_styling_rtl" rows=5 name="qw_enable_twitter_posting" data-opts="qw_enable_twitter_posting_fields">'.qa_opt('qw_fb_invite_message').'</textarea>
+                  <textarea id="qw_styling_rtl" rows=5 name="qw_fb_invite_message_field" data-opts="qw_enable_twitter_posting_fields">'.qa_opt('qw_fb_invite_message').'</textarea>
                   </td>
                 </tr>
                 </tbody>
