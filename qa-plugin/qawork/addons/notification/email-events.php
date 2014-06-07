@@ -238,28 +238,28 @@ function qw_notify_users_by_email($event, $postid, $userid, $effecteduserid, $pa
                   case 'q_post_cat_fl':
                         //this is because we wont have the $parent['email'] for each effected userids when a these selected events occurs 
                         $user_details = qw_get_user_details_from_userid($effecteduserid);
-                        $handle         = $user_details['handle'];
+                        $handle       = $user_details['handle'];
                         $name         = (!!$name) ? $name : $user_details['handle'];
                         $email        = $user_details['email'];
                         break;
                   case 'q_approve':
                   case 'q_reject':
                         $oldquestion = $params['oldquestion'];
-						$handle      = $oldquestion['handle'];
+				$handle      = $oldquestion['handle'];
                         $name        = (!!$name) ? $name : $oldquestion['handle'];
                         $email       = $oldquestion['email'];
                         break;
                   case 'a_approve':
                   case 'a_reject':
                         $oldanswer = $params['oldanswer'];
-						$handle      = $oldquestion['handle'];
+				$handle    = $oldquestion['handle'];
                         $name      = (!!$name) ? $name : $oldanswer['handle'];
                         $email     = $oldanswer['email'];
                         break;
                   case 'c_approve':
                   case 'c_reject':
                         $oldcomment = $params['oldcomment'];
-						$handle      = $oldcomment['handle'];
+				$handle      = $oldcomment['handle'];
                         $name       = (!!$name) ? $name : $oldcomment['handle'];
                         $email      = $oldcomment['email'];
                         break;
@@ -272,7 +272,7 @@ function qw_notify_users_by_email($event, $postid, $userid, $effecteduserid, $pa
             $notifying_user['userid'] = $effecteduserid;
             $notifying_user['name']   = $name;
             $notifying_user['email']  = $email;
-            $notifying_user['handle']  = $handle;
+            $notifying_user['handle'] = isset($logged_in_handle) ? $logged_in_handle : qa_lang('main/anonymous');
             //consider only first 50 characters for saving notification 
             if ($event === 'u_message') {
                   $content  = (isset($params['message']) && !empty($params['message'])) ? $params['message'] : "";
