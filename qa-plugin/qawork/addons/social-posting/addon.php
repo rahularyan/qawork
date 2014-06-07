@@ -96,6 +96,18 @@ class Qw_Social_Posting_Addon {
                 </tr>
                 </tbody>
               ';
+              $output .= '
+                <tbody>
+                <tr>
+                  <th class="qa-form-tall-label">Facebook Invite template 
+                      <span class="description">Set the template for facebook invite message ({site_url} will be replaced by your website url )</span>
+                  </th>
+                  <td class="qa-form-tall-data">
+                  <textarea id="qw_styling_rtl" rows=5 name="qw_enable_twitter_posting" data-opts="qw_enable_twitter_posting_fields">'.qa_opt('qw_fb_invite_message').'</textarea>
+                  </td>
+                </tr>
+                </tbody>
+              ';
 
             $output .= '</table></div>';
             echo $output;

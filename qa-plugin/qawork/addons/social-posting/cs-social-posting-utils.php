@@ -81,7 +81,7 @@ function qw_generate_facebook_invite_script($app_id, $data , $no_script = true )
 
       if (!$message) {
         // if message is not set then set it with a default value 
-        $message = qa_lang("qw_social_posting/facebook_invite_msg") ;
+        $message = qa_lang("qw_social_posting/facebook_invite_msg_default") ;
       }
 
       $message = strtr( $message , array('^name'=> $name , '^site_url' => $url ));
@@ -220,7 +220,13 @@ function qw_update_facebook_status($app_id , $data = array() , $no_script = true
 
 function qw_get_fb_invite_button(){
 	if (!!qa_opt("facebook_app_id")) {
-		$on_click_event = qw_generate_facebook_invite_script(qa_opt("facebook_app_id"), array('url' => QW_BASE_URL))  ;
+    $message = qa_opt("qw_fb_invite_message") ;
+    if (!$message) {
+          $message = qa_lang('qw_social_posting/facebook_invite_msg_default');
+    }
+    $message = strtr($message , array('{site_url}' => QW_BASE_URL ));
+    
+		$on_click_event = qw_generate_facebook_invite_script(qa_opt("facebook_app_id"), array('url' => QW_BASE_URL , 'message' => $message))  ;
 		$button = '<button class="btn btn-facebook" onclick="'.$on_click_event.'">'.qa_lang_html('qw_social_posting/invite_friends').'</button>' ;
 		return $button ;
 	}
