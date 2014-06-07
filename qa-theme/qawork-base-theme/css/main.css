@@ -34,15 +34,15 @@ label {
 .form-control, textarea, input[type="text"], input[type="password"], select {
     background-color: #FFFFFF;
     background-image: none;
-    border: 1px solid #D3D6DB;
+    border: 1px solid #DDDDDD;
     border-radius: 3px;
-    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.016) inset;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05) inset;
     color: #555555;
     display: block;
     font-size: 14px;
-    height: 32px;
+    height: 43px;
     line-height: 1.42857;
-    padding: 6px 12px;
+    padding: 5px 12px;
     transition: border-color 0.15s ease-in-out 0s, box-shadow 0.15s ease-in-out 0s;
     width: 100%;
 }
@@ -257,6 +257,7 @@ textarea {
 }
 .form-search .form-control {
     display: inline-block;
+    height: 32px;
     padding-left: 30px;
     vertical-align: middle;
     width: auto;
@@ -2121,14 +2122,6 @@ table.page-users-list {
     width: 100%;
 }
 
-.qa-message-list:before {
-    background: #F8F8F8;
-    content: "";
-    height: 100%;
-    left: 16px;
-    position: absolute;
-    width: 3px;
-}
 .qa-message-list {
     margin-bottom: 25px;
     position: relative;
@@ -2147,7 +2140,11 @@ table.page-users-list {
 }
 
 .qa-message-item {
-    padding: 12px 0;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+    padding: 12px 10px;
+}
+.qa-message-item:nth-child(2n){
+	background: none repeat scroll 0 0 #FAFDFF;
 }
 
 .qa-message-item-inner {
@@ -2156,8 +2153,9 @@ table.page-users-list {
 }
 
 .qa-message-meta {
+    color: #777777;
     display: block;
-    font-size: 12px;
+    font-size: 10px;
     font-weight: bold;
 }
 
@@ -2855,12 +2853,6 @@ input.qa-form-wide-number {
 	width: 100%;
 }
 
-.qa-form-tall-button-send {
-	border: medium none;
-	color: #FFF;
-	display: table;
-	padding: 7px 20px;
-}
 
 .user-left-inner {
     background: #EEEEEE;
@@ -6092,10 +6084,21 @@ div.oembedall-lanyard .first {
     padding-bottom: 5px;
     padding-top: 5px;
 }
-.qa-form-tall-data .cke_chrome, .qa-form-tall-data .cke_chrome .cke_bottom, .cke_top{
+.qa-form-tall-data .cke_chrome {
+    background: none repeat scroll 0 0 rgba(0, 0, 0, 0);
+    border: 1px solid #DDDDDD;
+    padding: 0 10px;
+}
+.qa-form-tall-data .cke_chrome .cke_bottom, .cke_top{
 	background:none;
 }
-
+.qa-form-tall-data .cke_contents {
+    background-color: #FFFFFF;
+    border: 1px solid #DDDDDD;
+    border-radius: 4px;
+    box-shadow: 0 0 2px rgba(0, 0, 0, 0.1) inset;
+    padding: 5px;
+}
 .user-widget, .widget{
     background: #FFFFFF;
     border: 1px solid #E3E3E3;
@@ -6239,7 +6242,8 @@ div.oembedall-lanyard .first {
     padding: 0;
 }
 .qa-message-content {
-
+    color: #666666;
+    margin-top: 5px;
 }
 .ra-followers-widget .no-followers{
     padding: 25px;
