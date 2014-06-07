@@ -27,6 +27,7 @@ $qw_notification_addon = new Qw_Notification_Addon;
 qa_register_plugin_layer('addons/notification/notification-layer.php', 'QW Notification Layer');
 qa_register_plugin_module('page', 'addons/notification/notification-page.php', 'qw_notification_page', 'QW Notification Page');
 
+//include_once QW_CONTROL_DIR. '/addons/notification/default_email_notify.php';
 include_once QW_CONTROL_DIR. '/addons/notification/email-events.php';
 require_once QW_CONTROL_DIR .'/addons/notification/functions.php';
 
