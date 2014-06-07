@@ -232,6 +232,7 @@ textarea {
 }
 
 #site-header #profile-link {
+    background: none repeat scroll 0 0 rgba(0, 0, 0, 0);
     margin: 0 0 0 15px;
     padding: 0;
 }
@@ -5242,10 +5243,7 @@ form[name="a_form"] {
 	width: 180px;
 	vertical-align: top;
 }
-.left-content {
-    display: table-cell;
-    vertical-align: top;
-}
+
 
 
 

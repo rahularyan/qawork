@@ -1,15 +1,118 @@
-@media only screen and (min-width : 320px) and (max-width : 1024px) {
-
+@media only screen and (min-width : 300px) and (max-width : 767px) {
+	#site-header .site-logo a {
+		font-size: 17px !important;
+	}
 	#header-right-position .qw_ask_form {
 		margin-right: 0;
 	}
+	#header-top nav {
+		display: none;
+	}
+	#nav-ask-btn {
+		float: right;
+	}
+	.user-navs {
+		border-top: 1px solid rgba(255, 255, 255, 0.1);
+		display: block;
+		float: none;
+		padding-top: 5px;
+	}
+	.user-navs .navbar-avatar {
+		margin: 0;
+	}
+	.logo-menu:before, .logo-menu:after, .user-navs:before, .user-navs:after, .big-s-avatar:before, .big-s-avatar:after {
+		clear: both;
+		content: "";
+		display: block;
+	}
+	.logo-menu {
+		border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+		clear: both;
+		margin: 0;
+		padding-bottom: 10px;
+	}
+	#header-top .user-nav.dropdown-menu {
+		background: none repeat scroll 0 0 #FFFFFF;
+		position: absolute;
+		width: 100%;
+	}
+	#header-top .user-nav.dropdown-menu li a{
+		padding-left:5px;
+	}
 
+	.user-actions .dropdown-menu {
+		width: auto;
+	}
+	.activity-bar .bar > a, .message-bar .bar > a, .question-tags, .event-content .avatar, .event-right .footer, .home-top-users, .header-position-c, .question-metas, #breadcrumbs-position, .post-button .btn span,.answer-form .big-s-avatar, #question-right-position{
+		display:none;
+	}
+	.qa-q-view-inner-line:before{
+		border-color: rgba(0, 0, 0, 0) rgba(0, 0, 0, 0) #FFFFFF;
+		margin-left: -5px;
+		margin-top: -33px;
+	}
+	
+	.qa-q-view-inner:before {
+		border-color: rgba(0, 0, 0, 0) rgba(0, 0, 0, 0) #DDDDDD;
+		margin-left: 12px;
+		margin-top: -19px;
+	}
+	.big-s-avatar {
+		border-radius: 0;
+		float: none;
+		margin: 0;
+	}
+	.big-s-avatar > .avatar{
+		float:left;
+	}
+	.big-s-avatar .qa-voting-net {
+		display: block;
+		float: right;
+	}
+	.big-s-avatar .qa-voting-net > a, .big-s-avatar .qa-voting-net > span{
+		display:inline-block;
+	}
+	.qa-part-q-view .q-cont-right {
+		margin-top: 10px;
+	}
+	.post-button {
+		border: 1px solid #DDDDDD;
+		border-radius: 0;
+		display: table;
+	}
+	.post-button .btn  {
+		border-color: transparent #DDDDDD transparent transparent;
+		border-image: none;
+		border-radius: 0;
+		border-style: none solid none none;
+		border-width: medium 1px medium medium;
+		display: block;
+		float: left;
+		font-size: 14px;
+		margin: 0;
+		padding: 3px 10px;
+	}
+	.post-button .btn:last-child{
+		border:none;
+	}
+	.post-button .btn:before{
+		margin-right:0;
+	}
+
+	
 }
-/* Smartphones (portrait and landscape) ----------- */
-@media only screen and (min-width : 320px) and (max-width : 767px) {
-
+@media only screen and (min-width : 300px) and (max-width : 1024px) {
+	.login-register {
+		padding: 5px 10px;
+		text-align: center;
+	}
+	.login-register:before{
+		margin-right:0;
+	}
+	.login-register span, .total-site-count, .home-top-users {
+		display: none;
+	}
 }
-
 /* iPads (portrait and landscape) ----------- */
 @media only screen and (min-width : 768px) and (max-width : 1280px) {
 

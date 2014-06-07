@@ -71,10 +71,11 @@
     float: left;
 }
 .home-join .form-search .btn {
-    padding: 9px 15px;
+    height: 32px;
+    padding: 7px 15px;
 }
 .home-join .form-search .form-control {
-    height: 38px;
+    height: 32px;
 }
 .home-join .form-search i {
     top: 6px;
