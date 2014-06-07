@@ -74,6 +74,10 @@ class qa_html_theme_layer extends qa_html_theme_base {
 	
 	function head_script()
 	{
+		//register a hook
+		if(qw_hook_exist('head_script'))
+			$this->output(qw_do_action('head_script', $this));
+			
 		$scripts = qw_get_all_scripts($this->template);
 		// unset old jQuery
 		if($this->content['script'] && ($key = qw_array_find('jquery-1.7.2.min.js', $this->content['script'])) !== false) {
@@ -83,11 +87,10 @@ class qa_html_theme_layer extends qa_html_theme_base {
 			unset($this->content['script_rel'][$key]);
 		}
 
-		$this->output('<script> ajax_url = "' . QW_CONTROL_URL . '/ajax.php";</script>');
+		$this->output('<script> ajax_url = "' . QW_CONTROL_URL . '/ajax.php"; theme_url = "' . Q_THEME_URL . '";</script>');
 
 		qa_html_theme_base::head_script();
-		
-		$this->output('<script> theme_url = "' . Q_THEME_URL . '";</script>');
+
 
 		if (qa_opt('qw_enable_gzip')){ //Gzip
 			$this->output('<script type="text/javascript" src="'.QW_CONTROL_URL.'/gzip.php?type=js"></script>');
@@ -106,10 +109,6 @@ class qa_html_theme_layer extends qa_html_theme_base {
 				}
 		}
 
-		
-		//register a hook
-		if(qw_hook_exist('head_script'))
-			$this->output(qw_do_action('head_script', $this));
 		
 		if($this->qw_is_widget_active('QW Ask Form') && $this->template != 'ask'){
 			$this->output('<script type="text/javascript" src="'.get_base_url().'/qa-content/qa-ask.js"></script>');
