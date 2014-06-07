@@ -5,129 +5,20 @@
 		exit;
 	}
 
+	require_once QA_INCLUDE_DIR.'qa-app-emails.php';
+	require_once QA_INCLUDE_DIR.'qa-app-format.php';
+	require_once QA_INCLUDE_DIR.'qa-util-string.php';
 
 	class qw_default_notify {
-
+		
+		function __construct(){
+		
+		}
+		
 		function process_event($event, $userid, $handle, $cookieid, $params)
 		{
-			require_once QA_INCLUDE_DIR.'qa-app-emails.php';
-			require_once QA_INCLUDE_DIR.'qa-app-format.php';
-			require_once QA_INCLUDE_DIR.'qa-util-string.php';
-
 			
-			switch ($event) {
-				case 'q_post':
-					$followanswer=@$params['followanswer'];
-					$sendhandle=isset($handle) ? $handle : (strlen($params['name']) ? $params['name'] : qa_lang('main/anonymous'));
-					
-					if (isset($followanswer['notify']) && !qa_post_is_by_user($followanswer, $userid, $cookieid)) {
-						$blockwordspreg=qa_get_block_words_preg();
-						$sendtext=qa_viewer_text($followanswer['content'], $followanswer['format'], array('blockwordspreg' => $blockwordspreg));
-						
-						qw_send_notification($followanswer['userid'], $followanswer['notify'], @$followanswer['handle'], qa_lang('emails/a_followed_subject'), qa_lang('emails/a_followed_body'), array(
-							'^q_handle' => $sendhandle,
-							'^q_title' => qa_block_words_replace($params['title'], $blockwordspreg),
-							'^a_content' => $sendtext,
-							'^url' => qa_q_path($params['postid'], $params['title'], true),
-						));
-					}
-					
-					if (qa_opt('notify_admin_q_post'))
-						qw_send_notification(null, qa_opt('feedback_email'), null, qa_lang('emails/q_posted_subject'), qa_lang('emails/q_posted_body'), array(
-							'^q_handle' => $sendhandle,
-							'^q_title' => $params['title'], // don't censor title or content here since we want the admin to see bad words
-							'^q_content' => $params['text'],
-							'^url' => qa_q_path($params['postid'], $params['title'], true),
-						));
 
-					break;
-
-					
-				case 'a_post':
-					$question=$params['parent'];
-					
-					if (isset($question['notify']) && !qa_post_is_by_user($question, $userid, $cookieid))
-						qw_send_notification($question['userid'], $question['notify'], @$question['handle'], qa_lang('emails/q_answered_subject'), qa_lang('emails/q_answered_body'), array(
-							'^a_handle' => isset($handle) ? $handle : (strlen($params['name']) ? $params['name'] : qa_lang('main/anonymous')),
-							'^q_title' => $question['title'],
-							'^a_content' => qa_block_words_replace($params['text'], qa_get_block_words_preg()),
-							'^url' => qa_q_path($question['postid'], $question['title'], true, 'A', $params['postid']),
-						));
-					break;
-
-					
-				case 'c_post':
-					$parent=$params['parent'];
-					$question=$params['question'];
-					
-					$senttoemail=array(); // to ensure each user or email gets only one notification about an added comment
-					$senttouserid=array();
-					
-					switch ($parent['basetype']) {
-						case 'Q':
-							$subject=qa_lang('emails/q_commented_subject');
-							$body=qa_lang('emails/q_commented_body');
-							$context=$parent['title'];
-							break;
-							
-						case 'A':
-							$subject=qa_lang('emails/a_commented_subject');
-							$body=qa_lang('emails/a_commented_body');
-							$context=qa_viewer_text($parent['content'], $parent['format']);
-							break;
-					}
-					
-					$blockwordspreg=qa_get_block_words_preg();
-					$sendhandle=isset($handle) ? $handle : (strlen($params['name']) ? $params['name'] : qa_lang('main/anonymous'));
-					$sendcontext=qa_block_words_replace($context, $blockwordspreg);
-					$sendtext=qa_block_words_replace($params['text'], $blockwordspreg);
-					$sendurl=qa_q_path($question['postid'], $question['title'], true, 'C', $params['postid']);
-						
-					if (isset($parent['notify']) && !qa_post_is_by_user($parent, $userid, $cookieid)) {
-						$senduserid=$parent['userid'];
-						$sendemail=@$parent['notify'];
-						
-						if (qa_email_validate($sendemail))
-							$senttoemail[$sendemail]=true;
-						elseif (isset($senduserid))
-							$senttouserid[$senduserid]=true;
-			
-						qw_send_notification($senduserid, $sendemail, @$parent['handle'], $subject, $body, array(
-							'^c_handle' => $sendhandle,
-							'^c_context' => $sendcontext,
-							'^c_content' => $sendtext,
-							'^url' => $sendurl,
-						));
-					}
-					
-					foreach ($params['thread'] as $comment)
-						if (isset($comment['notify']) && !qa_post_is_by_user($comment, $userid, $cookieid)) {
-							$senduserid=$comment['userid'];
-							$sendemail=@$comment['notify'];
-							
-							if (qa_email_validate($sendemail)) {
-								if (@$senttoemail[$sendemail])
-									continue;
-									
-								$senttoemail[$sendemail]=true;
-								
-							} elseif (isset($senduserid)) {
-								if (@$senttouserid[$senduserid])
-									continue;
-									
-								$senttouserid[$senduserid]=true;
-							}
-		
-							qw_send_notification($senduserid, $sendemail, @$comment['handle'], qa_lang('emails/c_commented_subject'), qa_lang('emails/c_commented_body'), array(
-								'^c_handle' => $sendhandle,
-								'^c_context' => $sendcontext,
-								'^c_content' => $sendtext,
-								'^url' => $sendurl,
-							));
-						}
-					break;
-
-					
 				case 'q_queue':
 				case 'q_requeue':
 					if (qa_opt('moderate_notify_admin'))
