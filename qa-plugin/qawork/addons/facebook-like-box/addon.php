@@ -40,7 +40,7 @@ class Qw_Fb_LikeBox_Addon{
 		return  $script_src;
 	}
 
-	public function script($themeclass){	
+	public function head_script($themeclass){	
         if (!!qa_opt("facebook_app_id")) {
 			$themeclass->output('<script> FBapplicationId= "' . qa_opt("facebook_app_id") . '";</script>');
 		}
