@@ -905,6 +905,7 @@ class Qw_Notification_Addon{
 				$output .= '</tbody>' ;
 				
 			$output .= '</table></div>';
+
 			$output .= '<div class="qa-part-form-tc-email">
 						<h3>Email templates</h3>
 						<table class="qa-form-tall-table options-table">';
@@ -915,9 +916,30 @@ class Qw_Notification_Addon{
 								<span class="description">Set table based header for email</span>
 							</th>
 							<td class="qa-form-tall-data">
-								<textarea type="text" id="qw_email_head" name="qw_email_head_field" rows="10">' . qa_opt('qw_email_head') . '</textarea>
+								<textarea id="qw_email_head" name="qw_email_head_field" rows="10">' . qa_opt('qw_email_head') . '</textarea>
 							</td>
 						</tr>' ;
+
+			$output .= '<tr class="" >
+							<th class="qa-form-tall-label">
+								Email Body
+								<span class="description">Set table based Body for email (must contain {body} which will be replaced by the email content )</span>
+							</th>
+							<td class="qa-form-tall-data">
+								<textarea id="qw_email_body" name="qw_email_body_field" rows="10">' . qa_opt('qw_email_body') . '</textarea>
+							</td>
+						</tr>' ;
+
+			$output .= '<tr class="" >
+							<th class="qa-form-tall-label">
+								Email footer
+								<span class="description">Set table based footer for email</span>
+							</th>
+							<td class="qa-form-tall-data">
+								<textarea id="qw_email_footer" name="qw_email_footer_field" rows="10">' . qa_opt('qw_email_footer') . '</textarea>
+							</td>
+						</tr>' ;
+
 			$output .= '</tbody>' ;
 			
 			$output .= '</table></div>';
