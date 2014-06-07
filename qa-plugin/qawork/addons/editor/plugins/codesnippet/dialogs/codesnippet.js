@@ -46,7 +46,6 @@
 								var textarea = CKEDITOR.document.getById( this.domId ).findOne( 'textarea' );
 
 								textarea.on( 'keydown', function( evt ) {
-									console.log(evt.data.getKeystroke());
 									if ( evt.data.getKeystroke() == CKEDITOR.ALT + 84 ) {
 										/*alt + t*/
 										/*We should insert tab char on this hotkey, and prevent default browser action.*/
@@ -59,10 +58,11 @@
 							commit: function( widget ) {widget.setData( 'code', this.getValue() ); },
 							required: true,
 							validate: CKEDITOR.dialog.validate.notEmpty( lang.emptySnippetError ),
-							inputStyle: 'cursor:auto;' + 'width:' + width + 'px;' + 'height:' + height + 'px;' + 'tab-size:4;' + 'text-align:left;padding:15px;', 'class': 'cke_source'
+							inputStyle: 'cursor:auto;' + 'width:' + width + 'px;' + 'height:' + height + 'px;' + 'tab-size:4;' + 'text-align:left;padding:15px;', 'class': 'cke_source',
 						},
 						{
-							type: 'html', id: 'hotkeyMsg', html: '<div>' + lang.hotkeyMsg + '</div>'}
+							type: 'html', id: 'hotkeyMsg', html: '<div>' + lang.hotkeyMsg + '</div>',
+						}
 					]
 				}
 			]
