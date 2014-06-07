@@ -36,7 +36,7 @@ qw_do_action('qw_event_q_post_user_fl','qw_notification_event');
 qw_do_action('qw_event_q_post_tag_fl','qw_notification_event');
 qw_do_action('qw_event_q_post_cat_fl','qw_notification_event');
 
-function qw_notification_event($postid,$userid, $effecteduserid, $params, $event) {
+function qw_notification_event($event, $userid, $handle, $cookieid, $params) {
       $loggeduserid   = isset($userid) ? $userid : qa_get_logged_in_userid();
       if (!!$effecteduserid) {
             qw_notify_users_by_email($event, $postid, $loggeduserid, $effecteduserid, $params);
