@@ -5,7 +5,7 @@ if (!defined('QA_VERSION')) {
             exit;
 }
 
-//define the event hook event handlers // remove  NULL, ok , and here 
+//define the event hook event handlers 
 qw_add_action('a_post','qw_notification_event');
 qw_add_action('c_post','qw_notification_event');
 qw_add_action('q_reshow','qw_notification_event');
