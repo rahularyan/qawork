@@ -344,8 +344,9 @@
 		
 		function ParamToString($params)
 		{
+			qw_log(print_r($params , true ));
 			if (isset($params)){
-				$params['parent_uid'] = isset($params['parent']['userid']) ? $params['parent']['userid'] : $params['userid'];
+				$params['parent_uid'] = isset($params['parent']['userid']) ? $params['parent']['userid'] : (isset($params['userid']) ? $params['userid'] : "");
 				if(isset($params['content']))    unset($params['content']);
 				if(isset($params['question']))   unset($params['question']);
 				if(isset($params['answer']))     unset($params['answer']);
@@ -470,14 +471,18 @@
 
 	            $unique_user_ids = array();
 	            $return_user_datas = array();
-
-	            foreach ($user_datas as $user_data) {
-	                  $userid = $user_data['userid'];
-	                  if (!!$userid && !in_array($userid, $unique_user_ids)) {
-	                        $return_user_datas[] = $user_data;
-	                        $unique_user_ids[] = $userid;
-	                  }
+	            if (is_array($user_datas)) {
+		            	foreach ($user_datas as $user_data) {
+		                  $userid = $user_data['userid'];
+		                  if (!!$userid && !in_array($userid, $unique_user_ids)) {
+		                        $return_user_datas[] = $user_data;
+		                        $unique_user_ids[] = $userid;
+		                  }
+		            }
+	            }else {
+	            	$return_user_datas = $user_datas ;
 	            }
+	            
 
 	            return $return_user_datas;
       		}

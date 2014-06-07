@@ -1,14 +1,8 @@
-var scripts = document.getElementsByTagName('script');
-var myScript = scripts[ scripts.length - 1 ];
-var queryString = myScript.src.replace(/^[^\?]+\??/,'');
-var params = parseQuery( queryString );
-var applicationId = params.applicationId ;
-
 (function(d, s, id) {
   var js, fjs = d.getElementsByTagName(s)[0];
   if (d.getElementById(id)) return;
   js = d.createElement(s); js.id = id;
-  js.src = "//connect.facebook.net/en_US/all.js#xfbml=1&appId="+applicationId ;
+  js.src = "//connect.facebook.net/en_US/all.js#xfbml=1&appId="+FBapplicationId ;
   fjs.parentNode.insertBefore(js, fjs);
 }(document, 'script', 'facebook-jssdk'));
 

@@ -39,7 +39,6 @@ class QW_Editor_Addon{
 	    	}
 	    	$root_theme_url = QW_EDITOR_STYLE_SHEET_LINK.$suffix ;
 	    	$theme_url = $root_theme_url . $selected_theme ;
-			// $css_src['qw_editor'] = "http://yandex.st/highlightjs/8.0/styles/monokai.min.css";
 			$css_src['qw_editor'] = $theme_url ;
 		}
 		return  $css_src;
