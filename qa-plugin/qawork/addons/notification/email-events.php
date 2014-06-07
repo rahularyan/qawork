@@ -214,6 +214,7 @@ function qw_notify_users_by_email($event, $postid, $userid, $effecteduserid, $pa
                         if (!!$parent) {
                               $name  = (!!$name) ? $name : $parent['handle'];
                               $email = $parent['email'];
+                              $handle= $parent['handle'] ;
                         } else {
                               //seems proper values are not available 
                               return;
@@ -267,12 +268,12 @@ function qw_notify_users_by_email($event, $postid, $userid, $effecteduserid, $pa
                         break;
             }
 			
-			include_once QA_INCLUDE_DIR.'qa-util-string.php';
+		include_once QA_INCLUDE_DIR.'qa-util-string.php';
 			
             $notifying_user['userid'] = $effecteduserid;
             $notifying_user['name']   = $name;
             $notifying_user['email']  = $email;
-            $notifying_user['handle'] = isset($logged_in_handle) ? $logged_in_handle : qa_lang('main/anonymous');
+            $notifying_user['handle'] = isset($handle) ? $handle : qa_lang('main/anonymous');
             //consider only first 50 characters for saving notification 
             if ($event === 'u_message') {
                   $content  = (isset($params['message']) && !empty($params['message'])) ? $params['message'] : "";
