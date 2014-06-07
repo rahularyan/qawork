@@ -430,11 +430,14 @@ class qa_html_theme_layer extends qa_html_theme_base {
         $this->output('<header id="site-header" class="clearfix">');		
 			$this->output('<div id="header-top" class="clearfix">');
 			$this->output('<div class="container">');
+			$this->output('<div class="logo-menu">');
 			$this->logo();			
 			$this->main_nav_menu();
 			$this->nav_ask_btn();
-			$this->user_drop_nav();						
 			$this->output('</div>');
+			$this->output('<div class="user-navs">');
+			$this->user_drop_nav();						
+			$this->output('</div></div>');
 			$this->output('</div>');
 		$this->output('</header>');
 		
@@ -561,7 +564,7 @@ class qa_html_theme_layer extends qa_html_theme_base {
 			$this->qw_notification_btn();
         } else {
 ?>				<div id="login-drop" class="dropdown pull-right">
-					<a class="icon-key login-register"  href="#" title="<?php echo qa_lang_html('cleanstrap/login_register'); ?>" data-toggle="dropdown"><?php echo qa_lang_html('cleanstrap/login'); ?></a>
+					<a class="icon-key login-register"  href="#" title="<?php echo qa_lang_html('cleanstrap/login_register'); ?>" data-toggle="dropdown"><span><?php echo qa_lang_html('cleanstrap/login'); ?></span></a>
 					<div class="dropdown-menu login-drop">
 						<div class="social-logins">
 						
@@ -611,7 +614,7 @@ class qa_html_theme_layer extends qa_html_theme_base {
 					</div>
 				</div>
 				
-				<a class="login-register icon-user-add"  href="<?php echo qa_path_html('register'); ?>" title="<?php echo qa_lang_html('cleanstrap/register_on_site'); ?>"><?php echo qa_lang_html('cleanstrap/register'); ?></a>
+				<a class="login-register icon-user-add"  href="<?php echo qa_path_html('register'); ?>" title="<?php echo qa_lang_html('cleanstrap/register_on_site'); ?>"><span><?php echo qa_lang_html('cleanstrap/register'); ?></span></a>
 				
 			<?php
         }
@@ -1677,7 +1680,7 @@ class qa_html_theme_layer extends qa_html_theme_base {
 				if ($k == 'follow')
 					$btn['class'] = 'icon-answer';
 				
-				$this->output('<button ' . @$btn['tags'] . ' class="btn ' . @$btn['class'] . '" title="' . @$btn['popup'] . '" type="submit">' . @$btn['label'] . '</button>');
+				$this->output('<button ' . @$btn['tags'] . ' class="ra-tip btn ' . @$btn['class'] . '" title="' . @$btn['popup'] . '" type="submit"><span>' . @$btn['label'] . '</span></button>');
 			}
 
 			//register a hook
