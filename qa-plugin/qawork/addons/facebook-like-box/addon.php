@@ -20,6 +20,7 @@ class Qw_Fb_LikeBox_Addon{
 		qw_event_hook('register_language', NULL, array($this, 'language'));
 		qw_event_hook('enqueue_css', NULL, array($this, 'css'));
 		qw_event_hook('enqueue_scripts', NULL, array($this, 'script'));
+		qw_add_action('head_script', array($this, 'head_script'));
 	}
 		
 	public function language($lang_arr){
@@ -37,6 +38,12 @@ class Qw_Fb_LikeBox_Addon{
 			$script_src['qw_fb_like_box'] = QW_CONTROL_URL . '/addons/facebook-like-box/scripts.js?applicationId='.qa_opt("facebook_app_id") ;
 		}
 		return  $script_src;
+	}
+
+	public function script($themeclass){	
+        if (!!qa_opt("facebook_app_id")) {
+			$themeclass->output('<script> FBapplicationId= "' . qa_opt("facebook_app_id") . '";</script>');
+		}
 	}
 	
 }
