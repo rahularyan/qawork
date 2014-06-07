@@ -9,18 +9,18 @@
 	
 	class Qw_Custom_Hooks{
 		function __construct(){
-			qw_event_hook('enqueue_css', NULL, array($this, 'qw_enqueue_css'));
-			qw_event_hook('enqueue_scripts', NULL, array($this, 'qw_enqueue_scripts'));
+			qw_add_filter('enqueue_css', array($this, 'qw_enqueue_css'), 110);
+			qw_add_filter('enqueue_scripts', array($this, 'qw_enqueue_scripts'), 110);
 			qw_event_hook('widget_positions', NULL, array($this, 'qw_register_widget_positions'));
 			qw_event_hook('template_array', NULL, array($this, 'qw_default_page_templates'));
 		}
 		
 		function qw_enqueue_css($css_src){
-			$css_src['icon'] = Q_THEME_URL . '/css/fonts.css';		
-			$css_src['qw_responsive'] = Q_THEME_URL . '/css/responsive.css';
+			$css_src['icon'] = Q_THEME_URL . '/css/fonts.css';			
 			$css_src['qw_main'] = Q_THEME_URL . '/css/main.css';
 			$css_src['qw_color'] = Q_THEME_URL . '/css/theme-green.css';
 			$css_src['Questrial'] = 'http://fonts.googleapis.com/css?family=Questrial';
+			$css_src['qw_responsive'] = Q_THEME_URL . '/css/responsive.css';
 			
 			if (qa_opt('qw_styling_rtl'))
 				$css_src['qw_rtl'] = Q_THEME_URL . '/css/rtl.css';
