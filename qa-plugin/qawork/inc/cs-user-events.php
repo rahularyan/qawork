@@ -1,7 +1,12 @@
 <?php
+/* don't allow this page to be requested directly from browser */	
+	if (!defined('QA_VERSION')) {
+			header('Location: /');
+			exit;
+	}
 	class qw_user_event_logger {
 
-
+		
 		function process_event($event, $userid, $handle, $cookieid, $params)
 		{
  			// call_this_method();  //here we can call the scheuler 

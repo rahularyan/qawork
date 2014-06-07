@@ -1,5 +1,9 @@
 <?php
-
+/* don't allow this page to be requested directly from browser */	
+if (!defined('QA_VERSION')) {
+		header('Location: /');
+		exit;
+}
 	class qw_event_logger {
 		
 		function init_queries($tableslc)
@@ -72,6 +76,12 @@
 		}
 
 		function process_event($event, $userid, $handle, $cookieid, $params){
+			
+			switch($event){
+				default:
+					qw_do_action('qw_event_'.$event, $event, $userid, $handle, $cookieid, $params);
+			}
+			
 			if (qa_opt('event_logger_to_database')) {
 				$paramstring='';
 				foreach ($params as $key => $value){

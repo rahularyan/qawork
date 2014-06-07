@@ -6,35 +6,35 @@ if (!defined('QA_VERSION')) {
 }
 
 //define the event hook event handlers 
-qw_add_action('a_post','qw_notification_event');
-qw_add_action('c_post','qw_notification_event');
-qw_add_action('q_reshow','qw_notification_event');
-qw_add_action('a_reshow','qw_notification_event');
-qw_add_action('c_reshow','qw_notification_event');
-qw_add_action('a_select','qw_notification_event');
-qw_add_action('q_vote_up','qw_notification_event');
-qw_add_action('a_vote_up','qw_notification_event');
-qw_add_action('q_vote_down','qw_notification_event');
-qw_add_action('a_vote_down','qw_notification_event');
-qw_add_action('q_vote_nil','qw_notification_event');
-qw_add_action('a_vote_nil','qw_notification_event');
-qw_add_action('q_approve','qw_notification_event');
-qw_add_action('a_approve','qw_notification_event');
-qw_add_action('c_approve','qw_notification_event');
-qw_add_action('q_reject','qw_notification_event');
-qw_add_action('a_reject','qw_notification_event');
-qw_add_action('c_reject','qw_notification_event');
-qw_add_action('q_favorite','qw_notification_event');
-qw_add_action('q_post','qw_notification_event');
-qw_add_action('u_favorite','qw_notification_event');
-qw_add_action('u_message','qw_notification_event');
-qw_add_action('u_wall_post','qw_notification_event');
-qw_add_action('u_level','qw_notification_event');
+qw_do_action('user_event_a_post','qw_notification_event');
+qw_do_action('user_event_c_post','qw_notification_event');
+qw_do_action('user_event_q_reshow','qw_notification_event');
+qw_do_action('user_event_a_reshow','qw_notification_event');
+qw_do_action('user_event_c_reshow','qw_notification_event');
+qw_do_action('user_event_a_select','qw_notification_event');
+qw_do_action('user_event_q_vote_up','qw_notification_event');
+qw_do_action('user_event_a_vote_up','qw_notification_event');
+qw_do_action('user_event_q_vote_down','qw_notification_event');
+qw_do_action('user_event_a_vote_down','qw_notification_event');
+qw_do_action('user_event_q_vote_nil','qw_notification_event');
+qw_do_action('user_event_a_vote_nil','qw_notification_event');
+qw_do_action('user_event_q_approve','qw_notification_event');
+qw_do_action('user_event_a_approve','qw_notification_event');
+qw_do_action('user_event_c_approve','qw_notification_event');
+qw_do_action('user_event_q_reject','qw_notification_event');
+qw_do_action('user_event_a_reject','qw_notification_event');
+qw_do_action('user_event_c_reject','qw_notification_event');
+qw_do_action('user_event_q_favorite','qw_notification_event');
+qw_do_action('user_event_q_post','qw_notification_event');
+qw_do_action('user_event_u_favorite','qw_notification_event');
+qw_do_action('user_event_u_message','qw_notification_event');
+qw_do_action('user_event_u_wall_post','qw_notification_event');
+qw_do_action('user_event_u_level','qw_notification_event');
 //added for related questions 
-qw_add_action('related','qw_notification_event');
-qw_add_action('q_post_user_fl','qw_notification_event');
-qw_add_action('q_post_tag_fl','qw_notification_event');
-qw_add_action('q_post_cat_fl','qw_notification_event');
+qw_do_action('user_event_related','qw_notification_event');
+qw_do_action('user_event_q_post_user_fl','qw_notification_event');
+qw_do_action('user_event_q_post_tag_fl','qw_notification_event');
+qw_do_action('user_event_q_post_cat_fl','qw_notification_event');
 
 function qw_notification_event($postid,$userid, $effecteduserid, $params, $event) {
       $loggeduserid   = isset($userid) ? $userid : qa_get_logged_in_userid();
