@@ -690,9 +690,10 @@ function qw_get_email_template($parms){
 		'{site_title}' => qa_opt('site_title'),
 		'{logo}' => (!!$logo ? '<img class="navbar-site-logo" src="' . $logo . '">' : '<img class="navbar-site-logo" src="' . Q_THEME_URL . '/images/logo.png">'),
 		'{avatar}' => qw_get_avatar($parms['handle'], 40),
+            '{body}' => $parms['body'],
 	);
-	$email_body = '';
-	$email_body = qa_get_email_template_head($parms, $subs);
+	$email_body  = '';
+	$email_body  = qa_get_email_template_head($parms, $subs);
 	$email_body .= qa_get_email_template_body($parms, $subs);
 	$email_body .= qa_get_email_template_footer($parms, $subs);
 	return $email_body;
@@ -747,26 +748,35 @@ function qa_get_email_template_head($parms, $subs){
 	return strtr(ob_get_clean(), $subs);
 }
 
-function qa_get_email_template_body($parms){
+function qa_get_email_template_body($parms, $subs){
 	ob_start();
-		?>
-		<!-- BODY -->
-		<table class="body-wrap" bgcolor="" style="max-width: 600px; width: 600px;background:#fff; margin: 0 auto;">
-			<tr>
-				<td></td>
-				<td class="container" align="" bgcolor="#FFFFFF">
-					<?php echo $parms['body']; ?>
-				</td>
-				<td></td>
-			</tr>
-		</table><!-- /BODY -->
-		<?php
-	return ob_get_clean();
+            $email_body = qa_opt('qw_email_body');
+            if(!!$email_body){
+                  echo $email_body;
+            }else{  /*print the default template */
+            ?>
+      		<!-- BODY -->
+      		<table class="body-wrap" bgcolor="" style="max-width: 600px; width: 600px;background:#fff; margin: 0 auto;">
+      			<tr>
+      				<td></td>
+      				<td class="container" align="" bgcolor="#FFFFFF">
+      					{body}
+      				</td>
+      				<td></td>
+      			</tr>
+      		</table><!-- /BODY -->
+	     <?php
+            }
+	return strtr(ob_get_clean(), $subs);
 }
 
-function qa_get_email_template_footer($parms){
+function qa_get_email_template_footer($parms, $subs){
 	ob_start();
-		?>
+            $email_footer = qa_opt('qw_email_footer');
+            if(!!$email_footer){
+                  echo $email_footer;
+            }else{  /*print the default template */
+            ?>
 			<!-- FOOTER -->
 			<table class="footer-wrap" style="max-width: 600px; width: 600px;background:#fff;">
 				<tr>
@@ -793,10 +803,14 @@ function qa_get_email_template_footer($parms){
 				</tr>
 			</table><!-- /FOOTER -->
 
-			</body>
-			</html>
+			
 		<?php
-	return ob_get_clean();	
+            } /*end of else */
+            ?>
+            </body> <!-- CLOSE BODY TAG -->
+      </html><!-- CLOSE HTML TAG -->
+            <?php
+	return strtr(ob_get_clean(), $subs);
 }
 
 function qw_send_notification($userid, $email, $handle, $subject, $body, $subs){
@@ -854,6 +868,7 @@ function qw_send_notification($userid, $email, $handle, $subject, $body, $subs){
 			'body' => (empty($handle) ? '' : qa_lang_sub('emails/to_handle_prefix', $handle)).strtr($body, $subs),
 			'html' => true,
 		);
+
 		$email_param['body'] = qw_get_email_template($email_param);
 		if (QW_SEND_EMAIL_DEBUG_MODE) {
 				//this will write to the log file 
