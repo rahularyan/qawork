@@ -266,4 +266,8 @@
 	.navbar-nav.category-nav .dropdown-menu {
 		margin-left: -200px;
 	}
+	.page-users-list .user-box {
+		float: left;
+		width: 50%;
+	}
 }
