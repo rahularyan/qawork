@@ -6,37 +6,37 @@ if (!defined('QA_VERSION')) {
 }
 
 //define the event hook event handlers 
-qw_do_action('user_event_a_post','qw_notification_event');
-qw_do_action('user_event_c_post','qw_notification_event');
-qw_do_action('user_event_q_reshow','qw_notification_event');
-qw_do_action('user_event_a_reshow','qw_notification_event');
-qw_do_action('user_event_c_reshow','qw_notification_event');
-qw_do_action('user_event_a_select','qw_notification_event');
-qw_do_action('user_event_q_vote_up','qw_notification_event');
-qw_do_action('user_event_a_vote_up','qw_notification_event');
-qw_do_action('user_event_q_vote_down','qw_notification_event');
-qw_do_action('user_event_a_vote_down','qw_notification_event');
-qw_do_action('user_event_q_vote_nil','qw_notification_event');
-qw_do_action('user_event_a_vote_nil','qw_notification_event');
-qw_do_action('user_event_q_approve','qw_notification_event');
-qw_do_action('user_event_a_approve','qw_notification_event');
-qw_do_action('user_event_c_approve','qw_notification_event');
-qw_do_action('user_event_q_reject','qw_notification_event');
-qw_do_action('user_event_a_reject','qw_notification_event');
-qw_do_action('user_event_c_reject','qw_notification_event');
-qw_do_action('user_event_q_favorite','qw_notification_event');
-qw_do_action('user_event_q_post','qw_notification_event');
-qw_do_action('user_event_u_favorite','qw_notification_event');
-qw_do_action('user_event_u_message','qw_notification_event');
-qw_do_action('user_event_u_wall_post','qw_notification_event');
-qw_do_action('user_event_u_level','qw_notification_event');
+qw_add_action('user_event_a_post','qw_notification_event');
+qw_add_action('user_event_c_post','qw_notification_event');
+qw_add_action('user_event_q_reshow','qw_notification_event');
+qw_add_action('user_event_a_reshow','qw_notification_event');
+qw_add_action('user_event_c_reshow','qw_notification_event');
+qw_add_action('user_event_a_select','qw_notification_event');
+qw_add_action('user_event_q_vote_up','qw_notification_event');
+qw_add_action('user_event_a_vote_up','qw_notification_event');
+qw_add_action('user_event_q_vote_down','qw_notification_event');
+qw_add_action('user_event_a_vote_down','qw_notification_event');
+qw_add_action('user_event_q_vote_nil','qw_notification_event');
+qw_add_action('user_event_a_vote_nil','qw_notification_event');
+qw_add_action('user_event_q_approve','qw_notification_event');
+qw_add_action('user_event_a_approve','qw_notification_event');
+qw_add_action('user_event_c_approve','qw_notification_event');
+qw_add_action('user_event_q_reject','qw_notification_event');
+qw_add_action('user_event_a_reject','qw_notification_event');
+qw_add_action('user_event_c_reject','qw_notification_event');
+qw_add_action('user_event_q_favorite','qw_notification_event');
+qw_add_action('user_event_q_post','qw_notification_event');
+qw_add_action('user_event_u_favorite','qw_notification_event');
+qw_add_action('user_event_u_message','qw_notification_event');
+qw_add_action('user_event_u_wall_post','qw_notification_event');
+qw_add_action('user_event_u_level','qw_notification_event');
 //added for related questions 
-qw_do_action('user_event_related','qw_notification_event');
-qw_do_action('user_event_q_post_user_fl','qw_notification_event');
-qw_do_action('user_event_q_post_tag_fl','qw_notification_event');
-qw_do_action('user_event_q_post_cat_fl','qw_notification_event');
+qw_add_action('user_event_related','qw_notification_event');
+qw_add_action('user_event_q_post_user_fl','qw_notification_event');
+qw_add_action('user_event_q_post_tag_fl','qw_notification_event');
+qw_add_action('user_event_q_post_cat_fl','qw_notification_event');
 
-function qw_notification_event($postid,$userid, $effecteduserid, $params, $event) {
+function qw_notification_event($postid,$userid, $effecteduserid, $params, $event) {	
       $loggeduserid   = isset($userid) ? $userid : qa_get_logged_in_userid();
       if (!!$effecteduserid) {
             qw_notify_users_by_email($event, $postid, $loggeduserid, $effecteduserid, $params);
@@ -67,9 +67,9 @@ function qw_process_emails_from_db() {
             $email_body         = $email_body . $thank_you_message;
 			
 			$b .='<div class="content user-greet" >
-					<table style="max-width: 600px; width: 600px; background: none repeat scroll 0% 0% rgb(33, 166, 95); margin-bottom: 15px;"><tr><td>
-						<strong style="display: block;color: #FFFFFF;">'.$greeting.'</strong>
-						<i style="color: #FFFFFF;">'.$subject.'</i>
+					<table><tr><td>
+						<strong>'.$greeting.'</strong>
+						<i>'.$subject.'</i>
 					</td></tr></table>
 				</div>
 				';
@@ -711,9 +711,9 @@ function qa_get_email_template_head($parms, $subs){
 
 			<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 			<title><?php echo $parms['subject']; ?></title>
-
+			<style><?php include qa_get_override_file('/css/email.css'); ?></style>
 			</head>
-			<body topmargin="0" leftmargin="0" marginheight="0" marginwidth="0" >
+			<body bgcolor="#f6f6f6">
 			
 			<?php 
 				$email_head = qa_opt('qw_email_head');
@@ -755,16 +755,30 @@ function qa_get_email_template_body($parms, $subs){
                   echo $email_body;
             }else{  /*print the default template */
             ?>
-      		<!-- BODY -->
-      		<table class="body-wrap" bgcolor="" style="max-width: 600px; width: 600px;background:#fff; margin: 0 auto;">
-      			<tr>
-      				<td></td>
-      				<td class="container" align="" bgcolor="#FFFFFF">
-      					{body}
-      				</td>
-      				<td></td>
-      			</tr>
-      		</table><!-- /BODY -->
+
+			<!-- body -->
+			<table class="body-wrap">
+				<tr>
+					<td></td>
+					<td class="container" bgcolor="#FFFFFF">
+
+						<!-- content -->
+						<div class="content">
+						<table>
+							<tr>
+								<td>
+									{body}
+								</td>
+							</tr>
+						</table>
+						</div>
+						<!-- /content -->
+						
+					</td>
+					<td></td>
+				</tr>
+			</table>
+			<!-- /body -->
 	     <?php
             }
 	return strtr(ob_get_clean(), $subs);
@@ -777,31 +791,30 @@ function qa_get_email_template_footer($parms, $subs){
                   echo $email_footer;
             }else{  /*print the default template */
             ?>
-			<!-- FOOTER -->
-			<table class="footer-wrap" style="max-width: 600px; width: 600px;background:#fff;">
+			<!-- footer -->
+			<table class="footer-wrap">
 				<tr>
 					<td></td>
 					<td class="container">
 						
-							<!-- content -->
-							<div class="content">
-								<table>
-									<tr>
-										<td align="center">
-											<p>
-												<a href="#">Terms</a> |
-												<a href="#">Privacy</a> |
-												<a href="#"><unsubscribe>Unsubscribe</unsubscribe></a>
-											</p>
-										</td>
-									</tr>
-								</table>
-							</div><!-- /content -->
-							
+						<!-- content -->
+						<div class="content">
+							<table>
+								<tr>
+									<td align="center">
+										<p>Don't like these annoying emails? <a href="#"><unsubscribe>Unsubscribe</unsubscribe></a>.
+										</p>
+									</td>
+								</tr>
+							</table>
+						</div>
+						<!-- /content -->
+						
 					</td>
 					<td></td>
 				</tr>
-			</table><!-- /FOOTER -->
+			</table>
+			<!-- /footer -->
 
 			
 		<?php
@@ -812,7 +825,6 @@ function qa_get_email_template_footer($parms, $subs){
             <?php
 	return strtr(ob_get_clean(), $subs);
 }
-
 function qw_send_notification($userid, $email, $handle, $subject, $body, $subs){
 	
 	global $qa_notifications_suspended;

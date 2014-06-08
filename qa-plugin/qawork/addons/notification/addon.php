@@ -22,6 +22,7 @@ unset($qa_modules['event']['Q2A Event Notify']);
 //if this is set to true , the email will be written to the log file 
 define('QW_SEND_EMAIL_DEBUG_MODE', FALSE );
 
+qa_register_plugin_overrides('addons/notification/overrides.php');
 $qw_notification_addon = new Qw_Notification_Addon;
 
 qa_register_plugin_layer('addons/notification/notification-layer.php', 'QW Notification Layer');
