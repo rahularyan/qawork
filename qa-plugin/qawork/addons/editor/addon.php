@@ -27,7 +27,7 @@ class QW_Editor_Addon{
 	}
 
 	public function css($css_src , $template ){
-		if ($template == 'question') {
+		if ($template == 'question' || $template == 'gzip') {
 			$selected_theme  = qa_opt('qw_qa_editor_code_theme');
 	    	if (!$selected_theme ) {
 	    		$selected_theme  = "github.css" ;
