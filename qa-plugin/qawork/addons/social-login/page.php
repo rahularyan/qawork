@@ -22,7 +22,7 @@ class qw_social_login_page {
 
     function match_request($request) {
         $parts = explode('/', $request);
-		 return ((count($parts) == 1 && $parts[0] == 'logins'));
+		return ((count($parts) == 1 && $parts[0] == 'logins'));
     }
 
     function process_request($request) {

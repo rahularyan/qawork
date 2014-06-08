@@ -1051,7 +1051,7 @@ function qw_order_profile_fields($profile){
 	 		unset($profile[$key]);
 	 	}
 	 }
-	 // need to remove those keys which are not in the original kay 
+	 // need to remove those keys which are not in the original key 
 	 $to_be_removed = array();
 	 foreach ($keys as $key) {
 	 	if (!isset($profile[$key]) || empty($profile[$key])) {
@@ -1156,7 +1156,7 @@ function qw_array_find($needle, $haystack) {
 
 function qa_get_override_file($file){
 	if(file_exists(QW_THEME_DIR.'/'.$file))
-		return QW_THEME_DIR.'/'.$file;
+		return Q_THEME_DIR.'/'.$file;
 	else
 		return QW_CONTROL_DIR.'/'.$file;
 }

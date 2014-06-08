@@ -103,6 +103,7 @@ function qa_log_in_external_user($source, $identifier, $fields) {
                 if (count($emailusers)) {
                     $userid = $emailusers[0] ;
                 }else {
+                    qa_db_user_login_sync(false);
                    $userid = qa_create_new_user((string) @$fields['email'], null /* no password */, $handle, isset($fields['level']) ? $fields['level'] : QA_USER_LEVEL_BASIC, @$fields['confirmed']);
                    $profilefields = array('name', 'location', 'website', 'about');
 
