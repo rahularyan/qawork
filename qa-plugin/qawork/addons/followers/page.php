@@ -67,15 +67,15 @@ class qw_followers_page {
 							</div>
 							
 							<div class="box-container">
-								<a class="user-name" href="' . qa_path_html('user/' . $handle) . '">' . $handle. '</a>
+								<a class="user-name" href="' . qa_path_html('user/' . $f['handle']) . '">' . $f['handle']. '</a>
 								<span class="user-level">'.qa_user_level_string($f['level']).'</span>
 								<div class="counts clearfix">
 									<p class="score"><strong>'.$f['points'].'</strong>'. qa_lang('cleanstrap/points') . ' </p>
-									<p class="followers"><strong>'.qw_count_followers($userid, true).'</strong>' .  qa_lang('cleanstrap/followers') . ' </p>
+									<p class="followers"><strong>'.qw_count_followers($f['userid'], true).'</strong>' .  qa_lang('cleanstrap/followers') . ' </p>
 								</div>
 						</div>';
                     if (qa_opt('badge_active') && function_exists('qa_get_badge_list'))
-                        echo '<div class="badge-list">' . qw_user_badge($handle) . '</div>';
+                        echo '<div class="badge-list">' . qw_user_badge($f['handle']) . '</div>';
                     
                     echo '</div>';
                     echo '</div>';
