@@ -26,6 +26,7 @@
 
 		function send_default_emails($event, $userid, $handle, $cookieid, $params)
 		{
+
 			switch ($event) {
 				case 'q_queue':
 				case 'q_requeue':
@@ -97,13 +98,13 @@
 						));
 					break;
 				case 'u_register':
-					if (qa_opt('register_notify_admin'))
-						qw_send_notification(null, qa_opt('feedback_email'), null, qa_lang('emails/u_registered_subject'),
+					///if (qa_opt('register_notify_admin'))
+						qw_log(print_r(array(null, qa_opt('feedback_email'), null, qa_lang('emails/u_registered_subject'),
 							qa_opt('moderate_users') ? qa_lang('emails/u_to_approve_body') : qa_lang('emails/u_registered_body'), array(
 							'^u_handle' => $handle,
 							'^url' => qa_path_absolute('user/'.$handle),
 							'^a_url' => qa_path_absolute('admin/approve'),
-						));
+						)), true));
 					break;
 
 			}

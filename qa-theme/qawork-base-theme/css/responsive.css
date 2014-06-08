@@ -43,7 +43,7 @@
 	.user-actions .dropdown-menu {
 		width: auto;
 	}
-	.activity-bar .bar > a, .message-bar .bar > a, .question-tags, .event-content .avatar, .event-right .footer, .home-top-users, .header-position-c, .question-metas, #breadcrumbs-position, .post-button .btn span,.answer-form .big-s-avatar, #question-right-position{
+	.activity-bar .bar > a, .message-bar .bar > a, .question-tags, .event-content .avatar, .event-right .footer, .home-top-users, .header-position-c, .question-metas, #breadcrumbs-position, .post-button .btn span,.answer-form .big-s-avatar, #question-right-position, .qa-q-item-meta, .q-item-status, .ra-social-links,.big-btns{
 		display:none;
 	}
 	.qa-q-view-inner-line:before{
@@ -98,8 +98,155 @@
 	.post-button .btn:before{
 		margin-right:0;
 	}
-
+	.left-content {
+		margin-bottom: 20px;
+	}
 	
+
+	.qa-q-list .qa-q-list-item .qa-q-item-title {
+		font-size: 14px;
+		line-height: 20px;
+	}
+	.qa-q-list .qa-q-list-item {
+		padding: 5px 0;
+	}
+	.qa-q-list .qa-q-list-item .asker-avatar img{
+		margin-top:0;
+	}
+	.qa-q-list .qa-q-list-item .qa-q-item-main > .ans-count {
+		height: 40px;
+		line-height: 40px;
+		width: 40px;
+	}
+	.home-happening{
+		padding:10px 0;
+	}
+	.qa-main .home-join{
+		margin-bottom:0;
+	}
+	.mobile-menu-toggle{
+		display:block;
+	}
+	#header-top .user-navs > nav {
+		background: none repeat scroll 0 0 #FFFFFF;
+		border-radius: 5px;
+		box-shadow: 0 0 5px;
+		margin-top: 29px;
+		overflow: hidden;
+		position: absolute;
+		width: 160px;
+		z-index: 9;
+	}
+	.user-navs .qa-nav-main {
+		float: none;
+	}
+	.page-title h1 {
+		font-size: 18px;
+	}
+	.qa-nav-main .qa-nav-main-list li a:hover, .qa-nav-main .qa-nav-main-list li a.qa-nav-main-selected {
+		background: none repeat scroll 0 0 #555555;
+		border-radius: 0;
+	}
+	.qa-nav-main .qa-nav-main-list li a {
+		border-bottom: 1px solid #EEEEEE;
+		color: inherit;
+		display: block;
+		float: none;
+		font-weight: normal;
+		margin: 0;
+		padding: 0 14px;
+	}
+	.qa-nav-main .qa-nav-main-list li {
+		float: none;
+		margin: 0;
+	}
+	.qa-nav-main .qa-nav-main-list {
+		margin: 0;
+	}
+	.user-card .user-info .user-thumb {
+		display: table;
+		float: none;
+		margin: 0 auto;
+		position: relative;
+	}
+	.category-nav {
+		margin: 0;
+		padding: 0;
+	}
+	.category-nav .category-toggle {
+		border-radius: 2px;
+		display: block;
+		font-size: 15px;
+		padding: 0 5px;
+	}
+	.navbar-nav.category-nav .dropdown-menu {
+		margin-top: -5px;
+	}
+	.category-nav.open .category-toggle {
+		background: none repeat scroll 0 0 #FFFFFF;
+		color: inherit;
+	}
+	.user-card .user-info {
+		height: auto;
+	}
+	.user-card .user-info .user-name {
+		text-align: center;
+	}
+	.user-card .user-name > span {
+		display: block;
+	}
+	.user-activity-count > li {
+		font-size: 11px;
+		padding: 5px 8px;
+	}
+	.user-right, .user-navigation{
+		display:block;
+	}
+	.user-navigation{
+		width:auto;
+	}
+	.user-personal-links .btn {
+		border-radius: 3px !important;
+		display: block;
+		font-size: 10px;
+		margin-bottom: 5px;
+		padding: 6px 5px;
+		text-align: center;
+		width: 100%;
+	}
+	.user-main-content {
+		display: block;
+		padding: 0;
+	}
+	.widget.qw_featured_questions {
+		display: none;
+	}
+	.qa-main .qa-nav-sub ul {
+		border: 1px solid #DDDDDD;
+		border-radius: 5px;
+		margin-bottom: 10px;
+		padding: 5px;
+	}
+	.qa-main .qa-nav-sub ul li {
+		float: none;
+	}
+	.qa-nav-sub ul li a {
+		border-radius: 2px;
+		color: #777777;
+		display: block;
+		margin-bottom: 2px !important;
+		padding: 2px 10px;
+	}
+	.qa-nav-sub ul li a:hover{
+		background:#eee;
+		
+	}
+	.qa-main .qa-nav-sub ul li a.qa-nav-sub-selected {
+		background: none repeat scroll 0 0 #21a65f;
+		border: medium none;
+		color:#fff;
+	}
+
 }
 @media only screen and (min-width : 300px) and (max-width : 1024px) {
 	.login-register {
@@ -112,8 +259,11 @@
 	.login-register span, .total-site-count, .home-top-users {
 		display: none;
 	}
+	
 }
 /* iPads (portrait and landscape) ----------- */
-@media only screen and (min-width : 768px) and (max-width : 1280px) {
-
+@media only screen and (min-width : 768px) and (max-width :1023px) {
+	.navbar-nav.category-nav .dropdown-menu {
+		margin-left: -200px;
+	}
 }

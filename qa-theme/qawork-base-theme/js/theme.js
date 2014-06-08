@@ -665,7 +665,10 @@ $(document).ready(function(){
 			$(item.children()).bxSlider(opts);
 		}
 	});
-
+	
+	$('.mobile-menu-toggle').on('click', function(){
+		$(this).next().toggle();
+	});
 
 });
 

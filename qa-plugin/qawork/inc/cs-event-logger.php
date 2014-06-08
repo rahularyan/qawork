@@ -77,10 +77,7 @@ if (!defined('QA_VERSION')) {
 
 		function process_event($event, $userid, $handle, $cookieid, $params){
 			
-			switch($event){
-				default:
-					qw_do_action('qw_event_'.$event, $event, $userid, $handle, $cookieid, $params);
-			}
+			qw_do_action('qw_event_'.$event, $event, $userid, $handle, $cookieid, $params);
 			
 			if (qa_opt('event_logger_to_database')) {
 				$paramstring='';

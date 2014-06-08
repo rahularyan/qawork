@@ -431,11 +431,17 @@ class qa_html_theme_layer extends qa_html_theme_base {
 			$this->output('<div class="container">');
 			$this->output('<div class="logo-menu">');
 			$this->logo();			
-			$this->main_nav_menu();
 			$this->nav_ask_btn();
 			$this->output('</div>');
+			
 			$this->output('<div class="user-navs">');
-			$this->user_drop_nav();						
+				$this->output('<a href="#" class="mobile-menu-toggle icon-th-menu">Menu</a>');
+				$this->main_nav_menu();
+				
+				if ( (qa_opt('qw_enable_category_nav')) && (qa_using_categories()) )
+					$this->cat_drop_nav();
+				
+				$this->user_drop_nav();						
 			$this->output('</div></div>');
 			$this->output('</div>');
 		$this->output('</header>');
@@ -454,10 +460,6 @@ class qa_html_theme_layer extends qa_html_theme_base {
 		if (qw_hook_exist(__FUNCTION__)) {$args=func_get_args(); return qw_do_action(__FUNCTION__, $args); }		
 		
 		$this->output('<nav class="pull-left clearfix">');
-       // $this->output('<a href="#" class="slide-mobile-menu icon-th-menu"></a>');
-        
-		if ( (qa_opt('qw_enable_category_nav')) && (qa_using_categories()) )
-			$this->cat_drop_nav();	
 			
 		$this->nav('main');
 		
@@ -501,12 +503,10 @@ class qa_html_theme_layer extends qa_html_theme_base {
 		
         ob_start();
 ?>
-			<ul class="nav navbar-nav category-nav pull-left">
-				<li class="dropdown pull-left">
-					<a data-toggle="dropdown" href="#" class="category-toggle icon-folder" title="<?php echo qa_lang_html('cleanstrap/categories'); ?>"></a>					
-						<?php $this->qw_full_categories_list(); ?>					
-				</li>
-			</ul>
+			<div class="nav navbar-nav category-nav pull-left">
+				<a data-toggle="dropdown" href="#" class="category-toggle icon-folder" title="<?php echo qa_lang_html('cleanstrap/categories'); ?>"></a>					
+				<?php $this->qw_full_categories_list(); ?>
+			</div>
 			<?php
         $this->output(ob_get_clean());
     }
@@ -913,7 +913,7 @@ class qa_html_theme_layer extends qa_html_theme_base {
 			
 			$form = @$this->content['form_profile'];
 			
-			if(isset($form) && !qw_is_state_edit()){
+			if(isset($form) && !qw_is_state_edit() && $this->template != 'account'){
 				$this->output('<form class="user-buttons" '.$form['tags'].'><div class="btn-group">');
 				foreach($form['buttons'] as $k => $btn)
 					$this->output('<button class="btn '.$k .($k == 'delete' ? ' btn-danger' : '' ).'" ' . $btn['tags'] . ' type="submit">' . $btn['label'] . '</button>');
@@ -968,14 +968,15 @@ class qa_html_theme_layer extends qa_html_theme_base {
 		
 		if($this->template == 'user' && !qw_is_state_edit()){
 			$this->output('<div class="user-widgets row">');
-				$this->output('<div class="col-sm-4">');
+				$this->output('<div class="col-md-4">');
 					$this->qw_position('Profile Left Top');
 					$this->qw_user_about($user, $profile);
 					$this->qw_user_activities($user, $profile);
 					$this->qw_position('Profile Left Bottom');
 				$this->output('</div>');
-				$this->output('<div class="col-sm-8">');
-					$this->qw_user_wall_widget($content['message_list'], $handle);
+				$this->output('<div class="col-md-8">');
+					if(!!qa_opt('qw_show_wall_on_profile'))
+						$this->qw_user_wall_widget($content['message_list'], $handle);
 					$this->qw_position('Profile Right');
 				$this->output('</div>');				
 			$this->output('</div>');
