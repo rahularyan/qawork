@@ -22,7 +22,7 @@ if (!defined('QA_VERSION')) { // don't allow this page to be requested directly 
 
 define('QW_CONTROL_DIR', dirname( __FILE__ ));
 define('QW_CONTROL_ADDON_DIR', QW_CONTROL_DIR.'/addons');
-define('QW_VERSION', 2);
+define('QW_VERSION', 1);
 
 require_once QW_CONTROL_DIR. '/functions.php';
 
@@ -197,4 +197,11 @@ function qw_upload_cover_modal(){
 	<?php
 	}
 	die(); 
+}
+qw_event_hook('qw_ajax_get_popover_form_code', NULL, 'qw_popover_form_code');
+function qw_popover_form_code(){
+	//code to check if Ajax request is from this site
+	echo '87533984574385';
+	
+	die();
 }
