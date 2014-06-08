@@ -10,13 +10,15 @@
 		<div class="home-join">			
 			<div class="container">				
 				<?php $this->search(); ?>			
-				<div class="big-btns">					
-					<?php 
-						echo qw_get_fb_invite_button();
-						echo $this->fb_ask_your_friend(qw_current_url(), 'Message your friend');
-					?>
-				</div>
-				<p class="total-site-count align-right">Tell your friends about this site</p>
+					<div class="big-btns">					
+						<?php 
+						if (function_exists('qw_get_fb_invite_button')) {
+							echo qw_get_fb_invite_button();
+						}
+							echo $this->fb_ask_your_friend(qw_current_url(), 'Message your friend');
+						?>
+					</div>
+					<p class="total-site-count align-right">Tell your friends about this site</p>
 			</div>
 		</div>
 

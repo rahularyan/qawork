@@ -5,14 +5,7 @@ class qw_fb_invite_frnds_widget {
       function qw_widget_form() {
 
             return array(
-                'fields' => array(
-                  'qw_fb_invite_message' => array(
-                                    'label' => qa_lang('qw_social_posting/qw_fb_invite_message_label'),
-                                    'type'  => 'textarea',
-                                    'tags'  => 'name="qw_fb_invite_message"',
-                                    'value' => ' ^name invited to join a very helpful QuestionAnswer Website here ^site_url ',
-                    ),
-                ),
+                'fields' => array(),
             );
       }
 
@@ -54,8 +47,12 @@ class qw_fb_invite_frnds_widget {
 
       function output_widget($region, $place, $themeobject, $template, $request, $qa_content) {
             $widget_opt  = @$themeobject->current_widget['param']['options'];
-            $message = isset($widget_opt['qw_fb_invite_message']) ? $widget_opt['qw_fb_invite_message'] : "" ;
-            
+            $message = qa_opt("qw_fb_invite_message") ;
+            if (!$message) {
+                  $message = qa_lang_html('qw_social_posting/fb_invite_message_default') ; 
+            }
+
+            $message = strtr($message , array('{site_url}' => QW_BASE_URL ));
             // widget start 
             if(@$themeobject->current_widget['param']['locations']['show_title'])
                         $themeobject->output('<h3 class="widget-title">QW Facebook Invite</h3>');
