@@ -6,14 +6,14 @@
 	}
 	class qw_user_event_logger {
 
-		
+
 		function process_event($event, $userid, $handle, $cookieid, $params)
 		{
  			// call_this_method();  //here we can call the scheuler 
 			$loggeduserid = qa_get_logged_in_userid();
 			$dolog=true;
 			$postid = @$params['postid'];
-			//qa_fatal_error(var_dump($params));
+
 			switch($event){
 				case 'a_post': // user's question had been answered
 					
@@ -23,7 +23,7 @@
 						$params['qtitle'] = $question['title'];
 						$params['qid']    = $question['postid'];
 						$this->AddEvent($postid,$userid, $effecteduserid, $params, $event);
-						qw_do_action('user_event_'.'a_post', $postid,$userid, $effecteduserid, $params, $event);
+						qw_do_action('user_event_'.$event, $postid,$userid, $effecteduserid, $params, $event);
 					}
 					break;
 				case 'c_post': // user's answer had been commented
@@ -37,7 +37,7 @@
 					if ($loggeduserid != $params['parent']['userid']){
 						$effecteduserid = $params['parent']['userid'];
 						$this->AddEvent($postid, $userid, $params['parent']['userid'], $params, $event);
-						qw_do_action('user_event_'.'c_post', $postid , $userid, $effecteduserid, $params, $event);
+						qw_do_action('user_event_'.$event, $postid,$userid, $effecteduserid, $params, $event);
 						$already_notified = $effecteduserid ;
 					}
 					
@@ -53,7 +53,7 @@
 							
 							$this->AddEvent($postid, $userid, $user, $params, $event);	
 							$effecteduserid = $user ; //for this scenario the $user_array contains all user ids in the current commented thread 
-							qw_do_action('user_event_'.'c_post', $postid,$userid, $effecteduserid, $params, $event);							
+							qw_do_action('user_event_'.$event, $postid,$userid, $effecteduserid, $params, $event);
 						}
 					}			
 					break;
@@ -66,7 +66,7 @@
 						$params['qtitle'] = $question['title'];
 						$params['qid']    = $question['postid'];
 						$this->AddEvent($postid,$userid, $effecteduserid, $params, $event);
-						qw_do_action('user_event_'.'q_reshow', $postid,$userid, $effecteduserid, $params, $event);
+						qw_do_action('user_event_'.$event, $postid,$userid, $effecteduserid, $params, $event);
 				
 					}
 					break;
@@ -82,7 +82,7 @@
 						unset($params['content']);
 						unset($params['text']);
 						$this->AddEvent($postid,$userid, $effecteduserid, $params, $event);
-						qw_do_action('user_event_'.'a_reshow', $postid,$userid, $effecteduserid, $params, $event);
+						qw_do_action('user_event_'.$event, $postid,$userid, $effecteduserid, $params, $event);
 					}
 					break;
 				case 'c_reshow':
@@ -95,7 +95,7 @@
 						$params['qtitle'] = $question['title'];
 						$params['qid']    = $question['postid'];
 						$this->AddEvent($postid,$userid, $effecteduserid, $params, $event);
-						qw_do_action('user_event_'.'c_reshow',$postid,$userid, $effecteduserid, $params, $event);
+						qw_do_action('user_event_'.$event, $postid,$userid, $effecteduserid, $params, $event);
 					}
 					break;
 				/* case 'a_unselect':
@@ -106,7 +106,7 @@
 						"DELETE FROM ^ra_userevent WHERE effecteduserid=$ AND event=$ AND postid=$",
 						$effecteduserid, 'a_select', $postid
 					);
-					qw_do_action('user_event_'.'a_unselect', array($postid,$userid, $effecteduserid, $params, $event));
+					qw_do_action('user_event_'.$event, $postid,$userid, $effecteduserid, $params, $event);
 					
 					break; */
 				case 'a_select':
@@ -118,7 +118,7 @@
 						$params['qtitle'] = $question['title'];
 						$params['qid']    = $question['postid'];
 						$this->AddEvent($postid,$userid, $effecteduserid, $params, $event);
-						qw_do_action('user_event_'.'a_select', $postid,$userid, $effecteduserid, $params, $event);
+						qw_do_action('user_event_'.$event, $postid,$userid, $effecteduserid, $params, $event);
 					}
 					break;
 				case 'q_vote_up':
@@ -184,22 +184,19 @@
 							$already_notified = $effecteduserid ;
 						}
 					}
-					qw_do_action('user_event_'.'q_post_social', $postid,$userid, 0 , $params, $event);
+					qw_do_action('user_event_'.$event, $postid,$userid, $effecteduserid, $params, $event);
 					$categoryid = isset($params['categoryid']) ? $params['categoryid'] : '' ;
                     $tags = isset($params['tags']) ? $params['tags'] : '' ;
 					$user_datas = $this->qw_get_users_details_notify_email($userid , $tags , $categoryid );
-					if (count($user_datas)) {
-						foreach ($user_datas as $user_data  ) {
-							$effecteduserid = $user_data['userid'] ;
-							$event = $user_data['event']  ; 
+					foreach ($user_datas as $user_data  ) {
+						$effecteduserid = $user_data['userid'] ;
+						$event = $user_data['event']  ; 
 
-							if ( $effecteduserid != $already_notified ) {
-								// $this->AddEvent($postid,$userid, $effecteduserid, $params, $event);
-								qw_do_action('user_event_'.$event, $postid,$userid, $effecteduserid, $params, $event);
-							}
+						if ( $effecteduserid != $already_notified ) {
+							// $this->AddEvent($postid,$userid, $effecteduserid, $params, $event);
+							qw_do_action('user_event_'.$event, $postid,$userid, $effecteduserid, $params, $event);
 						}
 					}
-					
 					break;
 				case 'u_favorite':
 					if ($loggeduserid != $params['userid']){
@@ -238,10 +235,6 @@
 						qw_do_action('user_event_'.$event, $postid,$userid, $effecteduserid, $params, $event);
                     }
 					break;
-				case 'u_register':
-					qw_do_action('qw_event_'.$event, $postid,$userid, null , $params, $event);
-					break ;
-
 				default:
 					$dolog=false;
 			
@@ -288,6 +281,7 @@
 		
 		function UpdateVote($newevent, $postid, $userid, $params, $eventname, $value)
 		{
+			
 			$effecteduserid = $this->GetUseridFromPost($postid);
 			$posts = qa_db_read_all_values(qa_db_query_sub(
 				'SELECT params FROM ^ra_userevent WHERE postid=$ AND event=$',
@@ -307,6 +301,7 @@
 					$params[$eventname] =1;
 					
 					$this->AddEvent($postid,$userid, $effecteduserid, $params, $newevent);
+					
 					qw_do_action('user_event_'.$newevent, $postid,$userid, $effecteduserid, $params, $newevent);
 				}
 			}else{
@@ -316,7 +311,7 @@
 					$netvotes = $this->GetVotesFromPost($postid);
 					$params['newvotes'] = $netvotes;
 					$diffrence = (int)$postparams['newvotes'] - (int)$netvotes;
-					//qa_fatal_error(var_dump($netvotes));
+
 					switch($eventname){
 					case 'q_vote_nil': 
 						if ( $diffrence == 1 ) //upvote cancelled
@@ -344,19 +339,20 @@
 				foreach ($postparams as $key => $value)
 					if (!isset($params[$key]))
 						$params[$key] = $value;
-				//qa_fatal_error(var_dump($postparams));
+		
 				$paramstring = $this->ParamToString($params);
 				qa_db_query_sub(
 					"UPDATE ^ra_userevent SET datetime=NOW(), userid=$, effecteduserid=$, postid=$, event=$, params=$ WHERE postid=$ AND event=$",
 					$userid, $effecteduserid, $postid, $newevent,$paramstring, $postid, $newevent
 				);
+
 				qw_do_action('user_event_'.$newevent, $postid,$userid, $effecteduserid, $params, $newevent);
 			}
 		}
 		
 		function ParamToString($params)
 		{
-			qw_log(print_r($params , true ));
+
 			if (isset($params)){
 				$params['parent_uid'] = isset($params['parent']['userid']) ? $params['parent']['userid'] : (isset($params['userid']) ? $params['userid'] : "");
 				if(isset($params['content']))    unset($params['content']);

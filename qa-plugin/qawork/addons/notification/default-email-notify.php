@@ -99,7 +99,7 @@
 					break;
 				case 'u_register':
 					if (qa_opt('register_notify_admin'))
-						qa_send_notification(null, qa_opt('feedback_email'), null, qa_lang('emails/u_registered_subject'),
+						qw_send_notification(null, qa_opt('feedback_email'), null, qa_lang('emails/u_registered_subject'),
 							qa_opt('moderate_users') ? qa_lang('emails/u_to_approve_body') : qa_lang('emails/u_registered_body'), array(
 							'^u_handle' => $handle,
 							'^url' => qa_path_absolute('user/'.$handle),
