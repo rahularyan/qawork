@@ -53,27 +53,25 @@ class qw_followers_page {
 	
 	function followers($followers, $handle, $userid){
 		ob_start();
-			var_dump($followers);
-			echo '<div class="page-users-list clearfix ">';
+
+			echo '<div class="page-users-list row">';
 			foreach($followers as $f){
-				$avatar = qw_get_post_avatar($f, 100, false);
+				$avatar = qw_get_post_avatar($f, 50, false);
 				$profile = json_decode($f['profile'], true);
-				echo '<div class="user-box">
+				echo '<div class="user-box col-sm-3">
 						<div class="user-box-inner">
 							<div class="cover"'.qw_get_user_cover($profile, true, true).'>
 								<div class="user-avatar">
-									<a href="' . qa_path_html('user/' . $handle) . '" class="avatar">
-										<img class="avatar" src="' . $avatar . '" />
-									</a>
+									' . $avatar . '
 								</div>
 							</div>
 							
 							<div class="box-container">
 								<a class="user-name" href="' . qa_path_html('user/' . $handle) . '">' . $handle. '</a>
-								<span class="user-level">'.qa_user_level_string($data['account']['level']).'</span>
+								<span class="user-level">'.qa_user_level_string($f['level']).'</span>
 								<div class="counts clearfix">
-									<p class="score"><strong>'.$data['points']['points'].'</strong>'. qa_lang('cleanstrap/points') . ' </p>
-									<p class="followers"><strong>'.$data['followers'].'</strong>' .  qa_lang('cleanstrap/followers') . ' </p>
+									<p class="score"><strong>'.$f['points'].'</strong>'. qa_lang('cleanstrap/points') . ' </p>
+									<p class="followers"><strong>'.qw_count_followers($userid, true).'</strong>' .  qa_lang('cleanstrap/followers') . ' </p>
 								</div>
 						</div>';
                     if (qa_opt('badge_active') && function_exists('qa_get_badge_list'))

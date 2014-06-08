@@ -27,6 +27,7 @@ class Qw_Social_Login_Addon {
         qw_add_action('qw_theme_option_tab', array($this, 'option_tab'));
         qw_add_action('qw_theme_option_tab_content', array($this, 'option_tab_content'));
         qw_add_action('qw_reset_theme_options', array($this, 'reset_theme_options'));
+		qw_add_filter('template_array', array($this, 'page_templates'));
     }
 
     public function init_queries($queries, $tableslc) {
@@ -96,6 +97,10 @@ class Qw_Social_Login_Addon {
             $saved = true;
         }
     }
+	function page_templates($templates){			
+		$templates['logins'] = 'Logins';
+		return $templates;
+	}
 
     function option_tab() {
         $saved = false;

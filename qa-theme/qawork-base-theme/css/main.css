@@ -965,7 +965,7 @@ ul.qa-nav-cat-list-4 > li.qa-nav-cat-item:first-child {
 }
 
 .qa-nav-sub ul li [class^="icon-"]:before {
-    color: #AAAAAA;
+    color: #777;
     margin-right: 10px;
 }
 
