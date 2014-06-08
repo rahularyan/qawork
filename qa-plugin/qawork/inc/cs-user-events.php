@@ -239,7 +239,7 @@
                     }
 					break;
 				case 'u_register':
-					qw_do_action('qw_event_'.$event, $postid,$userid, $effecteduserid, $params, $event);
+					qw_do_action('qw_event_'.$event, $postid,$userid, null , $params, $event);
 					break ;
 
 				default:
