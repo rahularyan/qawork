@@ -3744,13 +3744,16 @@ a.open-login-button.twitter {
 }
 
 .user-activities .what-task {
-	color: #777;
-	font-size: 12px;
-	font-weight: bold;
-	margin-right: 15px;
-	text-transform: capitalize;
+    display: inline-block;
+    font-size: 11px;
+    font-weight: bold;
+    margin-right: 15px;
+    text-transform: capitalize;
+    width: 85px;
 }
-
+.user-activities a {
+    color: #777777;
+}
 .user-activities .when {
 	color: #AAA;
 	font-size: 13px;
@@ -3967,7 +3970,7 @@ a.open-login-button.twitter {
 
 .ra-post-list-widget .posts-list li {
     border-bottom: 1px solid #eee;
-    padding: 12px 0;
+    padding: 10px 0;
 }
 
 .ra-post-list-widget .posts-list li:last-child{
@@ -3993,9 +3996,12 @@ a.open-login-button.twitter {
 }
 .ra-post-list-widget .posts-list .title {
     color: inherit;
+    display: block;
+    font-size: 12px;
+    font-weight: bold;
 }
 .ra-post-list-widget .posts-list .meta {
-    color: #777777;
+    color: #9D9D9D;
     display: block;
     font-size: 11px;
     margin-top: 4px;
@@ -4208,7 +4214,8 @@ a.open-login-button.twitter {
 }
 
 .ra-rq-widget ul li a {
-	display: block;
+    color: inherit;
+    display: block;
 }
 
 .ra-rq-widget ul li .post-content .meta {
@@ -4837,9 +4844,6 @@ a.open-login-button.twitter {
 	margin: 0;
 }
 
-.user-followers .avatar img {
-border-radius: 50%;
-}
 
 .user-header > #user-right-position {
 	display: table-cell;
@@ -4851,7 +4855,7 @@ border-radius: 50%;
 	float: left;
 }
 .user-followers > li > *{
-	margin:5px;
+	margin:4px;
 }
 .user-followers > li.total-followers a {
     background: #F44442;
@@ -4859,7 +4863,6 @@ border-radius: 50%;
     color: #FFFFFF;
     display: block;
     font-size: 11px;
-    height: 59px;
     position: relative;
 }
 
@@ -4871,12 +4874,6 @@ border-radius: 50%;
     line-height: 15px;
     position: absolute;
     top: 30%;
-}
-
-.user-followers > li .avatar {
-	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=80)";
-	filter: alpha(opacity=80);
-	opacity: 0.8;
 }
 
 .user-followers > li:hover .avatar {
@@ -6176,10 +6173,7 @@ div.oembedall-lanyard .first {
     border-bottom: 2px solid #EEEEEE;
     margin-bottom: 25px;
 }
-.widget.qw_user_posts {
-    border: medium none;
-    box-shadow: none;
-}
+
 .widget.qw_user_posts . h3{
 	padding:0;
 }
@@ -6225,17 +6219,7 @@ div.oembedall-lanyard .first {
     padding-left: 20px;
     vertical-align: top;
 }
-#profile-right-position{
-	margin:0 -15px;
-}
-#profile-right-position > .widget{
-    float: left;
-    padding: 15px;
-    width: 50%;
-}
-#profile-right-position > .widget > h3 {
-    padding: 15px 0;
-}
+
 #profile-right-position .question-list {
     margin-top: 10px;
     padding: 0;

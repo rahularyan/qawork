@@ -975,7 +975,8 @@ class qa_html_theme_layer extends qa_html_theme_base {
 					$this->qw_position('Profile Left Bottom');
 				$this->output('</div>');
 				$this->output('<div class="col-md-8">');
-					$this->qw_user_wall_widget($content['message_list'], $handle);
+					if(!!qa_opt('qw_show_wall_on_profile'))
+						$this->qw_user_wall_widget($content['message_list'], $handle);
 					$this->qw_position('Profile Right');
 				$this->output('</div>');				
 			$this->output('</div>');
