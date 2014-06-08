@@ -2003,7 +2003,7 @@ class qa_html_theme_layer extends qa_html_theme_base {
 			
             if (isset($ranking['items']))
                 foreach ($ranking['items'] as $user) {
-					$this->output('<div class="col-sm-' . ceil(12 / $columns) . '">');
+					$this->output('<div class="user-box col-sm-' . ceil(12 / $columns) . '">');
 					
                     if (isset($user['raw']))
                         $handle = $user['raw']['handle'];
@@ -2015,7 +2015,7 @@ class qa_html_theme_layer extends qa_html_theme_base {
                     $avatar = qw_get_avatar($handle, 50, false);
 					
                     $this->output('
-							<div class="user-box">
+
 							<div class="user-box-inner">
 								<div class="cover"'.qw_get_user_cover($profile, true, true).'>
 									<div class="user-avatar">
@@ -2038,7 +2038,7 @@ class qa_html_theme_layer extends qa_html_theme_base {
                     
                     $this->output('</div>');
                     $this->output('</div>');
-                    $this->output('</div>');
+
                 } else
                 $this->output('
 							<div class="no-items">
