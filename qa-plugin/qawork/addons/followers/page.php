@@ -40,7 +40,7 @@ class qw_followers_page {
 		$qa_content['error']="";
 		$qa_content['title']= qa_lang_sub('cleanstrap/user_following_x', $handle);
 		
-		$followers = qa_db_read_all_assoc(qa_db_query_sub('SELECT * FROM ^userfavorites, ^users, ^userpoints  WHERE ^userfavorites.userid = ^users.userid and ^userfavorites.userid = ^userpoints.userid and ^userfavorites.entityid = # and ^userfavorites.entitytype = "U" LIMIT #,#', $userid, $start, $count));
+		$followers = qa_db_read_all_assoc(qa_db_query_sub("SELECT ^userfavorites.*, ^users.*, ^userpoints.*, (SELECT CONCAT('{', GROUP_CONCAT( CONCAT( '\"', ^userprofile.title, '\" : \"', ^userprofile.content, '\"')), '}') FROM ^userprofile WHERE ^userprofile.userid = ^users.userid) as profile FROM ^userfavorites, ^users, ^userpoints, ^userprofile WHERE ^userfavorites.userid = ^users.userid and ^userfavorites.userid = ^userpoints.userid AND ^userfavorites.entityid = # and ^userfavorites.entitytype = 'U' LIMIT #,#", $userid, $start, $count));
 		
 		$qa_content['custom']= $this->followers($followers, $handle, $userid);
 		
@@ -53,27 +53,34 @@ class qw_followers_page {
 	
 	function followers($followers, $handle, $userid){
 		ob_start();
-			
+			var_dump($followers);
 			echo '<div class="page-users-list clearfix ">';
 			foreach($followers as $f){
 				$avatar = qw_get_post_avatar($f, 100, false);
-
-				echo '
-					<div class="user-box">
-					<div class="user-box-inner">	
-						<div class="box-container">
-							<div class="user-avatar">
-								'.$avatar.'
+				$profile = json_decode($f['profile'], true);
+				echo '<div class="user-box">
+						<div class="user-box-inner">
+							<div class="cover"'.qw_get_user_cover($profile, true, true).'>
+								<div class="user-avatar">
+									<a href="' . qa_path_html('user/' . $handle) . '" class="avatar">
+										<img class="avatar" src="' . $avatar . '" />
+									</a>
+								</div>
 							</div>
 							
-							<a class="user-name" href="' . qa_path_html('user/' . $f['handle']) . '">' . $f['handle']. '</a>								
-							<span class="score">' .  qa_lang_sub('cleanstrap/x_points', $f['points']) . ' </span>
-					</div>';
-					if (qa_opt('badge_active') && function_exists('qa_get_badge_list'))
-						echo '<div class="badge-list">' . qw_user_badge($handle) . '</div>';
-					
-				echo '</div>';
-				echo '</div>';
+							<div class="box-container">
+								<a class="user-name" href="' . qa_path_html('user/' . $handle) . '">' . $handle. '</a>
+								<span class="user-level">'.qa_user_level_string($data['account']['level']).'</span>
+								<div class="counts clearfix">
+									<p class="score"><strong>'.$data['points']['points'].'</strong>'. qa_lang('cleanstrap/points') . ' </p>
+									<p class="followers"><strong>'.$data['followers'].'</strong>' .  qa_lang('cleanstrap/followers') . ' </p>
+								</div>
+						</div>';
+                    if (qa_opt('badge_active') && function_exists('qa_get_badge_list'))
+                        echo '<div class="badge-list">' . qw_user_badge($handle) . '</div>';
+                    
+                    echo '</div>';
+                    echo '</div>';
 			
 			}
 			echo '</div>';

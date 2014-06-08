@@ -1,7 +1,12 @@
-a, .widget .ra-ticker-widget .widget-title a, .qa-q-view-tag-list li a:hover, .page-title .fav-btn{
+a, .widget .ra-ticker-widget .widget-title a, .qa-q-view-tag-list li a:hover, .page-title .fav-btn.icon-heart, .user-activities .what-task {
 	color:#21a65f;
 }
-
+.page-title .fav-btn.icon-heart:hover{
+	color:#fff;
+}
+.btn:hover, .qa-form-light-button:hover, .qa-form-tall-button:hover, .qa-form-wide-button:hover, .qa-a-select-button:hover, .qa-a-unselect-button:hover, .post-button .btn:hover{
+	background:#069449;
+}
 a:hover{
 	color:#069449;
 }
@@ -16,7 +21,7 @@ a:hover{
 #site-header #header-top {
     background: linear-gradient(#444444, #3D3D3D) repeat scroll 0 0 #333333;
 }
-.header-position-c,.page-title, .category-nav .category-list-drop li a span, .pagination > li > .qa-page-selected, .pagination > li:hover > a, .btn-success, #ra-widgets .widget-canvas .widget-save, .ra-activity .activity-icon, .ra-tags-widget .widget-tag span, .cs-category-widget-list li a span, #nav-ask-btn, .ra-social-links li a:hover{
+.header-position-c,.page-title, .category-nav .category-list-drop li a span, .pagination > li > .qa-page-selected, .pagination > li:hover > a, .btn-success, #ra-widgets .widget-canvas .widget-save, .ra-activity .activity-icon, .ra-tags-widget .widget-tag span, .cs-category-widget-list li a span, #nav-ask-btn, .ra-social-links li a:hover, .btn-facebook{
     background-color: #21a65f;
 }
 .qa-q-list .qa-q-list-item .qa-q-item-main > .ans-count {
