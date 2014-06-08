@@ -188,15 +188,18 @@
 					$categoryid = isset($params['categoryid']) ? $params['categoryid'] : '' ;
                     $tags = isset($params['tags']) ? $params['tags'] : '' ;
 					$user_datas = $this->qw_get_users_details_notify_email($userid , $tags , $categoryid );
-					foreach ($user_datas as $user_data  ) {
-						$effecteduserid = $user_data['userid'] ;
-						$event = $user_data['event']  ; 
+					if (count($user_datas)) {
+						foreach ($user_datas as $user_data  ) {
+							$effecteduserid = $user_data['userid'] ;
+							$event = $user_data['event']  ; 
 
-						if ( $effecteduserid != $already_notified ) {
-							// $this->AddEvent($postid,$userid, $effecteduserid, $params, $event);
-							qw_do_action('user_event_'.$event, $postid,$userid, $effecteduserid, $params, $event);
+							if ( $effecteduserid != $already_notified ) {
+								// $this->AddEvent($postid,$userid, $effecteduserid, $params, $event);
+								qw_do_action('user_event_'.$event, $postid,$userid, $effecteduserid, $params, $event);
+							}
 						}
 					}
+					
 					break;
 				case 'u_favorite':
 					if ($loggeduserid != $params['userid']){
@@ -235,6 +238,10 @@
 						qw_do_action('user_event_'.$event, $postid,$userid, $effecteduserid, $params, $event);
                     }
 					break;
+				case 'u_register':
+					qw_do_action('qw_event_'.$event, $postid,$userid, null , $params, $event);
+					break ;
+
 				default:
 					$dolog=false;
 			

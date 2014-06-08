@@ -29,6 +29,7 @@ qa_register_plugin_module('page', 'addons/notification/notification-page.php', '
 
 include_once QW_CONTROL_DIR. '/addons/notification/default-email-notify.php';
 include_once QW_CONTROL_DIR. '/addons/notification/email-events.php';
+include_once QW_CONTROL_DIR. '/addons/notification/default-email-notify.php';
 require_once QW_CONTROL_DIR .'/addons/notification/functions.php';
 
 function qw_set_notification_as_read($id){
