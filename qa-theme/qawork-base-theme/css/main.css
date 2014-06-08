@@ -6769,3 +6769,16 @@ div.oembedall-lanyard .first {
 	background:#fff;
 	color:inherit;
 }
+.mobile-menu-toggle {
+    background: none repeat scroll 0 0 #222222;
+    border-radius: 3px;
+    color: #FFFFFF;
+    float: left;
+    font-size: 11px;
+    font-weight: bold;
+    padding: 3px 8px;
+	display:none;
+}
+.mobile-menu-toggle:before{
+	margin-right:5px;
+}
