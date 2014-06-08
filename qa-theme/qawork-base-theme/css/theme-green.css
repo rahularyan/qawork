@@ -1,7 +1,12 @@
-a, .widget .ra-ticker-widget .widget-title a, .qa-q-view-tag-list li a:hover, .page-title .fav-btn{
+a, .widget .ra-ticker-widget .widget-title a, .qa-q-view-tag-list li a:hover, .page-title .fav-btn.icon-heart{
 	color:#21a65f;
 }
-
+.page-title .fav-btn.icon-heart:hover{
+	color:#fff;
+}
+.btn:hover, .qa-form-light-button:hover, .qa-form-tall-button:hover, .qa-form-wide-button:hover, .qa-a-select-button:hover, .qa-a-unselect-button:hover, .post-button .btn:hover{
+	background:#069449;
+}
 a:hover{
 	color:#069449;
 }

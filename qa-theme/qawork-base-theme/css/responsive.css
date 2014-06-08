@@ -259,8 +259,11 @@
 	.login-register span, .total-site-count, .home-top-users {
 		display: none;
 	}
+	
 }
 /* iPads (portrait and landscape) ----------- */
-@media only screen and (min-width : 768px) and (max-width : 1280px) {
-
+@media only screen and (min-width : 768px) and (max-width :1023px) {
+	.navbar-nav.category-nav .dropdown-menu {
+		margin-left: -200px;
+	}
 }
