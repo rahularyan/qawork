@@ -8,7 +8,7 @@
 	Theme License: GPL 2.0
 	Theme Update Check URI: 
 */
-.featured-questions .title, .widget-title, .page-title h1, .answers-label, .user-box-inner .user-name, .total-site-count, .qa-q-item-title > a, .home-intro h1, .home-top-users h2, .ra-post-list-widget.widget-big-post-lists .posts-list .title, .qawork-intro h2, .qawork-intro p, .activity_count .qa-activity-count-item{
+.featured-questions .title, .widget-title, .page-title h1, .answers-label, .user-box-inner .user-name, .total-site-count, .qa-q-item-title > a, .home-intro h1, .home-top-users h2, .ra-post-list-widget.widget-big-post-lists .posts-list .title, .qawork-intro h2, .qawork-intro p, .activity_count .qa-activity-count-item, .ra-rq-widget ul li a{
 	font-family: 'Questrial', sans-serif;
 }
 

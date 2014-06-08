@@ -30,7 +30,7 @@ class qw_theme_widgets {
 			$saved=true;
 		}
 		if (qa_clicked('qw_reset_widgets_button')) {	
-			$handle = fopen(Q_THEME_DIR.'/demo_content/widget_builder.sql', 'r');
+			$handle = fopen(QW_CONTROL_DIR.'/inc/widget_reset.sql', 'r');
 			$sql = '';
 							
 
