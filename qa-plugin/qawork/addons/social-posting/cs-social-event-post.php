@@ -7,17 +7,16 @@ if (!defined('QA_VERSION')) {
 }
 
 // to register the event 
-qw_add_action('a_post',        'qw_social_post_event_handler');
-qw_add_action('c_post',        'qw_social_post_event_handler');
-qw_add_action('q_post_social', 'qw_social_post_event_handler');
+qw_add_action('user_event_a_post',        'qw_social_post_event_handler');
+qw_add_action('user_event_c_post',        'qw_social_post_event_handler');
+qw_add_action('user_event_q_post_social', 'qw_social_post_event_handler');
 
 $isPosted = false ;
 
 function qw_social_post_event_handler($postid,$userid, $effecteduserid, $params, $event)
 {
-    require_once QW_CONTROL_DIR . '/addons/social-posting/cs-social-posting-utils.php';
     global $isPosted ;
-
+    
     if ($isPosted) {
         return ;
     }
@@ -58,6 +57,8 @@ function qw_social_post($post_to , $data )
     if (!is_array($post_to) || empty($post_to)) {
         return false;
     }
+    qw_log("post to ".print_r($post_to , true ));
+    qw_log("data is ".print_r($data , true ));
     if (is_array($post_to)) {
         foreach ($post_to as $provider) {
            switch ($provider) {
@@ -79,7 +80,6 @@ function qw_social_post($post_to , $data )
 function qw_post_to_facebook($data) {
     require_once QW_CONTROL_DIR . '/inc/hybridauth/Hybrid/Auth.php';
     require_once QW_CONTROL_DIR . '/addons/social-login/cs-social-login-utils.php';
-    require_once QW_CONTROL_DIR . '/addons/social-posting/cs-social-posting-utils.php';
 
     try {
         $loginCallback = qa_path_absolute(QW_BASE_URL, array());
@@ -119,8 +119,6 @@ function qw_post_to_facebook($data) {
 
 function qw_post_to_twitter($data) {
     require_once QW_CONTROL_DIR . '/inc/hybridauth/Hybrid/Auth.php';
-    require_once QW_CONTROL_DIR . '/addons/social-login/cs-social-login-utils.php';
-    require_once QW_CONTROL_DIR . '/addons/social-posting/cs-social-posting-utils.php';
     // build the message for twitter with only message and link
     
     $message  = $data['message'] ;

@@ -350,6 +350,7 @@ class qw_social_login_page {
                         } else {
                             if (qa_get('confirm') == 2) {
                                 if (isset($_SESSION['current_provider'])) {
+                                    // unset this session as 
                                     unset($_SESSION['current_provider']) ;
                                 }
                                 return $duplicate;
