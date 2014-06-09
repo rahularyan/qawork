@@ -22,7 +22,7 @@ class qw_social_login_page {
 
     function match_request($request) {
         $parts = explode('/', $request);
-		 return ((count($parts) == 1 && $parts[0] == 'logins'));
+		return ((count($parts) == 1 && $parts[0] == 'logins'));
     }
 
     function process_request($request) {
@@ -269,6 +269,7 @@ class qw_social_login_page {
             $action = 'process';
         } else if (!empty($_GET['link'])) {
             $key = trim(strip_tags($_GET['link']));
+            $_SESSION['current_provider'] = $key ;
             $action = 'login';
         }
 
@@ -321,6 +322,10 @@ class qw_social_login_page {
                             if ($oemail) qw_db_user_login_set($source, $user->identifier, 'oemail', $oemail);
                             qw_db_user_login_set($source, $user->identifier, 'ohandle', $ohandle);
                             qa_db_user_login_sync(false);
+                            // save the session data 
+                            if (isset($_SESSION['current_provider']) && strlen(@$hybridauth->getSessionData())) {
+                                    qw_save_user_hauth_session( qa_get_logged_in_userid() , $_SESSION['current_provider']  , @$hybridauth->getSessionData() );
+                            }
 
                             // now that everything was added, log out to allow for multiple accounts
                             $adapter->logout();
@@ -333,7 +338,10 @@ class qw_social_login_page {
                             if ($oemail) qw_db_user_login_set($source, $user->identifier, 'oemail', $oemail);
                             qw_db_user_login_set($source, $user->identifier, 'ohandle', $ohandle);
                             qa_db_user_login_sync(false);
-
+                            // save the session data 
+                            if (isset($_SESSION['current_provider']) && strlen(@$hybridauth->getSessionData())) {
+                                    qw_save_user_hauth_session( qa_get_logged_in_userid() , $_SESSION['current_provider']  , @$hybridauth->getSessionData() );
+                            }
                             // log out to allow for multiple accounts
                             $adapter->logout();
 
@@ -341,12 +349,12 @@ class qw_social_login_page {
                             qa_redirect('logins');
                         } else {
                             if (qa_get('confirm') == 2) {
-
+                                if (isset($_SESSION['current_provider'])) {
+                                    // unset this session as 
+                                    unset($_SESSION['current_provider']) ;
+                                }
                                 return $duplicate;
                             } else {
-                                if (!!$this->provider && strlen(@$hybridauth->getSessionData())) {
-                                    qw_save_user_hauth_session( qa_get_logged_in_userid() , $this->provider  , @$hybridauth->getSessionData() );
-                                }
                                 qa_redirect('logins', array('link' => qa_get('link'), 'confirm' => 2));
                             }
                         }

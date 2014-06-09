@@ -7,17 +7,15 @@ if (!defined('QA_VERSION')) {
 }
 
 // to register the event 
-qw_add_action('a_post',        'qw_social_post_event_handler');
-qw_add_action('c_post',        'qw_social_post_event_handler');
-qw_add_action('q_post_social', 'qw_social_post_event_handler');
+qw_add_action('user_event_a_post',        'qw_social_post_event_handler');
+qw_add_action('user_event_c_post',        'qw_social_post_event_handler');
+qw_add_action('user_event_q_post_social', 'qw_social_post_event_handler');
 
 $isPosted = false ;
 
 function qw_social_post_event_handler($postid,$userid, $effecteduserid, $params, $event)
 {
-    require_once QW_CONTROL_DIR . '/addons/social-posting/cs-social-posting-utils.php';
     global $isPosted ;
-
     if ($isPosted) {
         return ;
     }
@@ -26,22 +24,23 @@ function qw_social_post_event_handler($postid,$userid, $effecteduserid, $params,
     if (!(qa_opt('qw_enable_fb_posting') || qa_opt('qw_enable_twitter_posting'))){
         return ;
     }
-
-    $id = isset($params['qid']) ? $params['qid'] : (isset($params['postid']) ? $params['postid'] : "") ;
-    $title = isset($params['qtitle']) ? $params['qtitle'] : (isset($params['title']) ? $params['title'] : "") ;
+    
+    $id      = isset($params['qid']) ? $params['qid'] : (isset($params['postid']) ? $params['postid'] : "") ;
+    $title   = isset($params['qtitle']) ? $params['qtitle'] : (isset($params['title']) ? $params['title'] : "") ;
     $message = qw_get_message_using_event($event);
+
     $logo = qa_opt('ra_logo') ;
     if (!$logo) {       //if ra_logo is not set 
         $logo = qa_opt('logo_url') ;
     }
 
-    $all_keys = array('qw_facebook_q_post','qw_facebook_a_post','qw_facebook_c_post','qw_twitter_q_post','qw_twitter_a_post','qw_twitter_c_post',);
+    $all_keys    = array('qw_facebook_q_post','qw_facebook_a_post','qw_facebook_c_post','qw_twitter_q_post','qw_twitter_a_post','qw_twitter_c_post',);
     $preferences = qw_get_social_posting_settings($all_keys , $userid);
 
     $post_to = qw_get_user_social_post_status_for_event( $preferences , $event );
     $data = array(
-            'link' => qa_q_path( $id , $title, true),
-            'name' => qa_opt('site_title'),
+            'link'    => qa_q_path( $id , $title, true),
+            'name'    => qa_opt('site_title'),
             'caption' => $title,
             'message' => $message ,
         );
@@ -78,8 +77,6 @@ function qw_social_post($post_to , $data )
 
 function qw_post_to_facebook($data) {
     require_once QW_CONTROL_DIR . '/inc/hybridauth/Hybrid/Auth.php';
-    require_once QW_CONTROL_DIR . '/addons/social-login/cs-social-login-utils.php';
-    require_once QW_CONTROL_DIR . '/addons/social-posting/cs-social-posting-utils.php';
 
     try {
         $loginCallback = qa_path_absolute(QW_BASE_URL, array());
@@ -101,14 +98,6 @@ function qw_post_to_facebook($data) {
         }
         // get the Facebook adaptor 
         $adapter = $hybridauth->getAdapter("Facebook");
-        /*
-        $data = array(
-            'link' => 'http://amiyasahu.com',
-            'picture' => 'http://demo.rahularyan.com/cleanstrap/qa-theme/cleanstrap/uploads/ba96c02d08acbfc29b7f5a2685f4f31f.png',
-            'name' => 'CleanStrap',
-            'caption' => 'Asking for testing this functionality',
-            'message' => 'Web Application Developer and Designer (Updated from my application )',
-        );*/
         // Now update the Facebook Status 
         $adapter->setUserStatus($data);
     } catch (Exception $e) {
@@ -119,8 +108,6 @@ function qw_post_to_facebook($data) {
 
 function qw_post_to_twitter($data) {
     require_once QW_CONTROL_DIR . '/inc/hybridauth/Hybrid/Auth.php';
-    require_once QW_CONTROL_DIR . '/addons/social-login/cs-social-login-utils.php';
-    require_once QW_CONTROL_DIR . '/addons/social-posting/cs-social-posting-utils.php';
     // build the message for twitter with only message and link
     
     $message  = $data['message'] ;

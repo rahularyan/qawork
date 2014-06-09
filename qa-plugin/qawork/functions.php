@@ -959,22 +959,25 @@ function call_this_method() {
 }
 
 function qw_log($string) {
- // if (qa_opt('event_logger_to_files')) {
-		// Open, lock, write, unlock, close (to prevent interference between multiple writes)
-		$directory = QW_CONTROL_DIR.'/logs/';
+  // if (qa_opt('event_logger_to_files')) {
+            //   Open, lock, write, unlock, close (to prevent interference between multiple writes)
+            $directory = QW_CONTROL_DIR.'/logs/';
 
-		if (substr($directory, -1) != '/') $directory.='/';
+            if (substr($directory, -1) != '/') $directory.='/';
 
-		$log_file_name = $directory . 'cs-log-' . md5(time()) . '.html';
+            $log_file_name = $directory . 'cs-log-' . date('Y\-m\-d') . '.txt';
 
-		$log_file = fopen($log_file_name, 'a+');
-		
-		  if (flock($log_file, LOCK_EX)) {
-				fwrite($log_file, $string . PHP_EOL);
-				flock($log_file, LOCK_UN);
-		  }
-		@fclose($log_file);
-  //}
+            $log_file_exists = file_exists($log_file_name);
+
+            $log_file = @fopen($log_file_name, 'a');
+            if (is_resource($log_file) && (!!$log_file_exists)) {
+                  if (flock($log_file, LOCK_EX)) {
+                        fwrite($log_file, $string . PHP_EOL);
+                        flock($log_file, LOCK_UN);
+                  }
+            }
+            @fclose($log_file);
+      //}
 }
 
 function qw_event_log_row_parser( $row ){
@@ -1048,7 +1051,15 @@ function qw_order_profile_fields($profile){
 	 		unset($profile[$key]);
 	 	}
 	 }
+	 // need to remove those keys which are not in the original key 
+	 $to_be_removed = array();
+	 foreach ($keys as $key) {
+	 	if (!isset($profile[$key]) || empty($profile[$key])) {
+	 		$to_be_removed[] = $key ;
+	 	}
+	 }
 
+	 $keys  = array_diff( $keys, $to_be_removed );
 	 $short = array_flip( $keys );
 	 $short = array_merge($short, $profile);
 
@@ -1145,7 +1156,7 @@ function qw_array_find($needle, $haystack) {
 
 function qa_get_override_file($file){
 	if(file_exists(QW_THEME_DIR.'/'.$file))
-		return QW_THEME_DIR.'/'.$file;
+		return Q_THEME_DIR.'/'.$file;
 	else
 		return QW_CONTROL_DIR.'/'.$file;
 }
