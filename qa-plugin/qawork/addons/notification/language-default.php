@@ -33,15 +33,16 @@ return array(
 	'q_post_body_email'     => "<p class='event-title'><a href='^author_link'>^done_by</a> has posted a new question </p> <a class='item-title' href='^url'> ^q_title </a>",
 
 	'u_favorite_body_email'  => "<p class='event-title'><a href='^author_link'>^done_by</a> is now following you ",
-	'u_message_body_email'   => "<p class='event-title'><a href='^author_link'>^done_by</a> has sent a private message - ^q_content <a href='^url'>Click  here </a> to reply ",
-	'u_wall_post_body_email' => "<p class='event-title'><a href='^author_link'>^done_by</a> has posted on your wall ^q_content <a href='^url'>Click  here </a> to view ",
+	'u_message_body_email'   => "<p class='event-title'><a href='^author_link'>^done_by</a> has sent a private message - ^q_content. <a href='^url'>Click  here ",
+	'u_wall_post_body_email' => "<p class='event-title'><a href='^author_link'>^done_by</a> has posted on your wall - ^q_content. <a href='^url'>Click  here to view </a>",
 	'u_level_body_email'     => "^q_content <a href='^url'>Click  here </a> to see your new profile ",
 	'u_level_approved_body_email'     => "Congratulations . You profile has been approved",
 	'u_level_improved_body_email'     => "Congratulations . ^done_by has selected you as ^new_designation ",
 	'u_level_improved_notf'     => " has selected you as ^new_designation ",
 	'u_level_approved_notf'     => " has approved your profile",
 	'related_body_email'     => "<p class='event-title'><a href='^author_link'>^done_by</a> has posted a related question question </p> <a class='item-title' href='^url'> ^q_title </a>",
-	
+	'u_message_reply_email' => " to reply  </a>  ",
+	'u_message_info' => " to view the profile  </a>   ",
 	//subject headers
 	'a_post_email_header'      => "<h4>New answers on questions : </h4>",
 	'c_post_email_header'      => "<h4>New comments :</h4>",
