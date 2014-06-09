@@ -1161,6 +1161,30 @@ function qa_get_override_file($file){
 		return QW_CONTROL_DIR.'/'.$file;
 }
 
+function qw_get_abs_url($relative_url, $base = QW_BASE_URL ){
+ 	 if(strpos($relative_url,"//")===0) {
+ 	 	return "http:".$relative_url; 
+	 }
+	 /* return if  already absolute URL */
+	 if  (parse_url($relative_url, PHP_URL_SCHEME) != '') return $relative_url;
+	 /* queries and  anchors */
+	 if ($relative_url[0]=='#'  || $relative_url[0]=='?') return $base.$relative_url;
+	 /* parse base URL  and convert to local variables:
+	 $scheme, $host,  $path */
+	 extract(parse_url($base));
+	 /* remove  non-directory element from path */
+	 $path = preg_replace('#/[^/]*$#',  '', $path);
+	 /* destroy path if  relative url points to root */
+	 if ($relative_url[0] ==  '/') $path = '';
+	 /* dirty absolute  URL */
+	 $abs =  "$host$path/$relative_url";
+	 /* replace '//' or  '/./' or '/foo/../' with '/' */
+	 $re =  array('#(/\.?/)#', '#/(?!\.\.)[^/]+/\.\./#');
+	 for($n=1; $n>0;  $abs=preg_replace($re, '/', $abs, -1, $n)) {}
+	 /* absolute URL is  ready! */
+	 return  $scheme.'://'.$abs;
+ }
+
 function qw_check_for_new_version(){
 	$version = file_get_contents("http://localhost/rahularyan/wp-admin/admin-ajax.php?action=product_update&product_id=00d1af1463dad2b9506b3d24baa102ce");
 	

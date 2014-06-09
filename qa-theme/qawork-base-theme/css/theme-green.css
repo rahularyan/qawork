@@ -21,7 +21,7 @@ a:hover{
 #site-header #header-top {
     background: linear-gradient(#444444, #3D3D3D) repeat scroll 0 0 #333333;
 }
-.header-position-c,.page-title, .category-nav .category-list-drop li a span, .pagination > li > .qa-page-selected, .pagination > li:hover > a, .btn-success, #ra-widgets .widget-canvas .widget-save, .ra-activity .activity-icon, .ra-tags-widget .widget-tag span, .cs-category-widget-list li a span, #nav-ask-btn, .ra-social-links li a:hover, .btn-facebook{
+.header-position-c,.page-title, .category-nav .category-list-drop li a span, .pagination > li > .qa-page-selected, .pagination > li:hover > a, .btn-success, #ra-widgets .widget-canvas .widget-save, .ra-activity .activity-icon, .ra-tags-widget .widget-tag span, .cs-category-widget-list li a span, #nav-ask-btn, .ra-social-links li a:hover, .btn-facebook, .qa-form-tall-button-login, .qa-form-tall-button-register{
     background-color: #21a65f;
 }
 .qa-q-list .qa-q-list-item .qa-q-item-main > .ans-count {
