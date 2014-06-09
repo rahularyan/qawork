@@ -1674,10 +1674,12 @@ a.feed-link {
 }
 
 .answer-f-wrap > h3 {
-	font-size: 18px;
-	font-weight: 300;
-	margin-bottom: 18px;
-	margin-top: 0;
+    background: none repeat scroll 0 0 #FAFAFA;
+    font-size: 18px;
+    font-weight: 300;
+    margin-bottom: 18px;
+    margin-top: 0;
+    padding: 9px 15px;
 }
 
 .qa-form-tall-table {
