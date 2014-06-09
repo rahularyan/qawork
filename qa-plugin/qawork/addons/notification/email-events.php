@@ -474,7 +474,7 @@ function qw_send_email($params) {
 function qw_send_email_fake($email_param) {
       qw_log(print_r($email_param['body'], true));
       //fake email should never fail 
-      return true  ;
+      return false  ;
 }
 
 function qw_get_email_template($parms){
