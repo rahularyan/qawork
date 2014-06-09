@@ -423,6 +423,12 @@ class qa_html_theme_layer extends qa_html_theme_base {
     }
     function header()
     {
+		$update_check = qa_opt('qw_update_check');
+		if(qa_get_logged_in_level() >= QA_USER_LEVEL_ADMIN && !$update_check && ($update_check+86430) < time()){
+			$this->output(qw_check_for_new_version());
+			qa_opt('qw_update_check', time());
+		}
+		
 		if (qw_hook_exist(__FUNCTION__)) {$args=func_get_args(); return qw_do_action(__FUNCTION__, $args); }
         $this->qw_position('Top');
         
@@ -2526,6 +2532,23 @@ class qa_html_theme_layer extends qa_html_theme_base {
 				$this->output('</div></div>
 			</div>
 		');
+	}
+	
+	function form_ok($form, $columns)
+	{
+		if (!empty($form['ok']))
+			$this->output(
+				'<tr>',
+				'<td colspan="'.$columns.'" class="qa-form-'.$form['style'].'-ok">',
+				'<div class="alert alert-success">'.$form['ok'].'</div>',
+				'</td>',
+				'</tr>'
+			);
+	}
+	function part_title($part)
+	{
+		if (strlen(@$part['title']) || strlen(@$part['title_tags']))
+			$this->output('<h3 class="form-title" '.rtrim(' '.@$part['title_tags']).'>'.@$part['title'].'</h3>');
 	}
 
 }

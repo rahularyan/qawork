@@ -60,3 +60,73 @@ if (!defined('QA_VERSION')) {
 		
 		return $userid;
 	}
+	function qa_send_new_confirm($userid)
+/*
+	Set a new email confirmation code for the user and send it out
+*/
+	{
+				
+		require_once QA_INCLUDE_DIR.'qa-db-users.php';
+		require_once QA_INCLUDE_DIR.'qa-db-selects.php';
+		require_once QA_INCLUDE_DIR.'qa-app-emails.php';
+
+		$userinfo=qa_db_select_with_pending(qa_db_user_account_selectspec($userid, true));
+		
+		if (!qw_send_notification($userid, $userinfo['email'], $userinfo['handle'], qa_lang('emails/confirm_subject'), qa_lang('emails/confirm_body'), array(
+			'^url' => qa_get_new_confirm_url($userid, $userinfo['handle']),
+		)))
+			qa_fatal_error('Could not send email confirmation');
+	}
+	
+	function qa_start_reset_user($userid)
+/*
+	Start the 'I forgot my password' process for $userid, sending reset code
+*/
+	{
+		
+		
+		require_once QA_INCLUDE_DIR.'qa-db-users.php';
+		require_once QA_INCLUDE_DIR.'qa-app-options.php';
+		require_once QA_INCLUDE_DIR.'qa-app-emails.php';
+		require_once QA_INCLUDE_DIR.'qa-db-selects.php';
+
+		qa_db_user_set($userid, 'emailcode', qa_db_user_rand_emailcode());
+
+		$userinfo=qa_db_select_with_pending(qa_db_user_account_selectspec($userid, true));
+
+		if (!qw_send_notification($userid, $userinfo['email'], $userinfo['handle'], qa_lang('emails/reset_subject'), qa_lang('emails/reset_body'), array(
+			'^code' => $userinfo['emailcode'],
+			'^url' => qa_path_absolute('reset', array('c' => $userinfo['emailcode'], 'e' => $userinfo['email'])),
+		)))
+			qa_fatal_error('Could not send reset password email');
+	}
+	function qa_complete_reset_user($userid)
+/*
+	Successfully finish the 'I forgot my password' process for $userid, sending new password
+*/
+	{
+		if (qa_to_override(__FUNCTION__)) { $args=func_get_args(); return qa_call_override(__FUNCTION__, $args); }
+		
+		require_once QA_INCLUDE_DIR.'qa-util-string.php';
+		require_once QA_INCLUDE_DIR.'qa-app-options.php';
+		require_once QA_INCLUDE_DIR.'qa-app-emails.php';
+		require_once QA_INCLUDE_DIR.'qa-app-cookies.php';
+		require_once QA_INCLUDE_DIR.'qa-db-selects.php';
+	
+		$password=qa_random_alphanum(max(QA_MIN_PASSWORD_LEN, QA_NEW_PASSWORD_LEN));
+		
+		$userinfo=qa_db_select_with_pending(qa_db_user_account_selectspec($userid, true));
+		
+		if (!qw_send_notification($userid, $userinfo['email'], $userinfo['handle'], qa_lang('emails/new_password_subject'), qa_lang('emails/new_password_body'), array(
+			'^password' => $password,
+			'^url' => qa_opt('site_url'),
+		)))
+			qa_fatal_error('Could not send new password - password not reset');
+		
+		qa_db_user_set_password($userid, $password); // do this last, to be safe
+		qa_db_user_set($userid, 'emailcode', ''); // so can't be reused
+
+		qa_report_event('u_reset', $userid, $userinfo['handle'], qa_cookie_get(), array(
+			'email' => $userinfo['email'],
+		));
+	}
