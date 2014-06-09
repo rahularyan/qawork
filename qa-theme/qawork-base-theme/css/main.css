@@ -3997,8 +3997,6 @@ a.open-login-button.twitter {
 .ra-post-list-widget .posts-list .title {
     color: inherit;
     display: block;
-    font-size: 12px;
-    font-weight: bold;
 }
 .ra-post-list-widget .posts-list .meta {
     color: #9D9D9D;
@@ -6769,4 +6767,13 @@ div.oembedall-lanyard .first {
 }
 .category-nav {
     position: relative;
+}
+.qa-part-form {
+    margin-bottom: 20px;
+}
+.form-title {
+    border-bottom: 1px solid #EEEEEE;
+    font-size: 17px;
+    margin-top: 0;
+    padding: 14px 0;
 }

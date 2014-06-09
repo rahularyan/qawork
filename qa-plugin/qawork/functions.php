@@ -1160,3 +1160,10 @@ function qa_get_override_file($file){
 	else
 		return QW_CONTROL_DIR.'/'.$file;
 }
+
+function qw_check_for_new_version(){
+	$version = file_get_contents("http://localhost/rahularyan/wp-admin/admin-ajax.php?action=product_update&product_id=00d1af1463dad2b9506b3d24baa102ce");
+	
+	if($version != QW_VERSION)
+		return '<div class="alert alert-info">A new version ('.$version.') is available, please go to your account and download it</div>';
+}
