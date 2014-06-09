@@ -116,7 +116,7 @@ function qw_prepare_email_body($email_queue_data, $email) {
                   if ($queue_data['email'] === $email) {
                         $event = $queue_data['event'];
                         $body_subs = json_decode($queue_data['body']) ;
-                        $body_subs['^author_link'] = qa_path_absolute('user/'.$queue_data['handle']),
+                        $body_subs['^author_link'] = qa_path_absolute('user/'.$queue_data['handle']);
             
                         $body = strtr(qw_get_email_body($event) , $body_subs );
                         if (!!$body) {

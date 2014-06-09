@@ -1183,7 +1183,7 @@ function qw_get_abs_url($relative_url, $base = QW_BASE_URL ){
 	 for($n=1; $n>0;  $abs=preg_replace($re, '/', $abs, -1, $n)) {}
 	 /* absolute URL is  ready! */
 	 return  $scheme.'://'.$abs;
- }}
+ }
 
 function qw_check_for_new_version(){
 	$version = file_get_contents("http://localhost/rahularyan/wp-admin/admin-ajax.php?action=product_update&product_id=00d1af1463dad2b9506b3d24baa102ce");
