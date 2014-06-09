@@ -121,8 +121,17 @@ function qw_prepare_email_body($email_queue_data, $email) {
                         $body = strtr(qw_get_email_body($event) , $body_subs );
                         
                         if (!!$body) {
-                              $email_body_arr[$event]['body'] = (isset($email_body_arr[$event]['body']) && !empty($email_body_arr[$event]['body']) ) ? $email_body_arr[$event]['body'] . "" : "";
+                              $header = "" ;
+                              if (!isset($email_body_arr[$event]['body']) || empty($email_body_arr[$event]['body'])){
+                                    // Now attach the headers 
+                                    $header  ='<div class="content event-item"><table><tr>'; 
+                                    $header .='<td style="vertical-align: top;">';
+                                    $header .= qw_get_email_headers($event);
+                                    $header .='</td>';
+                                    $header .='</tr></table></div>';
+                              }
                               
+                              $email_body_arr[$event]['body'] = (isset($email_body_arr[$event]['body']) && !empty($email_body_arr[$event]['body']) ) ? $email_body_arr[$event]['body'] . "" : $header ;
                               $event_body  ='<div class="content event-item"><table><tr>'; 
                               $event_body .='<td class="small" width="60px" style="vertical-align: top; padding-right:10px;">'.qw_get_avatar($body_subs['^done_by'], 40).'</td>';
                               $event_body .='<td style="vertical-align: top;">';
@@ -134,31 +143,12 @@ function qw_prepare_email_body($email_queue_data, $email) {
                   } //outer if 
             } //foreach
 		
-            // qw_log(print_r($email_body_arr , true )) ;
-	
             foreach ($email_body_arr as $event => $email_body_for_event) {
-                        if (!!$email_body_for_event['body']) {
-                              if (empty($summerized_email_body[$event])){
-                                    // Now attach the headers 
-                                    $header  ='<div class="content event-item"><table><tr>'; 
-                                    $header .='<td class="small" width="60px" style="vertical-align: top; padding-right:10px;">'.qw_get_avatar($body_subs['^done_by'], 40).'</td>';
-                                    $header .='<td style="vertical-align: top;">';
-                                    $header .= qw_get_email_headers($event);
-                                    $header .='</td>';
-                                    $header .='</tr></table></div>';
-                                    $summerized_email_body[$event] = $header ;
-                              }
-                              $summerized_email_body[$event] .='<td style="vertical-align: top;">';
-                              $summerized_email_body[$event] .='<div class="content event-item"><table bgcolor=""><tr>' ;
+                        if (isset($email_body_for_event['body']) && !empty($email_body_for_event['body'])) {
                               $summerized_email_body[$event] .= $email_body_for_event['body'] ;
-                              $summerized_email_body[$event] .='</td>';
-                              $summerized_email_body[$event] .='</tr></table></div>';
                         }
-                       
             }//foreach 
 			
-			// qw_log(print_r($summerized_email_body, true));
-
             foreach ($summerized_email_body as $event => $email_body_chunk) {
                   if (!!$email_body_chunk) {
                         $email_body .= $email_body_chunk;						

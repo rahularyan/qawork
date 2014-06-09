@@ -7,7 +7,7 @@ if (!defined('QA_VERSION')) {
 return array(
 	//adding email notification messages 
 	'greeting'                   => "Dear ^user_name ,  ",
-	'thank_you_message'          => "Thank you,^site_title" ,
+	'thank_you_message'          => "Thank you ,<br/>^site_title" ,
 	'notification_email_subject' => "Updates from ^site_title" ,
 	//databse snippets to be saved for async email 
 	'a_post_body_email'      => "<p class='event-title'><a href='^author_link'>^done_by</a> has answered your question </p> <a class='item-title' href='^url'> ^q_title </a>",
