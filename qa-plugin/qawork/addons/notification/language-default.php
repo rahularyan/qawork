@@ -43,6 +43,7 @@ return array(
 	'related_body_email'     => "<p class='event-title'><a href='^author_link'>^done_by</a> has posted a related question question </p> <a class='item-title' href='^url'> ^q_title </a>",
 	'u_message_reply_email' => " to reply  </a>  ",
 	'u_message_info' => " to view the profile  </a>   ",
+
 	//subject headers
 	'a_post_email_header'      => "<h4>New answers on questions : </h4>",
 	'c_post_email_header'      => "<h4>New comments :</h4>",
@@ -64,8 +65,8 @@ return array(
 	'c_reject_email_header'    => "<h4>Comments Rejected :</h4>",
 	'q_favorite_email_header'  => "<h4>Questions marked as favorite  :</h4>",
 	'q_post_email_header'      => "<h4>New Question Posted :</h4>",
-	'u_favorite_email_header'  => "<h4>You have new followers :</h4>",
-	'u_message_email_header'   => "<h4>You have new Messages :</h4>",
+	'u_favorite_email_header'  => "<h4>You have got some new followers :</h4>",
+	'u_message_email_header'   => "<h4>You have some new Messages :</h4>",
 	'u_wall_post_email_header' => "<h4>You have new stuffs on your wall :</h4>",
 	'u_level_email_header'     => "<h4>Level Improvements :</h4>",
 	'related_email_header'     => "<h4>Related Questions :</h4>",
