@@ -590,3 +590,229 @@ function qw_activitylist($limit)
             }
       
 }
+
+
+function qw_get_email_headers($event = "") {
+      if (!!$event) {
+            switch ($event) {
+              case 'a_post':
+                        $value = qa_lang("notification/a_post_email_header");
+                        break;
+              case 'c_post':
+                        $value = qa_lang("notification/c_post_email_header");
+                        break;
+              case 'q_reshow':
+                        $value = qa_lang("notification/q_reshow_email_header");
+                        break;
+              case 'a_reshow':
+                        $value = qa_lang("notification/a_reshow_email_header");
+                        break;
+              case 'c_reshow':
+                        $value = qa_lang("notification/c_reshow_email_header");
+                        break;
+              case 'a_select':
+                        $value = qa_lang("notification/a_select_email_header");
+                        break;
+              case 'q_vote_up':
+                        $value = qa_lang("notification/q_vote_up_email_header");
+                        break;
+              case 'a_vote_up':
+                        $value = qa_lang("notification/a_vote_up_email_header");
+                        break;
+              case 'q_vote_down':
+                        $value = qa_lang("notification/q_vote_down_email_header");
+                        break;
+              case 'a_vote_down':
+                        $value = qa_lang("notification/a_vote_down_email_header");
+                        break;
+              case 'q_vote_nil':
+                        $value = qa_lang("notification/q_vote_nil_email_header");
+                        break;
+              case 'a_vote_nil':
+                        $value = qa_lang("notification/a_vote_nil_email_header");
+                        break;
+              case 'q_approve':
+                        $value = qa_lang("notification/q_approve_email_header");
+                        break;
+              case 'a_approve':
+                        $value = qa_lang("notification/a_approve_email_header");
+                        break;
+              case 'c_approve':
+                        $value = qa_lang("notification/c_approve_email_header");
+                        break;
+              case 'q_reject':
+                        $value = qa_lang("notification/q_reject_email_header");
+                        break;
+              case 'a_reject':
+                        $value = qa_lang("notification/a_reject_email_header");
+                        break;
+              case 'c_reject':
+                        $value = qa_lang("notification/c_reject_email_header");
+                        break;
+              case 'q_favorite':
+                        $value = qa_lang("notification/q_favorite_email_header");
+                        break;
+              case 'q_post':
+                        $value = qa_lang("notification/q_post_email_header");
+                        break;
+              case 'q_post_user_fl':
+                        $value = qa_lang("notification/q_post_user_fl_email_header");
+                        break;
+              case 'q_post_cat_fl':
+                        $value = qa_lang("notification/q_post_cat_fl_email_header");
+                        break;
+              case 'q_post_tag_fl':
+                        $value = qa_lang("notification/q_post_tag_fl_email_header");
+                        break;
+
+              case 'u_favorite':
+                        $value = qa_lang("notification/u_favorite_email_header");
+                        break;
+              case 'u_message':
+                        $value = qa_lang("notification/u_message_email_header");
+                        break;
+              case 'u_wall_post':
+                        $value = qa_lang("notification/u_wall_post_email_header");
+                        break;
+              case 'u_level':
+                        $value = qa_lang("notification/u_level_email_header");
+                        break;
+              case 'related':
+                        $value = qa_lang("notification/related_email_header");
+                        break;
+              default:
+                        break;
+            }
+            return $value;
+      }
+}
+
+function qw_get_email_body($event = "") {
+      if (!!$event) {
+            switch ($event) {
+              case 'a_post':
+                        $value = qa_lang("notification/a_post_body_email");
+                        break;
+              case 'c_post':
+                        $value = qa_lang("notification/c_post_body_email");
+                        break;
+              case 'q_reshow':
+                        $value = qa_lang("notification/q_reshow_body_email");
+                        break;
+              case 'a_reshow':
+                        $value = qa_lang("notification/a_reshow_body_email");
+                        break;
+              case 'c_reshow':
+                        $value = qa_lang("notification/c_reshow_body_email");
+                        break;
+              case 'a_select':
+                        $value = qa_lang("notification/a_select_body_email");
+                        break;
+              case 'q_vote_up':
+                        $value = qa_lang("notification/q_vote_up_body_email");
+                        break;
+              case 'a_vote_up':
+                        $value = qa_lang("notification/a_vote_up_body_email");
+                        break;
+              case 'q_vote_down':
+                        $value = qa_lang("notification/q_vote_down_body_email");
+                        break;
+              case 'a_vote_down':
+                        $value = qa_lang("notification/a_vote_down_body_email");
+                        break;
+              case 'q_vote_nil':
+                        $value = qa_lang("notification/q_vote_nil_body_email");
+                        break;
+              case 'a_vote_nil':
+                        $value = qa_lang("notification/a_vote_nil_body_email");
+                        break;
+              case 'q_approve':
+                        $value = qa_lang("notification/q_approve_body_email");
+                        break;
+              case 'a_approve':
+                        $value = qa_lang("notification/a_approve_body_email");
+                        break;
+              case 'c_approve':
+                        $value = qa_lang("notification/c_approve_body_email");
+                        break;
+              case 'q_reject':
+                        $value = qa_lang("notification/q_reject_body_email");
+                        break;
+              case 'a_reject':
+                        $value = qa_lang("notification/a_reject_body_email");
+                        break;
+              case 'c_reject':
+                        $value = qa_lang("notification/c_reject_body_email");
+                        break;
+              case 'q_favorite':
+                        $value = qa_lang("notification/q_favorite_body_email");
+                        break;
+              case 'q_post':
+              case 'q_post_user_fl':
+              case 'q_post_tag_fl':
+              case 'q_post_cat_fl':
+                        $value = qa_lang("notification/q_post_body_email");
+                        break;
+              case 'u_favorite':
+                        $value = qa_lang("notification/u_favorite_body_email");
+                        break;
+              case 'u_message':
+                        $body = qa_lang("notification/u_message_body_email");
+                        $canreply = !(qa_get_logged_in_flags() & QA_USER_FLAGS_NO_MESSAGES);
+                        $more = qa_lang($canreply ? 'notification/u_message_reply_email' : 'notification/u_message_info');
+                        return $body . $more;
+                        break;
+              case 'u_wall_post':
+                        $value = qa_lang("notification/u_wall_post_body_email");
+                        break;
+              case 'u_level':
+                        $value = qa_lang("notification/u_level_body_email");
+                        break;
+              case 'related':
+                        $value = qa_lang("notification/related_body_email");
+                        break;
+              default:
+                        break;
+            }
+            return $value;
+      }
+}
+
+
+function qw_get_user_desg($level) {
+      switch ($level) {
+            case QA_USER_LEVEL_BASIC :
+                  $value = qa_lang("notification/basic_desg");
+                  break;
+            case QA_USER_LEVEL_APPROVED :
+                  $value = qa_lang("notification/approved_desg");
+                  break;
+            case QA_USER_LEVEL_EXPERT :
+                  $value = qa_lang("notification/expert_desg");
+                  break;
+            case QA_USER_LEVEL_EDITOR :
+                  $value = qa_lang("notification/editor_desg");
+                  break;
+            case QA_USER_LEVEL_MODERATOR :
+                  $value = qa_lang("notification/moderator_desg");
+                  break;
+            case QA_USER_LEVEL_ADMIN :
+                  $value = qa_lang("notification/admin_desg");
+                  break;
+            case QA_USER_LEVEL_SUPER :
+                  $value = qa_lang("notification/super_admin_desg");
+                  break;
+            default:
+                  break;
+      }
+      return $value;
+}
+
+function qw_shrink_email_body($email_body, $max_body_length = 50) {
+      if (!!$email_body) {
+            $email_body = substr($email_body, 0, $max_body_length);
+            $email_body .= "....";
+      }
+      return $email_body;
+}
+
