@@ -200,12 +200,11 @@ function qw_get_name_from_userid($userid) {
 }
 
 function qw_get_user_details_from_userid($userid) {
-
       return qa_db_read_one_assoc(qa_db_query_sub("SELECT ^users.email AS email , ^users.handle AS handle from ^users WHERE ^users.userid = #", $userid), true);
 }
 
 function qw_update_email_queue_status($queue_ids) {
-      return qa_db_query_sub("UPDATE ^ra_email_queue SET status = '1' WHERE ^ra_email_queue.id IN (#)", $queue_ids);
+      return qa_db_query_sub("UPDATE ^ra_email_queue SET status = '1', sent_on = CURRENT_TIMESTAMP() WHERE ^ra_email_queue.id IN (#)", $queue_ids);
 }
       
 function qw_notify_users_by_email($event, $postid, $userid, $effecteduserid, $params) {
@@ -468,7 +467,7 @@ function qw_send_email($params) {
 function qw_send_email_fake($email_param) {
       qw_log(print_r($email_param['body'], true));
       //fake email should never fail 
-      return false  ;
+      return true  ;
 }
 
 function qw_get_email_template($parms){
