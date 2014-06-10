@@ -20,7 +20,7 @@ global $qa_modules;
 unset($qa_modules['event']['Q2A Event Notify']);
 
 //if this is set to true , the email will be written to the log file 
-define('QW_SEND_EMAIL_DEBUG_MODE', false );
+define('QW_SEND_EMAIL_DEBUG_MODE', FALSE );
 
 qa_register_plugin_overrides('addons/notification/overrides.php');
 $qw_notification_addon = new Qw_Notification_Addon;
@@ -99,7 +99,7 @@ class Qw_Notification_Addon{
 				  created_by varchar(250) NOT NULL,
 				  created_ts timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
 				  status tinyint(1) DEFAULT "0",
-				  sent_on timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+				  sent_on timestamp NULL DEFAULT NULL,
 				  PRIMARY KEY (id)
 				) ENGINE=MyISAM DEFAULT CHARSET=utf8 ;
 			';			
