@@ -2,6 +2,7 @@
 	class qw_init {
 		
 		function init_queries($tableslc) {
+			qw_check_for_new_version(false);
 			include_once QA_INCLUDE_DIR.'qa-app-users.php';
 			if(qa_get_logged_in_level() >= QA_USER_LEVEL_ADMIN){
 				$queries = array();
