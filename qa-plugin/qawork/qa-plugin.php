@@ -22,7 +22,7 @@ if (!defined('QA_VERSION')) { // don't allow this page to be requested directly 
 
 define('QW_CONTROL_DIR', dirname( __FILE__ ));
 define('QW_CONTROL_ADDON_DIR', QW_CONTROL_DIR.'/addons');
-define('QW_VERSION', 1);
+define('QW_VERSION', '1.0');
 
 require_once QW_CONTROL_DIR. '/functions.php';
 
