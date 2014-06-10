@@ -425,7 +425,7 @@ class qa_html_theme_layer extends qa_html_theme_base {
     {
 		$update_check = qa_opt('qw_update_check');
 		if(qa_get_logged_in_level() >= QA_USER_LEVEL_ADMIN && !$update_check && ($update_check+86430) < time()){
-			$this->output(qw_check_for_new_version(), true);
+			$this->output(qw_check_for_new_version(true));
 			qa_opt('qw_update_check', time());
 		}
 		
