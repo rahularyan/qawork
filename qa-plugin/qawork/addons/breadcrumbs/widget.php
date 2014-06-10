@@ -114,7 +114,7 @@ class qw_breadcrumbs_widget {
                   }else { //if question is asked with out any categories list all the tags
                               $br .=$this->breadcrumb_part(array(
                                   'type' => 'questions',
-                                  'url' => qa_html_path('questions'),
+                                  'url' => qa_path_html('questions'),
                                   'text' => qa_lang('qw_breadcrumbs/questions'),
                               ));
                   }
