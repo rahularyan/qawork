@@ -923,7 +923,9 @@ class qa_html_theme_layer extends qa_html_theme_base {
 				$this->output('<form class="user-buttons" '.$form['tags'].'><div class="btn-group">');
 				foreach($form['buttons'] as $k => $btn)
 					$this->output('<button class="btn '.$k .($k == 'delete' ? ' btn-danger' : '' ).'" ' . $btn['tags'] . ' type="submit">' . $btn['label'] . '</button>');
-				$this->output('</div></form>');
+				$this->output('</div>');
+				$this->output('<input type="hidden" name="code" value="'.@$form['hidden']['code'].'" />');
+				$this->output('</form>');
 			}
         }
 		if(qa_get_logged_in_handle() == $handle)
@@ -990,7 +992,7 @@ class qa_html_theme_layer extends qa_html_theme_base {
 			$this->main_parts($content);
 		}
 		$this->output('</div>');
-		
+
     }
 	function qw_user_about($user, $profile){
 		
