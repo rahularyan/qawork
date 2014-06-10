@@ -145,7 +145,11 @@ function qw_prepare_email_body($email_queue_data, $email) {
 		
             foreach ($email_body_arr as $event => $email_body_for_event) {
                         if (isset($email_body_for_event['body']) && !empty($email_body_for_event['body'])) {
-                              $summerized_email_body[$event] .= $email_body_for_event['body'] ;
+                              if (!isset($summerized_email_body[$event]) || empty($summerized_email_body[$event])) {
+                                    $summerized_email_body[$event] = $email_body_for_event['body'] ;
+                              }else {
+                                    $summerized_email_body[$event] .= $email_body_for_event['body'] ;
+                              }
                         }
             }//foreach 
 			
@@ -203,7 +207,7 @@ function qw_get_user_details_from_userid($userid) {
 function qw_update_email_queue_status($queue_ids) {
       return qa_db_query_sub("UPDATE ^ra_email_queue SET status = '1', sent_on = CURRENT_TIME() WHERE ^ra_email_queue.id IN (#)", $queue_ids);
 }
-
+      
 function qw_notify_users_by_email($event, $postid, $userid, $effecteduserid, $params) {
       if (!!$effecteduserid) {
             //get the working user data  
