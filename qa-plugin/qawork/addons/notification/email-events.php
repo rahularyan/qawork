@@ -205,7 +205,7 @@ function qw_get_user_details_from_userid($userid) {
 }
 
 function qw_update_email_queue_status($queue_ids) {
-      return qa_db_query_sub("UPDATE ^ra_email_queue SET status = '1', sent_on = CURRENT_TIME() WHERE ^ra_email_queue.id IN (#)", $queue_ids);
+      return qa_db_query_sub("UPDATE ^ra_email_queue SET status = '1' WHERE ^ra_email_queue.id IN (#)", $queue_ids);
 }
       
 function qw_notify_users_by_email($event, $postid, $userid, $effecteduserid, $params) {
@@ -501,9 +501,9 @@ function qa_get_email_template_head($parms, $subs){
 
 			<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 			<title><?php echo $parms['subject']; ?></title>
-			<style><?php include qa_get_override_file('/css/email.css'); ?></style>
+			
 			</head>
-			<body bgcolor="#f6f6f6">
+			<body bgcolor="#f6f6f6" style="background:#ddd;">
 			
 			<?php 
 				$email_head = qa_opt('qw_email_head');
@@ -547,7 +547,7 @@ function qa_get_email_template_body($parms, $subs){
             ?>
 
 			<!-- body -->
-			<table class="body-wrap">
+			<table class="body-wrap" style="background:#fff; border:solid 1px #ddd; max-width: 600px; width: 600px; margin: 0 auto;">
 				<tr>
 					<td></td>
 					<td class="container" bgcolor="#FFFFFF">
@@ -582,7 +582,7 @@ function qa_get_email_template_footer($parms, $subs){
             }else{  /*print the default template */
             ?>
 			<!-- footer -->
-			<table class="footer-wrap">
+			<table class="footer-wrap" style="background:#fff; border:solid 1px #ddd; max-width: 600px; width: 600px; margin: 0 auto;">
 				<tr>
 					<td></td>
 					<td class="container">

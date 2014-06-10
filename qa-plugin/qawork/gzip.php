@@ -25,9 +25,9 @@
 		$hooked_css 	= qw_get_all_styles('gzip');
 		
 		if (isset($hooked_css))
-		foreach ($hooked_css as $css_src){
+		foreach ($hooked_css as $k => $css_src){
 			$base = preg_replace('/\?.*/', '', substr(strrchr($css_src, '.'), 1));
-			if(qw_is_internal_link($css_src) && $base == 'css' && filter_var($css_src, FILTER_VALIDATE_URL) !== FALSE){
+			if(qw_is_internal_link($css_src) && $base == 'css' && filter_var($css_src, FILTER_VALIDATE_URL) !== FALSE && (strpos($k,'exclude') === false)){
 				$path =parse_url($css_src, PHP_URL_PATH);
 				if(file_exists($_SERVER['DOCUMENT_ROOT'].$path))
 					echo $qw_minify->qw_compress_css(file_get_contents($_SERVER['DOCUMENT_ROOT'].$path), $css_src);
@@ -46,9 +46,9 @@
 		$hooked_script 	= qw_get_all_scripts('gzip');
 
 		if (isset($hooked_script))
-		foreach ($hooked_script as $src){
+		foreach ($hooked_script as $k => $src){
 			$base = preg_replace('/\?.*/', '', substr(strrchr($src, '.'), 1));
-			if(qw_is_internal_link($src) && $base == 'js' && filter_var($src, FILTER_VALIDATE_URL) !== FALSE){
+			if(qw_is_internal_link($src) && $base == 'js' && filter_var($src, FILTER_VALIDATE_URL) !== FALSE && (strpos($k,'exclude') === false)){
 				$path =parse_url($src, PHP_URL_PATH);
 				if(file_exists($_SERVER['DOCUMENT_ROOT'].$path))
 					echo $qw_minify->qw_compress_js($_SERVER['DOCUMENT_ROOT'].$path);
