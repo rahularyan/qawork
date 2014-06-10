@@ -110,7 +110,7 @@
 				$posts = qa_db_read_all_assoc(qa_db_query_sub('SELECT * FROM ^postmetas, ^posts WHERE ^posts.type=$ and ( ^postmetas.postid = ^posts.postid and ^postmetas.title = "featured_question" ) ORDER BY ^posts.created DESC LIMIT #', $type, $limit));
 				global $wpdb;
 			}else
-				$posts = qa_db_read_all_assoc(qa_db_query_sub('SELECT ^posts.*, ^users.*, ^ra_media.id as media_id, ^ra_media.type as media_type, ^ra_media.name as media_name, ^ra_media.title as media_title, ^ra_media.description as media_description FROM ^posts LEFT JOIN ^users ON  ^posts.userid=^users.userid LEFT JOIN ^ra_media ON ^ra_media.parent_post = ^posts.postid WHERE ^posts.type=$ ORDER BY ^posts.created DESC LIMIT #', $type, $limit));
+				$posts = qa_db_read_all_assoc(qa_db_query_sub('SELECT ^posts.*, ^users.*, ^ra_media.id as media_id, ^ra_media.type as media_type, ^ra_media.name as media_name, ^ra_media.title as media_title, ^ra_media.description as media_description FROM ^posts RIGHT JOIN ^postmetas ON ^postmetas.postid = ^posts.postid LEFT JOIN ^users ON  ^posts.userid=^users.userid LEFT JOIN ^ra_media ON ^ra_media.parent_post = ^posts.postid WHERE ^posts.type=$ and ^postmetas.title = "featured_question" GROUP BY ^posts.postid ORDER BY ^posts.created DESC LIMIT #', $type, $limit));
 	
 			$output ='';
 			foreach($posts as $p){
