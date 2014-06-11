@@ -79,7 +79,7 @@
 				$themeobject->output('<h3 class="widget-title">'.$widget_opt['title'].'</h3>');
 				
 			$themeobject->output('<div class="ra-text-widget clearfix">');
-			$themeobject->output(@utf8_decode(urldecode($widget_opt['qw_t_text'])));
+			$themeobject->output($widget_opt['qw_t_text']);
 			$themeobject->output('</div>');
 		}
 	
