@@ -278,6 +278,7 @@ class qa_html_theme_layer extends qa_html_theme_base {
             foreach ($advs as $k => $adv) {
                 $advertisments[@$adv['adv_location']][] = $adv;
             }
+
             $i = 0;
             foreach ($q_items as $q_item) {
                 $this->q_list_item($q_item);
@@ -285,7 +286,7 @@ class qa_html_theme_layer extends qa_html_theme_base {
                     foreach ($advertisments[$i] as $k => $adv) {
                         $this->output('<div class="cs-advertisement">');
                         if (isset($adv['adv_adsense']))
-                            $this->output($adv['adv_adsense']);
+                            $this->output(str_replace('\\', '', $adv['adv_adsense']));
                         else {
                             if (isset($adv['adv_image']))
                                 $this->output('<a href="' . $adv['adv_image_link'] . '"><img src="' . $adv['adv_image'] . '" title="' . $adv['adv_image_title'] . '" alt="advert" /></a>');
@@ -1550,7 +1551,9 @@ class qa_html_theme_layer extends qa_html_theme_base {
     function q_view_main($q_view)
     {
 		if (qw_hook_exist(__FUNCTION__)) {$args=func_get_args(); return qw_do_action(__FUNCTION__, $args); }
-
+		
+		$this->output(base64_decode(qa_opt('qw_ads_below_question_title')));
+		
         $this->output('<div class="q-view-body">');
 		
 		$this->output('<div class="big-s-avatar avatar">');
@@ -1558,8 +1561,7 @@ class qa_html_theme_layer extends qa_html_theme_base {
 			$this->voting($q_view);
 		$this->output('</div>');
 		
-        $this->output('<div class="no-overflow">');
-            $this->output(base64_decode(qa_opt('qw_ads_below_question_title')));
+        $this->output('<div class="no-overflow">');            
             
             $this->output('<div class="qa-q-view-main">');
             
@@ -1602,13 +1604,15 @@ class qa_html_theme_layer extends qa_html_theme_base {
             $this->output('</div>');
 			
             $this->c_form(@$q_view['c_form']);
-            $this->output(base64_decode(qa_opt('qw_ads_after_question_content')));
+            
             $this->output('</div>');			
             $this->output('</div>');
             $this->output('</div>');
 			
 			$this->q_view_follows($q_view);
             $this->q_view_closed($q_view);
+			
+			$this->output(base64_decode(qa_opt('qw_ads_after_question_content')));
    
     }
 	function q_view_follows($q_view)

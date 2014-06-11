@@ -643,7 +643,7 @@ class qw_theme_options {
 				<span class="description">Google Adsense Code</span>
 			</th>
 			<td class="qa-form-tall-data">
-				<input class="form-control" id="adv_adsense_' . $i . '" name="adv_adsense_' . $i . '" type="text" value="' . $adv['adv_adsense'] . '">
+				<textarea class="form-control" id="adv_adsense_' . $i . '" name="adv_adsense_' . $i . '" rows="10">' . $adv['adv_adsense'] . '</textarea>
 				<span class="description">Display After this number of questions</span>
 				' . $adv_location . '
 				<button advid="' . $i . '" id="advremove" name="advremove" class="qa-form-tall-button advremove pull-right btn" type="submit">Remove This Advertisement</button></td>
@@ -666,10 +666,10 @@ class qw_theme_options {
 				<input type="hidden" value="' . @$adv['social_icon_file'] . '" id="social_image_url_' . $i . '" name="social_image_url_' . $i . '">
 				
 				<span class="description">Image Title</span>
-				<input class="form-control" type="text" id="adv_image_title_' . $i . '" name="adv_image_title_' . $i . '" value="' . @$adv['adv_image_title'] . '">
+				<textarea class="form-control" type="text" id="adv_image_title_' . $i . '" name="adv_image_title_' . $i . '" value="' . @$adv['adv_image_title'] . '">
 				<span class="description">Target link</span>
 				
-				<input class="form-control" id="adv_image_link_' . $i . '" name="adv_image_link_' . $i . '" type="text" value="' . @$adv['adv_image_link'] . '">
+				<textarea class="form-control" id="adv_image_link_' . $i . '" name="adv_image_link_' . $i . '" >' . @$adv['adv_image_link'] . '</textarea>
 				<span class="description">Display After this number of questions</span>
 				
 				' . $adv_location . '
@@ -708,7 +708,7 @@ class qw_theme_options {
 						<span class="description">Create advertisement with static or Google Adsense</span>
 					</th>
 					<td class="qa-form-tall-label text-center">
-						<button type="submit" id="add_adv" name="add_adv" class="qa-form-tall-button btn">Add Advertisement</button>
+						
 						<button type="submit" id="add_adsense" name="add_adsense" class="qa-form-tall-button btn">Add Google Adsense</button>
 					</td>
 				</tr>
