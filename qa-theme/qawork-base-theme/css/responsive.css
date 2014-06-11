@@ -177,6 +177,7 @@
 		border-radius: 2px;
 		display: block;
 		font-size: 15px;
+		margin-left: 10px;
 		padding: 0 5px;
 	}
 	.navbar-nav.category-nav .dropdown-menu {

@@ -6,7 +6,8 @@ function get_base_url()
 	/* First we need to get the protocol the website is using */
 	$protocol = strtolower(substr($_SERVER["SERVER_PROTOCOL"], 0, 5)) == 'https' ? 'https://' : 'http://';
 
-	$root = str_replace(array('/', '\\'), DIRECTORY_SEPARATOR,$_SERVER['DOCUMENT_ROOT']);
+	$root = str_replace(array('/', '\\'), DIRECTORY_SEPARATOR, $_SERVER['DOCUMENT_ROOT']);
+	if(substr($root, -1) == '/')$root = substr($root, 0, -1);
 	$base = str_replace(array('/', '\\'), DIRECTORY_SEPARATOR, rtrim(QA_BASE_DIR, '/'));
 
 		

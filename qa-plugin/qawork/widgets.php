@@ -97,7 +97,9 @@ class qw_theme_widgets {
 						?>
 					</div>
 					<div class="widget-option">
+						<form method="post">
 						<?php $this->get_widget_form($k); ?>
+						</form>
 					</div>
 				</div>
 				<?php
@@ -151,13 +153,16 @@ class qw_theme_widgets {
 												?>
 											</div>
 											<div class="widget-option">
+												<form method="post">
 												<?php 
 													if ( isset($w['param']['options']['qw_t_text']) ){
 														$w['type']='textarea';
 													}
 													$this->get_widget_form($w['name'], $w['param']['options']);
 												?>
+												</form>
 											</div>
+											
 										</div>									
 									<?php
 									}

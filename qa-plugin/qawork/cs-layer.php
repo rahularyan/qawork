@@ -4,23 +4,28 @@ class qa_html_theme_layer extends qa_html_theme_base {
 	var $postid;
 	var $widgets;
 	function doctype(){	
-
 		global $widgets;
         $widgets       = get_all_widgets();
         $this->widgets = $widgets;
-        
+
 		if(qw_is_user()){
 			$handle = qa_request_part(1);
 			if(empty($handle)) $handle = qa_get_logged_in_handle();
+			$userid = qa_handle_to_userid($handle);
 			$this->content['active_user'] = qw_user_data($handle);
 			$this->content['active_user_profile'] = qw_user_profile($handle);
 		}
+		
 
 		if (isset($_REQUEST['qw_ajax_html'])) {
             $action = 'qw_ajax_' . $_REQUEST['action'];
             if (method_exists($this, $action))
                 $this->$action();
         } else {
+			if(qw_is_user() && empty($this->content['navigation']['sub']['profile'])){
+				$userid=qa_get_logged_in_userid();
+				$this->content['navigation']['sub']=qa_user_sub_navigation($handle, 'profile',	$userid );
+			}
             $this->output('<!DOCTYPE html>');
             
             unset($this->content['navigation']['main']['ask']);
@@ -28,7 +33,6 @@ class qa_html_theme_layer extends qa_html_theme_base {
 			
 			if((bool)qa_opt('qw_enable_category_nav'))
 				unset($this->content['navigation']['main']['categories']);
-
 
 			if(qa_get_logged_in_level() >= QA_USER_LEVEL_ADMIN)	{
 
@@ -63,11 +67,7 @@ class qa_html_theme_layer extends qa_html_theme_base {
 			
 			}
 		}
-		if(qw_is_user() && empty($this->content['navigation']['sub']['profile'])){
-			$userid=qa_get_logged_in_userid();
-			$handle=qa_get_logged_in_handle();
-			$this->content['navigation']['sub']=qa_user_sub_navigation($handle, 'profile',	$userid );
-		}
+		
 		if(qw_hook_exist('doctype'))
 			$this->content = qw_apply_filter('doctype', $this->content);
 	}
@@ -923,7 +923,9 @@ class qa_html_theme_layer extends qa_html_theme_base {
 				$this->output('<form class="user-buttons" '.$form['tags'].'><div class="btn-group">');
 				foreach($form['buttons'] as $k => $btn)
 					$this->output('<button class="btn '.$k .($k == 'delete' ? ' btn-danger' : '' ).'" ' . $btn['tags'] . ' type="submit">' . $btn['label'] . '</button>');
-				$this->output('</div></form>');
+				$this->output('</div>');
+				$this->output('<input type="hidden" name="code" value="'.@$form['hidden']['code'].'" />');
+				$this->output('</form>');
 			}
         }
 		if(qa_get_logged_in_handle() == $handle)
@@ -990,7 +992,7 @@ class qa_html_theme_layer extends qa_html_theme_base {
 			$this->main_parts($content);
 		}
 		$this->output('</div>');
-		
+
     }
 	function qw_user_about($user, $profile){
 		
@@ -2307,7 +2309,7 @@ class qa_html_theme_layer extends qa_html_theme_base {
                 if (($w['position'] == $position) && isset($w['param']['locations'][$template]) && (bool) $w['param']['locations'][$template]) {
 					$new_opt = array();
 					foreach($w['param']['options'] as $k => $d){
-						$new_opt[$k] = utf8_decode(urldecode($d));
+						$new_opt[$k] = urldecode($d);
 					}
 					$w['param']['options'] = $new_opt;
                     $this->current_widget = $w;
