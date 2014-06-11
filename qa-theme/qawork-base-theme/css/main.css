@@ -1,6 +1,6 @@
 body {
 	color: #444;
-	font-size: 13px;
+	font-size: 14px;
 	line-height: 1.6;
 }
 
@@ -232,7 +232,7 @@ textarea {
 
 #site-header #profile-link {
     background: none repeat scroll 0 0 rgba(0, 0, 0, 0);
-    margin: 0 0 0 15px;
+    margin: 2px 0 0 15px;
     padding: 0;
 }
 
@@ -3331,6 +3331,9 @@ input.qa-form-wide-number {
     text-align: center;
     transition: all 0.4s ease 0s;
 }
+.category-nav.open .category-toggle {
+    background: none repeat scroll 0 0 #fff;
+}
 
 .category-nav .open .category-toggle, .category-nav .open .category-toggle:hover {
     background: #FFFFFF;
@@ -4270,6 +4273,13 @@ a.open-login-button.twitter {
 	border-radius: 3px;
 	margin-bottom: 20px;
 	margin-top: 20px;
+}
+.qa-q-view-follows > span, .qa-q-view-closed > span {
+    background: none repeat scroll 0 0 #eee;
+    display: block;
+    float: left;
+    font-size: 22px;
+    padding: 0 10px;
 }
 
 .qa-q-view-follows > .question-status-icon, .qa-q-view-closed > .question-status-icon {
