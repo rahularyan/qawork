@@ -90,6 +90,16 @@ class qw_notification_setting_page {
 				'tags'  => 'METHOD="POST" ACTION="'.qa_self_html().'" CLASS="social-login-settings"',
 				'style' => 'wide',
 				'buttons' => array(
+					'check_all' => array(
+						'type' => 'button' ,
+						'tags'  => 'name="check_all_notf_fields" id="check_all_notf_fields" ',
+						'label' => qa_lang_html('notification/check_all'),
+					),
+					'uncheck_all' => array(
+						'type' => 'button' ,
+						'tags'  => 'name="un_check_all_notf_fields" id="un_check_all_notf_fields" ',
+						'label' => qa_lang_html('notification/uncheck_all'),
+					),
 					'save' => array(
 						'tags'  => 'onClick="qa_show_waiting_after(this, false);"',
 						'label' => qa_lang_html('notification/save_settings'),

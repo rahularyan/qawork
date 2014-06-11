@@ -163,3 +163,15 @@ function qw_chk_message_scroll(e){
 		}
 	}
 }
+
+jQuery(document).ready(function($) {
+	$('form').on('click', 'input#check_all_notf_fields', function(event) {
+		event.preventDefault();
+		$("input[name*='qw_mail_when']").prop('checked', true) ;
+	});
+	$('form').on('click', 'input#un_check_all_notf_fields', function(event) {
+		event.preventDefault();
+		$("input[name*='qw_mail_when']").prop('checked', false) ;
+	});
+
+});
