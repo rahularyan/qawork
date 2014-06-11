@@ -160,11 +160,7 @@ class Qw_Notification_Addon{
 					$themeclass['navigation']['sub']['notification-settings']['selected'] = true;
 				}
 			}
-			
-			
 			return $themeclass;
-
-		
     }
 
 	public function activitylist(){
