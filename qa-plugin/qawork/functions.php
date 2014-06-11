@@ -1044,22 +1044,19 @@ function qw_array_insert_before($key, array &$array, $new_key, $new_value) {
 }
 
 function qw_order_profile_fields($profile){
-	 $keys = qw_apply_filter('order_profile_field', array('name', 'website', 'location', 'about'));
-	 $hide = qw_apply_filter('hide_profile_field', array('cover' , 'qw_facebook_a_post', 'qw_facebook_q_post', 'qw_facebook_c_post', 'qw_twitter_a_post', 'qw_twitter_q_post', 'qw_twitter_c_post', 'aol_hauthSession', 'facebook_hauthSession', 'foursquare_hauthSession', 'google_hauthSession', 'linkedin_hauthSession', 'live_hauthSession','myspace_hauthSession', 'openid_hauthSession', 'twitter_hauthSession', 'yahoo_hauthSession' , 'qw_notification_settings'));
-	 $hide = array_keys(array_flip( $hide ));
+	 $keys = qw_apply_filter('order_profile_field', array('name', 'website', 'location', 'about', 'company'));
 	 foreach ($profile as $key => $value) {
-	 	if (in_array($key, $hide)) {
+	 	if (!in_array($key, $keys)) {
 	 		unset($profile[$key]);
 	 	}
 	 }
-	 // need to remove those keys which are not in the original key 
+	 // need to remove those keys which are not set in the profile fields 
 	 $to_be_removed = array();
 	 foreach ($keys as $key) {
 	 	if (!isset($profile[$key]) || empty($profile[$key])) {
 	 		$to_be_removed[] = $key ;
 	 	}
 	 }
-
 	 $keys  = array_diff( $keys, $to_be_removed );
 	 $short = array_flip( $keys );
 	 $short = array_merge($short, $profile);
