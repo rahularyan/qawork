@@ -140,18 +140,27 @@ class Qw_Notification_Addon{
 	}
 
 	public function navigation($themeclass) {
-
-		if(qw_is_user())	{
-			if (isset($themeclass['raw']['userid']) && $themeclass['raw']['userid'] == qa_get_logged_in_userid() ) {
-				$themeclass['navigation']['sub']['notification-settings'] = array(
-																	'label' => qa_lang_html('notification/notf_settings_user_nav'),
-																	'url'   => qa_path_html('notification-settings'),
-																	 'icon'  => 'icon-group' ,
-																  );
+			$link = array(
+					'label' => qa_lang_html('notification/notf_settings_user_nav'),
+					'url'   => qa_path_html('notification-settings'),
+					'icon'  => 'icon-cog' ,
+				);
+			if(qa_is_logged_in())	{
+				$themeclass['navigation']['user']['notification-settings'] = $link ;
+				if(qa_request_part(0) == 'notification-settings') {
+					$themeclass['navigation']['user']['notification-settings']['selected'] = true;
+				}
 			}
-		}
 			
-        return $themeclass;
+			$handle = qa_request_part(1) ;
+			
+			if ($handle == qa_get_logged_in_handle() || qa_request_part(0) == 'notification-settings') {
+				$themeclass['navigation']['sub']['notification-settings'] = $link ;
+				if(qa_request_part(0) == 'notification-settings') {
+					$themeclass['navigation']['sub']['notification-settings']['selected'] = true;
+				}
+			}
+			return $themeclass;
     }
 
 	public function activitylist(){
