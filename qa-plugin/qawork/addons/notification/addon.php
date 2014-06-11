@@ -27,6 +27,7 @@ $qw_notification_addon = new Qw_Notification_Addon;
 
 qa_register_plugin_layer('addons/notification/notification-layer.php', 'QW Notification Layer');
 qa_register_plugin_module('page', 'addons/notification/notification-page.php', 'qw_notification_page', 'QW Notification Page');
+qa_register_plugin_module('page', 'addons/notification/notification-settings.php', 'qw_notification_setting_page', 'QW Notification Settings');
 
 include_once QW_CONTROL_DIR. '/addons/notification/default-email-notify.php';
 include_once QW_CONTROL_DIR. '/addons/notification/email-events.php';
@@ -84,6 +85,7 @@ class Qw_Notification_Addon{
 		qw_add_action('qw_theme_option_tab', array($this, 'option_tab'));
         qw_add_action('qw_theme_option_tab_content', array($this, 'option_tab_content'));
         qw_add_action('qw_reset_theme_options', array($this, 'reset_theme_options'));
+        qw_event_hook('doctype', NULL, array($this, 'navigation'));
 	}
 	
 	public function init_queries($queries, $tableslc){
@@ -136,7 +138,22 @@ class Qw_Notification_Addon{
 
 		return  $src;
 	}
-	
+
+	public function navigation($themeclass) {
+
+		if(qw_is_user())	{
+			if (isset($themeclass['raw']['userid']) && $themeclass['raw']['userid'] == qa_get_logged_in_userid() ) {
+				$themeclass['navigation']['sub']['notification-settings'] = array(
+																	'label' => qa_lang_html('notification/notf_settings_user_nav'),
+																	'url'   => qa_path_html('notification-settings'),
+																	 'icon'  => 'icon-group' ,
+																  );
+			}
+		}
+			
+        return $themeclass;
+    }
+
 	public function activitylist(){
 		
 		$offset = (int)qa_get('offset');
