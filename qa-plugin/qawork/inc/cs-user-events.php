@@ -13,7 +13,8 @@
 			$loggeduserid = qa_get_logged_in_userid();
 			$dolog=true;
 			$postid = @$params['postid'];
-
+			// grab all preferences for notifying users 
+			$all_preferences = qw_get_all_notification_settings();
 			switch($event){
 				case 'a_post': // user's question had been answered
 					
@@ -23,7 +24,9 @@
 						$params['qtitle'] = $question['title'];
 						$params['qid']    = $question['postid'];
 						$this->AddEvent($postid,$userid, $effecteduserid, $params, $event);
-						qw_do_action('user_event_'.$event, $postid,$userid, $effecteduserid, $params, $event);
+						if (qw_check_pref_for_event($effecteduserid , $event , $all_preferences )) {
+							qw_do_action('user_event_'.$event, $postid,$userid, $effecteduserid, $params, $event);
+						}
 					}
 					break;
 				case 'c_post': // user's answer had been commented
@@ -37,7 +40,9 @@
 					if ($loggeduserid != $params['parent']['userid']){
 						$effecteduserid = $params['parent']['userid'];
 						$this->AddEvent($postid, $userid, $params['parent']['userid'], $params, $event);
-						qw_do_action('user_event_'.$event, $postid,$userid, $effecteduserid, $params, $event);
+						if (qw_check_pref_for_event($effecteduserid , $event , $all_preferences )) {
+							qw_do_action('user_event_'.$event, $postid,$userid, $effecteduserid, $params, $event);
+						}
 						$already_notified = $effecteduserid ;
 					}
 					
@@ -53,7 +58,9 @@
 							
 							$this->AddEvent($postid, $userid, $user, $params, $event);	
 							$effecteduserid = $user ; //for this scenario the $user_array contains all user ids in the current commented thread 
-							qw_do_action('user_event_'.$event, $postid,$userid, $effecteduserid, $params, $event);
+							if (qw_check_pref_for_event($effecteduserid , $event , $all_preferences )) {
+								qw_do_action('user_event_'.$event, $postid,$userid, $effecteduserid, $params, $event);
+							}
 						}
 					}			
 					break;
@@ -66,7 +73,9 @@
 						$params['qtitle'] = $question['title'];
 						$params['qid']    = $question['postid'];
 						$this->AddEvent($postid,$userid, $effecteduserid, $params, $event);
-						qw_do_action('user_event_'.$event, $postid,$userid, $effecteduserid, $params, $event);
+						if (qw_check_pref_for_event($effecteduserid , $event , $all_preferences )) {
+							qw_do_action('user_event_'.$event, $postid,$userid, $effecteduserid, $params, $event);
+						}
 				
 					}
 					break;
@@ -82,7 +91,9 @@
 						unset($params['content']);
 						unset($params['text']);
 						$this->AddEvent($postid,$userid, $effecteduserid, $params, $event);
-						qw_do_action('user_event_'.$event, $postid,$userid, $effecteduserid, $params, $event);
+						if (qw_check_pref_for_event($effecteduserid , $event , $all_preferences )) {
+							qw_do_action('user_event_'.$event, $postid,$userid, $effecteduserid, $params, $event);
+						}
 					}
 					break;
 				case 'c_reshow':
@@ -95,7 +106,9 @@
 						$params['qtitle'] = $question['title'];
 						$params['qid']    = $question['postid'];
 						$this->AddEvent($postid,$userid, $effecteduserid, $params, $event);
-						qw_do_action('user_event_'.$event, $postid,$userid, $effecteduserid, $params, $event);
+						if (qw_check_pref_for_event($effecteduserid , $event , $all_preferences )) {
+							qw_do_action('user_event_'.$event, $postid,$userid, $effecteduserid, $params, $event);
+						}
 					}
 					break;
 				/* case 'a_unselect':
@@ -106,7 +119,9 @@
 						"DELETE FROM ^ra_userevent WHERE effecteduserid=$ AND event=$ AND postid=$",
 						$effecteduserid, 'a_select', $postid
 					);
-					qw_do_action('user_event_'.$event, $postid,$userid, $effecteduserid, $params, $event);
+					if (qw_check_pref_for_event($effecteduserid , $event , $all_preferences )) {
+						qw_do_action('user_event_'.$event, $postid,$userid, $effecteduserid, $params, $event);
+					}
 					
 					break; */
 				case 'a_select':
@@ -118,7 +133,9 @@
 						$params['qtitle'] = $question['title'];
 						$params['qid']    = $question['postid'];
 						$this->AddEvent($postid,$userid, $effecteduserid, $params, $event);
-						qw_do_action('user_event_'.$event, $postid,$userid, $effecteduserid, $params, $event);
+						if (qw_check_pref_for_event($effecteduserid , $event , $all_preferences )) {
+							qw_do_action('user_event_'.$event, $postid,$userid, $effecteduserid, $params, $event);
+						}
 					}
 					break;
 				case 'q_vote_up':
@@ -159,12 +176,16 @@
 						$params['qtitle'] = $question['title'];
 						$params['qid']    = $question['postid'];
 						$this->AddEvent($postid,$userid, $effecteduserid, $params, $event);
-						qw_do_action('user_event_'.$event, $postid,$userid, $effecteduserid, $params, $event);
+						if (qw_check_pref_for_event($effecteduserid , $event , $all_preferences )) {
+							qw_do_action('user_event_'.$event, $postid,$userid, $effecteduserid, $params, $event);
+						}
 					}
 					break;					
 				case 'q_favorite':
 					$this->UpdateVote('q_favorite', $postid,$userid, $params, 'favorite', 1);
-					qw_do_action('user_event_'.$event, $postid,$userid, $effecteduserid, $params, $event);
+					if (qw_check_pref_for_event($effecteduserid , $event , $all_preferences )) {
+						qw_do_action('user_event_'.$event, $postid,$userid, $effecteduserid, $params, $event);
+					}
 					$dolog=false;					
 					break;
 				/* case 'q_unfavorite':
@@ -180,12 +201,16 @@
 						if ($loggeduserid != $effecteduserid){
 							$event = 'related';
 							$this->AddEvent($postid,$userid, $effecteduserid, $params, $event);
-							qw_do_action('user_event_'.$event, $postid,$userid, $effecteduserid, $params, $event);
+							if (qw_check_pref_for_event($effecteduserid , $event , $all_preferences )) {
+								qw_do_action('user_event_'.$event, $postid,$userid, $effecteduserid, $params, $event);
+							}
 							$already_notified = $effecteduserid ;
 						}
 					}
 					// for social postings 
-					qw_do_action('user_event_q_post_social', $postid,$userid, null , $params, 'q_post');
+					if (qw_check_pref_for_event($effecteduserid , $event , $all_preferences )) {
+						qw_do_action('user_event_q_post_social', $postid,$userid, null , $params, 'q_post');
+					}
 					$categoryid = isset($params['categoryid']) ? $params['categoryid'] : '' ;
                     $tags = isset($params['tags']) ? $params['tags'] : '' ;
 					$user_datas = $this->qw_get_users_details_notify_email($userid , $tags , $categoryid );
@@ -196,7 +221,9 @@
 
 							if ( $effecteduserid != $already_notified ) {
 								// $this->AddEvent($postid,$userid, $effecteduserid, $params, $event);
-								qw_do_action('user_event_'.$event, $postid,$userid, $effecteduserid, $params, $event);
+								if (qw_check_pref_for_event($effecteduserid , $event , $all_preferences )) {
+									qw_do_action('user_event_'.$event, $postid,$userid, $effecteduserid, $params, $event);
+								}
 							}
 						}
 					}
@@ -205,7 +232,9 @@
 					if ($loggeduserid != $params['userid']){
 						$this->UpdateUserFavorite($postid,$userid, $params, 'u_favorite', 1);
 						$effecteduserid = $params['userid'];
-						qw_do_action('user_event_'.$event, $postid,$userid, $effecteduserid, $params, $event);
+						if (qw_check_pref_for_event($effecteduserid , $event , $all_preferences )) {
+							qw_do_action('user_event_'.$event, $postid,$userid, $effecteduserid, $params, $event);
+						}
 						$dolog=false;
 					}
 					break;
@@ -217,7 +246,9 @@
 					if ($loggeduserid != $params['userid']){
 						$effecteduserid = $params['userid'];
 						$this->AddEvent($postid,$userid, $effecteduserid, $params, $event);
-						qw_do_action('user_event_'.$event, $postid,$userid, $effecteduserid, $params, $event);
+						if (qw_check_pref_for_event($effecteduserid , $event , $all_preferences )) {
+							qw_do_action('user_event_'.$event, $postid,$userid, $effecteduserid, $params, $event);
+						}
 					}
 					break;
 				case 'u_wall_post':
@@ -225,7 +256,9 @@
 						$effecteduserid    = $params['userid'];
 						$params['message'] = $params['content'];
 						$this->AddEvent($postid,$userid, $effecteduserid, $params, $event);
-						qw_do_action('user_event_'.$event, $postid,$userid, $effecteduserid, $params, $event);
+						if (qw_check_pref_for_event($effecteduserid , $event , $all_preferences )) {
+							qw_do_action('user_event_'.$event, $postid,$userid, $effecteduserid, $params, $event);
+						}
 					}
 					break;
 				case 'u_level':
@@ -235,7 +268,9 @@
                     	//add the event only if the level increases 
 	                    $effecteduserid = $params['userid'];
 						$this->AddEvent($postid,$userid, $effecteduserid, $params, $event);
-						qw_do_action('user_event_'.$event, $postid,$userid, $effecteduserid, $params, $event);
+						if (qw_check_pref_for_event($effecteduserid , $event , $all_preferences )) {
+							qw_do_action('user_event_'.$event, $postid,$userid, $effecteduserid, $params, $event);
+						}
                     }
 					break;
 				default:
@@ -305,7 +340,9 @@
 					
 					$this->AddEvent($postid,$userid, $effecteduserid, $params, $newevent);
 					
-					qw_do_action('user_event_'.$newevent, $postid,$userid, $effecteduserid, $params, $newevent);
+					if (qw_check_pref_for_event($effecteduserid , $newevent , $all_preferences )) {
+						qw_do_action('user_event_'.$newevent, $postid,$userid, $effecteduserid, $params, $newevent);
+					}
 				}
 			}else{
 				$postparams=json_decode($posts[0],true);
@@ -349,7 +386,9 @@
 					$userid, $effecteduserid, $postid, $newevent,$paramstring, $postid, $newevent
 				);
 
-				qw_do_action('user_event_'.$newevent, $postid,$userid, $effecteduserid, $params, $newevent);
+				if (qw_check_pref_for_event($effecteduserid , $newevent , $all_preferences )) {
+					qw_do_action('user_event_'.$newevent, $postid,$userid, $effecteduserid, $params, $newevent);
+				}
 			}
 		}
 		

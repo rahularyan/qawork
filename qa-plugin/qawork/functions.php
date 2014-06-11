@@ -26,7 +26,7 @@ function qw_is_home(){
 
 function qw_is_user(){
 	$request = qa_request_parts(0);
-	if( $request[0] == 'user' || $request[0] == 'followers' || $request[0] == 'following'|| $request[0] == 'favorites'|| $request[0] == 'account'|| $request[0] == 'logins'|| $request[0] == 'social-posting')
+	if( $request[0] == 'user' || $request[0] == 'followers' || $request[0] == 'following'|| $request[0] == 'favorites'|| $request[0] == 'account'|| $request[0] == 'logins'|| $request[0] == 'social-posting'|| $request[0] == 'notification-settings')
 		return true;
 		
 	return false;
@@ -1045,7 +1045,7 @@ function qw_array_insert_before($key, array &$array, $new_key, $new_value) {
 
 function qw_order_profile_fields($profile){
 	 $keys = qw_apply_filter('order_profile_field', array('name', 'website', 'location', 'about'));
-	 $hide = qw_apply_filter('hide_profile_field', array('cover' , 'qw_facebook_a_post', 'qw_facebook_q_post', 'qw_facebook_c_post', 'qw_twitter_a_post', 'qw_twitter_q_post', 'qw_twitter_c_post', 'aol_hauthSession', 'facebook_hauthSession', 'foursquare_hauthSession', 'google_hauthSession', 'linkedin_hauthSession', 'live_hauthSession','myspace_hauthSession', 'openid_hauthSession', 'twitter_hauthSession', 'yahoo_hauthSession'));
+	 $hide = qw_apply_filter('hide_profile_field', array('cover' , 'qw_facebook_a_post', 'qw_facebook_q_post', 'qw_facebook_c_post', 'qw_twitter_a_post', 'qw_twitter_q_post', 'qw_twitter_c_post', 'aol_hauthSession', 'facebook_hauthSession', 'foursquare_hauthSession', 'google_hauthSession', 'linkedin_hauthSession', 'live_hauthSession','myspace_hauthSession', 'openid_hauthSession', 'twitter_hauthSession', 'yahoo_hauthSession' , 'qw_notification_settings'));
 	 $hide = array_keys(array_flip( $hide ));
 	 foreach ($profile as $key => $value) {
 	 	if (in_array($key, $hide)) {
@@ -1168,4 +1168,44 @@ function qw_check_for_new_version($return = false){
 	
 	if($version != QW_VERSION && $return)
 		return '<div class="alert alert-info">A new version ('.$version.') is available, please go to your account and download it</div>';
+}
+
+
+function qw_save_notification_settings($data , $userid)
+{
+    require_once QA_INCLUDE_DIR.'qa-db-users.php';
+    $key = 'qw_notification_settings' ;
+    qa_db_user_profile_set($userid, $key, $data);
+    
+}
+
+function qw_get_notification_settings($userid)
+{
+   $key = 'qw_notification_settings' ;
+   $value = qa_db_read_one_value(qa_db_query_sub("SELECT ^userprofile.content from  ^userprofile WHERE ^userprofile.title = # AND ^userprofile.userid = # " , $key , $userid ), true );
+   return json_decode($value, true);
+}
+
+function qw_get_all_notification_settings()
+{
+   $key = 'qw_notification_settings' ;
+   $values = qa_db_read_all_assoc(qa_db_query_sub("SELECT ^userprofile.userid , ^userprofile.content as settings from  ^userprofile WHERE ^userprofile.title = #" , $key ));
+   foreach ($values as &$value) {
+            $value['settings'] = json_decode($value['settings'] , true );
+   }
+   return $values ;
+}
+
+function qw_check_pref_for_event($userid , $event , $all_preferences='' )
+{
+      if (!$all_preferences) {
+            $all_preferences = qw_get_all_notification_settings();
+      }
+      $event = 'qw_mail_when_'.$event  ;
+      foreach ($all_preferences as $preferences) {
+         if ($preferences['userid']==$userid) {
+               return @$preferences['settings'][$event];
+         }
+      }   
+      return false;
 }
