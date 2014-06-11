@@ -146,7 +146,7 @@ class Qw_Notification_Addon{
 				$themeclass['navigation']['sub']['notification-settings'] = array(
 																	'label' => qa_lang_html('notification/notf_settings_user_nav'),
 																	'url'   => qa_path_html('notification-settings'),
-																	 'icon'  => 'icon-group' ,
+																	'icon'  => 'icon-cog' ,
 																  );
 			}
 		}
