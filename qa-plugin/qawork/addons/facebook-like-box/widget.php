@@ -10,7 +10,7 @@ class qw_fb_likebox_widget {
                                     'label' => qa_lang('qw_fb_like_box/ur_fb_page_url'),
                                     'type'  => 'text',
                                     'tags'  => 'name="qw_fb_page_url"',
-                                    'value' => 'https://www.facebook.com/YourPage',
+                                    'value' => 'https://www.facebook.com/RahulAryanCom',
                     ),
                     'qw_fb_like_box_colorscheme' => array(
                                     'label' => qa_lang('qw_fb_like_box/colorscheme_label'),
