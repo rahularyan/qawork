@@ -10,7 +10,7 @@ class qw_google_plus_badge {
                                     'label' => qa_lang('qw_gp_badge/qw_gp_badge_url_lable'),
                                     'type'  => 'text',
                                     'tags'  => 'name="qw_gp_badge_url"',
-                                    'value' => '//plus.google.com/u/0/109796096175284138207',
+                                    'value' => '//plus.google.com/u/0/+rahularyannerdaryan',
                     ),
                     'qw_gp_badge_type' => array(
                                     'label' => qa_lang('qw_gp_badge/qw_gp_badge_type_lable'),
