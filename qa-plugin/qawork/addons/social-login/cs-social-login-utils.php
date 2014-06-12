@@ -1,15 +1,18 @@
 <?php
+/*
+  Credits : 
+  Question2Answer (c) Gideon Greenspan
+  Open Login Plugin (c) Alex Lixandru
+
+  Some part of this code was taken from qa-openlogin plugin by alixandru
+  https://github.com/alixandru/q2a-open-login
+ */
 
 /* don't allow this page to be requested directly from browser */
 if (!defined('QA_VERSION')) {
     header('Location: /');
     exit;
 }
-
-/*
-  Some part of this code was taken from qa-openlogin plugin by alixandru
-  https://github.com/alixandru/q2a-open-login
- */
 
 function qw_db_user_login_find_other($userid, $email, $additional = 0) {
     // return all logins with the same email OR which are associated with the specified user ids
