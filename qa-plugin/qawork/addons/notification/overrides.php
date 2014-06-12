@@ -46,7 +46,7 @@ if (!defined('QA_VERSION')) {
 		if (qa_opt('moderate_users') && qa_opt('approve_user_required') && ($level<QA_USER_LEVEL_EXPERT))
 			qa_db_user_set_flag($userid, QA_USER_FLAGS_MUST_APPROVE, true);
 				
-		qw_send_notification($userid, $email, $handle, qa_lang('emails/welcome_subject'), qa_lang('emails/welcome_body'), array(
+		qw_send_notification($userid, $email, $handle, qa_lang('emails/welcome_subject'), nl2br(qa_lang('emails/welcome_body')), array(
 			'^password' => isset($password) ? qa_lang('main/hidden') : qa_lang('users/password_to_set'), // v 1.6.3: no longer email out passwords
 			'^url' => qa_opt('site_url'),
 			'^custom' => strlen($custom) ? ($custom."\n\n") : '',
@@ -72,7 +72,7 @@ if (!defined('QA_VERSION')) {
 
 		$userinfo=qa_db_select_with_pending(qa_db_user_account_selectspec($userid, true));
 		
-		if (!qw_send_notification($userid, $userinfo['email'], $userinfo['handle'], qa_lang('emails/confirm_subject'), qa_lang('emails/confirm_body'), array(
+		if (!qw_send_notification($userid, $userinfo['email'], $userinfo['handle'], qa_lang('emails/confirm_subject'), nl2br(qa_lang('emails/confirm_body')), array(
 			'^url' => qa_get_new_confirm_url($userid, $userinfo['handle']),
 		)))
 			qa_fatal_error('Could not send email confirmation');
@@ -94,7 +94,7 @@ if (!defined('QA_VERSION')) {
 
 		$userinfo=qa_db_select_with_pending(qa_db_user_account_selectspec($userid, true));
 
-		if (!qw_send_notification($userid, $userinfo['email'], $userinfo['handle'], qa_lang('emails/reset_subject'), qa_lang('emails/reset_body'), array(
+		if (!qw_send_notification($userid, $userinfo['email'], $userinfo['handle'], qa_lang('emails/reset_subject'), nl2br(qa_lang('emails/reset_body')), array(
 			'^code' => $userinfo['emailcode'],
 			'^url' => qa_path_absolute('reset', array('c' => $userinfo['emailcode'], 'e' => $userinfo['email'])),
 		)))
@@ -117,7 +117,7 @@ if (!defined('QA_VERSION')) {
 		
 		$userinfo=qa_db_select_with_pending(qa_db_user_account_selectspec($userid, true));
 		
-		if (!qw_send_notification($userid, $userinfo['email'], $userinfo['handle'], qa_lang('emails/new_password_subject'), qa_lang('emails/new_password_body'), array(
+		if (!qw_send_notification($userid, $userinfo['email'], $userinfo['handle'], qa_lang('emails/new_password_subject'), nl2br(qa_lang('emails/new_password_body')), array(
 			'^password' => $password,
 			'^url' => qa_opt('site_url'),
 		)))
