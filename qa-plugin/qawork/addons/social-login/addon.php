@@ -1,6 +1,9 @@
 <?php
 
 /*
+  Credits : 
+  Question2Answer (c) Gideon Greenspan
+  Open Login Plugin (c) Alex Lixandru
   Name:QW Social Login
   Version:1.0
   Author: Amiya Sahu

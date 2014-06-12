@@ -1,14 +1,18 @@
 <?php
+/*
+  Credits : 
+  Question2Answer (c) Gideon Greenspan
+  Open Login Plugin (c) Alex Lixandru
+
+  Some part of this code was taken from qa-openlogin plugin by alixandru
+  https://github.com/alixandru/q2a-open-login
+ */
 
 /* don't allow this page to be requested directly from browser */
 if (!defined('QA_VERSION')) {
     header('Location: /');
     exit;
 }
-/*
-  Some part of this code was taken from qa-openlogin plugin by alixandru
-  https://github.com/alixandru/q2a-open-login
- */
 
 class qw_social_login_page {
 

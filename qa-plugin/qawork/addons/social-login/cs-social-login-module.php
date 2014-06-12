@@ -1,6 +1,10 @@
 <?php
 
 /*
+  Credits : 
+  Question2Answer (c) Gideon Greenspan
+  Open Login Plugin (c) Alex Lixandru
+
   Some part of this code was taken from qa-openlogin plugin by alixandru
   https://github.com/alixandru/q2a-open-login
  */
