@@ -45,20 +45,25 @@ class QW_Editor_Addon{
 	}
 	
 	public function script($script_src){		
-		// $script_src['qw_editor'] = "http://yandex.st/highlightjs/8.0/highlight.min.js";
 		return  $script_src;
 	}
 
 	public function navigation($themeclass) {
-        // qw_log(print_r($themeclass , true));
         return $themeclass ; 
-    }
+  }
 
     public function option_tab(){
           $saved=false;
           if(qa_clicked('qw_save_button')){   
               qa_opt("qw_qa_editor_code_theme", qa_post_text("qw_qa_editor_code_theme"));
               qa_opt("qw_qa_editor_theme_use_minified", !!qa_post_text("qw_qa_editor_theme_use_minified"));
+              qa_opt("qw_editor_allowed_OE_providers", qa_post_text("qw_editor_allowed_OE_providers"));
+              qa_opt("qw_editor_min_user_level_to_upload", qa_post_text("qw_editor_min_user_level_to_upload"));
+              $min_user_points = (int)qa_post_text('qw_qa_editor_min_user_points') ;
+              if (!is_numeric($min_user_points) || $min_user_points < 100) {
+                $min_user_points = 100 ;
+              }
+              qa_opt('qw_qa_editor_min_user_points' , $min_user_points) ;
               $saved=true;
           }
           
@@ -114,6 +119,47 @@ class QW_Editor_Addon{
                 </tr>
                 </tbody>
               ';
+              $output .= '
+                <tbody>
+                <tr>
+                  <th class="qa-form-tall-label">Allowed Providers for oEmbed (comma separated values )</th>
+                  <td class="qa-form-tall-data">
+                    <textarea name="qw_editor_allowed_OE_providers" data-opts="qw_editor_allowed_OE_providers_fields">'.qa_opt('qw_editor_allowed_OE_providers').'</textarea>
+                  </td>
+                </tr>
+                </tbody>
+              ';
+              $selected_level = qa_opt('qw_editor_min_user_level_to_upload') ;
+
+              $options = '<option value="'.QA_USER_LEVEL_MODERATOR.'" '.(($selected_level==QA_USER_LEVEL_MODERATOR) ? 'selected="selected"' : '') .' >Moderator </option>' ;
+              $options .= '<option value="'.QA_USER_LEVEL_EDITOR.'" '.(($selected_level==QA_USER_LEVEL_EDITOR) ? 'selected="selected"' : '') .'>Editor </option>' ;
+              $options .= '<option value="'.QA_USER_LEVEL_EXPERT.'" '.(($selected_level==QA_USER_LEVEL_EXPERT) ? 'selected="selected"' : '') .'>Expert</option>' ;
+              $options .= '<option value="'.QA_USER_LEVEL_APPROVED.'" '.(($selected_level==QA_USER_LEVEL_APPROVED) ? 'selected="selected"' : '') .'>Approved user</option>' ;
+              $options .= '<option value="'.QA_USER_LEVEL_BASIC.'" '.(($selected_level==QA_USER_LEVEL_BASIC) ? 'selected="selected"' : '') .'>Basic User</option>' ;
+              $output .= '
+                <tbody>
+                <tr>
+                  <th class="qa-form-tall-label">Minimum User level to upload media </th>
+                  <td class="qa-form-tall-data">
+                    <select name="qw_editor_min_user_level_to_upload">
+                    '.$options.'
+                    </select>
+                  </td>
+                </tr>
+                </tbody>
+              ';
+
+              $output .= '
+                <tbody>
+                <tr>
+                  <th class="qa-form-tall-label">Minimum user points to upload media </th>
+                  <td class="qa-form-tall-data">
+                      <input type="text" name="qw_qa_editor_min_user_points" value="'.qa_opt('qw_qa_editor_min_user_points').'" data-opts="qw_qa_editor_min_user_points_fields">
+                  </td>
+                </tr>
+                </tbody>
+              ';
+
             $output .= '</table></div>';
             echo $output;
     }
