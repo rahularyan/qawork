@@ -829,7 +829,7 @@ class Qw_Notification_Addon{
                   $saved = true;
             }
 
-		echo '<li>
+		return '<li>
 				<a href="#" data-toggle=".qa-part-form-tc-notify">Notification</a>
 			</li>
 			<li>
@@ -971,7 +971,7 @@ class Qw_Notification_Addon{
 			$output .= '</tbody>' ;
 			
 			$output .= '</table></div>';
-			echo $output;
+			return $output;
 	  }
 
 	  public function reset_theme_options() {

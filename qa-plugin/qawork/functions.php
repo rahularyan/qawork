@@ -766,12 +766,13 @@ function qw_event_hook($event, $value = NULL, $callback = NULL, $check = false, 
     {				
 		ksort($events[$event]);
         foreach($events[$event] as $order){
-			ob_start();
+			//ob_start();
+			$output = '';
 			foreach($order as $function){
 				
-				call_user_func_array($function, $value);				
+				$output .= call_user_func_array($function, $value);				
 			}
-			$output = ob_get_clean();
+			//$output = ob_get_clean();
         }
         return $output;
     }

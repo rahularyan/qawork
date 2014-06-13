@@ -516,6 +516,7 @@ class QW_Media_Addon{
 	}
 	
 	public function add_preview_modal(){
+		ob_start();
 		?>
 		<!-- Modal -->
 		<div class="modal fade" id="show_file_preview" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -530,6 +531,7 @@ class QW_Media_Addon{
 		  </div>
 		</div>
 		<?php
+		return ob_get_clean();
 	}
 	
 	public function load_media_item(){
@@ -558,14 +560,14 @@ class QW_Media_Addon{
 	}
 	
 	public function qw_theme_option_tab(){
-		?>
-			<li>
+		return '<li>
 				<a href="#" data-toggle=".qa-part-form-tc-media">Media</a>
-			</li>
-		<?php
+			</li>';
+		
 	}
 	
 	public function qw_theme_option_tab_content(){
+		ob_start();
 		?>
 		<div class="qa-part-form-tc-media">
 			<h3>Media manager options</h3>
@@ -619,6 +621,7 @@ class QW_Media_Addon{
 			</table>
 		</div>
 		<?php
+		return ob_get_clean();
 	}
 
 }

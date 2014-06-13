@@ -50,7 +50,7 @@ class Qw_Social_Posting_Addon {
       }
       public function navigation($themeclass) {
 		    if ((qa_opt('qw_enable_fb_posting') || qa_opt('qw_enable_twitter_posting')))
-			     echo '<a class="btn'.(qa_request() == 'social-posting' ? ' active' : ''.'" href="'.qa_path_html('social-posting')).'">'.qa_lang('qw_social_posting/my_social_posting_nav').'</a>';        
+			     return '<a class="btn'.(qa_request() == 'social-posting' ? ' active' : ''.'" href="'.qa_path_html('social-posting')).'">'.qa_lang('qw_social_posting/my_social_posting_nav').'</a>';        
       }
 
       public function reset_theme_options() {
@@ -70,7 +70,7 @@ class Qw_Social_Posting_Addon {
               $saved=true;
             }
           
-          echo '<li>
+          return '<li>
               <a href="#" data-toggle=".qa-part-form-social-posting">Social Posting</a>
             </li>';
     }
@@ -113,7 +113,7 @@ class Qw_Social_Posting_Addon {
               ';
 
             $output .= '</table></div>';
-            echo $output;
+            return $output;
     }
 
 

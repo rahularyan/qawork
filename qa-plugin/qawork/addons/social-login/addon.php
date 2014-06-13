@@ -59,7 +59,7 @@ class Qw_Social_Login_Addon {
     }
 
     public function navigation($handle, $user) {
-        echo '<a class="btn' . (qa_request() == 'logins' ? ' active' : '' . '" href="' . qa_path_html('logins')) . '">Logins</a>';
+        return '<a class="btn' . (qa_request() == 'logins' ? ' active' : '' . '" href="' . qa_path_html('logins')) . '">Logins</a>';
     }
 
     public function language($lang_arr) {
@@ -145,7 +145,7 @@ class Qw_Social_Login_Addon {
             qa_opt('open_login_zocial', empty($zocial) ? 0 : 1);
             $saved = true;
         }
-        echo '<li>
+        return '<li>
 				<a href="#" data-toggle=".qa-part-form-tc-hybrid">Social Login</a>
 			</li>';
     }
@@ -195,7 +195,7 @@ class Qw_Social_Login_Addon {
         }
 
         $output .= '</table></div>';
-        echo $output;
+        return $output;
     }
 
 }

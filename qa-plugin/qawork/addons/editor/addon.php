@@ -11,13 +11,13 @@ define('QW_EDITOR_STYLE_SHEET_LINK', QW_CONTROL_URL . '/addons/editor/plugins/co
 
 class QW_Editor_Addon{
 	function __construct(){
-    qw_event_hook('doctype', NULL, array($this, 'navigation'));
-		qw_event_hook('register_language', NULL, array($this, 'language'));
+		qw_event_hook('doctype', NULL, array($this, 'navigation'));
+		//qw_event_hook('register_language', NULL, array($this, 'language'));
 		qw_add_filter('enqueue_css', array($this, 'css'));
 		qw_event_hook('enqueue_script', NULL, array($this, 'script'));
 		qw_add_action('qw_theme_option_tab', array($this, 'option_tab'));
-    qw_add_action('qw_theme_option_tab_content', array($this, 'option_tab_content'));
-    qw_add_action('qw_reset_theme_options', array($this, 'reset_theme_options'));
+		qw_add_action('qw_theme_option_tab_content', array($this, 'option_tab_content'));
+		qw_add_action('qw_reset_theme_options', array($this, 'reset_theme_options'));
 
 	}
 		
@@ -67,7 +67,7 @@ class QW_Editor_Addon{
               $saved=true;
           }
           
-          echo '<li>
+          return '<li>
               <a href="#" data-toggle=".qa-part-form-qa-editor-settings">QA Editor Settings</a>
             </li>';
     }
@@ -161,7 +161,7 @@ class QW_Editor_Addon{
               ';
 
             $output .= '</table></div>';
-            echo $output;
+            return $output;
     }
     public function reset_theme_options() {
         if (qa_clicked('qw_reset_button')) {
