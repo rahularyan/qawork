@@ -27,7 +27,7 @@ class qw_widget_posts
                     'options' 	=> array('Q' => 'Questions','A' => 'Answers','C' => 'Comments')
                 ),
 				'post_status' => array(
-                    'label' 	=> 'Post Type',
+                    'label' 	=> 'Post Status',
                     'type' 		=> 'select',
                     'tags' 		=> 'name="post_status" class="form-control"',
                     'options' 	=> array('solved' => 'Solved','open' => 'Open','closed' => 'Closed')
