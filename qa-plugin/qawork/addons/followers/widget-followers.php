@@ -85,7 +85,7 @@
 			$themeobject->output('<div class="ra-followers-widget">');
 				
 				if($account['followers'] <1){
-					$themeobject->output('<div class="no-followers"><span>Follow '.$handle.' for updates</span>');
+					$themeobject->output('<div class="no-followers"><span>'.qa_lang_sub('cleanstrap/follow_x_for_updates',$handle ).'</span>');
 					$themeobject->favorite();
 					$themeobject->output('</div>');
 				}else
