@@ -154,7 +154,7 @@ class Qw_Notification_Addon{
 			
 			$handle = qa_request_part(1) ;
 			
-			if ($handle == qa_get_logged_in_handle() || qa_request_part(0) == 'notification-settings') {
+			if (qa_is_logged_in() && ($handle === qa_get_logged_in_handle() || qa_request_part(0) == 'notification-settings') ) {
 				$themeclass['navigation']['sub']['notification-settings'] = $link ;
 				if(qa_request_part(0) == 'notification-settings') {
 					$themeclass['navigation']['sub']['notification-settings']['selected'] = true;
