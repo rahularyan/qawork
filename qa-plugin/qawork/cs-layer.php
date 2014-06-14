@@ -922,8 +922,10 @@ class qa_html_theme_layer extends qa_html_theme_base {
 			
 			if(isset($form) && !qw_is_state_edit() && $this->template != 'account'){
 				$this->output('<form class="user-buttons" '.$form['tags'].'><div class="btn-group">');
-				foreach($form['buttons'] as $k => $btn)
+				if(isset($form['buttons']) && !empty($form['buttons']) && is_array($form['buttons'])){
+					foreach($form['buttons'] as $k => $btn)
 					$this->output('<button class="btn '.$k .($k == 'delete' ? ' btn-danger' : '' ).'" ' . $btn['tags'] . ' type="submit">' . $btn['label'] . '</button>');
+				}
 				$this->output('</div>');
 				$this->output('<input type="hidden" name="code" value="'.@$form['hidden']['code'].'" />');
 				$this->output('</form>');
