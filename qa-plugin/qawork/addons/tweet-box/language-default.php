@@ -11,4 +11,5 @@ return array(
 		"qw_twitter_qw_label"      => "Consumer secret:",
 		"qw_twitter_at_label"      => "Access token:",
 		"qw_twitter_ts_label"      => "Access Token Secret:",
+		"tweet_box"                => "QW Tweet Box",
 	);

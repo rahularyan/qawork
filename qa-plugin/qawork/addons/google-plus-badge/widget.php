@@ -176,7 +176,7 @@ class qw_google_plus_badge {
 
             // widget start 
             if(@$themeobject->current_widget['param']['locations']['show_title'])
-                        $themeobject->output('<h3 class="widget-title">Google Plus Badge</h3>');
+                        $themeobject->output('<h3 class="widget-title">'.qa_lang('qw_gp_badge/gp_badge').'</h3>');
 
             $themeobject->output('<div class="google-plus clearfix">');
             $themeobject->output($gp_badge);

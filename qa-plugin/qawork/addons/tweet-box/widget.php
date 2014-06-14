@@ -140,7 +140,7 @@
       $user = $this->get_tw_settings($widget_opt ,'qa_twitter_id');
       $count=(int)$this->get_tw_settings($widget_opt ,'qa_twitter_t_count');
       if(@$themeobject->current_widget['param']['locations']['show_title'])
-                        $themeobject->output('<h3 class="widget-title">QW Tweet Box</h3>');
+                        $themeobject->output('<h3 class="widget-title">'.qa_lang("qw_tweet_box/tweet_box").'</h3>');
       
       $themeobject->output('<div class="qa-twitter-widget  clearfix">');
         
