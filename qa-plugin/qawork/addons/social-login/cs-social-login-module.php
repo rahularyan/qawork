@@ -93,7 +93,8 @@ class qw_open_login {
                 // not really interested in the error message - for now
                 // however, in case we have errors 6 or 7, then we have to call logout to clean everything up
                 if ($e->getCode() == 6 || $e->getCode() == 7) {
-                    $adapter->logout();
+                    if(isset($adapter) && !empty($adapter))
+                        $adapter->logout();
                 }
 
                 $qry = 'provider=' . $this->provider . '&code=' . $e->getCode();
