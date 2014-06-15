@@ -109,7 +109,12 @@ class qw_tags_admin_page {
 					<h4 class="modal-title" id="tag-modal-label">Edit tag <span></span></h4>
 				  </div>
 				  <div class="modal-body">
-					<form >
+				  	<div class="ta-ajax-response alert alert-danger alert-dismissable">
+				  	  <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+				  	  <p class="message">
+				  	  </p>
+				  	</div>
+					<form>
 						<label>Tag Title</label>
 						<input name="title" value="" class="form-control" placeholder="Tag Title" disabled>
 						
@@ -119,7 +124,7 @@ class qw_tags_admin_page {
 				  </div>
 				  <div class="modal-footer">
 					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-					<button id="save-tags" type="button" class="btn btn-primary">Save changes</button>
+					<button id="save-tags" type="button" class="btn btn-primary" data-loading-text="Saving..." >Save changes</button>
 				  </div>
 				</div>
 			  </div>
