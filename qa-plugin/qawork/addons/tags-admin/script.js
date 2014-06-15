@@ -5,21 +5,26 @@ $(document).ready(function(){
 		qw_active_elm_on_tags,
 		successMessage = '<strong>Success!</strong> The tag description has been saved.' ,
 		errorMessage = '<strong>Ooopss!</strong> Server Error occured ' ,
-		ajaxResponseElem = $('#tags-edit-modal .ta-ajax-response') ;
+		ajaxResponseElem = $('#tags-edit-modal .ta-ajax-response') , 
+		prevDesc ;
 	$('.edit-tag-item').click(function(e){
 		e.preventDefault();
 		qw_active_elm_on_tags = $(this);
 		qw_active_tag_to_edit = $(this).data('tag');
 		qw_tag_edit_code = $(this).closest('.tags-edit-list').data('code');
-
+		prevDesc = $(this).next('p').text() ;
 		$('#tag-modal-label span').text(qw_active_tag_to_edit);
 		$('#tags-edit-modal input[name="title"]').val( qw_active_tag_to_edit);
-		$('#tags-edit-modal textarea[name="description"]').val($(this).next('p').text());
+		$('#tags-edit-modal textarea[name="description"]').val(prevDesc);
 		ajaxResponseElem.not('.hidden').addClass('hidden');
 		$('#tags-edit-modal').modal('toggle');
 	});
 	$('#save-tags').click(function(){
-		$btn = $(this) ; 
+		var $btn = $(this) , 
+			desc = $('#tags-edit-modal textarea[name="description"]').val() ; 
+		if (prevDesc === desc) {
+			return ;
+		};
     	$btn.button('loading') ;
 		ajaxResponseElem.not('.hidden').addClass('hidden');
 		$.ajax({
@@ -29,12 +34,13 @@ $(document).ready(function(){
 				action: 'save_tags',
 				code: qw_tag_edit_code,
 				tag: qw_active_tag_to_edit,
-				description: $('#tags-edit-modal textarea[name="description"]').val(),
+				description: desc ,
 			},
 			dataType: 'html',
 			context:this,
 		})
-		.done(function (response) {				
+		.done(function (response) {		
+				prevDesc = response ;		
 				if(qw_active_elm_on_tags.next().is('p')){
 					qw_active_elm_on_tags.next('p').text(response);
 				}
