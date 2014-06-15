@@ -55,14 +55,14 @@ class qw_fb_invite_frnds_widget {
             $message = strtr($message , array('{site_url}' => QW_BASE_URL ));
             // widget start 
             if(@$themeobject->current_widget['param']['locations']['show_title'])
-                        $themeobject->output('<h3 class="widget-title">QW Facebook Invite</h3>');
+                        $themeobject->output('<h3 class="widget-title">'.qa_lang("qw_social_posting/qw_invite_friends").'</h3>');
             $themeobject->output('<div class="fb-invite-frnds clearfix">');
             if (!!qa_opt("facebook_app_id")) {
                   $on_click_event = qw_generate_facebook_invite_script(qa_opt("facebook_app_id"), array('url' => QW_BASE_URL , 'message' => $message))  ;
                   $button = '<button class="btn btn-block btn-facebook" onclick="'.$on_click_event.'">'.qa_lang_html('qw_social_posting/send_facebook_invite').'</button>' ;
                   $themeobject->output($button );
             }else {
-                  $themeobject->output("Please provide Facebook application Id to enable this option in Theme Options -> Social Login ");
+                  $themeobject->output(qa_lang('qw_social_posting/qw_invite_friends_err_msg'));
             }
             
             $themeobject->output('</div>');
