@@ -23,5 +23,6 @@ return array(
 	"community"                  => "Community" ,
 	"qw_gp_show_owners_label"    => "Displays a list of community owners if set to true. (only applicable for communities )" ,
 	"qw_gp_showphoto_label"      => "Displays a list of community owners if set to true. (only applicable for communities )" ,
+	"gp_badge"                   => "Google Plus Badge" ,
 	);
 

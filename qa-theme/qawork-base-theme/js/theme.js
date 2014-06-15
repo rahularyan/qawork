@@ -8,7 +8,7 @@ function qw_animate_button(elm, hide){
 		$(elm).addClass('btn-loading');
 }
 function qw_remove_animate_button(elm){
-	$(elm).removeClass('.btn-loading.active');
+	$(elm).removeClass('btn-loading active');
 }
 
 function qw_question_meta(){

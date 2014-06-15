@@ -150,7 +150,7 @@ class qw_fb_likebox_widget {
             $data_str = implode(' ', $data ) ;
             // widget start 
             if(@$themeobject->current_widget['param']['locations']['show_title'])
-                        $themeobject->output('<h3 class="widget-title">QW Facebook Like Box</h3>');
+                        $themeobject->output('<h3 class="widget-title">'.qa_lang('qw_fb_like_box/fb_like_box').'</h3>');
 
             $themeobject->output('<div class="fb-like-box clearfix">');
             

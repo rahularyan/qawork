@@ -15,10 +15,10 @@
 						if (function_exists('qw_get_fb_invite_button')) {
 							echo qw_get_fb_invite_button();
 						}
-							echo $this->fb_ask_your_friend(qw_current_url(), 'Message your friend');
+							echo $this->fb_ask_your_friend(qw_current_url(), qa_lang('qw_social_posting/message_your_friends'));
 						?>
 					</div>
-					<p class="total-site-count align-right">Tell your friends about this site</p>
+					<p class="total-site-count align-right"><?php echo qa_lang('qw_social_posting/tell_your_friends'); ?></p>
 			</div>
 		</div>
 

@@ -33,4 +33,8 @@ return array(
 	'invite_friends' => 'Invite your friends',
 	'ask_your_friends' => 'Ask your friends',
 	'qw_fb_invite_message_label' => 'Your costum message while inviting friends (^name will be replaced by users name , and ^site_url will be replaced by website URL) ',
+	'tell_your_friends' => 'Tell your friends about this site ',
+	'message_your_friends' => 'Message your friend',
+	'qw_invite_friends' => 'QW Invite Friends',
+	'qw_invite_friends_err_msg' => '"Please provide Facebook application Id to enable this option in Theme Options -> Social Login "',
 );

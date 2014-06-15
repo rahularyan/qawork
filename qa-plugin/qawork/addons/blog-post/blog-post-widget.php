@@ -1,6 +1,6 @@
 <?php
 
-class qw_fb_invite_frnds_widget {
+class qw_blog_post_widget {
 
       function qw_widget_form() {
 
@@ -47,23 +47,11 @@ class qw_fb_invite_frnds_widget {
 
       function output_widget($region, $place, $themeobject, $template, $request, $qa_content) {
             $widget_opt  = @$themeobject->current_widget['param']['options'];
-            $message = qa_opt("qw_fb_invite_message") ;
-            if (!$message) {
-                  $message = qa_lang_html('qw_social_posting/fb_invite_message_default') ; 
-            }
-
-            $message = strtr($message , array('{site_url}' => QW_BASE_URL ));
+            
             // widget start 
             if(@$themeobject->current_widget['param']['locations']['show_title'])
-                        $themeobject->output('<h3 class="widget-title">'.qa_lang("qw_social_posting/qw_invite_friends").'</h3>');
-            $themeobject->output('<div class="fb-invite-frnds clearfix">');
-            if (!!qa_opt("facebook_app_id")) {
-                  $on_click_event = qw_generate_facebook_invite_script(qa_opt("facebook_app_id"), array('url' => QW_BASE_URL , 'message' => $message))  ;
-                  $button = '<button class="btn btn-block btn-facebook" onclick="'.$on_click_event.'">'.qa_lang_html('qw_social_posting/send_facebook_invite').'</button>' ;
-                  $themeobject->output($button );
-            }else {
-                  $themeobject->output(qa_lang('qw_social_posting/qw_invite_friends_err_msg'));
-            }
+                        $themeobject->output('<h3 class="widget-title">'.qa_lang("qw_blog_post/qw_blog_widget").'</h3>');
+            $themeobject->output('<div class="qw-blog-post clearfix">');
             
             $themeobject->output('</div>');
             // widget end 
