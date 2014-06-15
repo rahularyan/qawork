@@ -18,7 +18,7 @@ require_once QW_CONTROL_DIR .'/addons/social-posting/cs-social-posting-utils.php
 require_once QW_CONTROL_DIR . '/addons/social-login/cs-social-login-utils.php';
 
 qa_register_plugin_module('page', 'addons/social-posting/social-posting-settings.php', 'qw_social_posting_page', 'QW Social Posting Page');
-qa_register_plugin_module('page', 'addons/social-posting/invite-friends.php', 'qw_social_invite_friends_page', 'QW Social Invite Friends Page');
+//qa_register_plugin_module('page', 'addons/social-posting/invite-friends.php', 'qw_social_invite_friends_page', 'QW Social Invite Friends Page');
 qa_register_plugin_module('widget', 'addons/social-posting/invite-friends-widget.php', 'qw_fb_invite_frnds_widget', 'QW Invite Facebook Friends');
 
 
