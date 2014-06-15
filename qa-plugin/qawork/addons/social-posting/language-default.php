@@ -36,5 +36,5 @@ return array(
 	'tell_your_friends' => 'Tell your friends about this site ',
 	'message_your_friends' => 'Message your friend',
 	'qw_invite_friends' => 'QW Invite Friends',
-	'qw_invite_friends' => '"Please provide Facebook application Id to enable this option in Theme Options -> Social Login "',
+	'qw_invite_friends_err_msg' => '"Please provide Facebook application Id to enable this option in Theme Options -> Social Login "',
 );
