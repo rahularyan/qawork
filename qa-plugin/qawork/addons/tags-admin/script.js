@@ -52,7 +52,7 @@ $(document).ready(function(){
 				};
 			})
 		.fail(function(response) {
-			if (ajaxResponseElem.hasClass('alert-success')) {
+				if (ajaxResponseElem.hasClass('alert-success')) {
 					ajaxResponseElem.removeClass('alert-success');
 				};
 				ajaxResponseElem.addClass('alert-danger');
