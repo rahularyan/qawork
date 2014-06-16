@@ -1209,4 +1209,3 @@ function qw_check_pref_for_event($userid , $event , $all_preferences='' )
       }   
       return false;
 }
-

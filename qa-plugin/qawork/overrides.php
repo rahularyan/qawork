@@ -6,13 +6,13 @@ if (!defined('QA_VERSION')) {
 }
 function qa_set_user_avatar($userid, $imagedata, $oldblobid=null){
 
-	//if (!isset($imagedata) || empty($imagedata)) {
+	if (!empty($_FILES['file'])) {
 		//require_once QA_INCLUDE_DIR.'qa-util-image.php';
 		require_once QW_CONTROL_DIR.'/inc/class_images.php';
 		$thumb = new Image($_FILES['file']['tmp_name']);
 		$thumb->resize(200, 200, 'crop', 'c', 'c', 100);
 		$imagedata=$thumb->get_image_content();
-	//}
+	}
 
 	if (isset($imagedata)) {
 		require_once QA_INCLUDE_DIR.'qa-app-blobs.php';
