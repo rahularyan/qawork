@@ -14,7 +14,9 @@ function get_base_url()
 	/* Returns localhost OR mysite.com */
 	$host = $_SERVER['HTTP_HOST'];
 
-	return $protocol . $host . '/' . str_replace($root, '', $base );
+	$url = $protocol . $host . '/' . str_replace($root, '', $base );
+	
+	return (substr($url, -1) == '/') ? substr($url, 0, -1) : $url;
 }	
 
 function qw_is_home(){
@@ -1207,3 +1209,4 @@ function qw_check_pref_for_event($userid , $event , $all_preferences='' )
       }   
       return false;
 }
+
