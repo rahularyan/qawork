@@ -339,10 +339,8 @@ class QW_Media_Addon{
 			if(qa_request_part(0) == 'ask')
 				$content['form']['fields'] = qw_array_insert_before('content', $content['form']['fields'], 'qw_media', $qw_media );
 		
-			return $content;
-			
+			return $content;			
 		}
-
 	}
 	
 	function upload_modal(){

@@ -1046,6 +1046,20 @@ function qw_array_insert_before($key, array &$array, $new_key, $new_value) {
   return FALSE;
 }
 
+function qw_array_insert_after($key, array &$array, $new_key, $new_value) {
+  if (array_key_exists($key, $array)) {
+    $new = array();
+    foreach ($array as $k => $value) {
+      $new[$k] = $value;
+      if ($k === $key) {
+        $new[$new_key] = $new_value;
+      }
+    }
+    return $new;
+  }
+  return FALSE;
+}
+
 function qw_order_profile_fields($profile){
 	 $keys = qw_apply_filter('order_profile_field', array('name', 'website', 'location', 'about', 'company'));
 	 foreach ($profile as $key => $value) {
@@ -1208,4 +1222,9 @@ function qw_check_pref_for_event($userid , $event , $all_preferences='' )
          }
       }   
       return false;
+}
+
+
+function qw_get_all_post_metas($postid){
+	return qa_db_read_all_assoc(qa_db_query_sub('SELECT title, content FROM ^postmetas WHERE postid=#', $postid ), 'title', 'content');
 }

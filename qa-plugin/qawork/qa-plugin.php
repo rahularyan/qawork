@@ -88,6 +88,28 @@ if (qw_hook_exist('register_language')){
 	}
 }
 
+qw_add_action('after_content', 'qw_save_custom_question_fields');
+function qw_save_custom_question_fields($qa_content, $qin){	
+	if (qa_clicked('q_dosave')){
+		$question = $qa_content['q_view']['raw'];
+
+		if(qa_page_q_permit_edit($question, 'permit_edit_q', $pageerror, 'permit_retag_cat')){
+		
+			$questionid = $question['postid'];
+			if(!empty($questionid)){
+				require_once QA_INCLUDE_DIR.'qa-db-metas.php';
+				$fields = qw_apply_filter('custom_save_question_fields', array());
+
+				if(!empty($fields) && is_array($fields)){
+					foreach( $fields as $key => $value)
+						qa_db_postmeta_set($questionid, $key, $value);
+				}
+			}
+		}
+		qa_redirect(qa_q_request($questionid, $qin['title']));
+	}
+}
+
 qw_event_hook('enqueue_css', NULL, 'qw_admin_enqueue_css');
 function qw_admin_enqueue_css($css_src){
 	$css_src['qw_admin'] = QW_CONTROL_URL . '/css/admin.css';
@@ -204,4 +226,43 @@ function qw_popover_form_code(){
 	echo '87533984574385';
 	
 	die();
+}
+
+
+qw_add_filter('custom_question_fields', 'qw_custom_question_field');
+function qw_custom_question_field($form){
+
+	$form['qw_custom'] = array(
+		'label' => 'Custom Field',
+		'tags' => 'name="qw_custom"',
+		'type' => 'text',
+		'value' => ''
+	);
+	$form['qw_coding'] = array(
+		'label' => 'Your coding language',
+		'tags' => 'name="qw_coding"',
+		'type' => 'select',
+		'options' => array('PHP' => 'PHP', 'JavaScript' => 'JavaScript', 'HTML' => 'HTML', 'Visual Basic' => 'Visual Basic')
+	);
+
+	return $form;
+}
+
+qw_add_filter('custom_save_question_fields', 'qw_custom_save_question_field');
+function qw_custom_save_question_field($fields){
+	$fields['qw_custom'] = qa_post_text('qw_custom');
+	$fields['qw_coding'] = qa_post_text('qw_coding');
+	return $fields;
+}
+
+qw_add_action('show_custom_question_fields', 'qw_show_custom_question_field');
+function qw_show_custom_question_field($fields, $post){
+	$output = '';
+	if(isset($fields['qw_coding']))
+		$output .= '<p>I love '.$fields['qw_coding'].'</p>';
+	
+	if(isset($fields['qw_custom']))
+		$output .= '<p>My reason: '.$fields['qw_custom'].'</p>';
+		
+	return $output;
 }
