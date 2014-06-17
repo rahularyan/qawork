@@ -107,9 +107,10 @@ function qw_save_custom_question_fields($params){
 					foreach( $fields as $key => $value)
 						qa_db_postmeta_set($questionid, $key, $value);
 				}
+				unset($_POST['q_dosave']);
+				qa_redirect(qa_q_request($questionid, $params['qin']['title']));
 			}
-		}
-		qa_redirect(qa_q_request($questionid, $params['qin']['title']));
+		}		
 	}
 	if(qa_clicked('doask') && qa_check_form_security_code('ask', qa_post_text('code'))){
 		$questionid = $params['questionid'];
@@ -122,8 +123,11 @@ function qw_save_custom_question_fields($params){
 					foreach( $fields as $key => $value)
 						qa_db_postmeta_set($questionid, $key, $value);
 				}
+				unset($_POST['doask']);
+				qa_redirect(qa_q_request($questionid, $in['title']));
 			}
 		}
+		
 	}
 }
 
