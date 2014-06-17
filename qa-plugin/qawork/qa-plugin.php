@@ -5,7 +5,7 @@
 	Plugin Name: QW Control
 	Plugin URI: http://rahularyan.com/cleanstrap
 	Plugin Description: This is the helper plugin for cleanstrap theme developed by rahularyan.com
-	Plugin Version: 1.0
+	Plugin Version: 1.1
 	Plugin Date: 2014-21-03
 	Plugin Author: Rahularyan.com
 	Plugin License: GPLv2
@@ -18,11 +18,14 @@ if (!defined('QA_VERSION')) { // don't allow this page to be requested directly 
 	exit;
 }
 
+//	Ensure no PHP errors are shown in the Ajax response
+	@ini_set('display_errors', 0);
+
 //return; // use this if theme is disabled
 
 define('QW_CONTROL_DIR', dirname( __FILE__ ));
 define('QW_CONTROL_ADDON_DIR', QW_CONTROL_DIR.'/addons');
-define('QW_VERSION', '1.0');
+define('QW_VERSION', '1.1');
 
 require_once QW_CONTROL_DIR. '/functions.php';
 
@@ -137,9 +140,10 @@ function qw_ajax_save_widget_position()
 {
 	if (qa_get_logged_in_level() >= QA_USER_LEVEL_ADMIN) {
 		$position     = strip_tags($_REQUEST['position']);
-		$jsonstring = stripslashes2(str_replace('\"', '"', $_REQUEST['widget_names']));
+		$jsonstring = str_replace('\\', '', $_REQUEST['widget_names']);
 		$widget_names = json_decode($jsonstring, true);
 		$newid        = array();
+
 		if (isset($widget_names) && is_array($widget_names))
 			foreach ($widget_names as $k => $w) {
 				$param = array(
@@ -147,7 +151,7 @@ function qw_ajax_save_widget_position()
 					'options' => $w['options']
 				);
 				if (isset($w['id']) && $w['id'] > 0)
-					$newid[] = widget_opt($w['name'], $position, $k, serialize($param), $w['id']);
+					$newid[] = widget_opt($w['name'], $position, $k, serialize($param), @$w['id']);
 				else
 					$newid[] = widget_opt($w['name'], $position, $k, serialize($param));
 			}

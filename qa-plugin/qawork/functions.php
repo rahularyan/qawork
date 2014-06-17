@@ -55,18 +55,7 @@ function qw_read_addons(){
 	}
 	return $addons;
 }
-function qw_read_addons_ajax(){
-	$addons = array();
-	//load files from addons folder
-	$files=glob(QW_CONTROL_DIR.'/addons/*/ajax.php');
-	//print_r($files);
-	foreach ($files as $file){
-		$data['folder'] = basename(dirname($file));
-		$data['file'] = basename($file);
-		$addons[] = $data;
-	}
-	return $addons;
-}
+
 
 function qw_load_addons(){
 	$addons = qw_read_addons();
