@@ -46,7 +46,8 @@ function qa_get_request_content()
 		$_COOKIE['qa_admin_last']=$requestlower; // for navigation tab now...
 		setcookie('qa_admin_last', $_COOKIE['qa_admin_last'], 0, '/', QA_COOKIE_DOMAIN); // ...and in future
 	}
-	qw_do_action('after_content', $qa_content, @$qin);
+	$passing_params = array('content' => @$qa_content, 'qin' => @$qin, 'in' => @$in, 'questionid' => @$questionid);
+	qw_do_action('after_content', $passing_params);
 	qa_set_form_security_key();
 	
 	return $qa_content;
@@ -55,6 +56,7 @@ function qa_get_request_content()
 function qa_redirect_raw($url)
 {
 	if(qa_clicked('q_dosave')) return;
+	if(qa_clicked('doask')) return;
 	header('Location: '.$url);
 	qa_exit('redirect');
 }

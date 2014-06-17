@@ -2208,7 +2208,7 @@ class qa_html_theme_layer extends qa_html_theme_base {
 		if (qw_hook_exist(__FUNCTION__)) {$args=func_get_args(); array_unshift($args, $this); return qw_event_hook(__FUNCTION__, $args, NULL); }
         $this->output('<div class="qa-message-item" ' . @$message['tags'] . '>');
         $this->output('<div class="asker-avatar">');
-        $this->output(qw_get_avatar($message['raw']['fromhandle'], 35));
+        $this->output(qw_get_avatar(@$message['raw']['fromhandle'], 35));
         $this->output('</div>');
         $this->output('<div class="qa-message-item-inner">');
 		$this->message_buttons($message);
