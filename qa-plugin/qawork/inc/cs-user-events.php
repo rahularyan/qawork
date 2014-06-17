@@ -477,8 +477,9 @@
 		}
 
 		function qw_notify_emails_selectspec($userid, $tags, $categoryid) {
+				if(file_exists(QW_CONTROL_DIR .'/addons/notification/functions.php')){
 				require_once QW_CONTROL_DIR .'/addons/notification/functions.php';
-	            if (notify_addon_enabled_from_admin_panel()) {  //proceed only if the plugin is enabled
+					if (notify_addon_enabled_from_admin_panel()) {  //proceed only if the plugin is enabled
 		                  require_once QA_INCLUDE_DIR . 'qa-app-updates.php';
 		                  $source = '';
 		                  $arguments = array();
@@ -515,6 +516,7 @@
 		                      'sortasc' => 'title',
 		                  );
 	            	}  //if plugin is enabled 
+				}
         	}
 
             function combine_users($user_datas) {
