@@ -22,10 +22,6 @@
 	require_once QA_INCLUDE_DIR.'qa-app-format.php';
 	require_once QA_INCLUDE_DIR.'qa-app-options.php';
 	require_once QA_INCLUDE_DIR.'qa-db-selects.php';
-
-	// load all addons ajax query
-	qw_load_addons_ajax();
-	
 	
 
 if(isset($_REQUEST['action'])){

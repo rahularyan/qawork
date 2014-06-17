@@ -197,7 +197,7 @@ class qw_theme_widgets {
 				if($options){
 					foreach($options as $k => $opt){
 						if(isset($fields['fields'][$k])){
-							$fields['fields'][$k]['value'] = utf8_decode(urldecode($opt));
+							$fields['fields'][$k]['value'] = urldecode($opt);
 						}
 					}
 				}

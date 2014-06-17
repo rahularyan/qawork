@@ -66,8 +66,32 @@ class qa_html_theme_layer extends qa_html_theme_base {
 				}
 			
 			}
+			
+			if (qw_hook_exist('custom_question_fields') && (isset($this->content['form_q_edit']) || qa_request_part(0) == 'ask')){
+				
+				$form = array();
+				$form = qw_apply_filter('custom_question_fields', $form);
+				
+				if(!empty($form) && is_array($form)){					
+					if($this->template =='ask') 
+						$this->content['form']['fields'] = array_merge($this->content['form']['fields'], $form) ;
+					else{
+						require_once QA_INCLUDE_DIR.'qa-db-metas.php';
+						
+						$fields = array_keys($form);
+						$values = qa_db_postmeta_get(qa_request_part(0), $fields);
+						foreach ($form as $k => $value){
+							if(!empty($values[$k]))
+								@$form[$k]['value'] = @$values[$k];
+						}
+						$this->content['form_q_edit']['fields'] = array_merge($this->content['form_q_edit']['fields'], $form) ;
+
+					}
+				}
+			}
+			
 		}
-		
+
 		if(qw_hook_exist('doctype'))
 			$this->content = qw_apply_filter('doctype', $this->content);
 	}
@@ -1589,6 +1613,17 @@ class qa_html_theme_layer extends qa_html_theme_base {
 			if(isset($q_view['raw']['postid'])){
 				$this->output(qw_do_action('after_question', $q_view['raw']['postid']));
 			}
+			
+			/// for showing custom fields
+			if(qw_hook_exist('show_custom_question_fields') && !isset($this->content['form_q_edit'])){
+				$fields = qw_get_all_post_metas($q_view['raw']['postid']);
+				$this->output(
+					'<div class="custom-fields">', 
+					qw_do_action('show_custom_question_fields',$fields, $q_view['raw']),
+					'</div>'
+				);
+			}
+			
             $this->output('</div>');
 						
 			$this->q_view_extra($q_view);
@@ -2173,7 +2208,7 @@ class qa_html_theme_layer extends qa_html_theme_base {
 		if (qw_hook_exist(__FUNCTION__)) {$args=func_get_args(); array_unshift($args, $this); return qw_event_hook(__FUNCTION__, $args, NULL); }
         $this->output('<div class="qa-message-item" ' . @$message['tags'] . '>');
         $this->output('<div class="asker-avatar">');
-        $this->output(qw_get_avatar($message['raw']['fromhandle'], 35));
+        $this->output(qw_get_avatar(@$message['raw']['fromhandle'], 35));
         $this->output('</div>');
         $this->output('<div class="qa-message-item-inner">');
 		$this->message_buttons($message);

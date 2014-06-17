@@ -13,6 +13,9 @@
 			qw_add_filter('enqueue_scripts', array($this, 'qw_enqueue_scripts'), 110);
 			qw_event_hook('widget_positions', NULL, array($this, 'qw_register_widget_positions'));
 			qw_event_hook('template_array', NULL, array($this, 'qw_default_page_templates'));
+			qw_add_filter('custom_question_fields', array($this, 'qw_custom_question_field'));
+			qw_add_filter('custom_save_question_fields', array($this, 'qw_custom_save_question_field'));
+			qw_add_action('show_custom_question_fields', array($this, 'qw_show_custom_question_field'));
 		}
 		
 		function qw_enqueue_css($css_src){
@@ -101,5 +104,41 @@
 				//'admin' 		=> 'Admin'
 			);
 		}
+		
+		function qw_custom_question_field($form){
+
+			$form['qw_custom'] = array(
+				'label' => 'Custom Field',
+				'tags' => 'name="qw_custom"',
+				'type' => 'text',
+				'value' => ''
+			);
+			$form['qw_coding'] = array(
+				'label' => 'Your coding language',
+				'tags' => 'name="qw_coding"',
+				'type' => 'select',
+				'options' => array('PHP' => 'PHP', 'JavaScript' => 'JavaScript', 'HTML' => 'HTML', 'Visual Basic' => 'Visual Basic')
+			);
+
+			return $form;
+		}
+
+		function qw_custom_save_question_field($fields){
+			$fields['qw_custom'] = qa_post_text('qw_custom');
+			$fields['qw_coding'] = qa_post_text('qw_coding');
+			return $fields;
+		}
+
+		
+		function qw_show_custom_question_field($fields, $post){
+			$output = '';
+			if(isset($fields['qw_coding']))
+				$output .= '<p>I love '.$fields['qw_coding'].'</p>';
+			
+			if(isset($fields['qw_custom']))
+				$output .= '<p>My reason: '.$fields['qw_custom'].'</p>';
+				
+			return $output;
+		}	
 
 	}

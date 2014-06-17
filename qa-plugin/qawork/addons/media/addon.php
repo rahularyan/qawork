@@ -326,20 +326,20 @@ class QW_Media_Addon{
 	}
 
 	public function ra_post_buttons($content){
-		if(isset($content['q_view'])){
-			$postid = $content['q_view']['raw']['postid'];
-
-			if (isset($content['form_q_edit']) && (qa_get_logged_in_level() >= QA_USER_LEVEL_ADMIN)){
-				$qw_media=array(
-					'label' => '<button type="button" class="icon-image btn btn-default open-media-modal" data-args="'.$postid.'">'.qa_lang_html('qw_media/media').'</button>',
-					'type' => 'custom',
-				);
-				
+		$postid = @$content['q_view']['raw']['postid'];
+		$postid = isset($postid) ? $postid : 0;
+		if ((isset($content['form_q_edit']) || qa_request_part(0) == 'ask') && (qa_get_logged_in_level() >= QA_USER_LEVEL_ADMIN)){
+			$qw_media=array(
+				'label' => '<button type="button" class="icon-image btn btn-default open-media-modal" data-args="'.$postid.'">'.qa_lang_html('qw_media/media').'</button>',
+				'type' => 'custom',
+			);
+			if(isset($content['form_q_edit']))
 				$content['form_q_edit']['fields'] = qw_array_insert_before('content', $content['form_q_edit']['fields'], 'qw_media', $qw_media );
 			
-				return $content;
-				
-			}
+			if(qa_request_part(0) == 'ask')
+				$content['form']['fields'] = qw_array_insert_before('content', $content['form']['fields'], 'qw_media', $qw_media );
+		
+			return $content;			
 		}
 	}
 	

@@ -5,7 +5,7 @@
 	Plugin Name: QW Control
 	Plugin URI: http://rahularyan.com/cleanstrap
 	Plugin Description: This is the helper plugin for cleanstrap theme developed by rahularyan.com
-	Plugin Version: 1.0
+	Plugin Version: 1.1
 	Plugin Date: 2014-21-03
 	Plugin Author: Rahularyan.com
 	Plugin License: GPLv2
@@ -18,11 +18,14 @@ if (!defined('QA_VERSION')) { // don't allow this page to be requested directly 
 	exit;
 }
 
+//	Ensure no PHP errors are shown in the Ajax response
+	@ini_set('display_errors', 0);
+
 //return; // use this if theme is disabled
 
 define('QW_CONTROL_DIR', dirname( __FILE__ ));
 define('QW_CONTROL_ADDON_DIR', QW_CONTROL_DIR.'/addons');
-define('QW_VERSION', '1.0');
+define('QW_VERSION', '1.1');
 
 require_once QW_CONTROL_DIR. '/functions.php';
 
@@ -88,6 +91,42 @@ if (qw_hook_exist('register_language')){
 	}
 }
 
+qw_add_action('after_content', 'qw_save_custom_question_fields');
+function qw_save_custom_question_fields($params){	
+	if (qa_clicked('q_dosave')){
+		$question = $params['content']['q_view']['raw'];
+
+		if(qa_page_q_permit_edit($question, 'permit_edit_q', $pageerror, 'permit_retag_cat')){
+		
+			$questionid = $question['postid'];
+			if(!empty($questionid)){
+				require_once QA_INCLUDE_DIR.'qa-db-metas.php';
+				$fields = qw_apply_filter('custom_save_question_fields', array());
+
+				if(!empty($fields) && is_array($fields)){
+					foreach( $fields as $key => $value)
+						qa_db_postmeta_set($questionid, $key, $value);
+				}
+			}
+		}
+		qa_redirect(qa_q_request($questionid, $params['qin']['title']));
+	}
+	if(qa_clicked('doask') && qa_check_form_security_code('ask', qa_post_text('code'))){
+		$questionid = $params['questionid'];
+		if(qa_user_maximum_permit_error('permit_post_q', QA_LIMIT_QUESTIONS) === false){
+			if(!empty($questionid)){
+				require_once QA_INCLUDE_DIR.'qa-db-metas.php';
+				$fields = qw_apply_filter('custom_save_question_fields', array());
+
+				if(!empty($fields) && is_array($fields)){
+					foreach( $fields as $key => $value)
+						qa_db_postmeta_set($questionid, $key, $value);
+				}
+			}
+		}
+	}
+}
+
 qw_event_hook('enqueue_css', NULL, 'qw_admin_enqueue_css');
 function qw_admin_enqueue_css($css_src){
 	$css_src['qw_admin'] = QW_CONTROL_URL . '/css/admin.css';
@@ -115,9 +154,10 @@ function qw_ajax_save_widget_position()
 {
 	if (qa_get_logged_in_level() >= QA_USER_LEVEL_ADMIN) {
 		$position     = strip_tags($_REQUEST['position']);
-		$jsonstring = stripslashes2(str_replace('\"', '"', $_REQUEST['widget_names']));
+		$jsonstring = str_replace('\\', '', $_REQUEST['widget_names']);
 		$widget_names = json_decode($jsonstring, true);
 		$newid        = array();
+
 		if (isset($widget_names) && is_array($widget_names))
 			foreach ($widget_names as $k => $w) {
 				$param = array(
@@ -125,7 +165,7 @@ function qw_ajax_save_widget_position()
 					'options' => $w['options']
 				);
 				if (isset($w['id']) && $w['id'] > 0)
-					$newid[] = widget_opt($w['name'], $position, $k, serialize($param), $w['id']);
+					$newid[] = widget_opt($w['name'], $position, $k, serialize($param), @$w['id']);
 				else
 					$newid[] = widget_opt($w['name'], $position, $k, serialize($param));
 			}
@@ -205,3 +245,4 @@ function qw_popover_form_code(){
 	
 	die();
 }
+
