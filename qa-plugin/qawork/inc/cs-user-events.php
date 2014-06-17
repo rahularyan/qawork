@@ -208,7 +208,7 @@
 						}
 					}
 					// for social postings 
-					if (qw_check_pref_for_event($effecteduserid , $event , $all_preferences )) {
+					if (qw_check_pref_for_event(@$effecteduserid , $event , $all_preferences )) {
 						qw_do_action('user_event_q_post_social', $postid,$userid, null , $params, 'q_post');
 					}
 					$categoryid = isset($params['categoryid']) ? $params['categoryid'] : '' ;
