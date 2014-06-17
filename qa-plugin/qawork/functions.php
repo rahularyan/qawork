@@ -899,10 +899,10 @@ function qw_scheduler($function_name, $time_out = NULL, $params = NULL) {
 
                   //if current time is grater than last_rundate + interval then 
                   if ($current_time > $probable_run_date) {
-                        // call the callback function now 
-                        $value = call_user_func($function_name, $params);
-                        // update the last rundate 
+                  	 // update the last rundate to make sure it handles concurrent requests 
                         qa_opt($last_run_date_opt_name, $current_time->format($date_format));
+                        // once lastrundate  is updated , call the callback function to do the action  
+                        $value = call_user_func($function_name, $params);
                         return $value;
                   }
             } else {
@@ -916,7 +916,6 @@ function qw_scheduler($function_name, $time_out = NULL, $params = NULL) {
             if (!(is_numeric($time_out) && $time_out > 0 )) {
                   // if the $time_out is not a numeric value or not grater than 0 , then return 
                   return;
-                  qw_log("function came here ");
             }
             qa_opt($time_out_opt_name, $time_out);
       }
