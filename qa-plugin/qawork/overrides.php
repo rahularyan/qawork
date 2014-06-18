@@ -64,12 +64,14 @@ function qa_redirect_raw($url)
 function qa_set_user_avatar($userid, $imagedata, $oldblobid=null){
 
 	if (!empty($_FILES['file'])) {
-		//require_once QA_INCLUDE_DIR.'qa-util-image.php';
-		require_once QW_CONTROL_DIR.'/inc/class_images.php';
-		$thumb = new Image($_FILES['file']['tmp_name']);
-		$thumb->resize(200, 200, 'crop', 'c', 'c', 100);
-		$imagedata=$thumb->get_image_content();
+		
+		$imagedata= qa_gd_image_jpeg(qw_resize_image($_FILES['file']['tmp_name'], false, 150, 150, 100, true, true));
+	
+	}else{
+		$image=@imagecreatefromstring($imagedata);
+		$imagedata= qa_gd_image_jpeg(qw_resize_image($image, false, 150, 150, 100, true, true));
 	}
+	
 
 	if (isset($imagedata)) {
 		require_once QA_INCLUDE_DIR.'qa-app-blobs.php';

@@ -66,20 +66,28 @@ function qw_file_name($file){
 }
 
 function qw_upload_image($file, $postid = 0){
-	include_once(QW_CONTROL_DIR.'/inc/class_images.php');
 
-	$uploaddir = qw_upload_dir();
+	//return if not a valid image
+	if(!qw_is_image($file['tmp_name'])){
+		$name['status'] = false;
+		$name['error'] = 'Not valid image';
+		return $name;
+	}
+	$max_size = (int)qa_opt('qw_max_image_size');
+	
+	if(strlen($max_size) < 1 || $max_size == '0') $max_size = 1;
+
+	if($file['size']> ($max_size*1024*1024)){
+		$name['status'] = false;
+		$name['error'] = 'File size is bigger then '. $max_size;
+		return $name;
+	}
+	
+	$uploaddir = qw_upload_dir().'/';
 	$name = qw_file_name($file['name']);
-	$temp_name = 'temp_image'.$name['ext'];
+	$temp_name = $name['name'].'.'.$name['ext'];
 	move_uploaded_file($file['tmp_name'], $uploaddir.$temp_name);
-	
-	// get cropping position
-	$crop_x = qa_opt('qw_crop_x');
-	$crop_y = qa_opt('qw_crop_y');
-	
-	/// save original image first, and then assign id of original to other size
-	$image = new Image($uploaddir.$temp_name);
-	$image->save($name['name'], $uploaddir);	
+
 	qw_add_action('after_uploading_original_image', $image);
 	
 	$sizes = qw_image_size();
@@ -87,61 +95,58 @@ function qw_upload_image($file, $postid = 0){
 	if(isset($sizes)){
 
 		foreach($sizes as $k => $s){
-			$image = new Image($uploaddir.$temp_name);
 			
-			if($k =='thumb')
-				$image->resize($s[0], $s[1], 'crop', $crop_x, $crop_y, 90);
-			else
-				$image->resize($s[0], $s[1], 'crop', $crop_x, $crop_y, 90);
+			$file_name = $name['name'].'_'.$s[0].'x'. $s[1].'.'.$name['ext'];
+			$resize = qw_resize_image($uploaddir.$temp_name, $uploaddir.$file_name, $s[0], $s[1]);
 			
-			$file_name = $name['name'].'_'.$s[0].'x'. $s[1];
-			$image->save($file_name, $uploaddir);
-			$name[$k] = $file_name;
+			if($resize)
+				$name[$k] = $name['name'].'_'.$s[0].'x'. $s[1];
+				
 			qw_add_action('after_creating_thumb', $image);
 		}
 
 	}
-	
+	if(!isset($name['thumb'])) $name['thumb'] = $name['name'];
 	// insert to DB
 	$name['id'] = qw_insert_media($name['name'], $name['ext'], $postid );
 	$name['url'] = qw_upload_url();
 	$name['status'] = 'true';
-	unlink ($uploaddir.$temp_name); 
+	///unlink ($uploaddir.$temp_name); 
 	
 	return $name;
 }
 
 function qw_upload_cover($file){
 	$file = $_FILES[$file];
-	include_once(QW_CONTROL_DIR.'/inc/class_images.php');
+		//return if not a valid image
+	if(!qw_is_image($file['tmp_name'])){
+		$name['status'] = false;
+		$name['error'] = 'Not valid image';
+		return $name;
+	}
+	$max_size = (int)qa_opt('qw_max_image_size');
+	
+	if(strlen($max_size) < 1 || $max_size == '0') $max_size = 1;
+
+	if($file['size']> ($max_size*1024*1024)){
+		$name['status'] = false;
+		$name['error'] = 'File size is bigger then '. $max_size;
+		return $name;
+	}
 	require_once QA_INCLUDE_DIR.'qa-db-users.php';
 	
-	$uploaddir = qw_upload_dir();
+	$uploaddir = qw_upload_dir().'/';
 	$name = qw_file_name($file['name']);
-	$temp_name = 'temp_image'.$name['ext'];
-	move_uploaded_file($file['tmp_name'], $uploaddir.$temp_name);
+	$temp_name = $name['name'].'.'.$name['ext'];
+	move_uploaded_file($file['tmp_name'], $uploaddir.$temp_name);	
 	
-	// get cropping position
-	$crop_x = qa_opt('qw_crop_x');
-	$crop_y = qa_opt('qw_crop_y');
-	
-	/// save original image first, and then assign id of original to other size
-	$image = new Image($uploaddir.$temp_name);
-	$image->resize(1140, 217, 'crop');
-	$image->save($name['name'], $uploaddir);
-
-	$image = new Image($uploaddir.$temp_name);
-	$image->resize(300, 80, 'crop');
-	$image->save($name['name'].'_s', $uploaddir);	
-	
-	qw_add_action('after_uploading_cover', $image);
+	qw_add_action('after_uploading_cover', $temp_name);
 	
 	// insert to DB
 	$name['id'] = qw_insert_media($name['name'], $name['ext'], 0 );
 	$name['url'] = qw_upload_url();
 	$name['status'] = 'true';
 	$name['action'] = 'cover';
-	unlink ($uploaddir.$temp_name); 
 	
 	$prev_file = qw_user_profile(qa_get_logged_in_handle(), 'cover');
 
@@ -257,8 +262,15 @@ function qw_post_medias($postid, $size = 'thumb'){
 
 function qw_media_filename($m, $size = false){
 	$url = qw_upload_url();
-	if(isset($m['name']) && isset($m['type']))
-		return $url.'/'.$m['name'] .($size ? '_'.qw_get_image_size_string($size) : '').'.'. $m['type'];
+	$dir = qw_upload_dir();
+	
+	if(isset($m['name']) && isset($m['type'])){
+		$file = $m['name'] .($size ? '_'.qw_get_image_size_string($size) : '').'.'. $m['type'];
+		if(file_exists($dir.'/'.$file))
+			return $url.'/'.$file;
+		else
+			return $url.'/'.$m['name'] .'.'. $m['type'];
+	}
 	
 	return false;
 }
