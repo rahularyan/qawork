@@ -63,7 +63,6 @@ class qw_blogs {
     			qa_db_category_nav_selectspec($categoryslugs, false, false, true),
     			$countslugs ? qa_db_slugs_to_category_id_selectspec($categoryslugs) : null
     		);
-    		qw_log(print_r($questions, true ));
     		if ($countslugs) {
     			if (!isset($categoryid))
     				return include QA_INCLUDE_DIR.'qa-page-not-found.php';
@@ -75,44 +74,44 @@ class qw_blogs {
     			$nonetitle=qa_lang_html('main/no_questions_found');
     		
 
-    		$categorypathprefix=QA_ALLOW_UNINDEXED_QUERIES ? 'questions/' : null; // this default is applied if sorted not by recent
+    		$categorypathprefix=QA_ALLOW_UNINDEXED_QUERIES ? 'blogs/' : null; // this default is applied if sorted not by recent
     		$feedpathprefix=null;
     		$linkparams=array('sort' => $sort);
     		
     		switch ($sort) {
     			case 'hot':
-    				$sometitle=$countslugs ? qa_lang_html_sub('main/hot_qs_in_x', $categorytitlehtml) : qa_lang_html('main/hot_qs_title');
+    				$sometitle=$countslugs ? qa_lang_html_sub('qw_blog_post/hot_ps_in_x', $categorytitlehtml) : qa_lang_html('qw_blog_post/hot_ps_title');
     				$feedpathprefix=qa_opt('feed_for_hot') ? 'hot' : null;
     				break;
     				
     			case 'votes':
-    				$sometitle=$countslugs ? qa_lang_html_sub('main/voted_qs_in_x', $categorytitlehtml) : qa_lang_html('main/voted_qs_title');
+    				$sometitle=$countslugs ? qa_lang_html_sub('qw_blog_post/voted_ps_in_x', $categorytitlehtml) : qa_lang_html('qw_blog_post/voted_ps_title');
     				break;
     				
     			case 'answers':
-    				$sometitle=$countslugs ? qa_lang_html_sub('main/answered_qs_in_x', $categorytitlehtml) : qa_lang_html('main/answered_qs_title');
+    				$sometitle=$countslugs ? qa_lang_html_sub('qw_blog_post/commented_ps_in_x', $categorytitlehtml) : qa_lang_html('qw_blog_post/commented_ps_title');
     				break;
     			
     			case 'views':
-    				$sometitle=$countslugs ? qa_lang_html_sub('main/viewed_qs_in_x', $categorytitlehtml) : qa_lang_html('main/viewed_qs_title');
+    				$sometitle=$countslugs ? qa_lang_html_sub('qw_blog_post/viewed_ps_in_x', $categorytitlehtml) : qa_lang_html('qw_blog_post/viewed_ps_title');
     				break;
     			
     			default:
     				$linkparams=array();
-    				$sometitle=$countslugs ? qa_lang_html_sub('main/recent_qs_in_x', $categorytitlehtml) : qa_lang_html('main/recent_qs_title');
-    				$categorypathprefix='questions/';
-    				$feedpathprefix=qa_opt('feed_for_questions') ? 'questions' : null;
+    				$sometitle=$countslugs ? qa_lang_html_sub('qw_blog_post/recent_ps_in_x', $categorytitlehtml) : qa_lang_html('qw_blog_post/recent_ps_title');
+    				$categorypathprefix='blogs/';
+    				$feedpathprefix=qa_opt('feed_for_questions') ? 'blogs' : null;
     				break;
     		}
 
     		
     	//	Prepare and return content for theme
 
-    		$qa_content=qa_q_list_page_content(
+    		$qa_content=qw_blog_list_page_content(
     			$questions, // questions
     			qa_opt('page_size_qs'), // questions per page
     			$start, // start offset
-    			$countslugs ? $categories[$categoryid]['qcount'] : qa_opt('cache_qcount'), // total count
+    			$countslugs ? $categories[$categoryid]['pcount'] : qa_opt('cache_pcount'), // total count
     			$sometitle, // title if some questions
     			$nonetitle, // title if no questions
     			$categories, // categories for navigation
@@ -126,7 +125,7 @@ class qw_blogs {
     		);
     		
     		if (QA_ALLOW_UNINDEXED_QUERIES || !$countslugs)
-    			$qa_content['navigation']['sub']=qa_qs_sub_navigation($sort, $categoryslugs);
+    			$qa_content['navigation']['sub']=qw_blogs_sub_navigation($sort, $categoryslugs);
 
     		
     		return $qa_content;

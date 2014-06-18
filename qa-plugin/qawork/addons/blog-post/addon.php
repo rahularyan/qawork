@@ -48,6 +48,9 @@ class Qw_Blog_Post_Addon {
               'url' => qa_path_absolute("blogs") ,
               'label' => "Blogs" ,
           );
+          if (qa_request_part(0)=='blogs') {
+             $themeclass['navigation']['main']['blog']['selected'] = true ;
+          }
           return $themeclass;
       }
 
