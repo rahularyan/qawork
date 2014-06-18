@@ -296,7 +296,8 @@ class QW_Media_Addon{
 		
 		qw_add_action('qw_theme_option_tab', array($this, 'qw_theme_option_tab'));
 		qw_add_action('qw_theme_option_tab_content', array($this, 'qw_theme_option_tab_content'));
-		
+		qw_add_action('qw_reset_theme_options', array($this, 'reset_theme_options'));
+
 	}
 	public function init_queries($queries, $tableslc){
 		$tablename=qa_db_add_table_prefix('ra_media');			
@@ -558,8 +559,21 @@ class QW_Media_Addon{
 		
 		die();
 	}
-	
+	public function reset_theme_options() {
+	      if (qa_clicked('qw_reset_button')) {
+	        qa_opt("qw_max_image_size", 1 );
+	        qa_opt("qw_max_image_file", 2 );
+	        $saved=true;
+	      }
+	}
 	public function qw_theme_option_tab(){
+		 $saved=false;
+         if(qa_clicked('qw_save_button')){   
+             qa_opt("qw_max_image_size", (int)qa_post_text("qw_max_image_size"));
+             qa_opt("qw_max_image_file", (int)qa_post_text("qw_max_image_file"));
+             $saved=true;
+         }
+
 		return '<li>
 				<a href="#" data-toggle=".qa-part-form-tc-media">Media</a>
 			</li>';
@@ -578,7 +592,7 @@ class QW_Media_Addon{
 							Max size of image (MB)
 						</th>
 						<td class="qa-form-tall-label">
-							<input type="input" name="qw_max_image_size" id="qw_max_image_size" value="1" class="form-control">
+							<input type="input" name="qw_max_image_size" id="qw_max_image_size" value="<?php echo qa_opt('qw_max_image_size') ?>" class="form-control">
 						</td>
 					</tr>
 					<tr>
@@ -586,38 +600,10 @@ class QW_Media_Addon{
 							Max size of file (MB)
 						</th>
 						<td class="qa-form-tall-label">
-							<input type="input" name="qw_max_image_file" id="qw_max_image_file" value="5" class="form-control">
+							<input type="input" name="qw_max_image_file" id="qw_max_image_file" value="<?php echo qa_opt('qw_max_image_file') ?>" class="form-control">
 						</td>
 					</tr>
 				</tbody>
-				<tbody>
-				<tr>
-					<th class="qa-form-tall-label">
-						Image Cropping X
-						<span class="description">Crop Featured image from Right/Left</span>
-					</th>
-					<td class="qa-form-tall-label">
-						<select id="qw_crop_x" name="qw_crop_y" >
-							<option <?php echo (qa_opt('qw_crop_x') == 'l') ? ' selected' : ''; ?> value="l">left</option>
-							<option <?php echo (qa_opt('qw_crop_x') == 'c') ? ' selected' : ''; ?> value="c">Center</option>
-							<option <?php echo (qa_opt('qw_crop_x') == 'r') ? ' selected' : ''; ?> value="r">right</option>
-						</select>
-					</td>
-				</tr>
-				<tr>
-					<th class="qa-form-tall-label">
-						Image Cropping Y
-						<span class="description">Crop Featured image from Top/Bottom</span>
-					</th>
-					<td class="qa-form-tall-label">
-						<select id="qw_crop_y" name="qw_crop_y" >
-							<option <?php echo (qa_opt('qw_crop_y') == 't') ? ' selected' : '' ?> value="t">Top</option>
-							<option <?php echo (qa_opt('qw_crop_y') == 'c') ? ' selected' : ''; ?> value="c">Center</option>
-							<option <?php echo (qa_opt('qw_crop_y') == 'b') ? ' selected' : ''; ?> value="b">Bottom</option>
-						</select>
-					</td>
-				</tr>
-			</tbody>
 			</table>
 		</div>
 		<?php
