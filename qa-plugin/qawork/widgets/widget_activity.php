@@ -143,7 +143,7 @@
 					
 					$params = qw_event_log_row_parser($p['params']);
 					
-					if (!isset($posts[$params['postid']]))  {
+					if (!isset($params['postid']) || !isset($posts[$params['postid']]))  {
 						// some times the posts get deleted , then it should not show an error 
 						continue ;
 					}
