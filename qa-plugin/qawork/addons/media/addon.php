@@ -51,6 +51,7 @@ function qw_upload_file($field, $postid){
 				$results['name'] = pathinfo( $results['filename'], PATHINFO_FILENAME);
 				$id = qw_insert_media($results['name'], $results['ext'], $postid );
 				$results['url'] = qw_upload_url();
+				$results['for'] =  qa_post_text('for_item');
 				$results['id'] = $id;
 			}
 			return $results;
@@ -114,6 +115,7 @@ function qw_upload_image($file, $postid = 0){
 	$name['id'] = qw_insert_media($name['name'], $name['ext'], $postid );
 	$name['url'] = qw_upload_url();
 	$name['status'] = 'true';
+	$name['for'] =  qa_post_text('for_item');
 	///unlink ($uploaddir.$temp_name); 
 	
 	return $name;
