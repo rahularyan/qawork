@@ -36,14 +36,21 @@
 .post-attachments, .editable-media{
 	padding:0;
 }
-.post-attachments .attachments, .editable-media .attachments{
-    background: none repeat scroll 0 0 #F9F9F9;
-    border: 1px solid #EEEEEE;
+.post-attachments .attachments, .editable-media .attachments {
+    background: none repeat scroll 0 0 #f9f9f9;
+    border: 1px solid #eeeeee;
     border-radius: 4px;
     display: block;
     float: left;
-    margin: 5px;
-    padding: 4px;	
+    margin: 5px;    
+    padding: 4px;
+}
+.editable-media .attachments {
+	max-width: 80px;
+	overflow:hidden;
+}
+.editable-media .attachments img{
+	max-width:80px;
 }
 .post-attachments .attachments.ui-selected, .editable-media .attachments.ui-selected{
 	background:#aaa;

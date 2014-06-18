@@ -1397,7 +1397,7 @@ $(document).ready(function() {
 				var percentVal = '100%';
 				bar.width(percentVal)
 				percent.html(percentVal);
-				
+				console.log(data);
 				if(data['action'] == 'cover'){
 					$('.user-card').css('background-image', 'url('+data['url']+'/'+data['file']+')');
 				}else {
@@ -1407,7 +1407,7 @@ $(document).ready(function() {
 					}else{
 						if(data['ext'] == 'jpeg' || data['ext'] == 'jpg' ||data['ext'] == 'jpeg' || data['ext'] == 'gif' || data['ext'] == 'png' || data['ext'] == 'ico'){
 							if(data['ext'] == 'ico') data['thumb'] = data['name'];
-							$('<li class="attachments" data-id="'+data['id']+'"><img src="'+data['url']+'/'+data['thumb']+'.'+data['ext']+'" /></li>').appendTo('.editable-media');	
+							$('<li class="attachments" data-id="'+data['id']+'" data-for="'+data['for']+'"><img src="'+data['url']+'/'+data['thumb']+'.'+data['ext']+'" /></li>').appendTo('.editable-media');	
 						}else{
 							$('<li class="attachments" data-id="'+data['id']+'"><i class="file-icon icon-'+data['ext']+'"></i></li>').appendTo('.editable-media');
 						}
