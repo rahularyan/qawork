@@ -36,9 +36,12 @@ function qw_upload_file($field, $postid){
 			
 			$upload = Upload::factory( qw_upload_dir() );
 			$upload->file($_FILES[$field]);
-
+			
+			$max_size = (int)qa_opt('qw_max_image_file');
+	
+			if(strlen($max_size) < 1 || $max_size == '0') $max_size = 2;
 			//set max. file size (in mb)
-			$upload->set_max_file_size((int)qa_opt('qw_max_image_file'));
+			$upload->set_max_file_size($max_size);
 
 			//set allowed mime types
 			$upload->set_allowed_mime_types(array('application/pdf', 'application/zip'));
