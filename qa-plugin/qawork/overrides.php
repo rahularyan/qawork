@@ -63,8 +63,7 @@ function qa_redirect_raw($url)
 
 function qa_set_user_avatar($userid, $imagedata, $oldblobid=null){
 
-	if (!empty($_FILES['file'])) {
-		
+	if (!empty($_FILES['file'])) {		
 		$imagedata= qa_gd_image_jpeg(qw_resize_image($_FILES['file']['tmp_name'], false, 150, 150, 100, true, true));
 	
 	}else{
