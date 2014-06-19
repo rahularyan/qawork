@@ -30,6 +30,7 @@ class qw_theme_options {
 			$this->reset_theme_options();
 			$saved = 'Settings saved';
 		}
+
 		if (qa_clicked('qw_save_button')) {
 			// General
 			qa_opt('logo_url', qa_post_text('qw_logo_field'));
@@ -804,9 +805,7 @@ class qw_theme_options {
 
     function reset_theme_options()
     {
-    	// General 
-    	qa_opt('logo_url', ''); /*Needs to be changed */
-		qa_opt('qw_favicon_url', ''); /*Needs to be changed */
+
 		qa_opt('qw_enable_gzip', 1 );
 		qa_opt('qw_featured_image_width', 250);
 		qa_opt('qw_featured_image_height', 250);
