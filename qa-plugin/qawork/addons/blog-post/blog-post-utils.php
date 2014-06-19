@@ -89,7 +89,7 @@ function qw_blog_create($userid, $handle, $cookieid, $title, $content, $format, 
 			if (qa_opt('q_urls_remove_accents'))
 				$title=qa_string_remove_accents($title);
 			
-			return (int)$questionid.'/blog/'.$title;
+			return 'blog/'.(int)$questionid.'/'.$title;
 		}
 
 		function qw_db_blog_selectspec($voteuserid, $sort, $start, $categoryslugs=null, $createip=null, $specialtype=false, $full=false, $count=null)
