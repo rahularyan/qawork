@@ -29,6 +29,11 @@
 						'type' => 'text',
 						'tags' => 'name="qw_ticker_slug"',
 					),
+					'avatar_size' => array(
+						'label' => 'Avatar Size',
+						'type' => 'number',
+						'tags' => 'name="avatar_size"',
+					),
 	
 				),
 
@@ -82,7 +87,7 @@
 		}
 		
 		// output the list of selected post type
-		function qw_relative_post_list($limit, $slug, $type, $return = false){
+		function qw_relative_post_list($limit, $slug, $type, $return = false, $avatar_size){
 			require_once QA_INCLUDE_DIR.'qa-app-posts.php';
 			if(!empty($slug)){
 				if($type=='Category'){
@@ -130,7 +135,7 @@
 							$what = qa_lang('cleanstrap/commented');
 						}
 						$handle = qa_post_userid_to_handle($post['userid']);
-						$avatar = qw_get_post_avatar($post, 35);
+						$avatar = qw_get_post_avatar($post, $avatar_size);
 						$output .= '<li id="q-list-'.$post['postid'].'" class="question-item">';
 						$output .= '<div class="pull-left avatar" data-handle="'.$handle.'" data-id="'. $post['userid'] .'">' . $avatar . '</div>';
 						$output .= '<div class="list-right">';
@@ -223,13 +228,14 @@
 			$count = (isset($widget_opt['qw_ticker_count']) && !empty($widget_opt['qw_ticker_count'])) ?(int)$widget_opt['qw_ticker_count'] : 10;
 			
 			$slug = @$widget_opt['qw_ticker_slug'];
+			$slug = @$widget_opt['avatar_size'];
 			
 			$type = (isset($widget_opt['qw_ticker_data'])) ? $widget_opt['qw_ticker_data'] : 'Keyword';
 			
 			$themeobject->output('<div class="ra-ticker-widget">');
 			
 			if(isset($slug))
-				$themeobject->output($this->qw_relative_post_list($count, $slug, $type, true));
+				$themeobject->output($this->qw_relative_post_list($count, $slug, $type, true, $avatar_size));
 			else
 				$themeobject->output('<p>'.qa_lang('cleanstrap/tag_slug_empty').'</p>');
 			$themeobject->output('</div>');
