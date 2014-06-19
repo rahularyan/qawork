@@ -36,9 +36,12 @@ function qw_upload_file($field, $postid){
 			
 			$upload = Upload::factory( qw_upload_dir() );
 			$upload->file($_FILES[$field]);
-
+			
+			$max_size = (int)qa_opt('qw_max_image_file');
+	
+			if(strlen($max_size) < 1 || $max_size == '0') $max_size = 2;
 			//set max. file size (in mb)
-			$upload->set_max_file_size((int)qa_opt('qw_max_image_file'));
+			$upload->set_max_file_size($max_size);
 
 			//set allowed mime types
 			$upload->set_allowed_mime_types(array('application/pdf', 'application/zip'));
@@ -48,6 +51,7 @@ function qw_upload_file($field, $postid){
 				$results['name'] = pathinfo( $results['filename'], PATHINFO_FILENAME);
 				$id = qw_insert_media($results['name'], $results['ext'], $postid );
 				$results['url'] = qw_upload_url();
+				$results['for'] =  qa_post_text('for_item');
 				$results['id'] = $id;
 			}
 			return $results;
@@ -66,20 +70,28 @@ function qw_file_name($file){
 }
 
 function qw_upload_image($file, $postid = 0){
-	include_once(QW_CONTROL_DIR.'/inc/class_images.php');
 
-	$uploaddir = qw_upload_dir();
+	//return if not a valid image
+	if(!qw_is_image($file['tmp_name'])){
+		$name['status'] = false;
+		$name['error'] = 'Not valid image';
+		return $name;
+	}
+	$max_size = (int)qa_opt('qw_max_image_size');
+	
+	if(strlen($max_size) < 1 || $max_size == '0') $max_size = 1;
+
+	if($file['size']> ($max_size*1024*1024)){
+		$name['status'] = false;
+		$name['error'] = 'File size is bigger then '. $max_size;
+		return $name;
+	}
+	
+	$uploaddir = qw_upload_dir().'/';
 	$name = qw_file_name($file['name']);
-	$temp_name = 'temp_image'.$name['ext'];
+	$temp_name = $name['name'].'.'.$name['ext'];
 	move_uploaded_file($file['tmp_name'], $uploaddir.$temp_name);
-	
-	// get cropping position
-	$crop_x = qa_opt('qw_crop_x');
-	$crop_y = qa_opt('qw_crop_y');
-	
-	/// save original image first, and then assign id of original to other size
-	$image = new Image($uploaddir.$temp_name);
-	$image->save($name['name'], $uploaddir);	
+
 	qw_add_action('after_uploading_original_image', $image);
 	
 	$sizes = qw_image_size();
@@ -87,61 +99,59 @@ function qw_upload_image($file, $postid = 0){
 	if(isset($sizes)){
 
 		foreach($sizes as $k => $s){
-			$image = new Image($uploaddir.$temp_name);
 			
-			if($k =='thumb')
-				$image->resize($s[0], $s[1], 'crop', $crop_x, $crop_y, 90);
-			else
-				$image->resize($s[0], $s[1], 'crop', $crop_x, $crop_y, 90);
+			$file_name = $name['name'].'_'.$s[0].'x'. $s[1].'.'.$name['ext'];
+			$resize = qw_resize_image($uploaddir.$temp_name, $uploaddir.$file_name, $s[0], $s[1]);
 			
-			$file_name = $name['name'].'_'.$s[0].'x'. $s[1];
-			$image->save($file_name, $uploaddir);
-			$name[$k] = $file_name;
+			if($resize)
+				$name[$k] = $name['name'].'_'.$s[0].'x'. $s[1];
+				
 			qw_add_action('after_creating_thumb', $image);
 		}
 
 	}
-	
+	if(!isset($name['thumb'])) $name['thumb'] = $name['name'];
 	// insert to DB
 	$name['id'] = qw_insert_media($name['name'], $name['ext'], $postid );
 	$name['url'] = qw_upload_url();
 	$name['status'] = 'true';
-	unlink ($uploaddir.$temp_name); 
+	$name['for'] =  qa_post_text('for_item');
+	///unlink ($uploaddir.$temp_name); 
 	
 	return $name;
 }
 
 function qw_upload_cover($file){
 	$file = $_FILES[$file];
-	include_once(QW_CONTROL_DIR.'/inc/class_images.php');
+		//return if not a valid image
+	if(!qw_is_image($file['tmp_name'])){
+		$name['status'] = false;
+		$name['error'] = 'Not valid image';
+		return $name;
+	}
+	$max_size = (int)qa_opt('qw_max_image_size');
+	
+	if(strlen($max_size) < 1 || $max_size == '0') $max_size = 1;
+
+	if($file['size']> ($max_size*1024*1024)){
+		$name['status'] = false;
+		$name['error'] = 'File size is bigger then '. $max_size;
+		return $name;
+	}
 	require_once QA_INCLUDE_DIR.'qa-db-users.php';
 	
-	$uploaddir = qw_upload_dir();
+	$uploaddir = qw_upload_dir().'/';
 	$name = qw_file_name($file['name']);
-	$temp_name = 'temp_image'.$name['ext'];
-	move_uploaded_file($file['tmp_name'], $uploaddir.$temp_name);
+	$temp_name = $name['name'].'.'.$name['ext'];
+	move_uploaded_file($file['tmp_name'], $uploaddir.$temp_name);	
 	
-	// get cropping position
-	$crop_x = qa_opt('qw_crop_x');
-	$crop_y = qa_opt('qw_crop_y');
-	
-	/// save original image first, and then assign id of original to other size
-	$image = new Image($uploaddir.$temp_name);
-	$image->resize(1140, 217, 'crop');
-	$image->save($name['name'], $uploaddir);
-
-	$image = new Image($uploaddir.$temp_name);
-	$image->resize(300, 80, 'crop');
-	$image->save($name['name'].'_s', $uploaddir);	
-	
-	qw_add_action('after_uploading_cover', $image);
+	qw_add_action('after_uploading_cover', $temp_name);
 	
 	// insert to DB
 	$name['id'] = qw_insert_media($name['name'], $name['ext'], 0 );
 	$name['url'] = qw_upload_url();
 	$name['status'] = 'true';
 	$name['action'] = 'cover';
-	unlink ($uploaddir.$temp_name); 
 	
 	$prev_file = qw_user_profile(qa_get_logged_in_handle(), 'cover');
 
@@ -257,8 +267,15 @@ function qw_post_medias($postid, $size = 'thumb'){
 
 function qw_media_filename($m, $size = false){
 	$url = qw_upload_url();
-	if(isset($m['name']) && isset($m['type']))
-		return $url.'/'.$m['name'] .($size ? '_'.qw_get_image_size_string($size) : '').'.'. $m['type'];
+	$dir = qw_upload_dir();
+	
+	if(isset($m['name']) && isset($m['type'])){
+		$file = $m['name'] .($size ? '_'.qw_get_image_size_string($size) : '').'.'. $m['type'];
+		if(file_exists($dir.'/'.$file))
+			return $url.'/'.$file;
+		else
+			return $url.'/'.$m['name'] .'.'. $m['type'];
+	}
 	
 	return false;
 }
@@ -296,7 +313,8 @@ class QW_Media_Addon{
 		
 		qw_add_action('qw_theme_option_tab', array($this, 'qw_theme_option_tab'));
 		qw_add_action('qw_theme_option_tab_content', array($this, 'qw_theme_option_tab_content'));
-		
+		qw_add_action('qw_reset_theme_options', array($this, 'reset_theme_options'));
+
 	}
 	public function init_queries($queries, $tableslc){
 		$tablename=qa_db_add_table_prefix('ra_media');			
@@ -326,20 +344,20 @@ class QW_Media_Addon{
 	}
 
 	public function ra_post_buttons($content){
-		if(isset($content['q_view'])){
-			$postid = $content['q_view']['raw']['postid'];
-
-			if (isset($content['form_q_edit']) && (qa_get_logged_in_level() >= QA_USER_LEVEL_ADMIN)){
-				$qw_media=array(
-					'label' => '<button type="button" class="icon-image btn btn-default open-media-modal" data-args="'.$postid.'">'.qa_lang_html('qw_media/media').'</button>',
-					'type' => 'custom',
-				);
-				
+		$postid = @$content['q_view']['raw']['postid'];
+		$postid = isset($postid) ? $postid : 0;
+		if ((isset($content['form_q_edit']) || qa_request_part(0) == 'ask') && (qa_get_logged_in_level() >= QA_USER_LEVEL_ADMIN)){
+			$qw_media=array(
+				'label' => '<button type="button" class="icon-image btn btn-default open-media-modal" data-args="'.$postid.'">'.qa_lang_html('qw_media/media').'</button>',
+				'type' => 'custom',
+			);
+			if(isset($content['form_q_edit']))
 				$content['form_q_edit']['fields'] = qw_array_insert_before('content', $content['form_q_edit']['fields'], 'qw_media', $qw_media );
 			
-				return $content;
-				
-			}
+			if(qa_request_part(0) == 'ask')
+				$content['form']['fields'] = qw_array_insert_before('content', $content['form']['fields'], 'qw_media', $qw_media );
+		
+			return $content;			
 		}
 	}
 	
@@ -558,8 +576,21 @@ class QW_Media_Addon{
 		
 		die();
 	}
-	
+	public function reset_theme_options() {
+	      if (qa_clicked('qw_reset_button')) {
+	        qa_opt("qw_max_image_size", 1 );
+	        qa_opt("qw_max_image_file", 2 );
+	        $saved=true;
+	      }
+	}
 	public function qw_theme_option_tab(){
+		 $saved=false;
+         if(qa_clicked('qw_save_button')){   
+             qa_opt("qw_max_image_size", (int)qa_post_text("qw_max_image_size"));
+             qa_opt("qw_max_image_file", (int)qa_post_text("qw_max_image_file"));
+             $saved=true;
+         }
+
 		return '<li>
 				<a href="#" data-toggle=".qa-part-form-tc-media">Media</a>
 			</li>';
@@ -578,7 +609,7 @@ class QW_Media_Addon{
 							Max size of image (MB)
 						</th>
 						<td class="qa-form-tall-label">
-							<input type="input" name="qw_max_image_size" id="qw_max_image_size" value="1" class="form-control">
+							<input type="input" name="qw_max_image_size" id="qw_max_image_size" value="<?php echo qa_opt('qw_max_image_size') ?>" class="form-control">
 						</td>
 					</tr>
 					<tr>
@@ -586,38 +617,10 @@ class QW_Media_Addon{
 							Max size of file (MB)
 						</th>
 						<td class="qa-form-tall-label">
-							<input type="input" name="qw_max_image_file" id="qw_max_image_file" value="5" class="form-control">
+							<input type="input" name="qw_max_image_file" id="qw_max_image_file" value="<?php echo qa_opt('qw_max_image_file') ?>" class="form-control">
 						</td>
 					</tr>
 				</tbody>
-				<tbody>
-				<tr>
-					<th class="qa-form-tall-label">
-						Image Cropping X
-						<span class="description">Crop Featured image from Right/Left</span>
-					</th>
-					<td class="qa-form-tall-label">
-						<select id="qw_crop_x" name="qw_crop_y" >
-							<option <?php echo (qa_opt('qw_crop_x') == 'l') ? ' selected' : ''; ?> value="l">left</option>
-							<option <?php echo (qa_opt('qw_crop_x') == 'c') ? ' selected' : ''; ?> value="c">Center</option>
-							<option <?php echo (qa_opt('qw_crop_x') == 'r') ? ' selected' : ''; ?> value="r">right</option>
-						</select>
-					</td>
-				</tr>
-				<tr>
-					<th class="qa-form-tall-label">
-						Image Cropping Y
-						<span class="description">Crop Featured image from Top/Bottom</span>
-					</th>
-					<td class="qa-form-tall-label">
-						<select id="qw_crop_y" name="qw_crop_y" >
-							<option <?php echo (qa_opt('qw_crop_y') == 't') ? ' selected' : '' ?> value="t">Top</option>
-							<option <?php echo (qa_opt('qw_crop_y') == 'c') ? ' selected' : ''; ?> value="c">Center</option>
-							<option <?php echo (qa_opt('qw_crop_y') == 'b') ? ' selected' : ''; ?> value="b">Bottom</option>
-						</select>
-					</td>
-				</tr>
-			</tbody>
 			</table>
 		</div>
 		<?php

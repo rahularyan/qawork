@@ -6,7 +6,7 @@
 
 
 //	Ensure no PHP errors are shown in the Ajax response
-	@ini_set('display_errors', 0);
+	//@ini_set('display_errors', 0);
 
 
 //	Load the Q2A base file which sets up a bunch of crucial functions
@@ -22,10 +22,6 @@
 	require_once QA_INCLUDE_DIR.'qa-app-format.php';
 	require_once QA_INCLUDE_DIR.'qa-app-options.php';
 	require_once QA_INCLUDE_DIR.'qa-db-selects.php';
-
-	// load all addons ajax query
-	qw_load_addons_ajax();
-	
 	
 
 if(isset($_REQUEST['action'])){
