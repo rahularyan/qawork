@@ -16,6 +16,7 @@ require_once QW_CONTROL_DIR .'/addons/blog-post/blog-post-utils.php';
 
 qa_register_plugin_module('page', 'addons/blog-post/blog-new.php', 'qw_blog_post_new', 'QW New Blog');
 qa_register_plugin_module('page', 'addons/blog-post/blogs.php', 'qw_blogs', 'QW Blogs');
+qa_register_plugin_module('page', 'addons/blog-post/blog.php', 'qw_blog', 'QW Blog');
 
 class Qw_Blog_Post_Addon {
 

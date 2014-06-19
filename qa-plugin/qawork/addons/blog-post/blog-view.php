@@ -833,7 +833,7 @@
 	}
 	
 	
-	function qa_page_q_add_c_form(&$qa_content, $question, $parent, $formid, $captchareason, $in, $errors, $loadfocusnow)
+	function qw_page_p_add_c_form(&$qa_content, $question, $parent, $formid, $captchareason, $in, $errors, $loadfocusnow)
 /*
 	Returns a $qa_content form for adding a comment to post $parent which is part of $question. Pass an HTML element id
 	to use for the form in $formid and the result of qa_user_captcha_reason() in $captchareason. Pass previous inputs
