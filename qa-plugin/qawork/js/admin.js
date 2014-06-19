@@ -125,6 +125,7 @@ $(document).ready(function(){
 	});
 	
 	$('body').on('qw_insert_image', function(e, params){
+		console.log(params);
 		if(!!params['for'] && params['for'] == 'logo'){
 			$('#logo-preview').attr('src', params['url']).show();
 			$('#qw_logo_field').attr('value', params['url']);
