@@ -92,7 +92,7 @@ function qw_upload_image($file, $postid = 0){
 	$temp_name = $name['name'].'.'.$name['ext'];
 	move_uploaded_file($file['tmp_name'], $uploaddir.$temp_name);
 
-	qw_add_action('after_uploading_original_image', $image);
+	//qw_add_action('after_uploading_original_image', $image);
 	
 	$sizes = qw_image_size();
 
@@ -106,7 +106,7 @@ function qw_upload_image($file, $postid = 0){
 			if($resize)
 				$name[$k] = $name['name'].'_'.$s[0].'x'. $s[1];
 				
-			qw_add_action('after_creating_thumb', $image);
+			//qw_add_action('after_creating_thumb', $image);
 		}
 
 	}
@@ -348,7 +348,7 @@ class QW_Media_Addon{
 		$postid = isset($postid) ? $postid : 0;
 		if ((isset($content['form_q_edit']) || qa_request_part(0) == 'ask') && (qa_get_logged_in_level() >= QA_USER_LEVEL_ADMIN)){
 			$qw_media=array(
-				'label' => '<button type="button" class="icon-image btn btn-default open-media-modal" data-args="'.$postid.'">'.qa_lang_html('qw_media/media').'</button>',
+				'label' => '<button type="button" class="icon-image btn btn-default open-media-modal" data-args="'.$postid.'" data-for="editor">'.qa_lang_html('qw_media/media').'</button>',
 				'type' => 'custom',
 			);
 			if(isset($content['form_q_edit']))
@@ -439,6 +439,7 @@ class QW_Media_Addon{
 		$id = (int)qa_post_text('args');
 		$for_item = qa_post_text('for_item');
 		$media = qw_get_media_by_id($id);
+		$media['large'] = qw_media_filename( $media , 'large');
 
 		ob_start();
 		?>
@@ -466,6 +467,7 @@ class QW_Media_Addon{
 				<input type="hidden" name="action" value="edit_media_item">
 				<input type="hidden" name="id" value="<?php echo $id; ?>">
 				<input type="hidden" name="for" value="<?php echo $for_item; ?>">
+				<input type="hidden" name="large" value="<?php echo $media['large']; ?>">
 				<input type="hidden" name="code" value="<?php echo qa_get_form_security_code('media_edit_'.$id ); ?>">
 			</form>
 		<?php
