@@ -8,7 +8,7 @@ if (!defined('QA_VERSION')) {
 // for utility functions 
 
 function qw_blog_create($userid, $handle, $cookieid, $title, $content, $format, $text, $tagstring, $notify, $email,
-		$categoryid=null, $extravalue=null, $queued=false, $name=null)
+		$categoryid=null, $extravalue=null, $queued=false, $name=null , $flag = true )
 /*
 	Add a question (application level) - create record, update appropriate counts, index it, send notifications.
 	If question is follow-on from an answer, $followanswer should contain answer database record, otherwise null.
@@ -16,8 +16,8 @@ function qw_blog_create($userid, $handle, $cookieid, $title, $content, $format, 
 */
 	{
 		require_once QA_INCLUDE_DIR.'qa-db-selects.php';
-
-		$postid=qa_db_post_create($queued ? 'QW_BLOG_QUEUED' : 'QW_BLOG_P', null /*follow answer*/, $userid, isset($userid) ? null : $cookieid,
+		$post_flag = $queued ? 'QW_BLOG_QUEUED' : ( $flag ? 'QW_BLOG_P' : 'QW_BLOG_S') ;
+		$postid=qa_db_post_create($post_flag , null /*follow answer*/, $userid, isset($userid) ? null : $cookieid,
 			qa_remote_ip_address(), $title, $content, $format, $tagstring, qa_combine_notify_email($userid, $notify, $email),
 			$categoryid, isset($userid) ? null : $name);
 		

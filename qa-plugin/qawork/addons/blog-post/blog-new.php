@@ -88,7 +88,7 @@ class qw_blog_post_new {
         $in['extra'] = qa_opt('extra_field_active') ? qa_post_text('extra') : null;
         if (qa_using_tags()) $in['tags'] = qa_get_tags_field_value('tags');
 
-        if (qa_clicked('do_publish_new')) {
+        if (qa_clicked('do_publish_post') || qa_clicked('do_save_post')) {
             require_once QA_INCLUDE_DIR . 'qa-app-post-create.php';
             require_once QA_INCLUDE_DIR . 'qa-util-string.php';
 
@@ -124,8 +124,8 @@ class qw_blog_post_new {
 
                 if (empty($errors)) {
                     $cookieid = isset($userid) ? qa_cookie_get() : qa_cookie_get_create(); // create a new cookie if necessary
-
-                    $questionid = qw_blog_create($userid, qa_get_logged_in_handle(), $cookieid, $in['title'], $in['content'], $in['format'], $in['text'], isset($in['tags']) ? qa_tags_to_tagstring($in['tags']) : '', $in['notify'], $in['email'], $in['categoryid'], $in['extra'], $in['queued'], $in['name']);
+                    $flag = qa_clicked('do_publish_post') ? true : false ; /*true indicates publish and false indicates to save */
+                    $questionid = qw_blog_create($userid, qa_get_logged_in_handle(), $cookieid, $in['title'], $in['content'], $in['format'], $in['text'], isset($in['tags']) ? qa_tags_to_tagstring($in['tags']) : '', $in['notify'], $in['email'], $in['categoryid'], $in['extra'], $in['queued'], $in['name'],$flag);
 
                     qa_redirect(qw_blog_request($questionid, $in['title'])); // our work is done here
                 }
@@ -164,13 +164,13 @@ class qw_blog_post_new {
             ),
             'buttons' => array(
                 'publish' => array(
-                    'tags' => 'onclick="qa_show_waiting_after(this, false); ' .
+                    'tags' => 'name="do_publish_post" onclick="qa_show_waiting_after(this, false); ' .
                     (method_exists($editor, 'update_script') ? $editor->update_script('content') : '') . '"',
                     'type' => "button",
                     'label' => qa_lang_html('qw_blog_post/publish_article_button'),
                 ),
                 'save_article' => array(
-                    'tags' => 'onclick="qa_show_waiting_after(this, false);"' ,
+                    'tags' => 'name="do_save_post" onclick="qa_show_waiting_after(this, false);"' ,
                     'type' => "button",
                     'label' => qa_lang_html('qw_blog_post/save_article_button'),
                 ),
