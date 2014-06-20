@@ -248,7 +248,6 @@ class qw_blog {
     				);
     		}
 
-qw_log($formtype);
     	//	Prepare content for comments on the question, plus add or edit comment forms
     		if ($formtype=='q_close') {
     			$qa_content['q_view']['c_form']=qa_page_q_close_q_form($qa_content, $question, 'close', @$closein, @$closeerrors);

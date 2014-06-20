@@ -57,7 +57,7 @@ function qw_blog_create($userid, $handle, $cookieid, $title, $content, $format, 
 		return $postid;
 	}
 
-	function qw_blog_request($questionid, $title)
+	function qw_blog_request($blogid, $title)
 	{
 			if (qa_to_override(__FUNCTION__)) { $args=func_get_args(); return qa_call_override(__FUNCTION__, $args); }
 			
@@ -89,7 +89,7 @@ function qw_blog_create($userid, $handle, $cookieid, $title, $content, $format, 
 			if (qa_opt('q_urls_remove_accents'))
 				$title=qa_string_remove_accents($title);
 			
-			return 'blog/'.(int)$questionid.'/'.$title;
+			return 'blog/'.(int)$blogid.'/'.$title;
 		}
 
 		function qw_db_blog_selectspec($voteuserid, $sort, $start, $categoryslugs=null, $createip=null, $specialtype=false, $full=false, $count=null)
@@ -198,10 +198,14 @@ function qw_blog_create($userid, $handle, $cookieid, $title, $content, $format, 
 			if (isset($categorypathprefix))
 				$defaults['categorypathprefix']=$categorypathprefix;
 				
-			foreach ($questions as $question)
+			foreach ($questions as $question){
 				$qa_content['q_list']['qs'][]=qa_any_to_q_html_fields($question, $userid, qa_cookie_get(),
 					$usershtml, null, qa_post_html_options($question, $defaults));
-
+			}
+			// for editing the correct url 
+			foreach ($qa_content['q_list']['qs'] as &$question ) {
+				$question['url'] =  qa_path(qw_blog_request($question['raw']['postid'], $question['title']), $params, $absolute ? qa_opt('site_url') : null, null, null) ;
+			}
 		} else
 			$qa_content['title']=$nonetitle;
 		

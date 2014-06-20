@@ -106,7 +106,6 @@ class qw_blogs {
 
     		
     	//	Prepare and return content for theme
-
     		$qa_content=qw_blog_list_page_content(
     			$questions, // questions
     			qa_opt('page_size_qs'), // questions per page
