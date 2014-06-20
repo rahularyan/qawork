@@ -132,7 +132,6 @@ class qw_blog_post_new {
             }
         }
 
-
         //	Prepare content for theme
 
         $qa_content = qa_content_prepare(false, array_keys(qa_category_path($categories, @$in['categoryid'])));
@@ -147,16 +146,10 @@ class qw_blog_post_new {
         $field['label'] = qa_lang_html('qw_blog_post/blog_content_label');
         $field['error'] = qa_html(@$errors['content']);
 
-        $custom = qa_opt('show_custom_ask') ? trim(qa_opt('custom_ask')) : '';
-
         $qa_content['form'] = array(
             'tags' => 'name="ask" method="post" action="' . qa_self_html() . '"',
             'style' => 'tall',
             'fields' => array(
-                'custom' => array(
-                    'type' => 'custom',
-                    'note' => $custom,
-                ),
                 'title' => array(
                     'label' => qa_lang_html('qw_blog_post/new_blog_post_title'),
                     'tags' => 'name="title" id="title" autocomplete="off"',
@@ -190,8 +183,6 @@ class qw_blog_post_new {
             ),
         );
 
-        if (!strlen($custom)) unset($qa_content['form']['fields']['custom']);
-
         if (qa_opt('do_ask_check_qs') || qa_opt('do_example_tags')) {
             $qa_content['script_rel'][] = 'qa-content/qa-ask.js?' . QA_VERSION;
             $qa_content['form']['fields']['title']['tags'].=' onchange="qa_title_change(this.value);"';
@@ -199,7 +190,6 @@ class qw_blog_post_new {
             if (strlen(@$in['title'])) $qa_content['script_onloads'][] = 'qa_title_change(' . qa_js($in['title']) . ');';
         }
 
-        
         if (qa_using_categories() && count($categories)) {
             $field = array(
                 'label' => qa_lang_html('qw_blog_post/blog_category_label'),
