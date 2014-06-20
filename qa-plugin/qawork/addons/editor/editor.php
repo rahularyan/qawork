@@ -76,6 +76,11 @@
 			if (!$alreadyadded) {
 					
 				$qa_content['script_src'][]=$scriptsrc;
+				$qa_content['script_lines'][]=array(
+					"qa_wysiwyg_editor_config={".
+					"defaultLanguage:".qa_js(qa_opt('site_language')).
+					"};"
+				);
 				
 			}		
 				

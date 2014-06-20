@@ -13,9 +13,9 @@
 			qw_add_filter('enqueue_scripts', array($this, 'qw_enqueue_scripts'), 110);
 			qw_event_hook('widget_positions', NULL, array($this, 'qw_register_widget_positions'));
 			qw_event_hook('template_array', NULL, array($this, 'qw_default_page_templates'));
-			qw_add_filter('custom_question_fields', array($this, 'qw_custom_question_field'));
-			qw_add_filter('custom_save_question_fields', array($this, 'qw_custom_save_question_field'));
-			qw_add_action('show_custom_question_fields', array($this, 'qw_show_custom_question_field'));
+			//qw_add_filter('custom_question_fields', array($this, 'qw_custom_question_field'));
+			//qw_add_filter('custom_save_question_fields', array($this, 'qw_custom_save_question_field'));
+			//qw_add_action('show_custom_question_fields', array($this, 'qw_show_custom_question_field'));
 		}
 		
 		function qw_enqueue_css($css_src){

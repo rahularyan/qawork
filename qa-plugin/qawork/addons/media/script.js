@@ -1453,24 +1453,29 @@ $(document).ready(function() {
 		
 		//fire the custom event
 		$(this).trigger('qw_insert_image', selected_media);
-		
-		if(typeof CKEDITOR !='undefined'){
-			for ( var i in CKEDITOR.instances ){
-			   var currentInstance = i;
-			   break;
-			}
-			
-			var title = selected_media['title'] ? '<strong>'+selected_media['title']+'</strong>' : '';
-			var description = selected_media['title'] ? '<em>'+selected_media['description']+'</em>' : '';
-			
-			var oEditor   = CKEDITOR.instances[currentInstance];
-			
-			if(selected_media['type'] == 'jpeg' || selected_media['type'] == 'jpg' || selected_media['type'] == 'png' || selected_media['type'] == 'gif')
-				var element = CKEDITOR.dom.element.createFromHtml( '<p class="content-media"><img src="'+selected_media['url']+'" />'+title+description+'</p>' );
-			else
-				var element = CKEDITOR.dom.element.createFromHtml( '<p class="content-media download"><a href="'+selected_media['url']+'" class="btn icon-'+selected_media['type']+'">Download</a>'+title+description+'</p>' );
+
+	});
+	
+	$('body').on('qw_insert_image', function(e, params){
+		if(!!params['for'] && params['for'] == 'editor'){
+			if(typeof CKEDITOR !='undefined'){
+				for ( var i in CKEDITOR.instances ){
+				   var currentInstance = i;
+				   break;
+				}
 				
-			oEditor.insertElement( element );
+				var title = params['title'] ? '<strong>'+params['title']+'</strong>' : '';
+				var description = params['title'] ? '<em>'+params['description']+'</em>' : '';
+				
+				var oEditor   = CKEDITOR.instances[currentInstance];
+				
+				if(params['type'] == 'jpeg' || params['type'] == 'jpg' || params['type'] == 'png' || params['type'] == 'gif')
+					var element = CKEDITOR.dom.element.createFromHtml( '<p class="content-media"><img src="'+params['url']+'" />'+title+description+'</p>' );
+				else
+					var element = CKEDITOR.dom.element.createFromHtml( '<p class="content-media download"><a href="'+params['url']+'" class="btn icon-'+params['type']+'">Download</a>'+title+description+'</p>' );
+					
+				oEditor.insertElement( element );
+			}
 		}
 	});
 	
