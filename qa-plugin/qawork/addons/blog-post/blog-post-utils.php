@@ -300,3 +300,186 @@ function qw_blog_create($userid, $handle, $cookieid, $title, $content, $format, 
 			qa_db_query_sub("REPLACE ^options (title, content) SELECT 'cache_pcount', COUNT(*) FROM ^posts WHERE type='QW_BLOG_P'");
 	}
 
+function qw_page_blog_view($question, $parentquestion, $closepost, $usershtml, $formrequested)
+/*
+	Return the $qa_content['q_view'] element for $question as viewed by the current user. If this question is a
+	follow-on, pass the question for this question's parent answer in $parentquestion, otherwise null. If the question
+	is closed, pass the post used to close this question in $closepost, otherwise null. $usershtml should be an array
+	which maps userids to HTML user representations, including the question's author and (if present) last editor. If a
+	form has been explicitly requested for the page, set $formrequested to true - this will hide the buttons.
+*/
+	{
+		$questionid=$question['postid'];
+		$userid=qa_get_logged_in_userid();
+		$cookieid=qa_cookie_get();
+		
+		$htmloptions=qa_post_html_options($question, null, true);
+		$htmloptions['answersview']=false; // answer count is displayed separately so don't show it here
+		$htmloptions['avatarsize']=qa_opt('avatar_q_page_q_size');
+		$htmloptions['q_request']=qa_q_request($question['postid'], $question['title']);
+		$q_view=qa_post_html_fields($question, $userid, $cookieid, $usershtml, null, $htmloptions);
+
+
+		$q_view['main_form_tags']='method="post" action="'.qa_self_html().'"';
+		$q_view['voting_form_hidden']=array('code' => qa_get_form_security_code('vote'));
+		$q_view['buttons_form_hidden']=array('code' => qa_get_form_security_code('buttons-'.$questionid), 'qa_click' => '');
+		
+
+	//	Buttons for operating on the question
+		
+		if (!$formrequested) { // don't show if another form is currently being shown on page
+			$clicksuffix=' onclick="qa_show_waiting_after(this, false);"'; // add to operations that write to database
+			$buttons=array();
+			
+			if ($question['editbutton'])
+				$buttons['edit']=array(
+					'tags' => 'name="q_doedit"',
+					'label' => qa_lang_html('question/edit_button'),
+					'popup' => qa_lang_html('question/edit_q_popup'),
+				);
+			
+			$hascategories=qa_using_categories();
+			
+			if ($question['retagcatbutton'])
+				$buttons['retagcat']=array(
+					'tags' => 'name="q_doedit"',
+					'label' => qa_lang_html($hascategories ? 'question/recat_button' : 'question/retag_button'),
+					'popup' => qa_lang_html($hascategories
+						? (qa_using_tags() ? 'question/retag_cat_popup' : 'question/recat_popup')
+						: 'question/retag_popup'
+					),
+				);
+			
+			if ($question['flagbutton'])
+				$buttons['flag']=array(
+					'tags' => 'name="q_doflag"'.$clicksuffix,
+					'label' => qa_lang_html($question['flagtohide'] ? 'question/flag_hide_button' : 'question/flag_button'),
+					'popup' => qa_lang_html('question/flag_q_popup'),
+				);
+
+			if ($question['unflaggable'])
+				$buttons['unflag']=array(
+					'tags' => 'name="q_dounflag"'.$clicksuffix,
+					'label' => qa_lang_html('question/unflag_button'),
+					'popup' => qa_lang_html('question/unflag_popup'),
+				);
+				
+			if ($question['clearflaggable'])
+				$buttons['clearflags']=array(
+					'tags' => 'name="q_doclearflags"'.$clicksuffix,
+					'label' => qa_lang_html('question/clear_flags_button'),
+					'popup' => qa_lang_html('question/clear_flags_popup'),
+				);
+
+			if ($question['closeable'])
+				$buttons['close']=array(
+					'tags' => 'name="q_doclose"',
+					'label' => qa_lang_html('question/close_button'),
+					'popup' => qa_lang_html('question/close_q_popup'),
+				);
+			
+			if ($question['reopenable'])
+				$buttons['reopen']=array(
+					'tags' => 'name="q_doreopen"'.$clicksuffix,
+					'label' => qa_lang_html('question/reopen_button'),
+				);
+			
+			if ($question['moderatable']) {
+				$buttons['approve']=array(
+					'tags' => 'name="q_doapprove"'.$clicksuffix,
+					'label' => qa_lang_html('question/approve_button'),
+				);
+
+				$buttons['reject']=array(
+					'tags' => 'name="q_doreject"'.$clicksuffix,
+					'label' => qa_lang_html('question/reject_button'),
+				);
+			}
+			
+			if ($question['hideable'])
+				$buttons['hide']=array(
+					'tags' => 'name="q_dohide"'.$clicksuffix,
+					'label' => qa_lang_html('question/hide_button'),
+					'popup' => qa_lang_html('question/hide_q_popup'),
+				);
+				
+			if ($question['reshowable'])
+				$buttons['reshow']=array(
+					'tags' => 'name="q_doreshow"'.$clicksuffix,
+					'label' => qa_lang_html('question/reshow_button'),
+				);
+				
+			if ($question['deleteable'])
+				$buttons['delete']=array(
+					'tags' => 'name="q_dodelete"'.$clicksuffix,
+					'label' => qa_lang_html('question/delete_button'),
+					'popup' => qa_lang_html('question/delete_q_popup'),
+				);
+				
+			if ($question['claimable'])
+				$buttons['claim']=array(
+					'tags' => 'name="q_doclaim"'.$clicksuffix,
+					'label' => qa_lang_html('question/claim_button'),
+				);
+			
+			if ($question['commentbutton'])
+				$buttons['comment']=array(
+					'tags' => 'name="q_docomment" onclick="return qa_toggle_element(\'c'.$questionid.'\')"',
+					'label' => qa_lang_html('question/comment_button'),
+					'popup' => qa_lang_html('question/comment_q_popup'),
+				);
+				
+			$q_view['form']=array(
+				'style' => 'light',
+				'buttons' => $buttons,
+			);
+		}
+		
+
+	//	Information about the question of the answer that this question follows on from (or a question directly)
+			
+		if (isset($parentquestion))
+			$q_view['follows']=array(
+				'label' => qa_lang_html(($question['parentid']==$parentquestion['postid']) ? 'question/follows_q' : 'question/follows_a'),
+				'title' => qa_html(qa_block_words_replace($parentquestion['title'], qa_get_block_words_preg())),
+				'url' => qa_q_path_html($parentquestion['postid'], $parentquestion['title'], false,
+					($question['parentid']==$parentquestion['postid']) ? 'Q' : 'A', $question['parentid']),
+			);
+		
+	
+	//	Information about the question that this question is a duplicate of (if appropriate)
+	
+		if (isset($closepost)) {
+			
+			if ($closepost['basetype']=='Q') {
+				$q_view['closed']=array(
+					'label' => qa_lang_html('question/closed_as_duplicate'),
+					'content' => qa_html(qa_block_words_replace($closepost['title'], qa_get_block_words_preg())),
+					'url' => qa_q_path_html($closepost['postid'], $closepost['title']),
+				);
+
+			} elseif ($closepost['type']=='NOTE') {
+				$viewer=qa_load_viewer($closepost['content'], $closepost['format']);
+				
+				$q_view['closed']=array(
+					'label' => qa_lang_html('question/closed_with_note'),
+					'content' => $viewer->get_html($closepost['content'], $closepost['format'], array(
+						'blockwordspreg' => qa_get_block_words_preg(),
+					)),
+				);
+			}
+		}
+		
+
+	//	Extra value display
+	
+		if (strlen(@$question['extra']) && qa_opt('extra_field_active') && qa_opt('extra_field_display'))
+			$q_view['extra']=array(
+				'label' => qa_html(qa_opt('extra_field_label')),
+				'content' => qa_html(qa_block_words_replace($question['extra'], qa_get_block_words_preg())),
+			);
+
+		
+		return $q_view;
+	}
+	

@@ -182,7 +182,7 @@ class qw_blog_post_new {
                 'do_publish_new' => '1',
             ),
         );
-
+    
         if (qa_opt('do_ask_check_qs') || qa_opt('do_example_tags')) {
             $qa_content['script_rel'][] = 'qa-content/qa-ask.js?' . QA_VERSION;
             $qa_content['form']['fields']['title']['tags'].=' onchange="qa_title_change(this.value);"';
@@ -216,7 +216,8 @@ class qw_blog_post_new {
 
         if (!isset($userid)) qa_set_up_name_field($qa_content, $qa_content['form']['fields'], @$in['name']);
 
-        qa_set_up_notify_fields($qa_content, $qa_content['form']['fields'], 'Q', qa_get_logged_in_email(), isset($in['notify']) ? $in['notify'] : qa_opt('notify_users_default'), @$in['email'], @$errors['email']);
+        // for this time being I am hiding this notification of option 
+        // qa_set_up_notify_fields($qa_content, $qa_content['form']['fields'], 'Q', qa_get_logged_in_email(), isset($in['notify']) ? $in['notify'] : qa_opt('notify_users_default'), @$in['email'], @$errors['email']);
 
         if ($captchareason) {
             require_once 'qa-app-captcha.php';

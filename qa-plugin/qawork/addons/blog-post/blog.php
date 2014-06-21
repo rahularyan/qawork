@@ -50,13 +50,7 @@ class qw_blog {
     			qa_db_category_nav_selectspec($questionid, true, true, true),
     			isset($userid) ? qa_db_is_favorite_selectspec($userid, QA_ENTITY_QUESTION, $questionid) : null
     		);
-    		/*qw_log('question--'.print_r($question, true ));
-    		qw_log('childposts--'.print_r($childposts, true ));
-    		qw_log('achildposts--'.print_r($achildposts, true ));
-    		qw_log('parentquestion--'.print_r($parentquestion, true ));
-    		qw_log('extravalue--'.print_r($extravalue, true ));
-    		qw_log('categories--'.print_r($categories, true ));
-    		qw_log('favorite--'.print_r($favorite, true ));*/
+    		
     		if ($question['basetype']!='Q') // don't allow direct viewing of other types of post
     			$question=null;
 
@@ -167,12 +161,12 @@ class qw_blog {
     		
     		$formrequested=isset($formtype);
 
-    		if ((!$formrequested) && $question['answerbutton']) {
+    		/*if ((!$formrequested) && $question['answerbutton']) {
     			$immedoption=qa_opt('show_a_form_immediate');
 
     			if ( ($immedoption=='always') || (($immedoption=='if_no_as') && (!$question['isbyuser']) && (!$question['acount'])) )
     				$formtype='a_add'; // show answer form by default
-    		}
+    		}*/
     		
     		
     	//	Get information on the users referenced
@@ -211,7 +205,7 @@ class qw_blog {
     			$qa_content['q_view']['raw']=$question;
 
     		} else { // ...in view mode
-    			$qa_content['q_view']=qa_page_q_question_view($question, $parentquestion, $closepost, $usershtml, $formrequested);
+    			$qa_content['q_view']=qw_page_blog_view($question, $parentquestion, $closepost, $usershtml, $formrequested);
 
     			$qa_content['title']=$qa_content['q_view']['title'];
 
@@ -228,7 +222,7 @@ class qw_blog {
 
     	//	Prepare content for an answer being edited (if any) or to be added
 
-    		if ($formtype=='a_edit') {
+    		/*if ($formtype=='a_edit') {
     			$qa_content['a_form']=qa_page_q_edit_a_form($qa_content, 'a'.$formpostid, $answers[$formpostid],
     				$question, $answers, $commentsfollows, @$aeditin[$formpostid], @$aediterrors[$formpostid]);
 
@@ -246,16 +240,20 @@ class qw_blog {
     				$qa_content['script_onloads'][]=array(
     					"qa_element_revealed=document.getElementById('anew');"
     				);
-    		}
-
+    		}*/
+            $question['commentbutton'] = true ;
     	//	Prepare content for comments on the question, plus add or edit comment forms
     		if ($formtype=='q_close') {
     			$qa_content['q_view']['c_form']=qa_page_q_close_q_form($qa_content, $question, 'close', @$closein, @$closeerrors);
     			$jumptoanchor='close';
     		
-    		} elseif ((($formtype=='c_add') && ($formpostid==$questionid)) || ($question['commentbutton'] && !$formrequested) ) { // ...to be added
-    			$qa_content['q_view']['c_form']=qa_page_q_add_c_form($qa_content, $question, $question, 'c'.$questionid,
-    				$captchareason, @$cnewin[$questionid], @$cnewerrors[$questionid], $formtype=='c_add');
+    		} elseif ((($formtype=='c_add') && ($formpostid==$questionid)) || ($question['commentbutton'] && !$formrequested)) { // ...to be added
+    			$comment_form = qa_page_q_add_c_form($qa_content, $question, $question, 'c'.$questionid,
+                    $captchareason, @$cnewin[$questionid], @$cnewerrors[$questionid], $formtype=='c_add');
+
+                qw_log("This came here yaar ");
+                qw_log(print_r($comment_form , true ));
+                $qa_content['q_view']['c_form']= $comment_form ;
     			
     			if (($formtype=='c_add') && ($formpostid==$questionid)) {
     				$jumptoanchor='c'.$questionid;
@@ -271,26 +269,26 @@ class qw_blog {
     		}
 
     		$qa_content['q_view']['c_list']=qa_page_q_comment_follow_list($question, $question, $commentsfollows,
-    			$commentsall==$questionid, $usershtml, $formrequested, $formpostid); // ...for viewing
+    		$commentsall==$questionid, $usershtml, $formrequested, $formpostid); // ...for viewing
     		
 
     	//	Prepare content for existing answers (could be added to by Ajax)
 
-    		$qa_content['a_list']=array(
+    		/*$qa_content['a_list']=array(
     			'tags' => 'id="a_list"',
     			'as' => array(),
-    		);
+    		);*/
     		
     		// sort according to the site preferences
     		
-    		if (qa_opt('sort_answers_by')=='votes') {
+    		/*if (qa_opt('sort_answers_by')=='votes') {
     			foreach ($answers as $answerid => $answer)
     				$answers[$answerid]['sortvotes']=$answer['downvotes']-$answer['upvotes'];
 
     			qa_sort_by($answers, 'sortvotes', 'created');
 
     		} else
-    			qa_sort_by($answers, 'created');
+    			qa_sort_by($answers, 'created');*/
     		
     		// further changes to ordering to deal with queued, hidden and selected answers
     		
@@ -342,7 +340,7 @@ class qw_blog {
     			
     		// build the actual answer list
 
-    		$answerids=array_slice($answerids, $pagestart, $pagesize);
+    		/*$answerids=array_slice($answerids, $pagestart, $pagesize);
     		
     		foreach ($answerids as $answerid) {
     			$answer=$answers[$answerid];
@@ -377,7 +375,7 @@ class qw_blog {
     				$qa_content['a_list']['as'][]=$a_view;
     			}
     		}
-    		
+    		*/
     		if ($question['basetype']=='Q') {
     			$qa_content['a_list']['title_tags']='id="a_list_title"';
 
