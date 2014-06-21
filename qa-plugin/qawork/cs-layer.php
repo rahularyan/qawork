@@ -68,26 +68,25 @@ class qa_html_theme_layer extends qa_html_theme_base {
 			}
 			
 			if (qw_hook_exist('custom_question_fields') && (isset($this->content['form_q_edit']) || qa_request_part(0) == 'ask')){
-				
 				$form = array();
-				$form = qw_apply_filter('custom_question_fields', $form);
-				
-				if(!empty($form) && is_array($form)){					
-					if($this->template =='ask') 
+				//if(!empty($form) && is_array($form)){					
+					if($this->template =='ask') {						
+						$form = qw_apply_filter('custom_question_fields', $form, null);
 						$this->content['form']['fields'] = array_merge($this->content['form']['fields'], $form) ;
-					else{
-						require_once QA_INCLUDE_DIR.'qa-db-metas.php';
+					}else{
+						require_once QA_INCLUDE_DIR.'qa-db-metas.php';						
+						$values = qw_get_all_post_metas(qa_request_part(0));
 						
-						$fields = array_keys($form);
-						$values = qa_db_postmeta_get(qa_request_part(0), $fields);
+						$form = qw_apply_filter('custom_question_fields', $form, $values);
 						foreach ($form as $k => $value){
 							if(!empty($values[$k]))
 								@$form[$k]['value'] = @$values[$k];
 						}
+						
 						$this->content['form_q_edit']['fields'] = array_merge($this->content['form_q_edit']['fields'], $form) ;
 
 					}
-				}
+				//}
 			}
 			
 		}
