@@ -422,7 +422,7 @@ function qw_page_blog_view($question, $parentquestion, $closepost, $usershtml, $
 					'label' => qa_lang_html('question/claim_button'),
 				);
 			
-			if ($question['commentbutton'])
+			if (true)
 				$buttons['comment']=array(
 					'tags' => 'name="q_docomment" onclick="return qa_toggle_element(\'c'.$questionid.'\')"',
 					'label' => qa_lang_html('question/comment_button'),
