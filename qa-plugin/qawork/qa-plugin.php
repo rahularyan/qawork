@@ -104,8 +104,9 @@ function qw_save_custom_question_fields($params){
 				$fields = qw_apply_filter('custom_save_question_fields', array());
 
 				if(!empty($fields) && is_array($fields)){
-					foreach( $fields as $key => $value)
+					foreach( $fields as $key => $value){
 						qa_db_postmeta_set($questionid, $key, $value);
+					}
 				}
 				unset($_POST['q_dosave']);
 				qa_redirect(qa_q_request($questionid, $params['qin']['title']));
@@ -118,10 +119,11 @@ function qw_save_custom_question_fields($params){
 			if(!empty($questionid)){
 				require_once QA_INCLUDE_DIR.'qa-db-metas.php';
 				$fields = qw_apply_filter('custom_save_question_fields', array());
-
+				
 				if(!empty($fields) && is_array($fields)){
-					foreach( $fields as $key => $value)
+					foreach( $fields as $key => $value){						
 						qa_db_postmeta_set($questionid, $key, $value);
+					}
 				}
 				unset($_POST['doask']);
 				qa_redirect(qa_q_request($questionid, $in['title']));

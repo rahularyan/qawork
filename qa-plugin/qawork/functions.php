@@ -1393,3 +1393,32 @@ function qw_is_image($path)
 	}
 	return false;
 }
+
+function qw_clean_input($input) {
+
+  $search = array(
+    '@<script[^>]*?>.*?</script>@si',   // Strip out javascript
+    '@<[\/\!]*?[^<>]*?>@si',            // Strip out HTML tags
+    '@<style[^>]*?>.*?</style>@siU',    // Strip style tags properly
+    '@<![\s\S]*?--[ \t\n\r]*>@'         // Strip multi-line comments
+  );
+
+    $output = preg_replace($search, '', $input);
+    return $output;
+}
+
+function qw_sanitize($input) {
+    if (is_array($input)) {
+        foreach($input as $var=>$val) {
+            $output[$var] = qw_sanitize($val);
+        }
+    }
+    else {
+        if (get_magic_quotes_gpc()) {
+            $input = stripslashes($input);
+        }
+        $input  = qw_clean_input($input);
+        $output = mysql_real_escape_string($input);
+    }
+    return $output;
+}
