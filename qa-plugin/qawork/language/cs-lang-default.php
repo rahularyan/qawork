@@ -195,6 +195,7 @@
 		'tags_admin' => 'Tags Admin ',
 		'edit_tags_page' => 'Edit Tags ',
 		'media_is_updated' => 'Your changes saved ',
+		'ask_friends_for_help' => 'Ask your friends for help',
 	);
 	
 

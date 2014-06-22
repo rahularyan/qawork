@@ -210,12 +210,21 @@ function qw_get_post_media($postid){
 	return $media;
 }
 function qw_get_media_by_id($id){
-	$media = qa_db_read_one_assoc(qa_db_query_sub(
-		'SELECT * FROM ^ra_media WHERE id = #',
-		$id
-	), true);
+	if(is_array($id)){
+		$ids = implode(',', $id);
+		$media = qa_db_read_all_assoc(qa_db_query_sub(
+			'SELECT * FROM ^ra_media WHERE id IN ('.$ids.')'			
+		), 'id');
 
-	return $media;
+		return $media;
+	}else{
+		$media = qa_db_read_one_assoc(qa_db_query_sub(
+			'SELECT * FROM ^ra_media WHERE id = #',
+			$id
+		), true);
+
+		return $media;
+	}
 }
 
 function qw_delete_media_files_by_id($id){
@@ -468,6 +477,7 @@ class QW_Media_Addon{
 				<input type="hidden" name="id" value="<?php echo $id; ?>">
 				<input type="hidden" name="for" value="<?php echo $for_item; ?>">
 				<input type="hidden" name="large" value="<?php echo $media['large']; ?>">
+				<input type="hidden" name="thumb" value="<?php echo qw_media_filename( $media , 'thumb'); ?>">
 				<input type="hidden" name="code" value="<?php echo qa_get_form_security_code('media_edit_'.$id ); ?>">
 			</form>
 		<?php

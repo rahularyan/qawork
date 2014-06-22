@@ -635,7 +635,7 @@ textarea {
 }
 .qa-q-list .qa-q-list-item .qa-q-item-main > .ans-count{
     background: #EEEEEE;
-    border-radius: 50%;
+    border-radius: 2px;
     color: #FFFFFF;
     display: block;
     float: right;
