@@ -5,7 +5,6 @@ if (!defined('QA_VERSION')) { // don't allow this page to be requested directly 
       exit;
 }
 
-
 function qw_set_me_online(){
       if(qa_is_logged_in())
             qa_db_query_sub(
@@ -40,7 +39,7 @@ function qw_db_get_all_conversations($userid= null){
       if(!$userid)
             $userid= qa_get_logged_in_userid();
       return qa_db_read_all_assoc(qa_db_query_sub(
-            'SELECT * FROM ^messages WHERE type = # AND (fromuserid = #  OR touserid=#) ORDER BY created DESC ',
+            'SELECT messageid, type,fromuserid,touserid,content,format,UNIX_TIMESTAMP(created) as created,`read` FROM ^messages WHERE type = # AND (fromuserid = #  OR touserid=#) ORDER BY created ',
             'PRIVATE' , $userid , $userid
       ));
 }
@@ -49,7 +48,7 @@ function qw_db_get_all_conversations_betw($fir_user , $sec_user){
       if(!$userid)
             $userid= qa_get_logged_in_userid();
       return qa_db_read_all_assoc(qa_db_query_sub(
-            'SELECT * FROM ^messages WHERE type = # AND ((fromuserid = #  AND touserid = #) OR (fromuserid = #  AND touserid = #)) ORDER BY created ',
+            'SELECT messageid, type,fromuserid,touserid,content,format,UNIX_TIMESTAMP(created) as created,`read` FROM ^messages WHERE type = # AND ((fromuserid = #  AND touserid = #) OR (fromuserid = #  AND touserid = #)) ORDER BY created ',
             'PRIVATE' , $fir_user , $sec_user, $sec_user , $fir_user
       ));
 }

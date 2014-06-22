@@ -64,15 +64,20 @@ class qw_messages_page {
 							</li>';
 		}
 		$left_side_bar = '<div id="msg-user-list" class="col-md-4 user-list well">
+		<div class="hidden" id="logged-in-user-details" data-userid ="'.qa_get_logged_in_userid().'" data-handle="'.qa_get_logged_in_handle().'">
+			 '.qw_get_avatar(qa_get_logged_in_handle()).'
+		</div> 
 								<ul>'.$users_html.'</ul>
 						  </div>' ;
 		
 		$msgs = 'select a conversation to see messages ' ;	
 		$right_side_bar = '<div id="messages" class="col-md-8 well">'.$msgs.' </div>' ;
-		return '<div class="col-md-12">
+		$content =  '<div class="col-md-12">
 				'.$left_side_bar.'
 				'.$right_side_bar.'
-				</div>';			
+				</div>' ;		
+		$templates = $this->get_templates();	
+		return $content . $templates;
 	}
 
 	function users_from_msg_list($all_conversations , $exclude = array() )
@@ -95,9 +100,24 @@ class qw_messages_page {
 		return array_unique($users);
 	}
 
-	function get_template($type)
+	function get_templates()
 	{
-		
+		$messages_template = '
+			<script id="messages-template" type="text/x-handlebars-template" class="hidden">
+  				<ul>
+	  				{{#each messages}}
+	  						<li>
+	  							<span class="name">
+									{{userDetails this}}
+	  							</span>
+	  							{{this.content}}
+	  							<span class="time"> {{this.ago}} </span>
+	  						</li>
+	  				{{/each}}
+  				</ul>
+			</script>
+		';
+		return $messages_template;
 	}
 }
 

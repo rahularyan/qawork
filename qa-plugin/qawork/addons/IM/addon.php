@@ -129,11 +129,24 @@ class Qw_Instant_Messenger_Addon{
 
 		$userid = qa_get_logged_in_userid();
 		$otherid = (int)qa_get('userid');
+		$date_format = "Y-m-d H:i:s";
+		$messages['messages'] =qw_db_get_all_conversations_betw($userid, $otherid);
+		foreach ($messages['messages'] as &$message) {
+			if ($message['fromuserid']==$userid) {
+				$message['sent'] = true ;
+				$message['received'] = false ;
+			}else{
+				$message['sent'] = false ;
+				$message['received'] = true ;
+			}
+			$message['ago'] = qa_when_to_html( $message['created'] , 7)['data'];
+		}
+		$messages['handle'] = qa_get('handle');
+		$messages['userid'] = qa_get('userid');
 
-		$messages = qw_db_get_all_conversations_betw($userid, $otherid);
+		qw_log(print_r($messages, true ));
 
 		echo json_encode($messages) ;
-
 	}
 
 	public function messages_count(){
