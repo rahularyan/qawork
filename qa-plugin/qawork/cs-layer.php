@@ -846,7 +846,8 @@ class qa_html_theme_layer extends qa_html_theme_base {
 	function qw_page_title(){
 		if (qw_hook_exist(__FUNCTION__)) {$args=func_get_args(); array_unshift($args, $this); return qw_event_hook(__FUNCTION__, $args, NULL); }
 		
-		if(qw_is_user()){
+			
+		if(qw_is_user() && $this->template != 'not-found'){
 			$handle = qa_request_part(1);
 			if(empty($handle)) $handle = qa_get_logged_in_handle();
 			$this->profile_user_card($handle);	
