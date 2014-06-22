@@ -97,21 +97,24 @@
 			
 			$themeobject->output(
 				'<form action="'.qa_path_html('ask', $params).'" method="post">',
+					'<div class="row">',
+					'<div class="col-md-5">',
 					'<input type="text" name="title" class="form-control cs-ask-title" placeholder="'.qa_lang('cleanstrap/title_placeholder').'">');
 			
 			if (qa_using_categories() && count($categories))
 				$themeobject->output($category_fields);
-			
-			$themeobject->output(
-					'<textarea  name="content" class="form-control cs-ask-content" placeholder="'.qa_lang('cleanstrap/content_placeholder').'" rows="6"></textarea>');
-			
+				
 			if(qa_using_tags())
 			$themeobject->output(
 					'<div class="tags-input"><input id="tags" class="form-control" type="text" value="" onmouseup="qa_tag_hints();" onkeyup="qa_tag_hints();" autocomplete="off" name="tags" placeholder="'.qa_lang('cleanstrap/tags_placeholder').'" />',
 					'<span id="tag_examples_title"'.(count(@$exampletags) ? '' : $sdn).'>'.qa_lang_html('question/example_tags').'</span>',
 					'<span id="tag_complete_title"'.$sdn.'>'.qa_lang_html('question/matching_tags').'</span><span id="tag_hints">',
 					'<span id="tag_hints"></span></div>');
-					
+			
+			$themeobject->output('</div><div class="col-md-7">');
+			
+			$themeobject->output(
+					'<textarea  name="content" class="form-control cs-ask-content" placeholder="'.qa_lang('cleanstrap/content_placeholder').'" rows="5"></textarea>');
 					
 			if (!qa_is_logged_in()){
 				$themeobject->output('<input type="text" class="form-control" placeholder="'.qa_lang_html('cleanstrap/your_name').'" name="name">');
@@ -120,10 +123,13 @@
 			
 				$themeobject->output('<input type="text" id="email" class="form-control" placeholder="'.qa_lang_html('cleanstrap/your_email').'" name="email">');
 			}	
-			$themeobject->output('<button class="btn" type="submit">Submit question</button>',
+			
+			$themeobject->output('<button class="btn btn-success" type="submit">Submit question</button>',
 					'<input type="hidden" value="'.qa_get_form_security_code('ask').'" name="code">',
 					'<input type="hidden" value="'.qa_html(qa_opt('editor_for_qs')).'" name="editor">',
 					'<input type="hidden" value="1" name="doask">',
+					'</div>',
+					'</div>',
 				'</form>'
 			);
 			

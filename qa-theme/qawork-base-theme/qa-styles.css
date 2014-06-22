@@ -217,3 +217,11 @@
     font-weight: bold;
     padding-bottom: 10px;
 }
+.header-below-c .qw_ask_form {
+    background: none repeat scroll 0 0 rgba(0, 0, 0, 0);
+    border: medium none aqua;
+}
+.header-below-c .qw_ask_form .form-control {
+    background: none repeat scroll 0 0 #fff;
+    border: 1px solid #92c8ab;
+}

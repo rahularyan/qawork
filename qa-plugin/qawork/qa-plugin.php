@@ -5,7 +5,7 @@
 	Plugin Name: QW Control
 	Plugin URI: http://rahularyan.com/cleanstrap
 	Plugin Description: This is the helper plugin for cleanstrap theme developed by rahularyan.com
-	Plugin Version: 1.1
+	Plugin Version: 1.2
 	Plugin Date: 2014-21-03
 	Plugin Author: Rahularyan.com
 	Plugin License: GPLv2
@@ -19,13 +19,13 @@ if (!defined('QA_VERSION')) { // don't allow this page to be requested directly 
 }
 
 //	Ensure no PHP errors are shown
-@ini_set('display_errors', 0);
+//@ini_set('display_errors', 0);
 
 //return; // use this if theme is disabled
 
 define('QW_CONTROL_DIR', dirname( __FILE__ ));
 define('QW_CONTROL_ADDON_DIR', QW_CONTROL_DIR.'/addons');
-define('QW_VERSION', '1.1');
+define('QW_VERSION', '1.2');
 
 require_once QW_CONTROL_DIR. '/functions.php';
 
