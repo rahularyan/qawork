@@ -1,0 +1,33 @@
+/* .qa-nav-sub {
+    display: none;
+} */
+.user-list li {
+    list-style: none ;
+    margin-bottom: 5px ;
+    border-bottom: 2px solid red ; 
+    cursor: pointer;
+    min-height: 40px;
+}
+.user-list li.selected{
+	background-color: green ;
+	}
+.user-list li div span.status{
+    font-size: 15px;
+}
+.user-list li div span.status.online{
+    color: green ;
+}
+.user-list li div span.status.offline{
+    color: red ;
+}
+#messages {
+    max-height: 300px;
+    min-height: 100px;
+    overflow: hidden;
+    position: relative;
+    overflow-y :overlay ;
+}
+#messages ul li {
+    font-size: 30px;
+    background-color: yellow ; 
+}
