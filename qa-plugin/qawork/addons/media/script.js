@@ -1326,7 +1326,8 @@ var selected_media;
 
 $(document).ready(function() {
 
-	$('.open-media-modal').click(function(){
+	$('body').delegate('.open-media-modal', 'click', function(e){
+		e.preventDefault();
 		var postid = $(this).data('args');
 		var for_item = $(this).data('for');
 		
@@ -1452,9 +1453,12 @@ $(document).ready(function() {
 		});
 		
 		//fire the custom event
-		$(this).trigger('qw_insert_image', selected_media);
+		$(this).trigger('qw_insert_image', selected_media);	
 		
-		if(typeof CKEDITOR !='undefined'){
+	});
+	
+	$('body').on('qw_insert_image', function(e, selected_media){
+		if(!!selected_media['for'] && selected_media['for'] == 'editor' && typeof CKEDITOR !='undefined'){
 			for ( var i in CKEDITOR.instances ){
 			   var currentInstance = i;
 			   break;
