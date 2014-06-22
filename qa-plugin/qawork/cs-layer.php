@@ -1141,7 +1141,7 @@ class qa_html_theme_layer extends qa_html_theme_base {
 				$this->output('</div>');
 			
 				$this->output('<div class="question-side col-md-4">');
-					$this->output('<div class="question-share-invite"><i class="icon-group">Ask your friends for help</i>');
+					$this->output('<div class="question-share-invite"><i class="icon-group">'.qa_lang_html('qawork/ask_friends_for_help').'</i>');
 					$this->q_social_share();
 					$link = qa_q_path(@$q_view['raw']['postid'], @$q_view['raw']['title'] , true);
 					$this->fb_ask_your_friend($link);

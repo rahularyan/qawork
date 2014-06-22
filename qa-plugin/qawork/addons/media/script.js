@@ -1326,7 +1326,8 @@ var selected_media;
 
 $(document).ready(function() {
 
-	$('.open-media-modal').click(function(){
+	$('body').delegate('.open-media-modal', 'click', function(e){
+		e.preventDefault();
 		var postid = $(this).data('args');
 		var for_item = $(this).data('for');
 		
@@ -1452,7 +1453,7 @@ $(document).ready(function() {
 		});
 		
 		//fire the custom event
-		$(this).trigger('qw_insert_image', selected_media);
+		$(this).trigger('qw_insert_image', selected_media);	
 
 	});
 	

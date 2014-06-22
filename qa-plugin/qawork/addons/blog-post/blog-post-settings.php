@@ -23,8 +23,7 @@ class qw_blog_post_settings {
 		return false;
 	}
 	
-	function process_request($request)
-	{
+	function process_request($request){
 
 	}
 	

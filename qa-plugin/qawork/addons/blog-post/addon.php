@@ -12,10 +12,16 @@ if (!defined('QA_VERSION')) {
       header('Location: /');
       exit;
 }
+require_once QW_CONTROL_DIR .'/addons/blog-post/blog-post-utils.php';
+
+qa_register_plugin_module('page', 'addons/blog-post/blog-new.php', 'qw_blog_post_new', 'QW New Blog');
+qa_register_plugin_module('page', 'addons/blog-post/blogs.php', 'qw_blogs', 'QW Blogs');
+qa_register_plugin_module('page', 'addons/blog-post/blog.php', 'qw_blog', 'QW Blog');
 
 class Qw_Blog_Post_Addon {
 
       function __construct() {
+            qw_event_hook('doctype', NULL, array($this, 'navigation'));
             qw_event_hook('register_language', NULL, array($this, 'language'));
             qw_event_hook('enqueue_css', NULL, array($this, 'css'));
             qw_event_hook('enqueue_scripts', NULL, array($this, 'script'));
@@ -39,8 +45,14 @@ class Qw_Blog_Post_Addon {
             return $script_src;
       }
       public function navigation($themeclass) {
-		      // put all your links here 
-          
+          $themeclass['navigation']['main']['blog']=array(
+              'url' => qa_path_absolute("blogs") ,
+              'label' => "Blogs" ,
+          );
+          if (qa_request_part(0)=='blogs' || qa_request_part(0)=='blog') {
+             $themeclass['navigation']['main']['blog']['selected'] = true ;
+          }
+          return $themeclass;
       }
 
       public function reset_theme_options() {
