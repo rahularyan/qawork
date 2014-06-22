@@ -936,7 +936,7 @@ class qa_html_theme_layer extends qa_html_theme_base {
 		$profile = $this->content['active_user_profile'];	
 		
 		$this->output('<div class="user-personal-links clearfix">');
-		if (qa_get_logged_in_level() >= QA_USER_LEVEL_ADMIN) {
+		if (qa_get_logged_in_level() >= QA_USER_LEVEL_MODERATOR) {
 			
 			$form = @$this->content['form_profile'];
 			

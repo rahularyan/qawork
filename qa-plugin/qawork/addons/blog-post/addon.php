@@ -28,6 +28,8 @@ class Qw_Blog_Post_Addon {
             qw_add_action('qw_theme_option_tab', array($this, 'option_tab'));
             qw_add_action('qw_theme_option_tab_content', array($this, 'option_tab_content'));
             qw_add_action('qw_reset_theme_options', array($this, 'reset_theme_options'));
+            
+			qw_add_action('blog_post_form', array($this, 'blog_post_form'));
       }
 
       public function language($lang_arr) {
@@ -113,6 +115,19 @@ class Qw_Blog_Post_Addon {
             $output .= '</table></div>';
             return $output;
     }
+	
+	function blog_post_form(){
+		return '
+			<div class="form-group">
+				<label for="title">Title</label>
+				<input type="text" class="form-control" id="title" placeholder="Post title">
+			</div>
+			<div class="form-group">
+				<label for="content">Content</label>
+				<textarea type="text" class="form-control" id="content" placeholder="Post content" rows="10"></textarea>
+			</div>		
+		';
+	}
 
 
 } //class
