@@ -47,6 +47,7 @@
 				'Top' => 'Before navbar', 
 				'Header' => 'After navbar', 
 				'Header Right' => 'Right side of header', 
+				'Header Below' => 'Below header', 
 				'Breadcrumbs' => 'For show bread navigation', 
 				'Left' => 'Right side below menu', 
 				'Content Top' => 'Before questions list', 

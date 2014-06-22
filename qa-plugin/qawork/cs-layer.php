@@ -828,6 +828,11 @@ class qa_html_theme_layer extends qa_html_theme_base {
 				}
 			$this->output('</div></div>');
 		}
+		if ($this->qw_position_active('Header Below')){
+			$this->output('<div class="header-below-c"><div class="container">');
+			$this->qw_position('Header Below');
+			$this->output('</div></div>');
+		}
 	}
 	
 	function default_template($content){
