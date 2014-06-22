@@ -13,7 +13,7 @@ if (!defined('QA_VERSION')) {
 }
 
 function qw_upload_dir(){
-	return defined(QA_BLOBS_DIRECTORY) ? QA_BLOBS_DIRECTORY : QA_BASE_DIR.'images';
+	return defined('QA_BLOBS_DIRECTORY') ? QA_BLOBS_DIRECTORY : QA_BASE_DIR.'images';
 }
 function qw_upload_url(){
 	return QW_BASE_URL.'/images';
@@ -212,11 +212,13 @@ function qw_get_post_media($postid){
 function qw_get_media_by_id($id){
 	if(is_array($id)){
 		$ids = implode(',', $id);
-		$media = qa_db_read_all_assoc(qa_db_query_sub(
-			'SELECT * FROM ^ra_media WHERE id IN ('.$ids.')'			
-		), 'id');
+		if(!empty($ids)){
+			$media = qa_db_read_all_assoc(qa_db_query_sub(
+				'SELECT * FROM ^ra_media WHERE id IN ('.$ids.')'			
+			), 'id');
 
-		return $media;
+			return $media;
+		}
 	}else{
 		$media = qa_db_read_one_assoc(qa_db_query_sub(
 			'SELECT * FROM ^ra_media WHERE id = #',

@@ -828,6 +828,11 @@ class qa_html_theme_layer extends qa_html_theme_base {
 				}
 			$this->output('</div></div>');
 		}
+		if ($this->qw_position_active('Header Below')){
+			$this->output('<div class="header-below-c"><div class="container">');
+			$this->qw_position('Header Below');
+			$this->output('</div></div>');
+		}
 	}
 	
 	function default_template($content){
@@ -846,7 +851,8 @@ class qa_html_theme_layer extends qa_html_theme_base {
 	function qw_page_title(){
 		if (qw_hook_exist(__FUNCTION__)) {$args=func_get_args(); array_unshift($args, $this); return qw_event_hook(__FUNCTION__, $args, NULL); }
 		
-		if(qw_is_user()){
+			
+		if(qw_is_user() && $this->template != 'not-found'){
 			$handle = qa_request_part(1);
 			if(empty($handle)) $handle = qa_get_logged_in_handle();
 			$this->profile_user_card($handle);	
@@ -936,7 +942,7 @@ class qa_html_theme_layer extends qa_html_theme_base {
 		$profile = $this->content['active_user_profile'];	
 		
 		$this->output('<div class="user-personal-links clearfix">');
-		if (qa_get_logged_in_level() >= QA_USER_LEVEL_ADMIN) {
+		if (qa_get_logged_in_level() >= QA_USER_LEVEL_MODERATOR) {
 			
 			$form = @$this->content['form_profile'];
 			

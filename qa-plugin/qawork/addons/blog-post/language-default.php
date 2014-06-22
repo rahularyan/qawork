@@ -160,5 +160,6 @@ if (!defined('QA_VERSION')) {
 		'recent_ps_as_title' => 'Recent posts and answers',
 		'recent_ps_in_x' => 'Recent posts in ^',
 		'recent_ps_title' => 'Recent posts',
+		'create_new_blog_post' => 'Create new blog post',
 	);
 	

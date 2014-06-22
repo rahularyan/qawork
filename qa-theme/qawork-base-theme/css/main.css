@@ -2515,6 +2515,24 @@ input.qa-form-wide-number {
     margin-bottom: 0;
     margin-top: 0;
     padding: 70px 0;
+    position: relative;
+}
+.header-position-c:after {
+    background-attachment: scroll, scroll;
+    background-clip: border-box, border-box;
+    background-color: rgba(0, 0, 0, 0);
+    background-image: linear-gradient(-45deg, #93dab4 10px, transparent 0px), linear-gradient(45deg, #93dab4 10px, transparent 0px);
+    background-origin: padding-box, padding-box;
+    background-position: 0 0%, 0 0;
+    background-repeat: repeat-x;
+    background-size: 25px 25px;
+    bottom: 0;
+    content: " ";
+    display: block;
+    height: 25px;
+    left: 0;
+    position: absolute;
+    width: 100%;
 }
 
 
