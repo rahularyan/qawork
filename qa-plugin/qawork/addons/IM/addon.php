@@ -33,7 +33,8 @@ class Qw_Instant_Messenger_Addon{
 		qw_add_filter('init_queries', array($this, 'init_queries'));
 		qw_event_hook('enqueue_css', NULL, array($this, 'css'));
 		qw_event_hook('enqueue_scripts', NULL, array($this, 'scripts'));
-		qw_event_hook('qw_ajax_read_this_message', NULL, array($this, 'read_this_message'));
+		qw_event_hook('qw_ajax_read_all_messages', NULL, array($this, 'read_all_messages'));
+		qw_event_hook('qw_ajax_get_all_users_list', NULL, array($this, 'get_all_users_list'));
 		// qw_event_hook('qw_ajax_messagelist', NULL, array($this, 'messagelist'));
 		// qw_event_hook('qw_ajax_mark_all_activity', NULL, array($this, 'mark_all_activity'));
 		// qw_event_hook('qw_ajax_mark_all_messages', NULL, array($this, 'mark_all_messages'));
@@ -125,12 +126,10 @@ class Qw_Instant_Messenger_Addon{
 
 	public function activitylist(){}
 	
-	public function read_this_message(){
+	public function read_all_messages(){
 
 		$userid = qa_get_logged_in_userid();
-		$otherid = (int)qa_get('userid');
-		$date_format = "Y-m-d H:i:s";
-		$messages['messages'] =qw_db_get_all_conversations_betw($userid, $otherid);
+		$messages['messages'] =qw_db_get_all_conversations($userid);
 		foreach ($messages['messages'] as &$message) {
 			if ($message['fromuserid']==$userid) {
 				$message['sent'] = true ;
@@ -141,19 +140,24 @@ class Qw_Instant_Messenger_Addon{
 			}
 			$message['ago'] = qa_when_to_html( $message['created'] , 7)['data'];
 		}
-		$messages['handle'] = qa_get('handle');
-		$messages['userid'] = qa_get('userid');
-
-		qw_log(print_r($messages, true ));
 
 		echo json_encode($messages) ;
-	}
-
-	public function messages_count(){
-		echo qw_get_total_messages(qa_get_logged_in_userid());
-		
 		die();
 	}
+
+	public function get_all_users_list(){
+		$userid = qa_get_logged_in_userid() ;
+		$all_conversations = qw_db_get_all_conversations($userid);
+		$users = qw_users_from_msg_list($all_conversations);
+		$user_details = qw_get_name_handle_of_users($users);
+		foreach ($user_details as &$user_detail) {
+			$user_detail['avatar']=qw_get_avatar($user_detail['handle']);
+		}
+		$data['users'] = $user_details ;
+		echo json_encode($data) ;
+		die();
+	}
+
 	public function language($lang_arr){
 		$lang_arr['messages'] = QW_CONTROL_DIR .'/addons/IM/language-*.php';
 		return $lang_arr;

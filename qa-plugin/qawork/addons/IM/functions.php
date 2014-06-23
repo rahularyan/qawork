@@ -72,3 +72,22 @@ function qw_get_name_handle_of_users($userids) {
 }
 
 
+function qw_users_from_msg_list($all_conversations , $exclude = array() )
+{
+      $loggedin_userid = qa_get_logged_in_userid();
+      $users = array() ; 
+      foreach ($all_conversations as $conversation) {
+            if (isset($conversation['touserid'])) {
+                  if (!in_array($conversation['touserid'], $users )) {
+                        $users[] = $conversation['touserid'] ;
+                  }
+            }
+            if (isset($conversation['fromuserid'])) {
+                  if (!in_array($conversation['fromuserid'], $users )) {
+                        $users[] = $conversation['fromuserid'] ;
+                  }
+            }
+      }
+      $users = array_diff($users, array($loggedin_userid));
+      return array_unique($users);
+}

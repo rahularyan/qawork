@@ -50,7 +50,7 @@ class qw_messages_page {
 	function get_messages()
 	{
 		$userid = qa_get_logged_in_userid() ;
-		$all_conversations = qw_db_get_all_conversations($userid);
+		/*$all_conversations = qw_db_get_all_conversations($userid);
 		
 		$users = $this->users_from_msg_list($all_conversations);
 		$user_details = qw_get_name_handle_of_users($users);
@@ -62,12 +62,14 @@ class qw_messages_page {
 								.qw_get_avatar($user_detail['handle']).
 								'</div>
 							</li>';
-		}
-		$left_side_bar = '<div id="msg-user-list" class="col-md-4 user-list well">
-		<div class="hidden" id="logged-in-user-details" data-userid ="'.qa_get_logged_in_userid().'" data-handle="'.qa_get_logged_in_handle().'">
-			 '.qw_get_avatar(qa_get_logged_in_handle()).'
-		</div> 
-								<ul>'.$users_html.'</ul>
+		}*/
+		$left_side_bar = '<div id="msg-user-list" class="col-md-4  well">
+								<div class="hidden" id="logged-in-user-details" data-userid ="'.qa_get_logged_in_userid().'" data-handle="'.qa_get_logged_in_handle().'">
+									 '.qw_get_avatar(qa_get_logged_in_handle()).'
+								</div> 
+								<ul class="user-list">
+									
+								</ul>
 						  </div>' ;
 		
 		$msgs = 'select a conversation to see messages ' ;	
@@ -80,25 +82,6 @@ class qw_messages_page {
 		return $content . $templates;
 	}
 
-	function users_from_msg_list($all_conversations , $exclude = array() )
-	{
-		$loggedin_userid = qa_get_logged_in_userid();
-		$users = array() ; 
-		foreach ($all_conversations as $conversation) {
-			if (isset($conversation['touserid'])) {
-				if (!in_array($conversation['touserid'], $users )) {
-					$users[] = $conversation['touserid'] ;
-				}
-			}
-			if (isset($conversation['fromuserid'])) {
-				if (!in_array($conversation['fromuserid'], $users )) {
-					$users[] = $conversation['fromuserid'] ;
-				}
-			}
-		}
-		$users = array_diff($users, array($loggedin_userid));
-		return array_unique($users);
-	}
 
 	function get_templates()
 	{
@@ -107,17 +90,31 @@ class qw_messages_page {
   				<ul>
 	  				{{#each messages}}
 	  						<li>
-	  							<span class="name">
-									{{userDetails this}}
-	  							</span>
-	  							{{this.content}}
+	  							<div class="content">
+		  							{{{getAvatar this}}}
+		  							{{{getContent this}}}
+	  							</div>
 	  							<span class="time"> {{this.ago}} </span>
 	  						</li>
 	  				{{/each}}
   				</ul>
 			</script>
 		';
-		return $messages_template;
+		$users_template = '
+			<script id="users-template" type="text/x-handlebars-template" class="hidden">
+	  				{{#each users}}
+	  						<li data-mhandle="{{this.handle}}" data-mid="{{this.userid}}" >
+								<div class="avatar" data-mhandle="{{this.handle}}" data-mid="{{this.userid}}"> 
+									<span class="icon-bell status {{this.status}}" title="{{this.status}}"></span>
+									{{{this.avatar}}}
+									{{this.handle}}
+								</div>
+							</li>
+	  				{{/each}}
+			</script>
+		';
+
+		return $messages_template.$users_template;
 	}
 }
 

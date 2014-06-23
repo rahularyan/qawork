@@ -1,6 +1,13 @@
 /* .qa-nav-sub {
     display: none;
 } */
+#msg-user-list {
+    max-height: 400px;
+    min-height: 400px;
+    overflow: hidden;
+    position: relative;
+    overflow-y :overlay ;
+}
 .user-list li {
     list-style: none ;
     margin-bottom: 5px ;
@@ -10,7 +17,7 @@
 }
 .user-list li.selected{
 	background-color: green ;
-	}
+}
 .user-list li div span.status{
     font-size: 15px;
 }
@@ -21,8 +28,8 @@
     color: red ;
 }
 #messages {
-    max-height: 300px;
-    min-height: 100px;
+    max-height: 400px;
+    min-height: 400px;
     overflow: hidden;
     position: relative;
     overflow-y :overlay ;
@@ -34,6 +41,17 @@
     margin-bottom: 2px;
     border-radius: 5px;
 }
+#messages ul li div.content{
+    margin-bottom: 2px ;
+    padding: 5px ;
+}
+#messages ul li div.message{
+    font-size: 20px ; 
+}
+#messages ul li div.avatar{
+    margin-bottom: 2px ;
+    padding: 5px ;
+}
 #messages ul li span.name{
     font-weight: bold ;
 }
@@ -43,4 +61,8 @@
     font-weight: lighter;
     font-size: 10px;
     margin: 1px 3px 3px 0px ;
+}
+
+#messages ul li div.message.unread{
+    background-color: yellow ;
 }
