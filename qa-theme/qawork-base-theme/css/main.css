@@ -3370,6 +3370,7 @@ input.qa-form-wide-number {
     padding: 2px 10px;
     text-align: center;
     transition: all 0.4s ease 0s;
+	margin-right: 10px;
 }
 .category-nav.open .category-toggle {
     background: none repeat scroll 0 0 #fff;

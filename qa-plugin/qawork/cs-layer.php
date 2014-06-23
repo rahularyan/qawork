@@ -465,12 +465,12 @@ class qa_html_theme_layer extends qa_html_theme_base {
 					$this->cat_drop_nav();	
 					
 				$this->main_nav_menu();
+				
+				$this->get_social_links();
 										
 			$this->output('</div></div>');
 			$this->output('</div>');
-		$this->output('</header>');
-		
-		$this->get_social_links();
+		$this->output('</header>');		
 		$this->qw_page_title();
 		
 		if(!qw_is_home() && !qw_is_user()){
