@@ -65,10 +65,11 @@ function qa_set_user_avatar($userid, $imagedata, $oldblobid=null){
 	require_once QA_INCLUDE_DIR.'qa-util-image.php';
 	if (!empty($_FILES['file'])) {		
 		$imagedata= qa_gd_image_jpeg(qw_resize_image($_FILES['file']['tmp_name'], false, 150, 150, 100, true, true));
-	
 	}else{
+		/* 
 		$image=@imagecreatefromstring($imagedata);
 		$imagedata= qa_gd_image_jpeg(qw_resize_image($image, false, 150, 150, 100, true, true));
+		*/
 	}
 	
 
