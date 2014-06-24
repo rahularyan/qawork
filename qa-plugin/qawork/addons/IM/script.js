@@ -115,6 +115,15 @@ $(document).ready(function() {
 			init : function () {
 				Messages.readAllUsers();
 				// if a user is selected previously mark it as selected after the reload also 
+			  	if (!!Messages.selectedUserDetails) {
+						$.each($('#msg-user-list > ul > li'), function(index, val) {
+							$val = $(val) ;
+							if ($val.data('mid') == Messages.selectedUserDetails.userid) {
+								$val.siblings('li').removeClass('selected')
+								      .end().addClass('selected') ;
+							};
+						});
+				};
 				Messages.readAllMessages();
 				Messages.lastRefreshed = new Date();
 				Messages.getAllUsers();
@@ -175,15 +184,6 @@ $(document).ready(function() {
 		window.setInterval(function(){
 		  	Messages.refreshAll();
 		  	Messages.populateSelectedMessage();	
-		  	if (!!Messages.selectedUserDetails) {
-					$.each($('#msg-user-list > ul > li'), function(index, val) {
-						$val = $(val) ;
-						if ($val.data('mid') == Messages.selectedUserDetails.userid) {
-							$val.siblings('li').removeClass('selected')
-							      .end().addClass('selected') ;
-						};
-					});
-			};
 		}, 500);
 
 });
