@@ -64,6 +64,9 @@ class QW_Editor_Addon{
                 $min_user_points = 100 ;
               }
               qa_opt('qw_qa_editor_min_user_points' , $min_user_points) ;
+              qa_opt("qw_allow_links_in_posts", !!qa_post_text("qw_allow_links_in_posts"));
+              qa_opt("qw_allowed_links", qa_post_text("qw_allowed_links"));
+
               $saved=true;
           }
           
@@ -159,7 +162,21 @@ class QW_Editor_Addon{
                 </tr>
                 </tbody>
               ';
-
+              $output .= '
+                <tbody>
+                <tr>
+                  <th class="qa-form-tall-label"> Allow links in posts </th>
+                  <td class="qa-form-tall-data">
+                    <input type="checkbox"' . (qa_opt('qw_allow_links_in_posts') ? ' checked=""' : '') . '  name="qw_allow_links_in_posts" data-opts=".qw_allow_links_in_posts_fields">
+                  </td>
+                </tr>
+                <tr class="qw_allow_links_in_posts_fields' . (qa_opt('qw_allow_links_in_posts') ? ' csshow' : ' cshide') . '">
+                  <th class="qa-form-tall-label"> Allowed Links </th>
+                  <td class="qa-form-tall-data">
+                    <textarea name="qw_allowed_links" placeholder="put allowed links here" rows=5 >'.qa_opt('qw_allowed_links').'</textarea>
+                  </td>
+                </tr>
+              </tbody>' ;
             $output .= '</table></div>';
             return $output;
     }
@@ -167,6 +184,8 @@ class QW_Editor_Addon{
         if (qa_clicked('qw_reset_button')) {
           qa_opt("qw_qa_editor_code_theme", "github.css");
           qa_opt("qw_qa_editor_theme_use_minified", 1);
+          qa_opt("qw_allow_links_in_posts", 0);
+          qa_opt("qw_allowed_links", "");
           $saved=true;
         }
     }
