@@ -77,9 +77,8 @@
 					
 				$qa_content['script_src'][]=$scriptsrc;
 				$qa_content['script_lines'][]=array(
-					"qa_wysiwyg_editor_config={".
-					"defaultLanguage:".qa_js(qa_opt('site_language')).
-					"};"
+
+					"defaultLanguage=".qa_js(qa_opt('site_language')).";"
 				);
 				
 			}		
@@ -118,7 +117,7 @@
 		function read_post($fieldname)
 		{
 			$html=qa_post_text($fieldname);
-			
+			$html = qw_strip_links($html);
 			$htmlformatting=preg_replace('/<\s*\/?\s*(br|p)\s*\/?\s*>/i', '', $html); // remove <p>, <br>, etc... since those are OK in text
 			
 			if (preg_match('/<.+>/', $htmlformatting)) // if still some other tags, it's worth keeping in HTML

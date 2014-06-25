@@ -196,6 +196,7 @@
 		'edit_tags_page' => 'Edit Tags ',
 		'media_is_updated' => 'Your changes saved ',
 		'ask_friends_for_help' => 'Ask your friends for help',
+		'no_enough_points' => 'You don\'t enough point to do this action.',
 	);
 	
 

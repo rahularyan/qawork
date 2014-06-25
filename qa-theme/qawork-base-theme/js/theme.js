@@ -685,7 +685,7 @@ $(document).ready(function(){
 		}
 	});
 	
-	$('.mobile-menu-toggle').on('click', function(){
+	$('.mobile-menu-toggle').click(function(){
 		$(this).next().toggle();
 	});
 

@@ -1164,15 +1164,6 @@ function qa_get_override_file($file){
 		return QW_CONTROL_DIR.'/'.$file;
 }
 
-
-function qw_check_for_new_version($return = false){
-	$version = file_get_contents("http://localhost/rahularyan/wp-admin/admin-ajax.php?action=product_update&product_id=00d1af1463dad2b9506b3d24baa102ce");
-	
-	if($version != QW_VERSION && $return)
-		return '<div class="alert alert-info">A new version ('.$version.') is available, please go to your account and download it</div>';
-}
-
-
 function qw_save_notification_settings($data , $userid)
 {
     require_once QA_INCLUDE_DIR.'qa-db-users.php';
@@ -1438,3 +1429,21 @@ function qw_array_filter_recursive($input){
 
 	return array_filter($input); 
 } 
+
+function qw_strip_links($str){
+	$allowed_links = qa_opt('qw_allowed_links');
+			
+	if(qa_opt('qw_allow_links_in_posts')){
+		$allowed_links = str_replace(' ', '', $allowed_links);
+
+		$str = preg_replace('#<a [^>]*\bhref=([\'"])http.?://((?!('.$allowed_links.'))[^\'"])+\1 *>.*?</a>#i', '', $str);
+	}
+	return $str;
+}
+
+function qw_check_for_new_version($return = false){
+	$version = file_get_contents("http://rahularyan.com/wp-admin/admin-ajax.php?action=product_update&product_id=qawork");
+	
+	if($version != QW_VERSION && $return)
+		return '<div class="alert alert-info">A new version ('.$version.') is available, please go to your account and download it</div>';
+}

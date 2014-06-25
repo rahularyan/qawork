@@ -93,7 +93,7 @@
 #home-featured-position .widget {
     margin-bottom: 0;
 }
-#home-featured-position .widget, #home-right-position .widget, #home-top-users-position .widget, #home-bottom-position .widget, #home-activity-position .qw_site_activity, #home-activity-position .qw_text_widget{
+#home-featured-position .widget, #home-right-position .widget.qw_featured_questions, #home-top-users-position .widget, #home-bottom-position .widget, #home-activity-position .qw_site_activity{
     background: rgba(0, 0, 0, 0);
     border: medium none;
 }
@@ -104,16 +104,18 @@
 .big-btns .btn-facebook{
 	margin-right:5px;
 }
-#home-featured-position .widget-title, .home-happening .widget-title{
+#home-featured-position .widget-title{
     border: medium none;
     font-size: 17px;
     margin-bottom: 10px;
     margin-left: 3px;
     padding: 5px 0;
 }
-.home-happening .ra-post-list-widget {
-    padding: 0;
+#home-right-position .qw_question_activity .widget-title {
+    border-bottom: 1px solid #eee;
+    padding: 10px;
 }
+
 .home-happening .ra-sa-widget {
     margin-top: 20px;
 }

@@ -4,7 +4,8 @@ if (!defined('QA_VERSION')) {
 		exit;
 }
 
-qa_register_plugin_module('editor', '/addons/editor/editor.php', 'qw_editor', 'QW Editor');
+qa_register_plugin_module('editor', 'addons/editor/editor.php', 'qw_editor', 'QW Editor');
+qa_register_plugin_module('viewer', 'addons/editor/viewer.php', 'qw_viewer', 'QW Viewer');
 
 define('QW_EDITOR_STYLE_SHEET_PATH', QW_CONTROL_DIR . '/addons/editor/plugins/codesnippet/lib/highlight/styles' );
 define('QW_EDITOR_STYLE_SHEET_LINK', QW_CONTROL_URL . '/addons/editor/plugins/codesnippet/lib/highlight/styles' );
@@ -122,16 +123,7 @@ class QW_Editor_Addon{
                 </tr>
                 </tbody>
               ';
-              $output .= '
-                <tbody>
-                <tr>
-                  <th class="qa-form-tall-label">Allowed Providers for oEmbed (comma separated values )</th>
-                  <td class="qa-form-tall-data">
-                    <textarea name="qw_editor_allowed_OE_providers" data-opts="qw_editor_allowed_OE_providers_fields">'.qa_opt('qw_editor_allowed_OE_providers').'</textarea>
-                  </td>
-                </tr>
-                </tbody>
-              ';
+  
               $selected_level = qa_opt('qw_editor_min_user_level_to_upload') ;
 
               $options = '<option value="'.QA_USER_LEVEL_MODERATOR.'" '.(($selected_level==QA_USER_LEVEL_MODERATOR) ? 'selected="selected"' : '') .' >Moderator </option>' ;
