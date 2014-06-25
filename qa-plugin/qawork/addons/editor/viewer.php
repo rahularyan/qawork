@@ -113,19 +113,9 @@
 			} else
 				$html='[no viewer found for format: '.qa_html($format).']'; // for unknown formats
 			
-			$allowed_links = qa_opt('qw_allowed_links');
-			
-			if(!empty($allowed_links)){
-				$allowed_links = str_replace(' ', '', $allowed_links);
-
-				$html = preg_replace('#<a [^>]*\bhref=([\'"])http.?://((?!('.$allowed_links.'))[^\'"])+\1 *>.*?</a>#i', '', $html);
-			}
+			$html = qw_strip_links($html);
 
 			return $html;
-		}
-
-		function link_replace($match){
-			var_dump($match);
 		}
 		
 		

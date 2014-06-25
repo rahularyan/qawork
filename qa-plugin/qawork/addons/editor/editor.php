@@ -117,7 +117,7 @@
 		function read_post($fieldname)
 		{
 			$html=qa_post_text($fieldname);
-			
+			$html = qw_strip_links($html);
 			$htmlformatting=preg_replace('/<\s*\/?\s*(br|p)\s*\/?\s*>/i', '', $html); // remove <p>, <br>, etc... since those are OK in text
 			
 			if (preg_match('/<.+>/', $htmlformatting)) // if still some other tags, it's worth keeping in HTML

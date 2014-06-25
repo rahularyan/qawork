@@ -1429,6 +1429,18 @@ function qw_array_filter_recursive($input){
 
 	return array_filter($input); 
 } 
+
+function qw_strip_links($str){
+	$allowed_links = qa_opt('qw_allowed_links');
+			
+	if(qa_opt('qw_allow_links_in_posts')){
+		$allowed_links = str_replace(' ', '', $allowed_links);
+
+		$str = preg_replace('#<a [^>]*\bhref=([\'"])http.?://((?!('.$allowed_links.'))[^\'"])+\1 *>.*?</a>#i', '', $str);
+	}
+	return $str;
+}
+
 function qw_check_for_new_version($return = false){
 	$version = file_get_contents("http://rahularyan.com/wp-admin/admin-ajax.php?action=product_update&product_id=qawork");
 	

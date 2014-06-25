@@ -1480,7 +1480,7 @@ a.feed-link {
 }
 
 .post-footer:before {
-	background: #fff;
+	background: #ddd;
 	content: "";
 	height: 100%;
 	left: 15px;
