@@ -1176,7 +1176,43 @@ function qw_get_notification_settings($userid)
 {
    $key = 'qw_notification_settings' ;
    $value = qa_db_read_one_value(qa_db_query_sub("SELECT ^userprofile.content from  ^userprofile WHERE ^userprofile.title = # AND ^userprofile.userid = # " , $key , $userid ), true );
-   return json_decode($value, true);
+   if (empty($value) || !$value) {
+   		$value = qw_get_default_notfication_settings() ;
+   }else {
+   		$value = json_decode($value, true);
+   }
+   
+   return $value;
+}
+
+function qw_get_default_notfication_settings(){
+	// by default all options are true 
+	return array(
+				'qw_mail_when_a_post'         => 1 ,
+				'qw_mail_when_related'        => 1 ,
+				'qw_mail_when_c_post'         => 1 ,
+				'qw_mail_when_q_reshow'       => 1 ,
+				'qw_mail_when_c_reshow'       => 1 ,
+				'qw_mail_when_a_select'       => 1 ,
+				'qw_mail_when_q_vote_up'      => 1 ,
+				'qw_mail_when_q_vote_down'    => 1 ,
+				'qw_mail_when_a_vote_up'      => 1 ,
+				'qw_mail_when_a_vote_down'    => 1 ,
+				'qw_mail_when_q_favorite'     => 1 ,
+				'qw_mail_when_u_favorite'     => 1 ,
+				'qw_mail_when_u_message'      => 1 ,
+				'qw_mail_when_u_wall_post'    => 1 ,
+				'qw_mail_when_u_level'        => 1 ,
+				'qw_mail_when_q_post_user_fl' => 1 ,
+				'qw_mail_when_q_post_tag_fl'  => 1 ,
+				'qw_mail_when_q_post_cat_fl'  => 1 ,
+				'qw_mail_when_q_approve'      => 1 ,
+				'qw_mail_when_q_reject'       => 1 ,
+				'qw_mail_when_a_approve'      => 1 ,
+				'qw_mail_when_a_reject'       => 1 ,
+				'qw_mail_when_c_approve'      => 1 ,
+				'qw_mail_when_c_reject'       => 1 ,
+			);	
 }
 
 function qw_get_all_notification_settings()
@@ -1200,7 +1236,8 @@ function qw_check_pref_for_event($userid , $event , $all_preferences='' )
                return @$preferences['settings'][$event];
          }
       }   
-      return false;
+      // if the settings are not set by the user , by default it is true 
+      return true ;
 }
 
 

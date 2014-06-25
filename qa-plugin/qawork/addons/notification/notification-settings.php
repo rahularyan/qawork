@@ -79,7 +79,6 @@ class qw_notification_setting_page {
 		$disp_conf = qa_get('confirm');
 		
 		$preferences = qw_get_notification_settings($userid);
-		// qw_log(print_r(qw_check_pref_for_event($userid , 'a_post') , true )) ;
 
 		if(!$disp_conf) {
 			// display some summary about the user
