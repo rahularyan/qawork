@@ -12,6 +12,31 @@ if (!defined('QA_VERSION')) {
 		exit;
 }
 
+
+function qw_allow_upload(){
+	if (qa_get_logged_in_level() >= QA_USER_LEVEL_ADMIN)
+		return false;
+		
+	require_once QA_INCLUDE_DIR.'qa-app-limits.php';
+	switch (qa_user_permit_error(null, QA_LIMIT_UPLOADS))
+	{
+		case 'limit':
+			$result['error']=qa_lang('main/upload_limit');
+			$result['status']=false;
+			return $result;
+			
+		
+		case false:
+			qa_limits_increment(qa_get_logged_in_userid(), QA_LIMIT_UPLOADS);
+			break;
+
+		default:
+			$result['error']=qa_lang('users/no_permission');
+			$result['status']=false;
+			return $result;
+	}
+}
+
 function qw_upload_dir(){
 	return defined('QA_BLOBS_DIRECTORY') ? QA_BLOBS_DIRECTORY : QA_BASE_DIR.'images';
 }
@@ -25,6 +50,9 @@ function qw_image_size(){
 
 function qw_upload_file($field, $postid){
 
+	if($error = qw_allow_upload())
+		return $error;
+		
 	if (isset($_FILES[$field]) && !empty($_FILES[$field])) {
 		
 		if($_FILES[$field]['type'] == 'image/jpeg' || $_FILES[$field]['type'] == 'image/jpg' || $_FILES[$field]['type'] == 'image/png' || $_FILES[$field]['type'] == 'image/gif' || $_FILES[$field]['type'] == 'image/x-icon'){
@@ -70,7 +98,9 @@ function qw_file_name($file){
 }
 
 function qw_upload_image($file, $postid = 0){
-
+	if($error = qw_allow_upload())
+		return $error;
+		
 	//return if not a valid image
 	if(!qw_is_image($file['tmp_name'])){
 		$name['status'] = false;
@@ -201,11 +231,18 @@ function qw_delete_media_by_id($id){
 }
 
 function qw_get_post_media($postid){
-	$userid = qa_get_logged_in_userid();
-	$media = qa_db_read_all_assoc(qa_db_query_sub(
-		'SELECT * FROM ^ra_media WHERE parent_post = #',
-		$postid
-	));
+	if (qa_get_logged_in_level() >= QA_USER_LEVEL_ADMIN){
+		$media = qa_db_read_all_assoc(qa_db_query_sub(
+			'SELECT * FROM ^ra_media WHERE parent_post = #',
+			$postid
+		));
+	}else{
+		$userid = qa_get_logged_in_userid();
+		$media = qa_db_read_all_assoc(qa_db_query_sub(
+			'SELECT * FROM ^ra_media WHERE parent_post = # and userid = #',
+			$postid, $userid
+		));
+	}
 
 	return $media;
 }
@@ -357,7 +394,7 @@ class QW_Media_Addon{
 	public function ra_post_buttons($content){
 		$postid = @$content['q_view']['raw']['postid'];
 		$postid = isset($postid) ? $postid : 0;
-		if ((isset($content['form_q_edit']) || qa_request_part(0) == 'ask') && (qa_get_logged_in_level() >= QA_USER_LEVEL_ADMIN)){
+		if ((isset($content['form_q_edit']) || qa_request_part(0) == 'ask')){
 			$qw_media=array(
 				'label' => '<button type="button" class="icon-image btn btn-default open-media-modal" data-args="'.$postid.'" data-for="editor">'.qa_lang_html('qw_media/media').'</button>',
 				'type' => 'custom',
@@ -373,7 +410,8 @@ class QW_Media_Addon{
 	}
 	
 	function upload_modal(){
-		if (qa_get_logged_in_level() >= QA_USER_LEVEL_ADMIN){
+
+		//if (qa_get_logged_in_level() >= QA_USER_LEVEL_ADMIN){
 		$postid = (int)qa_post_text('args');
 		$for_item = qa_post_text('for_item');
 		?>
@@ -441,12 +479,14 @@ class QW_Media_Addon{
 		  </div>
 		</div>
 		<?php
-		}
+		//}
 		die(); 
 	}
 	
 	public function load_media_item_edit(){
-		if (qa_get_logged_in_level() >= QA_USER_LEVEL_ADMIN){
+		if($error = qw_allow_upload())
+			return $error;
+		
 		$id = (int)qa_post_text('args');
 		$for_item = qa_post_text('for_item');
 		$media = qw_get_media_by_id($id);
@@ -486,7 +526,7 @@ class QW_Media_Addon{
 		 $html = ob_get_clean();
 		 
 		 echo json_encode(array($media, $html));
-		}
+		
 		die();
 	}
 	
@@ -525,6 +565,10 @@ class QW_Media_Addon{
 	}
 	
 	public function upload_file(){
+		if($error = qw_allow_upload()){
+			echo json_encode($error);
+			die();
+		}
 		$postid = (int)qa_post_text('postid');
 		$type = qa_post_text('type');
 		
@@ -532,7 +576,7 @@ class QW_Media_Addon{
 		
 			echo json_encode(qw_upload_cover('cover'));
 		
-		}elseif(qa_get_logged_in_level() >= QA_USER_LEVEL_ADMIN && qa_check_form_security_code('media_'.$postid, qa_post_text('code'))){
+		}elseif(qa_check_form_security_code('media_'.$postid, qa_post_text('code'))){
 			echo json_encode(qw_upload_file('post_media', $postid));
 		}else{
 			echo '0';

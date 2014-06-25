@@ -110,7 +110,7 @@ class qa_html_theme_layer extends qa_html_theme_base {
 			unset($this->content['script_rel'][$key]);
 		}
 
-		$this->output('<script> ajax_url = "' . QW_CONTROL_URL . '/ajax.php"; theme_url = "' . Q_THEME_URL . '";</script>');
+		$this->output('<script> ajax_url = "' . QW_CONTROL_URL . '/ajax.php"; theme_url = "' . Q_THEME_URL . '"; site_url = "' . QW_BASE_URL . '";</script>');
 
 		qa_html_theme_base::head_script();
 
@@ -453,36 +453,46 @@ class qa_html_theme_layer extends qa_html_theme_base {
 		if (qw_hook_exist(__FUNCTION__)) {$args=func_get_args(); array_unshift($args, $this); return qw_event_hook(__FUNCTION__, $args, NULL); }
         $this->qw_position('Top');
         
-        $this->output('<header id="site-header" class="clearfix">');		
-			$this->output('<div id="header-top" class="clearfix">');
+        $this->output('<header id="site-header" class="clearfix">');
+			$this->header_top();
+			$this->output('<div id="header-top" class="clearfix">');			
 			$this->output('<div class="container">');
-			$this->output('<div class="logo-menu">');
-			$this->logo();			
-			$this->nav_ask_btn();
-			$this->output('</div>');
-			
+				
 			$this->output('<div class="user-navs">');
 				$this->output('<a href="#" class="mobile-menu-toggle icon-th-menu">Menu</a>');
-				$this->main_nav_menu();
 				
 				if ( (qa_opt('qw_enable_category_nav')) && (qa_using_categories()) )
-					$this->cat_drop_nav();
+					$this->cat_drop_nav();	
+					
+				$this->main_nav_menu();
 				
-				$this->user_drop_nav();						
+				$this->get_social_links();
+										
 			$this->output('</div></div>');
 			$this->output('</div>');
-		$this->output('</header>');
-		
-		$this->get_social_links();
+		$this->output('</header>');		
 		$this->qw_page_title();
 		
 		if(!qw_is_home() && !qw_is_user()){
 			$this->output('<div id="header-below" class="clearfix"><div class="container">');		
-			$this->qw_position('Breadcrumbs');		
-			$this->search();			
+			$this->qw_position('Breadcrumbs');	
+			
+			if ( qa_opt('qw_enable_search'))
+				$this->search();
+				
 			$this->output('</div></div>');
 		}
     }
+	function header_top(){
+		$this->output('<div class="logo-menu"><div class="container"><div class="row"><div class="col-md-7">');
+			$this->logo();			
+			$this->nav_ask_btn();
+		$this->qw_position('Ask Form');
+		$this->output('</div><div class="col-md-5">');
+			$this->user_drop_nav();
+		$this->output('</div></div></div></div>');
+	}
+	
 	function main_nav_menu(){
 		if (qw_hook_exist(__FUNCTION__)) {$args=func_get_args(); array_unshift($args, $this); return qw_event_hook(__FUNCTION__, $args, NULL); }		
 		
@@ -1151,7 +1161,7 @@ class qa_html_theme_layer extends qa_html_theme_base {
 				$this->output('</div>');
 			
 				$this->output('<div class="question-side col-md-4">');
-					$this->output('<div class="question-share-invite"><i class="icon-group">'.qa_lang_html('qawork/ask_friends_for_help').'</i>');
+					$this->output('<div class="question-share-invite"><i class="icon-group">'.qa_lang_html('cleanstrap/ask_friends_for_help').'</i>');
 					$this->q_social_share();
 					$link = qa_q_path(@$q_view['raw']['postid'], @$q_view['raw']['title'] , true);
 					$this->fb_ask_your_friend($link);
@@ -2400,7 +2410,8 @@ class qa_html_theme_layer extends qa_html_theme_base {
     function qw_ajax_get_question_suggestion()
     {
 		if (qw_hook_exist(__FUNCTION__)) {$args=func_get_args(); array_unshift($args, $this); return qw_event_hook(__FUNCTION__, $args, NULL); }
-        $query            = strip_tags($_REQUEST['start_with']);
+		
+        $query            = qw_request_text('start_with');
         $relatedquestions = qa_db_select_with_pending(qa_db_search_posts_selectspec(null, qa_string_to_words($query), null, null, null, null, 0, false, 10));
         //print_r($relatedquestions);
         
@@ -2408,10 +2419,10 @@ class qa_html_theme_layer extends qa_html_theme_base {
             $data = array();
             foreach ($relatedquestions as $k => $q) {
                 $data[$k]['title']   = $q['title'];
-                $data[$k]['blob']    = qw_get_avatar($q['handle'], 30, false);
+                $data[$k]['blob']    = qw_get_avatar($q['handle'], 35, false);
                 $data[$k]['url']     = qa_q_path_html($q['postid'], $q['title']);
-                $data[$k]['tags']    = $q['tags'];
-                $data[$k]['answers'] = $q['acount'];
+                $data[$k]['tags']    = str_replace(',', ', ', $q['tags']);
+                $data[$k]['answers'] = $q['acount'].' '.qa_lang_html('cleanstrap/answers');
             }
             echo json_encode($data);
         }

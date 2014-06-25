@@ -311,6 +311,7 @@ function qw_save_widget($elm){
 function qw_ask_box_autocomplete(){
 	$( "#ra-ask-search" ).autocomplete({
 		source: function( request, response ) {
+			var term = request.term.replace(' ', '+');
 			$.ajax({
 				data: {
 					qw_ajax: true,
@@ -320,7 +321,7 @@ function qw_ask_box_autocomplete(){
 				},
 				dataType: 'json',
 				context: this,
-				success: function (data) {
+				success: function (data) {					
 					response($.map(data, function(obj) {
 						return {
 							label: obj.title,
@@ -332,6 +333,18 @@ function qw_ask_box_autocomplete(){
 					}));
 				},
 			});
+			
+			if(typeof data =='undefined'){
+				var result = [{
+					label: '--', 
+					url: site_url+'/search?q='+term
+				}];
+				response(result);
+			 }
+		},
+		open: function( event, ui ) {
+			var term = event.target.value.replace(' ', '+');
+			$('.ui-autocomplete').append('<li class="see-all"><a href="'+site_url+'/search?q='+term+'" class="icon-search">See All Result</a></li>'); //See all results
 		},
 		minLength: 3,
 		appendTo:".ra-ask-widget",
@@ -340,11 +353,17 @@ function qw_ask_box_autocomplete(){
 			results: function() {}
 		}
 	}).data( "uiAutocomplete" )._renderItem = function( ul, item ) {
+		if(item.label =='--'){
+			return $("<li></li>")
+			.data("item.uiAutocomplete", item)
+			.append('<a href="'+item.url+'" class="no-results-label"><span class="no-results">No results found!</span>Click for advance search<span class="keep-ask">Or ask a new question by clicking ask button.</span></a>')
+			.appendTo(ul);
+		}
 		if(item.blob!=null)
 			var avatar = '<img src="'+item.blob+'" />';
 		return $("<li></li>")
 		.data("item.uiAutocomplete", item)
-		.append('<a href="'+item.url+'" class="">'+avatar+'<span class="title">' + item.label + '</span><span class="tags icon-tags">'+item.tags+'</span><span class="category icon-chat">'+item.answers+'</span></a>')
+		.append('<a href="'+item.url+'" class="">'+avatar+'<span class="title">' + item.label + '<span class="answer">'+item.answers+'</span></a>')
 		.appendTo(ul);
 	};
 

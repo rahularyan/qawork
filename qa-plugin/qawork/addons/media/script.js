@@ -1398,12 +1398,12 @@ $(document).ready(function() {
 				var percentVal = '100%';
 				bar.width(percentVal)
 				percent.html(percentVal);
-				console.log(data);
+
 				if(data['action'] == 'cover'){
 					$('.user-card').css('background-image', 'url('+data['url']+'/'+data['file']+')');
 				}else {
 					if(!data['status']){
-						$('<div class="alert alert-danger alert-dismissable"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>'+data['error'].join(' ')+'</div>').prependTo($(elm).closest('.modal-body'));
+						$('<div class="alert alert-danger alert-dismissable"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>'+data['error']+'</div>').prependTo($(elm).closest('.modal-body'));
 						
 					}else{
 						if(data['ext'] == 'jpeg' || data['ext'] == 'jpg' ||data['ext'] == 'jpeg' || data['ext'] == 'gif' || data['ext'] == 'png' || data['ext'] == 'ico'){
