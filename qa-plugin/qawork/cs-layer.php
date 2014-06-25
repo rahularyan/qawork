@@ -475,8 +475,11 @@ class qa_html_theme_layer extends qa_html_theme_base {
 		
 		if(!qw_is_home() && !qw_is_user()){
 			$this->output('<div id="header-below" class="clearfix"><div class="container">');		
-			$this->qw_position('Breadcrumbs');		
-			$this->search();			
+			$this->qw_position('Breadcrumbs');	
+			
+			if ( qa_opt('qw_enable_search'))
+				$this->search();
+				
 			$this->output('</div></div>');
 		}
     }
@@ -1158,7 +1161,7 @@ class qa_html_theme_layer extends qa_html_theme_base {
 				$this->output('</div>');
 			
 				$this->output('<div class="question-side col-md-4">');
-					$this->output('<div class="question-share-invite"><i class="icon-group">'.qa_lang_html('qawork/ask_friends_for_help').'</i>');
+					$this->output('<div class="question-share-invite"><i class="icon-group">'.qa_lang_html('cleanstrap/ask_friends_for_help').'</i>');
 					$this->q_social_share();
 					$link = qa_q_path(@$q_view['raw']['postid'], @$q_view['raw']['title'] , true);
 					$this->fb_ask_your_friend($link);

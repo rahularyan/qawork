@@ -9,7 +9,7 @@
 	?>
 		<div class="home-join">			
 			<div class="container">				
-				<?php $this->search(); ?>			
+				<?php if ( qa_opt('qw_enable_search')) $this->search(); ?>			
 					<div class="big-btns">					
 						<?php 
 						if (function_exists('qw_get_fb_invite_button')) {
