@@ -458,9 +458,7 @@ class qa_html_theme_layer extends qa_html_theme_base {
 			$this->output('<div id="header-top" class="clearfix">');			
 			$this->output('<div class="container">');
 				
-			$this->output('<div class="user-navs">');
-				$this->output('<a href="#" class="mobile-menu-toggle icon-th-menu">Menu</a>');
-				
+			$this->output('<div class="user-navs">');				
 				if ( (qa_opt('qw_enable_category_nav')) && (qa_using_categories()) )
 					$this->cat_drop_nav();	
 					
@@ -495,9 +493,8 @@ class qa_html_theme_layer extends qa_html_theme_base {
 	
 	function main_nav_menu(){
 		if (qw_hook_exist(__FUNCTION__)) {$args=func_get_args(); array_unshift($args, $this); return qw_event_hook(__FUNCTION__, $args, NULL); }		
-		
-		$this->output('<nav class="pull-left clearfix">');
-			
+		$this->output('<a href="#" class="mobile-menu-toggle icon-th-menu">Menu</a>');	
+		$this->output('<nav class="pull-left clearfix">');		
 		$this->nav('main');
 		
 		$this->output('</nav>');		 		

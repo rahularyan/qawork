@@ -5,20 +5,32 @@
 	#header-right-position .qw_ask_form {
 		margin-right: 0;
 	}
-	#header-top nav {
+	#header-top nav{
 		display: none;
+	}
+	#header-top nav .qa-nav-main {
+		position: relative;
+		z-index: 999;
 	}
 	#nav-ask-btn {
 		float: right;
 	}
 	.user-navs {
-		border-top: 1px solid rgba(255, 255, 255, 0.1);
 		display: block;
 		float: none;
 		padding-top: 5px;
 	}
 	.user-navs .navbar-avatar {
 		margin: 0;
+	}
+
+	.logo-menu .login-register {
+		position: absolute;
+		right: 10px;
+		top: 18px;
+	}
+	.logo-menu #login-drop .login-register {
+		right: 40px;
 	}
 	.logo-menu:before, .logo-menu:after, .user-navs:before, .user-navs:after, .big-s-avatar:before, .big-s-avatar:after {
 		clear: both;
@@ -41,7 +53,11 @@
 	}
 
 	.user-actions .dropdown-menu {
-		width: auto;
+		margin-right: -50px;
+		width: 300px;
+	}
+	.user-actions #activity-dropdown-list{
+		margin-right: -50px;
 	}
 	.activity-bar .bar > a, .message-bar .bar > a, .question-tags, .event-content .avatar, .event-right .footer, .home-top-users, .header-position-c, .question-metas, #breadcrumbs-position, .post-button .btn span,.answer-form .big-s-avatar, #question-right-position, .qa-q-item-meta, .q-item-status, .ra-social-links,.big-btns{
 		display:none;
@@ -128,13 +144,14 @@
 		display:block;
 	}
 	#header-top .user-navs > nav {
-		background: none repeat scroll 0 0 #FFFFFF;
-		border-radius: 5px;
+		background: none repeat scroll 0 0 #ffffff;
+		border-radius: 0;
 		box-shadow: 0 0 5px;
+		left: 0;
 		margin-top: 29px;
 		overflow: hidden;
 		position: absolute;
-		width: 160px;
+		width: 100%;
 		z-index: 9;
 	}
 	.user-navs .qa-nav-main {
@@ -148,13 +165,17 @@
 		border-radius: 0;
 	}
 	.qa-nav-main .qa-nav-main-list li a {
-		border-bottom: 1px solid #EEEEEE;
+		border-bottom: 1px solid #eeeeee;
 		color: inherit;
 		display: block;
 		float: none;
 		font-weight: normal;
 		margin: 0;
-		padding: 0 14px;
+		padding: 6px 14px;
+	}
+	.logo-menu #ask-form-position {
+		float: right;
+		min-width: 0;
 	}
 	.qa-nav-main .qa-nav-main-list li {
 		float: none;
@@ -246,6 +267,34 @@
 		background: none repeat scroll 0 0 #21a65f;
 		border: medium none;
 		color:#fff;
+	}
+	.logo-menu .col-md-5 {
+		clear: both;
+		float: none;
+		width: 100%;
+	}
+	.logo-menu .navbar-avatar, .logo-menu .user-actions {
+		position: absolute;
+		top: 7px;
+	}
+	.logo-menu .navbar-avatar {
+		right: 30px;
+	}
+	.logo-menu .user-actions {
+		right: 50px;
+		top: 14px;
+	}
+	#site-header #profile-link {
+		float: right;
+	}
+	#menuLogin .dropdown-menu {
+		background: none repeat scroll 0 0 #fff;
+		border: 1px solid #ddd;
+		box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+		margin-right: -5px;
+		margin-top: 42px;
+		position: relative;
+		z-index: 999;
 	}
 
 }

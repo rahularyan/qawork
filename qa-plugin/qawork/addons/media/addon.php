@@ -35,6 +35,29 @@ function qw_allow_upload(){
 			$result['status']=false;
 			return $result;
 	}
+	
+	$minpoints = qa_opt('qw_qa_editor_min_user_points');
+
+	if(!empty($minpoints) && 
+		$minpoints < qa_get_logged_in_points()){
+		return false;
+	}else{
+		$result = array();
+		$result['error']=qa_lang('cleanstrap/no_enough_points');
+		$result['status']=false;
+		return $result;
+	}
+	
+	$minlevel = qa_opt('qw_editor_min_user_level_to_upload');
+	if(!empty($minlevel) && 
+		$minlevel <= qa_get_logged_in_level()){
+		return false;
+	}else{
+		$result = array();
+		$result['error']=qa_lang('users/no_permission');
+		$result['status']=false;
+		return $result;
+	}
 }
 
 function qw_upload_dir(){
@@ -395,17 +418,20 @@ class QW_Media_Addon{
 		$postid = @$content['q_view']['raw']['postid'];
 		$postid = isset($postid) ? $postid : 0;
 		if ((isset($content['form_q_edit']) || qa_request_part(0) == 'ask')){
-			$qw_media=array(
-				'label' => '<button type="button" class="icon-image btn btn-default open-media-modal" data-args="'.$postid.'" data-for="editor">'.qa_lang_html('qw_media/media').'</button>',
-				'type' => 'custom',
-			);
-			if(isset($content['form_q_edit']))
-				$content['form_q_edit']['fields'] = qw_array_insert_before('content', $content['form_q_edit']['fields'], 'qw_media', $qw_media );
+			$form = isset($content['form_q_edit']) ? @$content['form_q_edit'] : @$content['form'];
+			if(isset($form)){
+				$qw_media=array(
+					'label' => '<button type="button" class="icon-image btn btn-default open-media-modal" data-args="'.$postid.'" data-for="editor">'.qa_lang_html('qw_media/media').'</button>',
+					'type' => 'custom',
+				);
+				if(isset($content['form_q_edit']))
+					$content['form_q_edit']['fields'] = qw_array_insert_before('content', $form['fields'], 'qw_media', $qw_media );
+				
+				if(qa_request_part(0) == 'ask')
+					$content['form']['fields'] = qw_array_insert_before('content', $form['fields'], 'qw_media', $qw_media );
 			
-			if(qa_request_part(0) == 'ask')
-				$content['form']['fields'] = qw_array_insert_before('content', $content['form']['fields'], 'qw_media', $qw_media );
-		
-			return $content;			
+				return $content;
+			}			
 		}
 	}
 	

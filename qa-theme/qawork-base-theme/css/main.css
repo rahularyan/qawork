@@ -1201,8 +1201,6 @@ a.feed-link {
 
 .asker-avatar img {
 	border-radius: 50%;
-	position: relative;
-	z-index: 9;
 }
 
 .asker-avatar .voting-vertical {
