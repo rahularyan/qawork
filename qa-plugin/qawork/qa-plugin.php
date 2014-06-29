@@ -19,7 +19,7 @@ if (!defined('QA_VERSION')) { // don't allow this page to be requested directly 
 }
 
 //	Ensure no PHP errors are shown
-//@ini_set('display_errors', 0);
+@ini_set('display_errors', 0);
 
 //return; // use this if theme is disabled
 
