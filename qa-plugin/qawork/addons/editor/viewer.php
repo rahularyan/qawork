@@ -31,6 +31,7 @@
 		
 		function get_html($content, $format, $options)
 		{
+			
 			if ($format=='html') {
 				$html=qa_sanitize_html($content, @$options['linksnewwindow'], false); // sanitize again for display, for extra safety, and due to new window setting
 				
@@ -121,6 +122,7 @@
 		
 		function get_text($content, $format, $options)
 		{
+			
 			if ($format=='html') {
 				$text=strtr($content, "\n\r\t", '   '); // convert all white space in HTML to spaces
 				$text=preg_replace('/<\s*('.$this->htmllineseparators.')[^A-Za-z0-9]/i', "\n\\0", $text); // tags to single new line
