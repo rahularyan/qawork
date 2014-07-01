@@ -1075,7 +1075,7 @@ function qw_request_text($field)
 	While we're at it, trim() surrounding white space and converted to Unix line endings.
 */
 	{
-		if (qa_to_override(__FUNCTION__)) { $args=func_get_args(); return qa_call_override(__FUNCTION__, $args); }
+
 		
 		return isset($_REQUEST[$field]) ? preg_replace('/\r\n?/', "\n", trim(qa_gpc_to_string($_REQUEST[$field]))) : null;
 	}

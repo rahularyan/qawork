@@ -141,7 +141,6 @@ function qw_admin_enqueue_css($css_src){
 	if (qa_request() == 'themeoptions') {
 		$css_src['qw_spectrum'] = QW_CONTROL_URL . '/css/spectrum.css';		
 	}
-
 	return  $css_src;
 }
 qw_event_hook('enqueue_scripts', NULL, 'qw_admin_enqueue_scripts');
@@ -150,6 +149,7 @@ function qw_admin_enqueue_scripts($src){
 		$src['qw_admin'] = QW_CONTROL_URL . '/js/admin.js';
 		$src['spectrum'] = QW_CONTROL_URL . '/js/spectrum.js';
 	}
+	
 	$src['jquery'] = QW_CONTROL_URL. '/js/jquery-1.11.0.min.js';			
 	$src['bootstrap'] = QW_CONTROL_URL. '/js/bootstrap.js';	
 	return  $src;
