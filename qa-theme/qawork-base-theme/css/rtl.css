@@ -10,7 +10,7 @@ html body {
 .pull-left{
 	float:right !important;
 }
-.col-md-1, .col-md-2, .col-md-3, .col-md-4, .col-md-5, .col-md-6, .col-md-7, .col-md-8, .col-md-9, .col-md-10, .col-md-11, .col-md-12 {
+.col-md-1, .col-md-2, .col-md-3, .col-md-4, .col-md-5, .col-md-6, .col-md-7, .col-md-8, .col-md-9, .col-md-10, .col-md-11, .col-md-12, #breadcrumbs-position, .qa-main .qa-nav-sub ul li {
     float: right;
 }
 
@@ -19,7 +19,7 @@ html body {
     margin-left: 20px;
     margin-right: 0;
 }
-.ra-social-links, .qa-q-list .qa-q-list-item .qa-q-item-main > .ans-count{
+.ra-social-links, .qa-q-list .qa-q-list-item .qa-q-item-main > .ans-count, .login-register, a.feed-link, .widget > h3 > a{
 	float:left;
 }
 .bx-wrapper {
@@ -34,5 +34,34 @@ html body {
 }
 .ra-activity .activity-icon {
     margin-left: 15px;
+    margin-right: 0;
+}
+#login-drop .dropdown-menu {
+    left: 5px;
+    right: auto;
+}
+.big-s-avatar {
+    float: right;
+    margin-left: 15px;
+    margin-right: 0;
+}
+.user-card .user-info .user-thumb {
+    float: right;
+    margin-left: 15px;
+    margin-right: 0;
+}
+.user-main-content {
+    padding-left: 0;
+    padding-right: 20px;
+}
+.qa-a-selection {
+    float: left;
+}
+.a-item-inner-line:before, .a-item-wrap:before, .question-status-message:before, .qa-q-view-inner:before, .qa-q-view-inner-line:before, .question-status-message-inner:before, .comment-f-wrap:before, .answer-f-wrap:before{
+	display:none;
+}
+.dropdown-menu.user-nav li a:before {
+    float: right;
+    margin-left: 10px;
     margin-right: 0;
 }

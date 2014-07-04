@@ -482,6 +482,7 @@ class qa_html_theme_layer extends qa_html_theme_base {
 		}
     }
 	function header_top(){
+		if (qw_hook_exist(__FUNCTION__)) {$args=func_get_args(); array_unshift($args, $this); return qw_event_hook(__FUNCTION__, $args, NULL); }	
 		$this->output('<div class="logo-menu"><div class="container"><div class="row"><div class="col-md-7">');
 			$this->logo();			
 			$this->nav_ask_btn();
