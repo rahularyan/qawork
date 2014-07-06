@@ -567,10 +567,14 @@ function qw_ajax_user_popover(){
 			$data = qw_user_data($handle);
 			$profile = qw_user_profile($handle);
 		}
-
+		
+		if(!empty($profile['cover'])){
+			$file = explode('.', $profile['cover']); // find position of the last dot, so where the extension starts
+			$thumb = qw_upload_url().'/'.$file[0] . '_s.' . $file[1];
+		}
 		?>
 		<div id="<?php echo $userid;?>_popover" class="user-popover">
-			<div class="counts clearfix"<?php echo !empty($profile['cover']) ? ' style="background-image:url('.qw_upload_url().'/'.$profile['cover'].')"' : ''; ?>>
+			<div class="counts clearfix"<?php echo !empty($thumb) ? ' style="background-image:url('.$thumb.')"' : ''; ?>>
 				<div class="bg-opacity clearfix">
 					<div class="points">
 						<?php echo '<span>'.$data['points']['points'] .'</span>Points'; ?>
@@ -1143,7 +1147,7 @@ function qw_get_all_styles($template = 'none'){
 }
 
 function qw_get_all_scripts($template = 'none'){
-	$sort = qw_apply_filter('sort_enqueue_scripts', array('jquery', 'bootstrap', 'qw_admin'));
+	$sort = qw_apply_filter('sort_enqueue_scripts', array('jquery', 'bootstrap'));
 	$scripts = qw_apply_filter('enqueue_scripts', array(), $template);
 	return array_merge(array_flip( $sort ), $scripts);
 }

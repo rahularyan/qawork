@@ -197,7 +197,7 @@ function qw_upload_cover($file){
 	$name = qw_file_name($file['name']);
 	$temp_name = $name['name'].'.'.$name['ext'];
 	move_uploaded_file($file['tmp_name'], $uploaddir.$temp_name);	
-	
+	qw_resize_image($uploaddir.$temp_name, $uploaddir.$name['name'].'_s.'.$name['ext'], 300, 70);
 	qw_add_action('after_uploading_cover', $temp_name);
 	
 	// insert to DB
@@ -580,13 +580,13 @@ class QW_Media_Addon{
 	}
 	
 	public function head_script($script_src){		
-		$script_src['media_script'] = QW_CONTROL_URL . '/addons/media/script.js';
+		$script_src['media_script'] = array('file' => QW_CONTROL_URL . '/addons/media/script.js', 'footer' => true);
 		return $script_src;
 		
 	}
 	
 	public function head_css($css_src){
-		$css_src['qw_media_css'] = QW_CONTROL_URL . '/addons/media/styles.css';
+		$css_src['qw_media_css'] = array('file' => QW_CONTROL_URL . '/addons/media/styles.css');
 		return $css_src;
 	}
 	

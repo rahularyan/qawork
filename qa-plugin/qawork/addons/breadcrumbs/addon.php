@@ -29,12 +29,12 @@ class Qw_Breadcrumb_Addon{
 
 	public function css($css_src){
 		
-		$css_src['qw_breadcrumbs'] = QW_CONTROL_URL . '/addons/breadcrumbs/styles.css';
+		$css_src['qw_breadcrumbs'] = array('file' => QW_CONTROL_URL . '/addons/breadcrumbs/styles.css');
 		return  $css_src;
 	}
 	
 	public function script($script_src){		
-		$script_src['qw_breadcrumbs'] = QW_CONTROL_URL . '/addons/breadcrumbs/scripts.js';
+		$script_src['qw_breadcrumbs'] = array('file' => QW_CONTROL_URL . '/addons/breadcrumbs/scripts.js');
 		return  $script_src;
 	}
 	

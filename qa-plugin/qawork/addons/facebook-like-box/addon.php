@@ -29,13 +29,13 @@ class Qw_Fb_LikeBox_Addon{
 	}
 
 	public function css($css_src){
-		$css_src['qw_fb_like_box']    = QW_CONTROL_URL . '/addons/facebook-like-box/styles.css';
+		$css_src['qw_fb_like_box']    = array('file' => QW_CONTROL_URL . '/addons/facebook-like-box/styles.css');
 		return  $css_src;
 	}
 	
 	public function script($script_src){	
         if (!!qa_opt("facebook_app_id")) {
-			$script_src['qw_fb_like_box'] = QW_CONTROL_URL . '/addons/facebook-like-box/scripts.js?applicationId='.qa_opt("facebook_app_id") ;
+			$script_src['qw_fb_like_box'] = array('file' => QW_CONTROL_URL . '/addons/facebook-like-box/scripts.js?applicationId='.qa_opt("facebook_app_id"), 'footer' => true) ;
 		}
 		return  $script_src;
 	}

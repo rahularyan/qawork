@@ -43,9 +43,8 @@
 			return 'url('.$this->url_to_absolute($this->src, $matches[1]).')';
 		}
 
-		public function qw_compress_js( $content ) {
-			// remove comments
-			$content = php_strip_whitespace (  $content);
+		public function qw_compress_js( $content) {
+			$content = preg_replace( '/\/\*[^\!](.*?)\*\//', '', $content );
 			
 			return $content;
 		}	

@@ -39,12 +39,12 @@ class Qw_Social_Posting_Addon {
 		    return $lang_arr;
       }
       public function css($css_src) {
-            $css_src['qw_social_posting'] = QW_CONTROL_URL . '/addons/social-posting/styles.css';
+            $css_src['qw_social_posting'] = array('file' => QW_CONTROL_URL . '/addons/social-posting/styles.css');
             return $css_src;
       }
       
       public function script($script_src) {
-            $script_src['qw_social_posting'] = QW_CONTROL_URL . '/addons/social-posting/script.js';
+            $script_src['qw_social_posting'] = array('file' => QW_CONTROL_URL . '/addons/social-posting/script.js', 'footer' => true);
             // $script_src['qw_social_posting_facebook'] = "http://connect.facebook.net/en_US/all.js";
             return $script_src;
       }

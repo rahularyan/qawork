@@ -45,12 +45,12 @@ class QW_Tags_Admin_Addon{
 	}
 	public function css($css_src){
 		
-		$css_src['tags_admin'] = QW_CONTROL_URL . '/addons/tags-admin/styles.css';
+		$css_src['tags_admin'] = array('file' => QW_CONTROL_URL . '/addons/tags-admin/styles.css');
 		return  $css_src;
 	}
 	
 	public function scripts($src){		
-		$src['tags_admin'] = QW_CONTROL_URL . '/addons/tags-admin/script.js';
+		$src['tags_admin'] = array('file' => QW_CONTROL_URL . '/addons/tags-admin/script.js', 'footer' => true);
 
 		return  $src;
 	}
