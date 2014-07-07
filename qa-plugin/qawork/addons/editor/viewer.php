@@ -116,6 +116,7 @@
 			
 			$html = qw_strip_links($html);
 
+			$html = $this->turkishcharacters($html);
 			return $html;
 		}
 		
@@ -156,9 +157,28 @@
 				require_once QA_INCLUDE_DIR.'qa-util-string.php';
 				$text=qa_block_words_replace($text, $options['blockwordspreg']);
 			}
-
+			$text = $this->turkishcharacters($text);
 			return $text;
 		}
+		function turkishcharacters( $string ) 
+		{ 
+		  $string = str_replace ( '&ccedil;', 'ç', $string ); 
+		  $string = str_replace ( '&yacute;','i',$string ); 
+		  $string = str_replace ( '&Ccedil;', 'Ç', $string ); 
+		  $string = str_replace ( '&Ouml;', 'Ö', $string ); 
+		  $string = str_replace ( '&Yacute;', 'Ü', $string ); 
+		  $string = str_replace ( '&ETH;','G',$string ); 
+		  $string = str_replace ( '&THORN;','S', $string ); 
+		  $string = str_replace ( '&Yacute;','I', $string ); 
+		  $string = str_replace ( '&ouml;','ö', $string ); 
+		  $string = str_replace ( '&thorn;','s', $string ); 
+		  $string = str_replace ( '&eth;','g', $string ); 
+		  $string = str_replace ( '&uuml;','ü', $string ); 
+		  $string = str_replace ( '&yacute;','i', $string ); 
+		  $string = str_replace ( '&amp;','&', $string ); 
+		 
+		  return $string; 
+		} 
 	
 	}
 	

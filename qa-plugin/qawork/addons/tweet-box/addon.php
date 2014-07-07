@@ -23,7 +23,7 @@ class Qw_Tweet_Box_Addon{
 	function __construct(){
 		qw_event_hook('register_language', NULL, array($this, 'language'));
 		qw_event_hook('enqueue_css', NULL, array($this, 'css'));
-		qw_event_hook('enqueue_scripts', NULL, array($this, 'script'));
+		//qw_event_hook('enqueue_scripts', NULL, array($this, 'script'));
 	}
 		
 	public function language($lang_arr){
@@ -32,7 +32,7 @@ class Qw_Tweet_Box_Addon{
 	}
 
 	public function css($css_src){
-		$css_src['qw_tweet_box']    = QW_CONTROL_URL . '/addons/tweet-box/styles.css';
+		$css_src['qw_tweet_box']    = array('file' => QW_CONTROL_URL . '/addons/tweet-box/styles.css');
 		return  $css_src;
 	}
 	

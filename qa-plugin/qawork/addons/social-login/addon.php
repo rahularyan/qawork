@@ -68,7 +68,7 @@ class Qw_Social_Login_Addon {
     }
 
     public function css($css_src) {
-        $css_src['qw_social_login'] = QW_CONTROL_URL . '/addons/social-login/styles.css';
+        $css_src['qw_social_login'] = array('file' => QW_CONTROL_URL . '/addons/social-login/styles.css');
         return $css_src;
     }
 

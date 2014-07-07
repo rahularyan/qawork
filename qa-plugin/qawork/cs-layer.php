@@ -121,14 +121,14 @@ class qa_html_theme_layer extends qa_html_theme_base {
 			if (!empty($scripts))
 				foreach ($scripts as $script_src){
 					// load if external url
-					if(!qw_is_internal_link($script_src) && filter_var($script_src, FILTER_VALIDATE_URL) !== FALSE)
-						$this->output('<script type="text/javascript" src="'.$script_src.'"></script>');
+					if(!qw_is_internal_link($script_src['file']) && filter_var($script_src['file'], FILTER_VALIDATE_URL) !== FALSE && !$script_src['footer'])
+						$this->output('<script type="text/javascript" src="'.$script_src['file'].'"></script>');
 				}
 		}else{
 			if (!empty($scripts))
 				foreach ($scripts as $script_src){
-					if(filter_var($script_src, FILTER_VALIDATE_URL) !== FALSE)
-						$this->output('<script type="text/javascript" src="'.$script_src.'"></script>');
+					if(filter_var($script_src['file'], FILTER_VALIDATE_URL) !== FALSE && @!$script_src['footer'])
+						$this->output('<script type="text/javascript" src="'.$script_src['file'].'"></script>');
 				}
 		}
 
@@ -184,14 +184,14 @@ class qa_html_theme_layer extends qa_html_theme_base {
 										
 			if (!empty($css))
 				foreach ($css as $k => $css_src){
-					if((!qw_is_internal_link($css_src) && filter_var($css_src, FILTER_VALIDATE_URL)) || (strpos($k,'exclude') !== false))
-						$this->output('<link rel="stylesheet" type="text/css" href="'.$css_src.'"/>');
+					if(isset($css_src['file']) && (!qw_is_internal_link($css_src['file']) && filter_var($css_src['file'], FILTER_VALIDATE_URL)) || @$css_src['exclude'] )
+						$this->output('<link rel="stylesheet" type="text/css" href="'.$css_src['file'].'"/>');
 				}
 		}else{
 			if (!empty($css))
 			foreach ($css as $css_src){
-				if(filter_var($css_src, FILTER_VALIDATE_URL) !== FALSE)
-					$this->output('<link rel="stylesheet" type="text/css" href="'.$css_src.'"/>');
+				if(isset($css_src['file']) && filter_var($css_src['file'], FILTER_VALIDATE_URL) !== FALSE)
+					$this->output('<link rel="stylesheet" type="text/css" href="'.$css_src['file'].'"/>');
 			}
 				
 			if (!empty($this->content['notices']))
@@ -375,6 +375,24 @@ class qa_html_theme_layer extends qa_html_theme_base {
         $this->body_footer();
         $this->body_hidden();
         
+		$scripts = qw_get_all_scripts($this->template);
+		if (qa_opt('qw_enable_gzip')){ //Gzip
+			$this->output('<script type="text/javascript" src="'.QW_CONTROL_URL.'/gzip.php?type=js&footer=true"></script>');
+			
+			if (!empty($scripts))
+				foreach ($scripts as $script_src){
+					// load if external url
+					if(!qw_is_internal_link($script_src['file']) && filter_var($script_src['file'], FILTER_VALIDATE_URL) !== FALSE && $script_src['footer'])
+						$this->output('<script type="text/javascript" src="'.$script_src['file'].'"></script>');
+				}
+		}else{
+			if (!empty($scripts))
+				foreach ($scripts as $script_src){
+					if(filter_var($script_src['file'], FILTER_VALIDATE_URL) !== FALSE && @$script_src['footer'])
+						$this->output('<script type="text/javascript" src="'.$script_src['file'].'"></script>');
+				}
+		}
+		
         $this->output('</body>');
     }
 
@@ -482,6 +500,7 @@ class qa_html_theme_layer extends qa_html_theme_base {
 		}
     }
 	function header_top(){
+		if (qw_hook_exist(__FUNCTION__)) {$args=func_get_args(); array_unshift($args, $this); return qw_event_hook(__FUNCTION__, $args, NULL); }	
 		$this->output('<div class="logo-menu"><div class="container"><div class="row"><div class="col-md-7">');
 			$this->logo();			
 			$this->nav_ask_btn();
@@ -1240,6 +1259,7 @@ class qa_html_theme_layer extends qa_html_theme_base {
     
     function attribution()
     {
+		
     }
 	
 	function what_1($post, $class ='post-meta'){
@@ -1353,7 +1373,8 @@ class qa_html_theme_layer extends qa_html_theme_base {
 		$this->output('</div>');        
         $this->output('</footer>');
 		
-		$this->output(qw_do_action('footer_bottom', $this));
+		$this->output(qw_do_action('footer_bottom', $this));	
+		
     }
     
     function get_social_links()

@@ -24,6 +24,8 @@
 			$css_src['qw_color'] = Q_THEME_URL . '/css/theme-green.css';
 			$css_src['Questrial'] = 'http://fonts.googleapis.com/css?family=Questrial';
 			$css_src['qw_responsive_exclude'] = Q_THEME_URL . '/css/responsive.css';
+			if(qa_opt('qw_styling_rtl'))
+				$css_src['qw_rtl_exclude'] = Q_THEME_URL . '/css/rtl.css';
 			
 			if (qa_opt('qw_styling_rtl'))
 				$css_src['qw_rtl'] = Q_THEME_URL . '/css/rtl.css';

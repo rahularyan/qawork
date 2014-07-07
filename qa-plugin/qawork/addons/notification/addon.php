@@ -129,12 +129,12 @@ class Qw_Notification_Addon{
 	
 	public function css($css_src){
 		
-		$css_src['qw_notification'] = QW_CONTROL_URL . '/addons/notification/styles.css';
+		$css_src['qw_notification'] = array('file' => QW_CONTROL_URL . '/addons/notification/styles.css');
 		return  $css_src;
 	}
 	
 	public function scripts($src){		
-		$src['qw_notification'] = QW_CONTROL_URL . '/addons/notification/script.js';
+		$src['qw_notification'] = array('file' => QW_CONTROL_URL . '/addons/notification/script.js', 'footer' => true);
 
 		return  $src;
 	}

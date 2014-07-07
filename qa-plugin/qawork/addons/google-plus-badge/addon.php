@@ -29,13 +29,13 @@ class Qw_Google_Plus_Addon{
 	}
 
 	public function css($css_src){
-		$css_src['qw_google_plus']    = QW_CONTROL_URL . '/addons/google-plus-badge/styles.css';
+		$css_src['qw_google_plus']    = array('file' => QW_CONTROL_URL . '/addons/google-plus-badge/styles.css');
 		return  $css_src;
 	}
 	
 	public function script($script_src){	
 		// $script_src['qw_google_plus_script'] = 'https://apis.google.com/js/plusone.js' ;
-		$script_src['qw_google_plus'] = QW_CONTROL_URL . '/addons/google-plus-badge/scripts.js' ;
+		$script_src['qw_google_plus'] = array('file' => QW_CONTROL_URL . '/addons/google-plus-badge/scripts.js', 'footer' => true) ;
 		return  $script_src;
 	}
 }

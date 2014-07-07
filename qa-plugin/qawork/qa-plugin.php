@@ -135,23 +135,28 @@ function qw_save_custom_question_fields($params){
 
 qw_event_hook('enqueue_css', NULL, 'qw_admin_enqueue_css');
 function qw_admin_enqueue_css($css_src){
-	$css_src['qw_admin'] = QW_CONTROL_URL . '/css/admin.css';
-	$css_src['bootstrap'] = QW_CONTROL_URL. '/css/bootstrap.css';
+	$css_src['qw_admin'] = array('file' => QW_CONTROL_URL . '/css/admin.css');
+	$css_src['bootstrap'] = array('file' => QW_CONTROL_URL. '/css/bootstrap.css');
 	
 	if (qa_request() == 'themeoptions') {
-		$css_src['qw_spectrum'] = QW_CONTROL_URL . '/css/spectrum.css';		
+		$css_src['qw_spectrum'] = array('file' => QW_CONTROL_URL . '/css/spectrum.css');		
 	}
-
 	return  $css_src;
 }
 qw_event_hook('enqueue_scripts', NULL, 'qw_admin_enqueue_scripts');
 function qw_admin_enqueue_scripts($src){
 	if (qa_request() == 'themeoptions') {
-		$src['qw_admin'] = QW_CONTROL_URL . '/js/admin.js';
-		$src['spectrum'] = QW_CONTROL_URL . '/js/spectrum.js';
+		$src['qw_admin'] = array('file' => QW_CONTROL_URL . '/js/admin.js');
+		$src['spectrum'] = array('file' => QW_CONTROL_URL . '/js/spectrum.js');
 	}
-	$src['jquery'] = QW_CONTROL_URL. '/js/jquery-1.11.0.min.js';			
-	$src['bootstrap'] = QW_CONTROL_URL. '/js/bootstrap.js';	
+	
+	$src['jquery'] = array(
+		'file' => QW_CONTROL_URL. '/js/jquery-1.11.0.min.js'
+	);			
+	$src['bootstrap'] = array(
+		'file' => QW_CONTROL_URL. '/js/bootstrap.js',
+		//'footer' => true
+	);
 	return  $src;
 }
 
