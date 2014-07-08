@@ -2478,8 +2478,9 @@ class qa_html_theme_layer extends qa_html_theme_base {
                             $text                            = qa_viewer_text($thispost['content'], $thispost['format'], array(
                                 'blockwordspreg' => $blockwordspreg
                             ));
-                            $text                            = qa_shorten_string_line($text, $maxlength);
-                            $q_list['qs'][$index]['content'] = '<SPAN>' . qa_html($text) . '</SPAN>';
+
+                            $text                            = qw_truncate($text, $maxlength);
+                            $q_list['qs'][$index]['content'] = '<SPAN>' . $text . '</SPAN>';
 							if (isset($userid))
 								$q_list['qs'][$index]['favorite']=qa_favorite_form(QA_ENTITY_QUESTION, $question['raw']['postid'], $question['raw']['userfavoriteq'], qa_lang($question['raw']['userfavoriteq'] ? 'question/remove_q_favorites' : 'question/add_q_favorites'));
                         }

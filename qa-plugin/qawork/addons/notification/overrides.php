@@ -105,7 +105,6 @@ if (!defined('QA_VERSION')) {
 	Successfully finish the 'I forgot my password' process for $userid, sending new password
 */
 	{
-		if (qa_to_override(__FUNCTION__)) { $args=func_get_args(); return qa_call_override(__FUNCTION__, $args); }
 		
 		require_once QA_INCLUDE_DIR.'qa-util-string.php';
 		require_once QA_INCLUDE_DIR.'qa-app-options.php';

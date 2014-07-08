@@ -1395,6 +1395,7 @@ $(document).ready(function() {
 				percent.html(percentVal);
 			},
 			success: function(data) {
+
 				var percentVal = '100%';
 				bar.width(percentVal)
 				percent.html(percentVal);

@@ -5,7 +5,7 @@
 
 CKEDITOR.editorConfig = function( config ) {
 	config.title = false;
-	config.defaultLanguage = defaultLanguage;
+	config.language = defaultLanguage;
 	config.removePlugins = 'specialchar, spellchecker, tabletools, contextmenu, pastetext, pastefromword';
 	config.disableNativeSpellChecker = false;
 	config.extraPlugins = 'oEmbed';
