@@ -213,7 +213,7 @@ function qw_upload_cover($file){
 		if (file_exists($delete)){			
 			unlink ($delete);
 			$small = explode('.', $prev_file);
-			unlink ($uploaddir.'/'.$small[0].'_s'.$small[1]);
+			unlink ($uploaddir.'/'.$small[0].'_s.'.$small[1]);
 		}
 	}
 	
@@ -452,7 +452,7 @@ class QW_Media_Addon{
 			  <div class="modal-body">
 				<div class="row">
 					<div class="col-sm-7 edit-files-list">
-						<ul class="editable-media">
+						<ul class="editable-media clearfix">
 							<?php 
 								$medias = qw_get_post_media($postid);
 		

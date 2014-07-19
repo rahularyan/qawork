@@ -23,9 +23,11 @@ if (!defined('QA_VERSION')) { // don't allow this page to be requested directly 
 
 //return; // use this if theme is disabled
 
+
 define('QW_CONTROL_DIR', dirname( __FILE__ ));
 define('QW_CONTROL_ADDON_DIR', QW_CONTROL_DIR.'/addons');
 define('QW_VERSION', '1.2');
+
 
 require_once QW_CONTROL_DIR. '/functions.php';
 

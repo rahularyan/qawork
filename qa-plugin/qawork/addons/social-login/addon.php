@@ -15,7 +15,9 @@ if (!defined('QA_VERSION')) {
     header('Location: /');
     exit;
 }
-
+if(defined('QA_WORDPRESS_INTEGRATE_PATH'))
+	return;
+	
 qa_register_plugin_overrides('addons/social-login/cs-social-logins-overrides.php');
 qa_register_plugin_module('page', 'addons/social-login/page.php', 'qw_social_login_page', 'QW Social Login Page');
 
@@ -34,20 +36,23 @@ class Qw_Social_Login_Addon {
     }
 
     public function init_queries($queries, $tableslc) {
-
-        $columns = qa_db_read_all_values(qa_db_query_sub('describe ^userlogins'));
-        if (!in_array('oemail', $columns)) {
-            $queries[] = 'ALTER TABLE ^userlogins ADD `oemail` VARCHAR( 80 ) CHARACTER SET utf8 COLLATE utf8_general_ci NULL';
-        }
-
-        if (!in_array('ohandle', $columns)) {
-            $queries[] = 'ALTER TABLE ^userlogins ADD `ohandle` VARCHAR( 80 ) CHARACTER SET utf8 COLLATE utf8_general_ci NULL';
-        }
-
-        $columns = qa_db_read_all_values(qa_db_query_sub('describe ^users'));
-        if (!in_array('oemail', $columns)) {
-            $queries[] = 'ALTER TABLE ^users ADD `oemail` VARCHAR( 80 ) CHARACTER SET utf8 COLLATE utf8_general_ci NULL';
-        }
+		$tablename=qa_db_add_table_prefix('userlogins');			
+		if (in_array($tablename, $tableslc)) {		
+			$columns = qa_db_read_all_values(qa_db_query_sub('describe ^userlogins'));
+			if (!in_array('oemail', $columns)) {
+				$queries[] = 'ALTER TABLE ^userlogins ADD `oemail` VARCHAR( 80 ) CHARACTER SET utf8 COLLATE utf8_general_ci NULL';
+			}
+			if (!in_array('ohandle', $columns)) {
+				$queries[] = 'ALTER TABLE ^userlogins ADD `ohandle` VARCHAR( 80 ) CHARACTER SET utf8 COLLATE utf8_general_ci NULL';
+			}
+		}        
+		$tablename=qa_db_add_table_prefix('users');			
+		if (in_array($tablename, $tableslc)) {
+			$columns = qa_db_read_all_values(qa_db_query_sub('describe ^users'));
+			if (!in_array('oemail', $columns)) {
+				$queries[] = 'ALTER TABLE ^users ADD `oemail` VARCHAR( 80 ) CHARACTER SET utf8 COLLATE utf8_general_ci NULL';
+			}
+		}
 
         if (count($queries)) {
             return $queries;

@@ -1326,7 +1326,9 @@ function qw_load_media_item_to_edit(ui, modal){
 var selected_media;
 
 $(document).ready(function() {
-
+	if (/ip(hone|od)|ipad/i.test(navigator.userAgent)) {
+	   $("body").css ("cursor", "pointer");
+	}
 	$('body').delegate('.open-media-modal', 'click', function(e){
 		e.preventDefault();
 		var postid = $(this).data('args');
@@ -1352,7 +1354,7 @@ $(document).ready(function() {
 				context:this,
 				success: function (response) {
 					$(this).addClass('loaded');
-					$(response).appendTo('body');
+					$(response).appendTo('#main-body');
 					qw_animate_button(this, true);
 					$('#media-modal-'+postid).modal('show');
 					/* $( '#media-modal-'+postid+' .editable-media' ).selectable({
@@ -1365,7 +1367,7 @@ $(document).ready(function() {
 		
 	});
 	
-	$('body').delegate('.edit-files-list .attachments', 'click',function(){
+	$('#main-body').delegate('.edit-files-list .attachments', 'click', function(){
 		qw_load_media_item_to_edit($(this), '#'+$(this).closest('.modal').attr('id'));
 	});
 	
