@@ -2,9 +2,9 @@
 	class qw_init {
 		
 		function init_queries($tableslc) {
-			qw_check_for_new_version(false);
+			//qw_check_for_new_version(false);
 			include_once QA_INCLUDE_DIR.'qa-app-users.php';
-			if(qa_get_logged_in_level() >= QA_USER_LEVEL_ADMIN){
+			//if(qa_get_logged_in_level() >= QA_USER_LEVEL_ADMIN){
 				$queries = array();
 				$queries = qw_apply_filter('init_queries', $queries, $tableslc);
 				$tablename=qa_db_add_table_prefix('ra_userevent');			
@@ -29,7 +29,7 @@
 					') ENGINE=MyISAM DEFAULT CHARSET=utf8';
 				}
 				return $queries;
-			}
+			///}
 		}
 
 	}

@@ -48,11 +48,12 @@
 
 		if (isset($hooked_script))
 		foreach ($hooked_script as $k => $src){
+
 			$base = preg_replace('/\?.*/', '', substr(strrchr($src['file'], '.'), 1));
 
 			if(qw_is_internal_link($src['file']) && $base == 'js' && filter_var($src['file'], FILTER_VALIDATE_URL) !== FALSE && @!$src['exclude'] && @$src['footer']){
 				$path =parse_url($src['file'], PHP_URL_PATH);
-				if(file_exists($_SERVER['DOCUMENT_ROOT'].$path))
+				if(file_exists($_SERVER['DOCUMENT_ROOT'].$path))					
 					echo $qw_minify->qw_compress_js(file_get_contents($_SERVER['DOCUMENT_ROOT'].$path));
 			}
 		}
@@ -71,7 +72,7 @@
 		if (isset($hooked_script))
 		foreach ($hooked_script as $k => $src){
 			$base = preg_replace('/\?.*/', '', substr(strrchr($src['file'], '.'), 1));
-			if(qw_is_internal_link($src['file']) && $base == 'js' && filter_var($src['file'], FILTER_VALIDATE_URL) !== FALSE && @!$css_src['exclude'] && @!$script_src['footer']){
+			if(qw_is_internal_link($src['file']) && $base == 'js' && filter_var($src['file'], FILTER_VALIDATE_URL) !== FALSE && @!$css_src['exclude'] && @!$src['footer']){
 				$path =parse_url($src['file'], PHP_URL_PATH);
 				if(file_exists($_SERVER['DOCUMENT_ROOT'].$path))
 					echo $qw_minify->qw_compress_js(file_get_contents($_SERVER['DOCUMENT_ROOT'].$path));

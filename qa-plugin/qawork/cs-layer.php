@@ -368,11 +368,12 @@ class qa_html_theme_layer extends qa_html_theme_base {
         $this->output('<body');
         $this->body_tags();
         $this->output('>');
-        
+        $this->output('<div id="main-body">');
         $this->body_script();
         $this->body_header();
         $this->body_content();
         $this->body_footer();
+		
         $this->body_hidden();
         
 		$scripts = qw_get_all_scripts($this->template);
@@ -392,7 +393,7 @@ class qa_html_theme_layer extends qa_html_theme_base {
 						$this->output('<script type="text/javascript" src="'.$script_src['file'].'"></script>');
 				}
 		}
-		
+		$this->output('</div>');
         $this->output('</body>');
     }
 
@@ -2478,8 +2479,9 @@ class qa_html_theme_layer extends qa_html_theme_base {
                             $text                            = qa_viewer_text($thispost['content'], $thispost['format'], array(
                                 'blockwordspreg' => $blockwordspreg
                             ));
-                            $text                            = qa_shorten_string_line($text, $maxlength);
-                            $q_list['qs'][$index]['content'] = '<SPAN>' . qa_html($text) . '</SPAN>';
+
+                            $text                            = qw_truncate($text, $maxlength);
+                            $q_list['qs'][$index]['content'] = '<SPAN>' . $text . '</SPAN>';
 							if (isset($userid))
 								$q_list['qs'][$index]['favorite']=qa_favorite_form(QA_ENTITY_QUESTION, $question['raw']['postid'], $question['raw']['userfavoriteq'], qa_lang($question['raw']['userfavoriteq'] ? 'question/remove_q_favorites' : 'question/add_q_favorites'));
                         }

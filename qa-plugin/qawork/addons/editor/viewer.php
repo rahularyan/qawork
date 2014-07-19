@@ -157,7 +157,7 @@
 				require_once QA_INCLUDE_DIR.'qa-util-string.php';
 				$text=qa_block_words_replace($text, $options['blockwordspreg']);
 			}
-			$text = $this->turkishcharacters($text);
+
 			return $text;
 		}
 		function turkishcharacters( $string ) 

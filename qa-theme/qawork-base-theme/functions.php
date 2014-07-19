@@ -19,26 +19,27 @@
 		}
 		
 		function qw_enqueue_css($css_src){
-			$css_src['icon'] = Q_THEME_URL . '/css/fonts.css';			
-			$css_src['qw_main'] = Q_THEME_URL . '/css/main.css';
-			$css_src['qw_color'] = Q_THEME_URL . '/css/theme-green.css';
-			$css_src['Questrial'] = 'http://fonts.googleapis.com/css?family=Questrial';
-			$css_src['qw_responsive_exclude'] = Q_THEME_URL . '/css/responsive.css';
+			$css_src['icon'] = array('file' => Q_THEME_URL . '/css/fonts.css');			
+			$css_src['qw_main'] = array('file' => Q_THEME_URL . '/css/main.css');
+			$css_src['qw_color'] = array('file' => Q_THEME_URL . '/css/theme-green.css');
+			$css_src['Questrial'] = array('file' => 'http://fonts.googleapis.com/css?family=Questrial');
+			$css_src['qw_responsive'] = array('file' => Q_THEME_URL . '/css/responsive.css', 'exclude' => true);
+			
 			if(qa_opt('qw_styling_rtl'))
-				$css_src['qw_rtl_exclude'] = Q_THEME_URL . '/css/rtl.css';
+				$css_src['qw_rtl_exclude'] = array('file' => Q_THEME_URL . '/css/rtl.css', 'exclude' => true);
 			
 			if (qa_opt('qw_styling_rtl'))
-				$css_src['qw_rtl'] = Q_THEME_URL . '/css/rtl.css';
+				$css_src['qw_rtl'] = array('file' => Q_THEME_URL . '/css/rtl.css', 'exclude' => true);
 
 			return  $css_src;
 		}
 		
 		
 		function qw_enqueue_scripts($src){		
-			$src['jquery-ui'] = Q_THEME_URL . '/js/jquery-ui.min.js';
-			$src['oembed'] = Q_THEME_URL . '/js/jquery.oembed.js';
-			$src['bxslider'] = Q_THEME_URL . '/js/jquery.bxslider.min.js';			
-			$src['qw_theme'] = Q_THEME_URL . '/js/theme.js';
+			$src['jquery-ui'] = array('file' => Q_THEME_URL . '/js/jquery-ui.min.js', 'footer' => true);
+			$src['oembed'] = array('file' => Q_THEME_URL . '/js/jquery.oembed.js', 'footer' => true);
+			$src['bxslider'] = array('file' =>  Q_THEME_URL . '/js/jquery.bxslider.min.js');			
+			$src['qw_theme'] = array('file' => Q_THEME_URL . '/js/theme.js');
 
 			return  $src;
 		}

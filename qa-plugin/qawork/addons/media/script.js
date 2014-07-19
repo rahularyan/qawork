@@ -1277,6 +1277,7 @@ function log() {
 }));
 
 function qw_load_media_item_to_edit(ui, modal){
+	console.log( modal);
 	var id = ui.data('id');
 	var for_item = ui.data('for');
 	$.ajax({
@@ -1325,7 +1326,9 @@ function qw_load_media_item_to_edit(ui, modal){
 var selected_media;
 
 $(document).ready(function() {
-
+	if (/ip(hone|od)|ipad/i.test(navigator.userAgent)) {
+	   $("body").css ("cursor", "pointer");
+	}
 	$('body').delegate('.open-media-modal', 'click', function(e){
 		e.preventDefault();
 		var postid = $(this).data('args');
@@ -1351,17 +1354,21 @@ $(document).ready(function() {
 				context:this,
 				success: function (response) {
 					$(this).addClass('loaded');
-					$(response).appendTo('body');
+					$(response).appendTo('#main-body');
 					qw_animate_button(this, true);
 					$('#media-modal-'+postid).modal('show');
-					$( '#media-modal-'+postid+' .editable-media' ).selectable({
+					/* $( '#media-modal-'+postid+' .editable-media' ).selectable({
 						selected: function( event, ui ) {
 							qw_load_media_item_to_edit($(ui.selected), '#media-modal-'+postid);
 						}
-					});
+					}); */
 				},
 			});	
 		
+	});
+	
+	$('#main-body').delegate('.edit-files-list .attachments', 'click', function(){
+		qw_load_media_item_to_edit($(this), '#'+$(this).closest('.modal').attr('id'));
 	});
 	
 	$('#modalElement').on('hidden', function(){
@@ -1395,6 +1402,7 @@ $(document).ready(function() {
 				percent.html(percentVal);
 			},
 			success: function(data) {
+
 				var percentVal = '100%';
 				bar.width(percentVal)
 				percent.html(percentVal);

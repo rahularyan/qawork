@@ -170,7 +170,7 @@ function qw_upload_image($file, $postid = 0){
 	$name['status'] = 'true';
 	$name['for'] =  qa_post_text('for_item');
 	///unlink ($uploaddir.$temp_name); 
-	
+
 	return $name;
 }
 
@@ -213,7 +213,7 @@ function qw_upload_cover($file){
 		if (file_exists($delete)){			
 			unlink ($delete);
 			$small = explode('.', $prev_file);
-			unlink ($uploaddir.'/'.$small[0].'_s'.$small[1]);
+			unlink ($uploaddir.'/'.$small[0].'_s.'.$small[1]);
 		}
 	}
 	
@@ -452,7 +452,7 @@ class QW_Media_Addon{
 			  <div class="modal-body">
 				<div class="row">
 					<div class="col-sm-7 edit-files-list">
-						<ul class="editable-media">
+						<ul class="editable-media clearfix">
 							<?php 
 								$medias = qw_get_post_media($postid);
 		
@@ -595,6 +595,7 @@ class QW_Media_Addon{
 			echo json_encode($error);
 			die();
 		}
+		
 		$postid = (int)qa_post_text('postid');
 		$type = qa_post_text('type');
 		
@@ -603,7 +604,8 @@ class QW_Media_Addon{
 			echo json_encode(qw_upload_cover('cover'));
 		
 		}elseif(qa_check_form_security_code('media_'.$postid, qa_post_text('code'))){
-			echo json_encode(qw_upload_file('post_media', $postid));
+			$result = qw_upload_file('post_media', $postid);
+			echo json_encode($result);
 		}else{
 			echo '0';
 		}
